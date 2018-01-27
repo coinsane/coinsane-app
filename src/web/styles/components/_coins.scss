@@ -1,0 +1,9 @@
+/**
+ * Styles for the Coin/s.js component/s
+ */
+
+.coin-view-card {
+  @include media-breakpoint-down(md) {
+    margin-bottom: 20px;
+  }
+}
