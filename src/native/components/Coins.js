@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ListView, SectionList, TouchableOpacity, RefreshControl, Image, StyleSheet } from 'react-native';
-import { Container, Content, Card, CardItem, Body, Text, Button, Left, Right, List, ListItem } from 'native-base';
+import { Container, Content, Card, CardItem, Body, Text, Button, Left, Right, List, ListItem, Separator, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import Error from './Error';
@@ -10,110 +10,80 @@ import Spacer from './Spacer';
 import Colors from '../../../native-base-theme/variables/commonColor';
 
 const CoinListing = ({
-  error,
-  loading,
+  portfoliosError,
+  portfoliosLoading,
   portfolios,
-  list,
-  createPortfolio,
-  addCoin,
+  addPortfolio,
   removePortfolio,
+  portfoliosFetch,
+  coinsError,
+  coinsLoading,
+  coins,
+  addCoin,
   removeCoin,
-  reFetch,
+  coinsFetch,
 }) => {
   // Loading
-  if (loading) return <Loading />;
+  if (portfoliosLoading) return <Loading />;
 
-  // Error
-  if (error) return <Error content={error} />;
+  // // Error
+  if (portfoliosError) return <Error content={error} />;
 
-  const keyExtractor = item => item._id;
+  const keyExtractor = item => item.id;
 
   const showCoin = item => Actions.coin({ match: { params: { id: String(item.id) } } });
-
-  console.log('list', list)
 
   return (
     <Container>
       <Content padder>
         <Header
-          title="Top Coins"
+          title="All Portfolios"
           content="This is here to show how you can read and display data from a data source (in our case, Firebase)."
         />
-        <Button block onPress={() => createPortfolio()}>
+        <Button block onPress={() => addPortfolio()}>
           <Text>Create Portfolio</Text>
         </Button>
         <Spacer size={10} />
-        {/* <ListView
-          dataSource={list}
-          renderSectionHeader={(section) => {
-            // console.log('sectionRows', sectionRows, section)
-            return (
-              <Body>
-                <Text style={styles.header} button onPress={() => removePortfolio(section._id)}>
-                  {section._id} ({section.data.length})
-                </Text>
-                <Button block light onPress={() => addCoin(section._id)}>
+          {
+            portfolios.length ? portfolios.map(portfolio => (
+              <List key={portfolio.id}>
+                <ListItem itemDivider>
+                  <Text>{portfolio.title}</Text>
+                  <Button small bordered onPress={() => removePortfolio(portfolio.id)}>
+                    <Icon name='beer' />
+                  </Button>
+                </ListItem>
+                <Spacer size={10} />
+                {
+                  portfolio.coins && portfolio.coins.length ? portfolio.coins.map(coin => (
+                    <ListItem key={coin.id}>
+                      <Text>{coin.title}</Text>
+                      <Button small bordered onPress={() => removeCoin(coin.id)}>
+                        <Icon name='beer' />
+                      </Button>
+                    </ListItem>
+                  )) : (
+                    <List>
+                      <ListItem>
+                        <Text>No coins here</Text>
+                      </ListItem>
+                    </List>
+                  )
+                }
+                <Spacer size={10} />
+                <Button small bordered onPress={() => addCoin(portfolio.id)}>
                   <Text>Add Coin</Text>
                 </Button>
-              </Body>
-            );
-          }}
-          renderRow={(sectionRow, sectionId) => {
-            if (!Array.isArray(sectionRow)) return null;
-            return sectionRow.map(item => (
-              <Card transparent style={{ paddingHorizontal: 6 }} key={item._id}>
-                <CardItem cardBody bordered button onPress={() => onPress(item)}>
-                  <Body>
-                    <Text>{item.name}</Text>
-                    <Text>{item.price_btc}</Text>
-                    <Text>{item.percent_change_24h}%</Text>
-                    <Spacer size={10} />
-                  </Body>
-                </CardItem>
-              </Card>
-            ));
-          }}
-        /> */}
-        {portfolios.length ? (
-          <SectionList
-            sections={portfolios}
-            renderItem={({ item }) => (
+                <Spacer size={10} />
+              </List>
+            )) : (
               <List>
-                <ListItem button onPress={() => showCoin(item)}>
-                  <Left>
-                    <Text button onPress={() => removeCoin(item._id)}>{item.name}</Text>
-                  </Left>
-                  <Body>
-                    <Text>{item.price_btc}</Text>
-                    <Text>{item.percent_change_24h}%</Text>
-                  </Body>
+                <ListItem>
+                  <Text>List is empty</Text>
                 </ListItem>
               </List>
-            )}
-            renderSectionHeader={({ section }) => (
-              <List transparent>
-                <ListItem itemHeader style={styles.header}>
-                  <Body>
-                    <Text button onPress={() => removePortfolio(section._id)}>
-                      {section.title}
-                    </Text>
-                  </Body>
-                  <Right>
-                    <Button block light onPress={() => addCoin(section._id)}>
-                      <Text>Add Coin</Text>
-                    </Button>
-                  </Right>
-                </ListItem>
-              </List>
-            )}
-            keyExtractor={keyExtractor}
-            refreshing={loading}
-            onRefresh={reFetch}
-          />
-        ) : (
-          <Text>List is empty</Text>
-        )}
-        <Spacer size={20} />
+            )
+          }
       </Content>
     </Container>
   );
@@ -127,20 +97,26 @@ const styles = StyleSheet.create({
 })
 
 CoinListing.propTypes = {
-  error: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
-  portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  list: PropTypes.shape().isRequired,
-  createPortfolio: PropTypes.func,
+  portfoliosError: PropTypes.string,
+  portfoliosLoading: PropTypes.bool.isRequired,
+  portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  portfoliosFetch: PropTypes.func,
+  addPortfolio: PropTypes.func,
   removePortfolio: PropTypes.func,
-  removeCoin: PropTypes.func,
+
+  coinsError: PropTypes.string,
+  coinsLoading: PropTypes.bool.isRequired,
+  coins: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  coinsFetch: PropTypes.func,
   addCoin: PropTypes.func,
-  reFetch: PropTypes.func,
+  removeCoin: PropTypes.func,
 };
 
 CoinListing.defaultProps = {
-  error: null,
-  reFetch: null,
+  portfoliosError: null,
+  portfoliosFetch: null,
+  coinsError: null,
+  coinsFetch: null,
 };
 
 export default CoinListing;

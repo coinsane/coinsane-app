@@ -58,7 +58,7 @@ function getUserData(dispatch) {
 
   if (!UID) return false;
 
-  const ref = FirebaseRef.child(`users/${UID}`);
+  const ref = FirebaseRef.child(`users/${UID}/profile`);
 
   return ref.on('value', (snapshot) => {
     const userData = snapshot.val() || [];

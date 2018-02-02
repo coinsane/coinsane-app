@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ListView } from 'react-native';
 
-import { getPortfolios, createPortfolio, removePortfolio, addCoin, removeCoin, setError } from '../actions/portfolios';
-
-import { Firebase, FirebaseRef } from '../lib/firebase';
-import { getUID } from '../lib/utils';
+import { getPortfolios, addPortfolio, removePortfolio, setPortfoliosError } from '../actions/portfolios';
+import { getCoins, addCoin, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
   static propTypes = {
@@ -14,24 +11,35 @@ class CoinListing extends Component {
     portfolios: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string,
-      portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+      list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    }).isRequired,
+    coins: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      error: PropTypes.string,
+      list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({}),
     }),
-    createPortfolio: PropTypes.func.isRequired,
-    removePortfolio: PropTypes.func.isRequired,
-    addCoin: PropTypes.func.isRequired,
-    removeCoin: PropTypes.func.isRequired,
     getPortfolios: PropTypes.func.isRequired,
-    setError: PropTypes.func.isRequired,
+    getCoins: PropTypes.func.isRequired,
+    addPortfolio: PropTypes.func.isRequired,
+    addCoin: PropTypes.func.isRequired,
+    removePortfolio: PropTypes.func.isRequired,
+    removeCoin: PropTypes.func.isRequired,
+    setPortfoliosError: PropTypes.func.isRequired,
+    setCoinsError: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     match: null,
   }
 
-  componentDidMount = () => this.fetchPortfolios();
+  componentDidMount = () => {
+    return Promise.resolve()
+      .then(this.fetchPortfolios)
+      .then(this.fetchCoins);
+  };
 
   /**
     * Fetch Data from API, saving to Redux
@@ -40,15 +48,29 @@ class CoinListing extends Component {
     return this.props.getPortfolios()
       .catch((err) => {
         console.log(`Error: ${err}`);
-        return this.props.setError(err);
+        return this.props.setPortfoliosError(err);
       });
   }
 
-  createPortfolio = () => {
-    const newPortfolio = {
-      title: 'portfolio_title'
-    };
-    return this.props.createPortfolio(newPortfolio);
+  fetchCoins = () => {
+    return this.props.getCoins()
+      .catch((err) => {
+        console.log(`Error: ${err}`);
+        return this.props.setCoinsError(err);
+      });
+  }
+
+
+  addPortfolio = () => {
+    const title = `Portfolio ${Math.random()}`;
+    const newPortfolio = { title };
+    return this.props.addPortfolio(newPortfolio);
+  }
+
+  addCoin = (portfolioId) => {
+    const title = `Coin ${Math.random()}`;
+    const newCoin = { title, portfolioId };
+    return this.props.addCoin(newCoin);
   }
 
   removePortfolio = (portfolioId) => {
@@ -59,57 +81,49 @@ class CoinListing extends Component {
     return this.props.removeCoin(coinId);
   }
 
-  addCoin = (portfolioId) => {
-    const newCoin = {
-      title: 'coin_title'
-    };
-    console.log('addCoin', portfolioId);
-    return this.props.addCoin(portfolioId, newCoin);
-  }
-
   render = () => {
-    const { Layout, portfolios, list, match } = this.props;
+    const { Layout, portfolios, coins, match } = this.props;
     const id = (match && match.params && match.params.id) ? match.params.id : null;
 
     return (
       <Layout
         coinId={id}
-        error={portfolios.error}
-        loading={portfolios.loading}
-        portfolios={portfolios.portfolios}
-        createPortfolio={this.createPortfolio}
+
+        portfoliosError={portfolios.error}
+        portfoliosLoading={portfolios.loading}
+        portfolios={portfolios.list}
+        addPortfolio={this.addPortfolio}
         removePortfolio={this.removePortfolio}
-        removeCoin={this.removeCoin}
-        list={list}
+        portfoliosFetch={() => this.fetchPortfolios()}
+
+        coinsError={coins.error}
+        coinsLoading={coins.loading}
+        coins={coins.list}
         addCoin={this.addCoin}
-        reFetch={() => this.fetchPortfolios()}
+        removeCoin={this.removeCoin}
+        coinsFetch={() => this.fetchCoins()}
       />
     );
   }
 }
 
-const rowHasChanged = (r1, r2) => r1._id !== r2._id;
-const sectionHeaderHasChanged = (s1, s2) => s1._id !== s2._id;
-
-const ds = new ListView.DataSource({ rowHasChanged, sectionHeaderHasChanged });
-
-
-
 const mapStateToProps = state => {
-  // console.log('coins mapStateToProps', state.portfolios)
+  // console.log('coins mapStateToProps', state)
   return {
     portfolios: state.portfolios || {},
-    list: ds.cloneWithRowsAndSections(state.portfolios.portfolios),
+    coins: state.coins || {},
   };
 };
 
 const mapDispatchToProps = {
   getPortfolios,
-  createPortfolio,
-  removePortfolio,
+  getCoins,
+  addPortfolio,
   addCoin,
+  removePortfolio,
   removeCoin,
-  setError,
+  setPortfoliosError,
+  setCoinsError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinListing);

@@ -1,6 +1,7 @@
 import status from './status';
 import member from './member';
 import portfolios from './portfolios';
+import coins from './coins';
 
 const rehydrated = (state = false, action) => {
   switch (action.type) {
@@ -16,4 +17,5 @@ export default {
   status,
   member,
   portfolios,
+  coins,
 };

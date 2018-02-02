@@ -3,40 +3,32 @@
     ".read": false,
     ".write": false,
 
-    "portfolios": {
-      "$uid": {
-        ".read": "auth != null && auth.uid == $uid",
-        ".write": "auth != null && auth.uid == $uid"
-      }
-    },
-
     "users": {
       "$uid": {
         ".read": "auth != null && auth.uid == $uid",
         ".write": "auth != null && auth.uid == $uid",
-
-        "firstName": {
-          ".validate": "newData.isString() && newData.val().length > 0"
+        "profile": {
+          "firstName": {
+            ".validate": "newData.isString() && newData.val().length > 0"
+          },
+          "lastName": {
+            ".validate": "newData.isString() && newData.val().length > 0"
+          },
+          "lastLoggedIn": {
+            ".validate": "newData.val() <= now"
+          },
+          "signedUp": {
+            ".validate": "newData.val() <= now"
+          },
+          "role": {
+            ".validate": "(root.child('users/'+auth.uid+'/role').val() === 'admin' && newData.val() === 'admin') || newData.val() === 'user'"
+          },
         },
-        "lastName": {
-          ".validate": "newData.isString() && newData.val().length > 0"
+        "coins": {
+          ".indexOn": ["portfolio"]
         },
-        "lastLoggedIn": {
-          ".validate": "newData.val() <= now"
-        },
-        "signedUp": {
-          ".validate": "newData.val() <= now"
-        },
-        "role": {
-          ".validate": "(root.child('users/'+auth.uid+'/role').val() === 'admin' && newData.val() === 'admin') || newData.val() === 'user'"
-        }
-      }
-    },
-
-    "watchlist": {
-      "$uid": {
-        ".read": "auth != null && auth.uid == $uid",
-        ".write": "auth != null && auth.uid == $uid"
+        "portfolios": {},
+        "watchlist": {}
       }
     }
   }

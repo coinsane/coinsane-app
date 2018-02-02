@@ -21,27 +21,29 @@ exports.cleanUserData = functions.database.ref('/users/{userId}').onWrite((event
   const firstName = event.data._newData.firstName || '';
   const lastName = event.data._newData.lastName || '';
 
-  const userData = {
-    fullName: `${firstName} ${lastName}`,
-  };
+  const userData = {};
+
+  if (firstName || lastName) {
+    userData.fullName = `${firstName} ${lastName}`;
+  }
 
   // Add Role if it doesn't already exist
   if (event && event.data && event.data._data && !event.data._newData.role) {
-    userData.role = 'user';
+    userData.role = userData.fullName ? 'user' : 'anonymous';
   }
 
   return event.data.ref.update(userData);
 });
 
-exports.emitToServer = functions.database.ref('/portfolios/{userId}/data/{coinId}').onWrite((event) => {
-  console.log('emitToServer event.data', event.data)
-  console.log('emitToServer event.params', event.params)
-  if (!event.data._newData) return;
-  // const coinData = {
-  //   amount: 0
-  // }
-  // return event.data.ref.update(coinData);
-});
+// exports.emitToServer = functions.database.ref('/portfolios/{userId}/data/{coinId}').onWrite((event) => {
+//   console.log('emitToServer event.data', event.data)
+//   console.log('emitToServer event.params', event.params)
+//   if (!event.data._newData) return;
+//   // const coinData = {
+//   //   amount: 0
+//   // }
+//   // return event.data.ref.update(coinData);
+// });
 
 /**
   * Listens for user deletion and
