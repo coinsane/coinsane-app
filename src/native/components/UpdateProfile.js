@@ -61,7 +61,7 @@ class UpdateProfile extends React.Component {
 
     return (
       <Container>
-        <Content padder>
+        <Content padder style={{ backgroundColor: '#232033' }}>
           <Header
             title="Update my profile"
             content="Thanks for keeping your account up to date!"

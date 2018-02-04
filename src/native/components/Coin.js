@@ -19,7 +19,7 @@ const CoinView = ({
   if (coinId && portfolios) {
     for (let i = 0; i < portfolios.length; i++) {
       const portfolio = portfolios[i];
-      coin = portfolio.data.find(item => item.id === coinId);
+      coin = portfolio.coins.find(item => item.id === coinId);
       if (coin) break;
     }
   }
@@ -29,28 +29,9 @@ const CoinView = ({
 
   return (
     <Container>
-      <Content padder>
-
+      <Content padder style={{ backgroundColor: '#232033' }}>
         <Spacer size={25} />
-        <H3>{coin.name}</H3>
-        <Text>{coin.symbol}</Text>
-        <Spacer size={15} />
-
-        <Card>
-          <CardItem header bordered>
-            <Text>About this coin</Text>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Text>percent_change_7d: {coin.percent_change_7d}</Text>
-              <Text>percent_change_24h: {coin.percent_change_24h}</Text>
-              <Text>percent_change_1h: {coin.percent_change_1h}</Text>
-              <Text>price_btc: {coin.price_btc}</Text>
-              <Text>price_usd: {coin.price_usd}</Text>
-            </Body>
-          </CardItem>
-        </Card>
-
+        <H3>{coin.title}</H3>
         <Spacer size={20} />
       </Content>
     </Container>

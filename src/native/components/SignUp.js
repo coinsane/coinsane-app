@@ -53,7 +53,7 @@ class SignUp extends React.Component {
 
     return (
       <Container>
-        <Content padder>
+        <Content padder style={{ backgroundColor: '#232033' }}>
           <Header
             title="Welcome"
             content="We're glad to welcome you to the community. There's only a few questions and you'll be on your way."

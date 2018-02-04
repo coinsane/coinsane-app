@@ -2,7 +2,7 @@ import { FirebaseRef } from '../lib/firebase';
 import { getUID } from '../lib/utils';
 
 
-export const fetchPortfolios = (withoutCoins) => new Promise(async (resolve, reject) => {
+export const fetchPortfolios = () => new Promise(async (resolve, reject) => {
   const UID = await getUID();
   if (!UID) return reject('auth problem');
 

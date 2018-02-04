@@ -109,10 +109,10 @@ export default {
   },
 
   // Card
-  cardDefaultBg: '#fff',
+  cardDefaultBg: '#232033',
 
   // Color
-  brandPrimary: '#473BE7',
+  brandPrimary: '#5956CB',
   brandInfo: '#62B1F6',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
@@ -211,13 +211,13 @@ export default {
   lineHeight: platform === 'ios' ? 20 : 24,
 
   // List
-  listBg: '#fff',
-  listBorderColor: '#c9c9c9',
-  listDividerBg: '#f4f4f4',
+  listBg: '#232033',
+  listBorderColor: '#393648',
+  listDividerBg: '#393648',
   listBtnUnderlayColor: '#DDD',
 
   // Card
-  cardBorderColor: '#ccc',
+  cardBorderColor: '#393648',
 
   // Changed Variable
   listItemPadding: platform === 'ios' ? 10 : 12,
@@ -254,7 +254,7 @@ export default {
   tabTextColor: '#222222',
 
   // Text
-  textColor: '#555',
+  textColor: '#fff',
   inverseTextColor: '#fff',
   noteFontSize: 14,
 

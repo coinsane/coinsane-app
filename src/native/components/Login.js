@@ -54,7 +54,7 @@ class Login extends React.Component {
 
     return (
       <Container>
-        <Content padder>
+        <Content padder style={{ backgroundColor: '#232033' }}>
           <Header
             title="Welcome back"
             content="Please use your email and password to login."

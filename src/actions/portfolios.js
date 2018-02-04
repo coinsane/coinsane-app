@@ -14,6 +14,18 @@ export function getPortfolios() {
 }
 
 /**
+  * Select Portfolio
+  */
+export function selectPortfolio(portfolioId) {
+  return dispatch => Promise.resolve()
+    .then(() => dispatch({
+      type: 'PORTFOLIO_SELECT',
+      data: portfolioId,
+    }))
+    .catch(e => console.log(e));
+}
+
+/**
   * Add Portfolio
   */
 export function addPortfolio(newPortfolio) {

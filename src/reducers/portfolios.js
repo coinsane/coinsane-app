@@ -20,6 +20,12 @@ export default function portfolioReducer(state = initialState, action) {
         list: [ ...state.list, action.data ]
       };
     }
+    case 'PORTFOLIO_SELECT': {
+      return {
+        ...state,
+        selected: action.data
+      };
+    }
     case 'PORTFOLIO_REMOVED': {
       return {
         ...state,

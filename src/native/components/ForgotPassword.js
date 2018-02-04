@@ -53,7 +53,7 @@ class ForgotPassword extends React.Component {
 
     return (
       <Container>
-        <Content padder>
+        <Content padder style={{ backgroundColor: '#232033' }}>
           <Header
             title="Reset your Password"
             content="No stress, no stress. We'll get you back into your account."

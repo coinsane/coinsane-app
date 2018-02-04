@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getPortfolios, addPortfolio, removePortfolio, setPortfoliosError } from '../actions/portfolios';
+import { getPortfolios, removePortfolio, setPortfoliosError } from '../actions/portfolios';
 import { getCoins, addCoin, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
@@ -23,7 +23,6 @@ class CoinListing extends Component {
     }),
     getPortfolios: PropTypes.func.isRequired,
     getCoins: PropTypes.func.isRequired,
-    addPortfolio: PropTypes.func.isRequired,
     addCoin: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
@@ -60,13 +59,6 @@ class CoinListing extends Component {
       });
   }
 
-
-  addPortfolio = () => {
-    const title = `Portfolio ${Math.random()}`;
-    const newPortfolio = { title };
-    return this.props.addPortfolio(newPortfolio);
-  }
-
   addCoin = (portfolioId) => {
     const title = `Coin ${Math.random()}`;
     const newCoin = { title, portfolioId };
@@ -92,8 +84,8 @@ class CoinListing extends Component {
         portfoliosError={portfolios.error}
         portfoliosLoading={portfolios.loading}
         portfolios={portfolios.list}
-        addPortfolio={this.addPortfolio}
         removePortfolio={this.removePortfolio}
+        activePortfolio={portfolios.selected}
         portfoliosFetch={() => this.fetchPortfolios()}
 
         coinsError={coins.error}
@@ -118,7 +110,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getPortfolios,
   getCoins,
-  addPortfolio,
   addCoin,
   removePortfolio,
   removeCoin,

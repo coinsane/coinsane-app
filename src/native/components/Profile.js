@@ -7,7 +7,7 @@ import Header from './Header';
 
 const Profile = ({ member, logout }) => (
   <Container>
-    <Content>
+    <Content style={{ backgroundColor: '#232033' }}>
       <List>
         {(member && member.email) ?
           <View>
