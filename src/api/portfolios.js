@@ -28,17 +28,45 @@ export const fetchPortfolios = () => new Promise(async (resolve, reject) => {
         if (!coins.length) {
           return Promise.resolve(portfolio);
         }
+        portfolio.total = {
+          BTC: 0,
+          USD: 0,
+          RUB: 0
+        }
         return Promise
           .all(coins.map(coin => {
-            const coinRef = FirebaseRef.child(`coins/${coin}`);
+            const coinRef = FirebaseRef.child(`coins/${coin}`)
             const id = coinRef.key;
-            return coinRef.once('value').then(snapshot => {
-              const coin = snapshot.val();
-              return { id, ...coin };
-            });
+            return coinRef
+              .once('value')
+              .then(snapshot => {
+                const coin = snapshot.val();
+                const marketRef = FirebaseRef.child(`market/${coin.marketId}`);
+                return marketRef
+                  .once('value')
+                  .then(snapshot => {
+                    const market = snapshot.val();
+                    // console.log(market);
+                    delete market.id;
+                    delete coin.coinId;
+                    market.imageUrl = `https://www.cryptocompare.com${market.imageUrl}`;
+                    // console.log(coin)
+                    coin.total = {
+                      BTC: parseFloat(coin.amount * market.prices.BTC.price),
+                      USD: parseFloat(coin.amount * market.prices.USD.price),
+                      RUB: parseFloat(coin.amount * market.prices.RUB.price)
+                    }
+
+                    portfolio.total.BTC += coin.total.BTC;
+                    portfolio.total.USD += coin.total.USD;
+                    portfolio.total.RUB += coin.total.RUB;
+
+                    return { id, ...coin, ...market };
+                  });
+              });
           }))
           .then(coins => {
-            portfolio.coins = coins;
+            portfolio.coins = coins.sort((a, b) => b.total.USD - a.total.USD);
             return portfolio;
           });
       });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Container, Content, Text, Body, ListItem, Form, Item, Label, Input, CheckBox, Button, View } from 'native-base';
 import Messages from './Messages';
 import Loading from './Loading';
-import Header from './Header';
+import Lead from './Lead';
 import Spacer from './Spacer';
 
 class UpdateProfile extends React.Component {
@@ -61,8 +61,8 @@ class UpdateProfile extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#232033' }}>
-          <Header
+        <Content padder style={{ backgroundColor: '#1B152D' }}>
+          <Lead
             title="Update my profile"
             content="Thanks for keeping your account up to date!"
           />

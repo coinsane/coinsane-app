@@ -4,7 +4,7 @@ import { Container, Content, Form, Item, Label, Input, Text, Button } from 'nati
 import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
-import Header from './Header';
+import Lead from './Lead';
 import Spacer from './Spacer';
 
 class Login extends React.Component {
@@ -54,8 +54,8 @@ class Login extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#232033' }}>
-          <Header
+        <Content padder style={{ backgroundColor: '#1B152D' }}>
+          <Lead
             title="Welcome back"
             content="Please use your email and password to login."
           />

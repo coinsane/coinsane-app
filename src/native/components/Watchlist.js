@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container, Content, Text, H1, H2, H3, Button } from 'native-base';
 import Spacer from './Spacer';
-import Header from './Header';
+import Lead from './Lead';
 
 const About = () => (
   <Container>
-    <Content padder style={{ backgroundColor: '#232033' }}>
-      <Header
+    <Content padder style={{ backgroundColor: '#1B152D' }}>
+      <Lead
         title="Watchist"
         content="This is here to show how you can read and display data from a data source (in our case, Firebase)."
       />

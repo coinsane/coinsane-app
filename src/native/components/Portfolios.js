@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
-import { Container, Content, Text, List, ListItem, Button } from 'native-base';
+import { Header, Left, Right, Title, Body, Container, Content, Text, List, ListItem, Button } from 'native-base';
 import Spacer from './Spacer';
-import Header from './Header';
+import Icon from './Icon';
 import { Actions } from 'react-native-router-flux';
 
 const Portfolios = ({
@@ -14,10 +14,20 @@ const Portfolios = ({
 }) => {
   return (
     <Container>
-      <Content padder style={{ backgroundColor: '#232033' }}>
-        <Header
-          title="Select portfolio"
-        />
+      <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }}>
+        <Left>
+          <Button transparent onPress={() => Actions.pop()}>
+            <Icon name='Menu' height='20' width='20' />
+          </Button>
+        </Left>
+        <Body>
+          <Title>{'Select portfolio'}</Title>
+        </Body>
+        <Right>
+        </Right>
+      </Header>
+      <Content padder style={{ backgroundColor: '#1B152D' }}>
+
         <Spacer size={30} />
         <List>
           <ListItem button onPress={() => {

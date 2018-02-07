@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
-import { ListItem, View, Button, Text, Icon, Body, Right, SwipeRow } from 'native-base';
+import { ListItem, View, Button, Text, Body, Left, Right, SwipeRow, Thumbnail } from 'native-base';
 import ErrorMessages from '../../constants/errors';
 
 const CoinCard = ({
@@ -10,26 +9,41 @@ const CoinCard = ({
   removeCoin
 }) => {
   if (!coin) return (
-    <ListItem>
-      <Text>{ErrorMessages.coin404}</Text>
+    <ListItem style={{ backgroundColor: 'transparent', borderBottomWidth: 0, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}>
+      <Text style={{ textAlign: 'center' }}>{ErrorMessages.coin404}</Text>
     </ListItem>
   );
 
+  const icon = { uri: coin.imageUrl };
+  const symbol = coin.symbol;
+  const amount = coin.amount || 0;
+  const price = coin.prices && coin.prices.USD && coin.prices.USD.price ? parseFloat(coin.prices.USD.price) : 0;
+  const priceDisplay = `$${price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
+  const changePctDay = coin.prices && coin.prices.USD && coin.prices.USD.changePctDay ? `${(coin.prices.USD.changePctDay > 0 ? '+' : '')}${coin.prices.USD.changePctDay.toFixed(2)}` : 0;
+  const changeColor = changePctDay && changePctDay > 0 ? '#31E981' : '#F61067';
+  const totalAmount = coin.total.USD;
+  const totalAmountDisplay = `$${totalAmount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
+
   return (
-    <SwipeRow
-      style={styles.row}
-      rightOpenValue={-75}
-      body={
+    <ListItem
+      style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}
+      button
+      onPress={() => showCoin ? showCoin(coin) : ''}
+    >
+      <Body style={{ flexDirection: 'row', flexWrap:'wrap' }}>
+        <Thumbnail small square source={icon} style={{ marginTop: 4, marginRight: 10 }} />
         <View>
-          <Text button onPress={() => showCoin(coin)}>{coin.title}</Text>
+          <Text style={{ marginBottom: 6 }}>
+            <Text style={{ fontSize: 14, color: '#8D8A96' }}>{symbol}</Text>  <Text style={{ fontSize: 14 }}>{amount}</Text>
+          </Text>
+          <Text style={{ fontSize: 14, color: '#8D8A96' }}>{priceDisplay}</Text>
         </View>
-      }
-      right={
-        <Button danger onPress={() => removeCoin(coin.id)}>
-          <Icon active name="trash" />
-        </Button>
-      }
-    />
+      </Body>
+      <Right style={{ flex: 0.4 }}>
+        <Text style={{ fontSize: 14, marginBottom: 6 }}>{totalAmountDisplay}</Text>
+        <Text style={{ fontSize: 14, color: changeColor }}>{changePctDay}%</Text>
+      </Right>
+    </ListItem>
   );
 };
 
@@ -41,12 +55,5 @@ CoinCard.propTypes = {
 
 CoinCard.defaultProps = {
 };
-
-const styles = StyleSheet.create({
-  row: {
-    backgroundColor: '#232033',
-    paddingLeft: 0
-  },
-})
 
 export default CoinCard;

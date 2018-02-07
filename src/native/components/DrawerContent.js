@@ -40,7 +40,7 @@ class DrawerContent extends Component {
     ];
 
     return (
-      <Content style={{ backgroundColor: '#232033' }} scrollEnabled={false}>
+      <Content style={{ backgroundColor: '#1B152D' }} scrollEnabled={false}>
         <Spacer size={100} />
         <List>
           {menuItems.map(item => (

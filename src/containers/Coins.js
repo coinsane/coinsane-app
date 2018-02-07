@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getPortfolios, removePortfolio, setPortfoliosError } from '../actions/portfolios';
-import { getCoins, addCoin, removeCoin, setCoinsError } from '../actions/coins';
+import { addCoin, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
   static propTypes = {
@@ -13,16 +13,15 @@ class CoinListing extends Component {
       error: PropTypes.string,
       list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     }).isRequired,
-    coins: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      error: PropTypes.string,
-      list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    }).isRequired,
+    // coins: PropTypes.shape({
+    //   loading: PropTypes.bool.isRequired,
+    //   error: PropTypes.string,
+    //   list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    // }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({}),
     }),
     getPortfolios: PropTypes.func.isRequired,
-    getCoins: PropTypes.func.isRequired,
     addCoin: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
@@ -37,7 +36,6 @@ class CoinListing extends Component {
   componentDidMount = () => {
     return Promise.resolve()
       .then(this.fetchPortfolios)
-      .then(this.fetchCoins);
   };
 
   /**
@@ -48,14 +46,6 @@ class CoinListing extends Component {
       .catch((err) => {
         console.log(`Error: ${err}`);
         return this.props.setPortfoliosError(err);
-      });
-  }
-
-  fetchCoins = () => {
-    return this.props.getCoins()
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-        return this.props.setCoinsError(err);
       });
   }
 
@@ -74,7 +64,7 @@ class CoinListing extends Component {
   }
 
   render = () => {
-    const { Layout, portfolios, coins, match } = this.props;
+    const { Layout, portfolios, match } = this.props;
     const id = (match && match.params && match.params.id) ? match.params.id : null;
 
     return (
@@ -88,12 +78,12 @@ class CoinListing extends Component {
         activePortfolio={portfolios.selected}
         portfoliosFetch={() => this.fetchPortfolios()}
 
-        coinsError={coins.error}
-        coinsLoading={coins.loading}
-        coins={coins.list}
+        // coinsError={coins.error}
+        // coinsLoading={coins.loading}
+        // coins={coins.list}
         addCoin={this.addCoin}
         removeCoin={this.removeCoin}
-        coinsFetch={() => this.fetchCoins()}
+        // coinsFetch={() => this.fetchCoins()}
       />
     );
   }
@@ -103,13 +93,13 @@ const mapStateToProps = state => {
   // console.log('coins mapStateToProps', state)
   return {
     portfolios: state.portfolios || {},
-    coins: state.coins || {},
+    // coins: state.coins || {},
   };
 };
 
 const mapDispatchToProps = {
   getPortfolios,
-  getCoins,
+  // getCoins,
   addCoin,
   removePortfolio,
   removeCoin,

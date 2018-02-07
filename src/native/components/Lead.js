@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { Text, H1 } from 'native-base';
 import Spacer from './Spacer';
 
-const Header = ({ title, content }) => (
+const Lead = ({ title, content }) => (
   <View>
     <H1>{title}</H1>
     {!!content &&
@@ -17,14 +17,14 @@ const Header = ({ title, content }) => (
   </View>
 );
 
-Header.propTypes = {
+Lead.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
 };
 
-Header.defaultProps = {
+Lead.defaultProps = {
   title: 'Missing title',
   content: '',
 };
 
-export default Header;
+export default Lead;

@@ -4,7 +4,7 @@ import { Container, Content, Text, H3 } from 'native-base';
 
 const Error = ({ title, content }) => (
   <Container>
-    <Content style={{ backgroundColor: '#232033' }}>
+    <Content style={{ backgroundColor: '#1B152D' }}>
       <H3>{title}</H3>
       <Text>{content}</Text>
     </Content>

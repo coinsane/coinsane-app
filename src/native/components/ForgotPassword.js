@@ -4,7 +4,7 @@ import { Container, Content, Text, Form, Item, Label, Input, Button } from 'nati
 import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
-import Header from './Header';
+import Lead from './Lead';
 import Spacer from './Spacer';
 
 class ForgotPassword extends React.Component {
@@ -53,8 +53,8 @@ class ForgotPassword extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#232033' }}>
-          <Header
+        <Content padder style={{ backgroundColor: '#1B152D' }}>
+          <Lead
             title="Reset your Password"
             content="No stress, no stress. We'll get you back into your account."
           />

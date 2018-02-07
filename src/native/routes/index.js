@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Scene, Tabs, Stack, Actions } from 'react-native-router-flux';
-import { Drawer, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
+import { Drawer, Scene, Tabs, Stack, Actions } from 'react-native-router-flux';
+import { Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
@@ -33,27 +33,21 @@ import ProfileComponent from '../components/Profile';
 import WatchlistComponent from '../components/Watchlist';
 import MarketComponent from '../components/Market';
 
-import PortfolioSelect from '../components/PortfolioSelect';
-
 
 
 const Index = (
-  <Scene
-    hideNavBar
-    key="drawer"
-    drawer
+  <Drawer
     contentComponent={DrawerContent}
-    drawerIcon={() => <Icon name='menu' style={styles.menu} />}
     drawerWidth={300}
   >
     <Stack
+      hideNavBar
       key="coins"
       {...DefaultProps.navbarProps}
     >
       <Scene key="coins"
         component={CoinsContainer}
         Layout={CoinsComponent}
-        renderRightButton={() => <PortfolioSelect />}
        />
       <Scene
         back
@@ -124,7 +118,7 @@ const Index = (
       component={CoinsContainer}
       Layout={CoinViewComponent}
     />
-  </Scene>
+  </Drawer>
 );
 
 const styles = StyleSheet.create({

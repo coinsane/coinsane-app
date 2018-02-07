@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-native';
-import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text } from 'native-base';
+import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Left, Button, Title, Right } from 'native-base';
 import ErrorMessages from '../../constants/errors';
 import Error from './Error';
 import Spacer from './Spacer';
+import Icon from './Icon';
+import CoinCard from './CoinCard';
+import { Actions } from 'react-native-router-flux';
 
 const CoinView = ({
   error,
@@ -29,9 +32,23 @@ const CoinView = ({
 
   return (
     <Container>
-      <Content padder style={{ backgroundColor: '#232033' }}>
+      <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }}>
+        <Left>
+          <Button transparent onPress={() => Actions.pop()}>
+            <Icon name='Menu' height='22' width='22' />
+          </Button>
+        </Left>
+        <Body>
+          <Title>{coin.name}</Title>
+        </Body>
+        <Right></Right>
+      </Header>
+      <Content padder style={{ backgroundColor: '#1B152D' }}>
         <Spacer size={25} />
-        <H3>{coin.title}</H3>
+        <CoinCard
+          key={coin.id}
+          coin={coin}
+        ></CoinCard>
         <Spacer size={20} />
       </Content>
     </Container>

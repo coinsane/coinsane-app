@@ -4,7 +4,7 @@ import { Container, Content, Text, Form, Item, Label, Input, Button } from 'nati
 import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
-import Header from './Header';
+import Lead from './Lead';
 import Spacer from './Spacer';
 
 class SignUp extends React.Component {
@@ -53,8 +53,8 @@ class SignUp extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#232033' }}>
-          <Header
+        <Content padder style={{ backgroundColor: '#1B152D' }}>
+          <Lead
             title="Welcome"
             content="We're glad to welcome you to the community. There's only a few questions and you'll be on your way."
           />

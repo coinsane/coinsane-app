@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Container, Content, List, ListItem, Body, Left, Text, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import Header from './Header';
+import Lead from './Lead';
 
 const Profile = ({ member, logout }) => (
   <Container>
-    <Content style={{ backgroundColor: '#232033' }}>
+    <Content style={{ backgroundColor: '#1B152D' }}>
       <List>
         {(member && member.email) ?
           <View>
             <Content padder>
-              <Header
+              <Lead
                 title={`Hi ${member.firstName},`}
                 content={`You are currently logged in as ${member.email}`}
               />
@@ -38,7 +38,7 @@ const Profile = ({ member, logout }) => (
         :
           <View>
             <Content padder>
-              <Header
+              <Lead
                 title="Hi there,"
                 content="Please login to gain extra access"
               />

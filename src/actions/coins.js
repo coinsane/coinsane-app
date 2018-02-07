@@ -4,12 +4,12 @@ import { fetchPortfolios } from '../api/portfolios';
 /**
   * Get Coins
   */
-export function getCoins(portfolioId) {
-  return dispatch => Promise.resolve(portfolioId)
-    .then(fetchCoins)
-    .then(coins => dispatch({ type: 'COINS_REPLACE', data: coins || [] }))
-    .catch(e => console.log(e));
-}
+// export function getCoins(portfolioId) {
+//   return dispatch => Promise.resolve(portfolioId)
+//     .then(fetchCoins)
+//     .then(coins => dispatch({ type: 'COINS_REPLACE', data: coins || [] }))
+//     .catch(e => console.log(e));
+// }
 
 /**
   * Add Coin

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar, Platform } from 'react-native';
 import PropTypes from 'prop-types';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { Router } from 'react-native-router-flux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
@@ -11,6 +11,9 @@ import theme from '../../native-base-theme/variables/commonColor';
 
 import Routes from './routes/index';
 import Loading from './components/Loading';
+
+
+const RouterWithRedux = connect()(Router);
 
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === 'android') StatusBar.setHidden(true);
@@ -22,9 +25,9 @@ const Root = ({ store, persistor }) => (
       persistor={persistor}
     >
       <StyleProvider style={getTheme(theme)}>
-        <Router sceneStyle={{ backgroundColor: '#232033' }}>
+        <RouterWithRedux>
           {Routes}
-        </Router>
+        </RouterWithRedux>
       </StyleProvider>
     </PersistGate>
   </Provider>
