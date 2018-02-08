@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Drawer, Scene, Tabs, Stack, Actions } from 'react-native-router-flux';
-import { Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
+import { Header, Left, Body, Right, Button, Title } from 'native-base';
 
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';

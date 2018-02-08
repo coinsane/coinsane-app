@@ -57,7 +57,11 @@ class CoinListing extends Component {
 
     const portfoliosList = activePortfolio ? portfolios.filter(portfolio => portfolio.id === activePortfolio) : portfolios;
 
-    const totals = {};
+    const totals = {
+      BTC: 0,
+      USD: 0,
+      RUB: 0
+    };
 
     portfoliosList.forEach(portfolio => {
       if (portfolio.total) Object.keys(portfolio.total).forEach(symbol => {
