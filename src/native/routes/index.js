@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Drawer, Scene, Tabs, Stack, Actions } from 'react-native-router-flux';
+import { Overlay, Scene, Tabs, Stack, Actions, ActionConst, Lightbox } from 'react-native-router-flux';
 import { Header, Left, Body, Right, Button, Title } from 'native-base';
 
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
 
-import DrawerContent from '../components/DrawerContent';
+import NavigationDrawer from '../components/NavigationDrawer';
 
 import CoinsContainer from '../../containers/Coins';
 import CoinsComponent from '../components/Coins';
@@ -33,13 +33,8 @@ import ProfileComponent from '../components/Profile';
 import WatchlistComponent from '../components/Watchlist';
 import MarketComponent from '../components/Market';
 
-
-
 const Index = (
-  <Drawer
-    contentComponent={DrawerContent}
-    drawerWidth={300}
-  >
+  <Overlay contentComponent={NavigationDrawer} type={ActionConst.RESET}>
     <Stack
       hideNavBar
       key="coins"
@@ -118,7 +113,7 @@ const Index = (
       component={CoinsContainer}
       Layout={CoinViewComponent}
     />
-  </Drawer>
+</Overlay>
 );
 
 const styles = StyleSheet.create({

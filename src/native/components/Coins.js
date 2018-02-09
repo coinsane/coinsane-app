@@ -71,23 +71,7 @@ class CoinListing extends Component {
     });
 
     return (
-      <Container>
-        <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }}>
-          <Left>
-            <Button transparent onPress={() => Actions.drawerOpen()}>
-              <Icon name='Menu' height='22' width='22' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>{activePortfolio ? portfoliosList[0].title : 'All Portfolios'}</Title>
-          </Body>
-          <Right>
-            <Button transparent onPress={() => Actions.portfolioSelect()}>
-              <Icon name='Portfolio' height='22' width='22' />
-            </Button>
-          </Right>
-        </Header>
-        <Content style={{ backgroundColor: '#1B152D' }}>
+        <Content style={{ backgroundColor: '#1B152D', shadowOpacity: 0, elevation: 0 }}>
           <PortfolioTotal totals={totals} />
           <Chart />
           {
@@ -123,7 +107,6 @@ class CoinListing extends Component {
           }
           <Spacer size={50} />
         </Content>
-      </Container>
     );
   }
 }

@@ -131,7 +131,7 @@ export default {
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
-  toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
+  toolbarDefaultBg: platform === "ios" ? "#1B152D" : "#3F51B5",
   toolbarHeight: platform === "ios" ? (isIphoneX ? 88 : 64) : 56,
   toolbarSearchIconSize: platform === "ios" ? 20 : 23,
   toolbarInputColor: platform === "ios" ? "#CECDD2" : "#fff",
@@ -143,12 +143,12 @@ export default {
   get statusBarColor() {
     return color(this.toolbarDefaultBg)
       .darken(0.2)
-      .hex();
+      .hexString();
   },
   get darkenHeader() {
     return color(this.tabBgColor)
       .darken(0.03)
-      .hex();
+      .hexString();
   },
 
   // Icon
@@ -178,9 +178,9 @@ export default {
 
   // List
   listBg: "transparent",
-  listBorderColor: "#c9c9c9",
-  listDividerBg: "#f4f4f4",
-  listBtnUnderlayColor: "#DDD",
+  listBorderColor: "transparent",
+  listDividerBg: "transparent",
+  listBtnUnderlayColor: "transparent",
   listItemPadding: platform === "ios" ? 10 : 12,
   listNoteColor: "#808080",
   listNoteSize: 13,

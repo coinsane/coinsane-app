@@ -143,16 +143,16 @@ export default {
   get statusBarColor() {
     return color(this.toolbarDefaultBg)
       .darken(0.2)
-      .hex();
+      .hexString();
   },
   get darkenHeader() {
     return color(this.tabBgColor)
       .darken(0.03)
-      .hex();
+      .hexString();
   },
 
   // Icon
-  iconFamily: "Ionicons",
+  // iconFamily: "Ionicons",
   iconFontSize: platform === "ios" ? 30 : 28,
   iconHeaderSize: platform === "ios" ? 33 : 24,
 

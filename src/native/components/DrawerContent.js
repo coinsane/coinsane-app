@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Content, List, ListItem, Left, Body, Text } from 'native-base';
-import { StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Drawer from 'react-native-drawer';
 
 import Spacer from './Spacer'
+import Icon from './Icon'
 
 class DrawerContent extends Component {
+  constructor(props) {
+    super(props);
+  }
   static propTypes = {
     title: PropTypes.string,
   }
@@ -15,40 +19,52 @@ class DrawerContent extends Component {
     drawer: PropTypes.object,
   }
 
+  openScene(key) {
+    this.props.closeDrawer();
+    Actions[key].call();
+  }
+
   render() {
+    // console.log('Actions', Actions)
+    console.log('Actions.currentScene', Actions.currentScene)
     const menuItems = [
       {
-        action: Actions.coins,
+        action: () => this.openScene('coins'),
         icon: 'planet',
-        text: 'Portfolios'
+        text: 'Portfolios',
+        color: Actions.currentScene === 'coins' ? '#7C778C' : '#fff'
       },
       {
-        action: Actions.market,
+        action: () => this.openScene('market'),
         icon: 'list',
-        text: 'Market'
+        text: 'Market',
+        color: Actions.currentScene === 'market' ? '#7C778C' : '#fff'
       },
+      // {
+      //   action: () => Actions.watchlist,
+      //   icon: 'bookmark',
+      //   text: 'Watchlist',
+      //   color: Actions.currentScene === 'watchlist' ? '#7C778C' : '#fff'
+      // },
       {
-        action: Actions.watchlist,
-        icon: 'bookmark',
-        text: 'Watchlist'
-      },
-      {
-        action: Actions.profile,
+        action: () => this.openScene('profile'),
         icon: 'contact',
-        text: 'Profile'
+        text: 'Settings',
+        color: Actions.currentScene === 'profile' ? '#7C778C' : '#fff'
       },
     ];
 
     return (
-      <Content style={{ backgroundColor: '#1B152D' }} scrollEnabled={false}>
+      <Content style={{ backgroundColor: 'transparent' }} scrollEnabled={false}>
         <Spacer size={100} />
         <List>
           {menuItems.map(item => (
-            <ListItem key={item.icon} icon onPress={item.action}>
+            <ListItem key={item.icon} icon onPress={item.action} style={{ borderBottomWidth: 0, paddingTop: 30, paddingBottom: 30, paddingLeft: 10 }}>
               <Left>
+                <Icon name="Portfolio" width={20} fill={item.color} />
               </Left>
               <Body>
-                <Text>{item.text}</Text>
+                <Text style={{ fontSize: 18, paddingLeft: 5, color: item.color }}>{item.text}</Text>
               </Body>
             </ListItem>
           ))}
@@ -59,9 +75,3 @@ class DrawerContent extends Component {
 }
 
 export default DrawerContent;
-
-const styles = StyleSheet.create({
-  icon: {
-    color: '#5956CB'
-  }
-})
