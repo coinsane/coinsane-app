@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Overlay, Scene, Tabs, Stack, Actions, ActionConst, Lightbox } from 'react-native-router-flux';
-import { Header, Left, Body, Right, Button, Title } from 'native-base';
+import { Drawer, Overlay, Scene, Tabs, Stack, Actions, ActionConst, Lightbox } from 'react-native-router-flux';
+import { Header, Left, Body, Right, Button, Title, View } from 'native-base';
 
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
 
 import NavigationDrawer from '../components/NavigationDrawer';
+import DrawerContent from '../components/DrawerContent';
 
 import CoinsContainer from '../../containers/Coins';
 import CoinsComponent from '../components/Coins';
@@ -34,76 +35,78 @@ import WatchlistComponent from '../components/Watchlist';
 import MarketComponent from '../components/Market';
 
 const Index = (
-  <Overlay contentComponent={NavigationDrawer} type={ActionConst.RESET}>
-    <Stack
-      hideNavBar
-      key="coins"
-      {...DefaultProps.navbarProps}
-    >
-      <Scene key="coins"
-        component={CoinsContainer}
-        Layout={CoinsComponent}
-       />
-      <Scene
-        back
-        key="portfolioSelect"
-        component={PortfoliosContainer}
-        Layout={PortfoliosComponent}
-      />
-    </Stack>
+  <Overlay key="overlay" contentComponent={NavigationDrawer}>
+    <Tabs key="tabbar" swipeEnabled={false} animationEnabled={false} tabBarComponent={() => <View/>}>
+      <Stack
+        hideNavBar
+        key="coins"
+        {...DefaultProps.navbarProps}
+      >
+        <Scene key="coins"
+          component={CoinsContainer}
+          Layout={CoinsComponent}
+         />
+        <Scene
+          back
+          key="portfolioSelect"
+          component={PortfoliosContainer}
+          Layout={PortfoliosComponent}
+        />
+      </Stack>
 
-    <Stack
-      key="watchlist"
-      {...DefaultProps.navbarProps}
-    >
-      <Scene key="watchlist" component={WatchlistComponent} />
-    </Stack>
+      <Stack
+        key="watchlist"
+        {...DefaultProps.navbarProps}
+      >
+        <Scene key="watchlist" component={WatchlistComponent} />
+      </Stack>
 
-    <Stack
-      key="market"
-      {...DefaultProps.navbarProps}
-    >
-      <Scene key="market" component={MarketComponent} />
-    </Stack>
+      <Stack
+        key="market"
+        {...DefaultProps.navbarProps}
+      >
+        <Scene key="market" component={MarketComponent} />
+      </Stack>
 
-    <Stack
-      key="profile"
-      {...DefaultProps.navbarProps}
-    >
-      <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />
-      <Scene
-        back
-        key="signUp"
-        title="SIGN UP"
+      <Stack
+        key="profile"
         {...DefaultProps.navbarProps}
-        component={SignUpContainer}
-        Layout={SignUpComponent}
-      />
-      <Scene
-        back
-        key="login"
-        title="LOGIN"
-        {...DefaultProps.navbarProps}
-        component={LoginContainer}
-        Layout={LoginComponent}
-      />
-      <Scene
-        back
-        key="forgotPassword"
-        title="FORGOT PASSWORD"
-        {...DefaultProps.navbarProps}
-        component={ForgotPasswordContainer}
-        Layout={ForgotPasswordComponent}
-      />
-      <Scene
-        back
-        key="updateProfile"
-        title="UPDATE PROFILE"
-        {...DefaultProps.navbarProps}
-        component={UpdateProfileContainer}
-        Layout={UpdateProfileComponent}
-      />
-    </Stack>
+      >
+        <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />
+        <Scene
+          back
+          key="signUp"
+          title="SIGN UP"
+          {...DefaultProps.navbarProps}
+          component={SignUpContainer}
+          Layout={SignUpComponent}
+        />
+        <Scene
+          back
+          key="login"
+          title="LOGIN"
+          {...DefaultProps.navbarProps}
+          component={LoginContainer}
+          Layout={LoginComponent}
+        />
+        <Scene
+          back
+          key="forgotPassword"
+          title="FORGOT PASSWORD"
+          {...DefaultProps.navbarProps}
+          component={ForgotPasswordContainer}
+          Layout={ForgotPasswordComponent}
+        />
+        <Scene
+          back
+          key="updateProfile"
+          title="UPDATE PROFILE"
+          {...DefaultProps.navbarProps}
+          component={UpdateProfileContainer}
+          Layout={UpdateProfileComponent}
+        />
+      </Stack>
+    </Tabs>
 
     <Scene
       back
@@ -113,7 +116,7 @@ const Index = (
       component={CoinsContainer}
       Layout={CoinViewComponent}
     />
-</Overlay>
+  </Overlay>
 );
 
 const styles = StyleSheet.create({

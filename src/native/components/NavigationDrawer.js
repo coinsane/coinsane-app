@@ -53,7 +53,6 @@ export default class NavigationDrawer extends Component {
     // console.log('Actions', Actions)
     // console.log('this.props.children[0]', Object.keys(this.props.children[0]))
     // console.log('Actions._state.routes[0]', Object.keys(Actions._state.routes[0]))
-    console.log('000000000000000000000000000000000', this.props.abc)
 
     return (
       <Drawer
@@ -80,7 +79,6 @@ export default class NavigationDrawer extends Component {
             </Right>
           </Header>
           {this.props.children[0]}
-          {/* <DefaultRenderer navigationState={this.props.children[0]} onNavigate={null} /> */}
         </Container>
       </Drawer>
     );

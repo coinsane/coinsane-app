@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { Container, Content, List, ListItem, Body, Left, Text, Icon } from 'native-base';
+import { Container, Content, List, ListItem, Body, Left, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Lead from './Lead';
 
@@ -20,7 +20,7 @@ const Profile = ({ member, logout }) => (
 
             <ListItem onPress={Actions.updateProfile} icon>
               <Left>
-                <Icon name="person-add" />
+                {/* <Icon name="person-add" /> */}
               </Left>
               <Body>
                 <Text>Update My Profile</Text>
@@ -28,7 +28,7 @@ const Profile = ({ member, logout }) => (
             </ListItem>
             <ListItem onPress={logout} icon>
               <Left>
-                <Icon name="power" />
+                {/* <Icon name="power" /> */}
               </Left>
               <Body>
                 <Text>Logout</Text>
@@ -46,7 +46,7 @@ const Profile = ({ member, logout }) => (
 
             <ListItem onPress={Actions.login} icon>
               <Left>
-                <Icon name="power" />
+                {/* <Icon name="power" /> */}
               </Left>
               <Body>
                 <Text>Login</Text>
@@ -54,7 +54,7 @@ const Profile = ({ member, logout }) => (
             </ListItem>
             <ListItem onPress={Actions.signUp} icon>
               <Left>
-                <Icon name="add-circle" />
+                {/* <Icon name="add-circle" /> */}
               </Left>
               <Body>
                 <Text>Sign Up</Text>
@@ -62,7 +62,7 @@ const Profile = ({ member, logout }) => (
             </ListItem>
             <ListItem onPress={Actions.forgotPassword} icon>
               <Left>
-                <Icon name="help-buoy" />
+                {/* <Icon name="help-buoy" /> */}
               </Left>
               <Body>
                 <Text>Forgot Password</Text>
