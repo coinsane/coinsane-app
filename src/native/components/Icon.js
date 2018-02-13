@@ -6,11 +6,11 @@ import svgs from './assets/svgs';
 const Icon = (props) => <SvgIcon {...props} svgs={svgs} />;
 
 Icon.propTypes = {
-  color: PropTypes.string,
+  fill: PropTypes.string,
 };
 
 Icon.defaultProps = {
-  color: '#fff',
+  fill: '#fff',
 };
 
 export default Icon;

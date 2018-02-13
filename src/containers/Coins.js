@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getPortfolios, removePortfolio, setPortfoliosError } from '../actions/portfolios';
+import { getPortfolios, removePortfolio, updatePortfolio, setPortfoliosError } from '../actions/portfolios';
 import { addCoin, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
@@ -13,17 +13,16 @@ class CoinListing extends Component {
       error: PropTypes.string,
       list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     }).isRequired,
-    // coins: PropTypes.shape({
-    //   loading: PropTypes.bool.isRequired,
-    //   error: PropTypes.string,
-    //   list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    // }).isRequired,
+    navigation: PropTypes.shape({
+      drawer: PropTypes.shape(),
+    }),
     match: PropTypes.shape({
       params: PropTypes.shape({}),
     }),
     getPortfolios: PropTypes.func.isRequired,
     addCoin: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
+    updatePortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
     setPortfoliosError: PropTypes.func.isRequired,
     setCoinsError: PropTypes.func.isRequired,
@@ -59,22 +58,32 @@ class CoinListing extends Component {
     return this.props.removePortfolio(portfolioId);
   }
 
+  editPortfolio = (portfolio) => {
+    console.log('editPortfolio', portfolio)
+    return this.props.updatePortfolio(portfolio);
+  }
+
   removeCoin = (coinId) => {
     return this.props.removeCoin(coinId);
   }
 
   render = () => {
-    const { Layout, portfolios, match } = this.props;
-    const id = (match && match.params && match.params.id) ? match.params.id : null;
+    const { Layout, portfolios, navigation, match } = this.props;
+    const coinId = (match && match.params && match.params.coinId) ? match.params.coinId : null;
+    const portfolioId = (match && match.params && match.params.portfolioId) ? match.params.portfolioId : null;
+
 
     return (
       <Layout
-        coinId={id}
+        coinId={coinId}
+        portfolioId={portfolioId}
 
         portfoliosError={portfolios.error}
         portfoliosLoading={portfolios.loading}
         portfolios={portfolios.list}
+        drawer={navigation.drawer}
         removePortfolio={this.removePortfolio}
+        editPortfolio={this.editPortfolio}
         activePortfolio={portfolios.selected}
         portfoliosFetch={() => this.fetchPortfolios()}
 
@@ -93,6 +102,7 @@ const mapStateToProps = state => {
   // console.log('coins mapStateToProps', state)
   return {
     portfolios: state.portfolios || {},
+    navigation: state.navigation || {},
     // coins: state.coins || {},
   };
 };
@@ -102,6 +112,7 @@ const mapDispatchToProps = {
   // getCoins,
   addCoin,
   removePortfolio,
+  updatePortfolio,
   removeCoin,
   setPortfoliosError,
   setCoinsError,

@@ -15,6 +15,10 @@ import Loading from './components/Loading';
 
 const RouterWithRedux = connect()(Router);
 
+const getSceneStyle = () => ({
+  backgroundColor: '#151022'
+});
+
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === 'android') StatusBar.setHidden(true);
 
@@ -25,7 +29,7 @@ const Root = ({ store, persistor }) => (
       persistor={persistor}
     >
       <StyleProvider style={getTheme(theme)}>
-        <RouterWithRedux>
+        <RouterWithRedux getSceneStyle={getSceneStyle}>
           {Routes}
         </RouterWithRedux>
       </StyleProvider>

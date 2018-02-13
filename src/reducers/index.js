@@ -1,3 +1,4 @@
+import navigation from './navigation';
 import status from './status';
 import member from './member';
 import portfolios from './portfolios';
@@ -14,6 +15,7 @@ const rehydrated = (state = false, action) => {
 
 export default {
   rehydrated,
+  navigation,
   status,
   member,
   portfolios,

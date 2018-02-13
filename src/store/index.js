@@ -10,7 +10,7 @@ import reducers from '../reducers';
 const config = {
   key: 'root',
   storage,
-  blacklist: ['status','coins','portfolios'],
+  blacklist: ['navigation','status','coins','portfolios'], // TODO remove for production
 };
 
 const reducer = persistCombineReducers(config, reducers);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
+import { StatusBar } from 'react-native';
 import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Left, Button, Title, Right } from 'native-base';
 import ErrorMessages from '../../constants/errors';
 import Error from './Error';
@@ -33,9 +33,10 @@ const CoinView = ({
   return (
     <Container>
       <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }}>
+        <StatusBar barStyle="light-content"/>
         <Left>
           <Button transparent onPress={() => Actions.pop()}>
-            <Icon name='Menu' height='22' width='22' />
+            <Icon name='Back' width={28} fill={'#fff'} />
           </Button>
         </Left>
         <Body>

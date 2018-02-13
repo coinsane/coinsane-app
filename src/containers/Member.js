@@ -13,19 +13,21 @@ class Member extends Component {
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string,
     }).isRequired,
+    navigation: PropTypes.shape({}),
   }
 
   componentDidMount = () => this.props.getMemberData();
 
   render = () => {
-    const { Layout, member, memberLogout } = this.props;
+    const { Layout, member, memberLogout, navigation } = this.props;
 
-    return <Layout member={member} logout={memberLogout} />;
+    return <Layout member={member} logout={memberLogout} drawer={navigation.drawer} />;
   }
 }
 
 const mapStateToProps = state => ({
   member: state.member || {},
+  navigation: state.navigation || {},
 });
 
 const mapDispatchToProps = {

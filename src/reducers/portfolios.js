@@ -31,7 +31,23 @@ export default function portfolioReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: false,
+        selected: state.selected !== action.data ? state.selected : null,
         list: [...state.list.filter(portfolio => portfolio.id !== action.data)]
+      };
+    }
+    case 'PORTFOLIO_UPDATE': {
+      const { id, title, inTotal } = action.data;
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        list: [...state.list.map(portfolio => {
+          if (portfolio.id === id) {
+            portfolio.title = title;
+            portfolio.inTotal = inTotal;
+          }
+          return portfolio;
+        })]
       };
     }
     case 'PORTFOLIO_COIN_REMOVED': {
@@ -52,6 +68,12 @@ export default function portfolioReducer(state = initialState, action) {
       return {
         ...state,
         error: action.data,
+      };
+    }
+    case 'DRAWER_ACTIONS': {
+      return {
+        ...state,
+        drawer: action.data
       };
     }
     default:

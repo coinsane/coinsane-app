@@ -1,12 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
-import { Container, Content, List, ListItem, Body, Left, Text } from 'native-base';
+import { StatusBar, View } from 'react-native';
+import { Header, Button, Title, Right, Container, Content, List, ListItem, Body, Left, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Lead from './Lead';
+import Icon from './Icon';
 
-const Profile = ({ member, logout }) => (
+const Profile = ({ member, logout, drawer }) => (
   <Container>
+    <Header style={{ borderBottomWidth: 0 }}>
+      <StatusBar barStyle="light-content"/>
+      <Left>
+        <Button transparent onPress={() => drawer.open()}>
+          <Icon name='Menu' width={28} fill={'#fff'} />
+        </Button>
+      </Left>
+      <Body>
+        <Title>Settings</Title>
+      </Body>
+      <Right>
+      </Right>
+    </Header>
     <Content style={{ backgroundColor: '#1B152D' }}>
       <List>
         {(member && member.email) ?
@@ -78,6 +92,7 @@ const Profile = ({ member, logout }) => (
 Profile.propTypes = {
   member: PropTypes.shape({}),
   logout: PropTypes.func.isRequired,
+  drawer: PropTypes.shape({}),
 };
 
 Profile.defaultProps = {

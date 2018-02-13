@@ -34,14 +34,14 @@ const CoinCard = ({
         <Thumbnail small square source={icon} style={{ marginTop: 4, marginRight: 10 }} />
         <View>
           <Text style={{ marginBottom: 6 }}>
-            <Text style={{ fontSize: 14, color: '#8D8A96' }}>{symbol}</Text>  <Text style={{ fontSize: 14 }}>{amount}</Text>
+            <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Medium' }}>{symbol}</Text>  <Text style={{ fontSize: 14, fontFamily: 'Lato-Medium' }}>{amount}</Text>
           </Text>
-          <Text style={{ fontSize: 14, color: '#8D8A96' }}>{priceDisplay}</Text>
+          <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Regular' }}>{priceDisplay}</Text>
         </View>
       </Body>
       <Right style={{ flex: 0.4 }}>
-        <Text style={{ fontSize: 14, marginBottom: 6 }}>{totalAmountDisplay}</Text>
-        <Text style={{ fontSize: 14, color: changeColor }}>{changePctDay}%</Text>
+        <Text style={{ fontSize: 14, marginBottom: 6, fontFamily: 'Lato-Medium' }}>{totalAmountDisplay}</Text>
+        <Text style={{ fontSize: 14, color: changeColor, fontFamily: 'Lato-Regular' }}>{changePctDay}%</Text>
       </Right>
     </ListItem>
   );

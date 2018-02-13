@@ -83,6 +83,7 @@ export const setPortfolio = (data = {}, isNew) => new Promise(async (resolve, re
 
   if (isNew && !data.title) data.title = 'My Portfolio';
   if (!data.title) return reject('title is empty');
+  if (!data.inTotal) data.inTotal = false;
 
   const portfolioRef = FirebaseRef.child(`portfolios`).push();
   const userPortfolioRef = FirebaseRef.child(`users/${UID}/portfolios`);
@@ -99,6 +100,30 @@ export const setPortfolio = (data = {}, isNew) => new Promise(async (resolve, re
     .then(() => portfolioRef.set(newPortfolio))
     .then(() => userPortfolioRef.update(key))
     .then(() => resolve({id, ...newPortfolio}))
+    .catch(reject);
+});
+
+
+export const update = (data = {}) => new Promise(async (resolve, reject) => {
+  const UID = await getUID();
+  if (!UID) return reject('auth problem');
+
+  if (!data.id) return reject('id is empty');
+  if (!data.title) return reject('title is empty');
+  if (!data.inTotal) data.inTotal = false;
+
+  const { id, title, inTotal } = data;
+
+  const portfolioRef = FirebaseRef.child(`portfolios/${id}`);
+
+  portfolioRef
+    .once('value')
+    .then(snapshot => {
+      const portfolio = snapshot.val();
+      if (!portfolio.owner[UID]) return reject('permission denied');
+      return portfolioRef.update({ title, inTotal });
+    })
+    .then(resolve)
     .catch(reject);
 });
 

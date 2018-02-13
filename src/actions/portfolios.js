@@ -1,4 +1,4 @@
-import { fetchPortfolios, setPortfolio, delPortfolio, watchUserPortfolios } from '../api/portfolios';
+import { fetchPortfolios, setPortfolio, update, delPortfolio, watchUserPortfolios } from '../api/portfolios';
 
 /**
   * Get Portfolios
@@ -21,6 +21,20 @@ export function selectPortfolio(portfolioId) {
     .then(() => dispatch({
       type: 'PORTFOLIO_SELECT',
       data: portfolioId,
+    }))
+    .catch(e => console.log(e));
+}
+
+/**
+  * Update Portfolio
+  */
+export function updatePortfolio(data) {
+  const { id, title, inTotal } = data;
+  return dispatch => Promise.resolve({ id, title, inTotal })
+    .then(update)
+    .then(() => dispatch({
+      type: 'PORTFOLIO_UPDATE',
+      data: { id, title, inTotal },
     }))
     .catch(e => console.log(e));
 }
