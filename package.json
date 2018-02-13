@@ -73,5 +73,10 @@
     "redux-persist": "^5.4.0",
     "redux-thunk": "^2.2.0",
     "superagent": "^3.8.1"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }
