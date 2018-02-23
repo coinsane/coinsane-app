@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getPortfolios, removePortfolio, updatePortfolio, setPortfoliosError } from '../actions/portfolios';
+import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData } from '../actions/portfolios';
 import { addCoin, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
@@ -20,12 +20,16 @@ class CoinListing extends Component {
       params: PropTypes.shape({}),
     }),
     getPortfolios: PropTypes.func.isRequired,
+    getTotals: PropTypes.func.isRequired,
+    addPortfolio: PropTypes.func.isRequired,
     addCoin: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     updatePortfolio: PropTypes.func.isRequired,
+    selectPortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
     setPortfoliosError: PropTypes.func.isRequired,
     setCoinsError: PropTypes.func.isRequired,
+    setCoinData: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -59,8 +63,23 @@ class CoinListing extends Component {
   }
 
   editPortfolio = (portfolio) => {
-    console.log('editPortfolio', portfolio)
     return this.props.updatePortfolio(portfolio);
+  }
+
+  _addPortfolio = (portfolio) => {
+    return this.props.addPortfolio(portfolio);
+  }
+
+  _selectPortfolio = (portfolioId) => {
+    return this.props.selectPortfolio(portfolioId);
+  }
+
+  _setCoinData = (data) => {
+    return this.props.setCoinData(data);
+  }
+
+  _getTotals = (data) => {
+    return this.props.getTotals(data);
   }
 
   removeCoin = (coinId) => {
@@ -81,18 +100,20 @@ class CoinListing extends Component {
         portfoliosError={portfolios.error}
         portfoliosLoading={portfolios.loading}
         portfolios={portfolios.list}
+        portfoliosChart={portfolios.chart}
         drawer={navigation.drawer}
         removePortfolio={this.removePortfolio}
+        selectPortfolio={this._selectPortfolio}
         editPortfolio={this.editPortfolio}
+        addPortfolio={this._addPortfolio}
+        setCoinData={this._setCoinData}
+        getTotals={this._getTotals}
         activePortfolio={portfolios.selected}
+        coinData={portfolios.coinData}
         portfoliosFetch={() => this.fetchPortfolios()}
 
-        // coinsError={coins.error}
-        // coinsLoading={coins.loading}
-        // coins={coins.list}
         addCoin={this.addCoin}
         removeCoin={this.removeCoin}
-        // coinsFetch={() => this.fetchCoins()}
       />
     );
   }
@@ -109,13 +130,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getPortfolios,
+  getTotals,
   // getCoins,
   addCoin,
   removePortfolio,
   updatePortfolio,
+  selectPortfolio,
+  addPortfolio,
   removeCoin,
   setPortfoliosError,
   setCoinsError,
+  setCoinData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinListing);

@@ -3,6 +3,7 @@ const devMode = (process.env.NODE_ENV !== 'development');
 export default {
   // App Details
   appName: 'Coinsane',
+  apiUri: 'https://api.coinsane.tech',
 
   // Build Configuration - eg. Debug or Release?
   DEV: devMode,

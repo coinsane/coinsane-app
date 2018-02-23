@@ -18,6 +18,7 @@ import PortfoliosContainer from '../../containers/Portfolios';
 import PortfoliosModal from '../components/modal/Portfolios';
 
 import PortfolioSettingsComponent from '../components/PortfolioSettings';
+import CreatePortfolioComponent from '../components/CreatePortfolio';
 
 import SignUpContainer from '../../containers/SignUp';
 import SignUpComponent from '../components/SignUp';
@@ -63,6 +64,11 @@ const Index = (
                key="portfolioSettings"
                component={CoinsContainer}
                Layout={PortfolioSettingsComponent}
+             />
+             <Scene
+               key="createPortfolio"
+               component={CoinsContainer}
+               Layout={CreatePortfolioComponent}
              />
           </Stack>
 

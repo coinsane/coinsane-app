@@ -6,7 +6,8 @@ import ErrorMessages from '../../constants/errors';
 const CoinCard = ({
   coin,
   showCoin,
-  removeCoin
+  removeCoin,
+  activePortfolio
 }) => {
   if (!coin) return (
     <ListItem style={{ backgroundColor: 'transparent', borderBottomWidth: 0, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}>
@@ -25,25 +26,38 @@ const CoinCard = ({
   const totalAmountDisplay = `$${totalAmount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
 
   return (
-    <ListItem
-      style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}
-      button
-      onPress={() => showCoin ? showCoin(coin) : ''}
-    >
-      <Body style={{ flexDirection: 'row', flexWrap:'wrap' }}>
-        <Thumbnail small square source={icon} style={{ marginTop: 4, marginRight: 10 }} />
-        <View>
-          <Text style={{ marginBottom: 6 }}>
-            <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Medium' }}>{symbol}</Text>  <Text style={{ fontSize: 14, fontFamily: 'Lato-Medium' }}>{amount}</Text>
-          </Text>
-          <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Regular' }}>{priceDisplay}</Text>
+    <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+      <ListItem
+        style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}
+        button
+        onPress={() => showCoin ? showCoin(coin) : ''}
+      >
+        <Body style={{ flexDirection: 'row', flexWrap:'wrap' }}>
+          <Thumbnail small square source={icon} style={{ marginTop: 4, marginRight: 10 }} />
+          <View>
+            <Text style={{ marginBottom: 6 }}>
+              <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Medium' }}>{symbol}</Text>  <Text style={{ fontSize: 14, fontFamily: 'Lato-Medium' }}>{amount}</Text>
+            </Text>
+            <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Regular' }}>{priceDisplay}</Text>
+          </View>
+        </Body>
+        <Right style={{ flex: 0.4 }}>
+          <Text style={{ fontSize: 14, marginBottom: 6, fontFamily: 'Lato-Medium' }}>{totalAmountDisplay}</Text>
+          <Text style={{ fontSize: 14, color: changeColor, fontFamily: 'Lato-Regular' }}>{changePctDay}%</Text>
+        </Right>
+      </ListItem>
+      {
+        coin.last && !activePortfolio &&
+        <View style={{ paddingBottom: 15, borderColor: '#2F2A40', borderBottomWidth: 1 }}>
+          <Button small bordered full
+            style={{ borderColor: '#2F2A40', borderRadius: 5, paddingTop: 15, paddingBottom: 15, marginBottom: 15 }}
+            onPress={() => addCoin(coin.last)}
+          >
+            <Text style={{ color: '#8D8A96', fontWeight: 'normal' }}>+ ADD NEW COIN</Text>
+          </Button>
         </View>
-      </Body>
-      <Right style={{ flex: 0.4 }}>
-        <Text style={{ fontSize: 14, marginBottom: 6, fontFamily: 'Lato-Medium' }}>{totalAmountDisplay}</Text>
-        <Text style={{ fontSize: 14, color: changeColor, fontFamily: 'Lato-Regular' }}>{changePctDay}%</Text>
-      </Right>
-    </ListItem>
+      }
+    </View>
   );
 };
 
@@ -51,6 +65,7 @@ CoinCard.propTypes = {
   coin: PropTypes.shape({}),
   showCoin: PropTypes.func,
   removeCoin: PropTypes.func,
+  activePortfolio: PropTypes.string,
 };
 
 CoinCard.defaultProps = {

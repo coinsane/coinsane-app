@@ -14,13 +14,17 @@ import Chart from './Chart';
 import CoinCard from './CoinCard';
 import Colors from '../../../native-base-theme/variables/commonColor';
 
+import SGListView from 'react-native-sglistview';
+
 class CoinListing extends Component {
   static propTypes = {
     portfoliosError: PropTypes.string,
     portfoliosLoading: PropTypes.bool.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    portfoliosChart: PropTypes.shape({}),
     drawer: PropTypes.shape({}),
     portfoliosFetch: PropTypes.func,
+    getTotals: PropTypes.func,
     addPortfolio: PropTypes.func,
     removePortfolio: PropTypes.func,
     addCoin: PropTypes.func,
@@ -33,6 +37,40 @@ class CoinListing extends Component {
     portfoliosFetch: null,
   }
 
+  formatData(portfolios) {
+    const dataBlob = {};
+    const sectionIds = [];
+    const rowIds = [];
+
+    portfolios.forEach(portfolio => {
+      const { id, title, total, inTotal } = portfolio;
+      sectionIds.push(id);
+
+      const coins = portfolio.coins || [];
+      dataBlob[id] = { id, title, total, inTotal, count: coins.length };
+
+      rowIds.push([]);
+
+      coins.forEach((coin, index) => {
+        const rowId = `${id}:${index}`;
+        rowIds[rowIds.length - 1].push(rowId);
+        if (coins.length - 1 === index) coin.last = id;
+        dataBlob[rowId] = coin;
+      });
+    })
+
+    return { dataBlob, sectionIds, rowIds };
+  }
+
+  updateChart(portfolioId, range) {
+    this.props.getTotals({ portfolioId, range });
+  }
+
+  componentDidMount() {
+    this.updateChart(this.props.activePortfolio || 'all', '1d');
+  }
+
+
   render() {
     const {
       portfoliosError,
@@ -41,7 +79,9 @@ class CoinListing extends Component {
       drawer,
       addPortfolio,
       removePortfolio,
+      portfoliosChart,
       portfoliosFetch,
+      getTotals,
       addCoin,
       removeCoin,
       activePortfolio,
@@ -58,7 +98,23 @@ class CoinListing extends Component {
     const showCoin = item => Actions.coin({ match: { params: { coinId: String(item.id) } } });
     const editPortfolio = item => Actions.portfolioSettings({ match: { params: { portfolioId: String(item) } } });
 
+    const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
+    const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
+
     const portfoliosList = activePortfolio ? portfolios.filter(portfolio => portfolio.id === activePortfolio) : portfolios;
+
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1.id !== r2.id,
+      sectionHeaderHasChanged: (s1, s2) => s1.id !== s2.id,
+      getSectionData,
+      getRowData,
+    });
+
+    const { dataBlob, sectionIds, rowIds } = this.formatData(portfoliosList);
+    this.state = {
+      dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds),
+    };
+
 
     const totals = {
       BTC: 0,
@@ -87,6 +143,54 @@ class CoinListing extends Component {
       return changes;
     }
 
+
+    const _renderSectionHeader = (portfolio) => {
+      return (
+        <PortfolioHeader
+          show={!activePortfolio}
+          id={portfolio.id}
+          title={portfolio.title}
+          totals={portfolio.total}
+          count={portfolio.count}
+          changePct={getChangePct(portfolio.prices)}
+        />
+      )
+    };
+
+
+
+
+    const _renderRow = (coin) => {
+      return coin ? (
+        <CoinCard
+          key={coin.id}
+          coin={coin}
+          showCoin={showCoin}
+          removeCoin={removeCoin}
+          activePortfolio={activePortfolio}
+        />
+      ) : (
+        <ListItem style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}>
+          <Text style={{ fontSize: 14, color: '#8D8A96', textAlign: 'center', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>No coins here</Text>
+        </ListItem>
+      )
+    };
+
+    // const _renderHeader = () => ();
+
+
+    // const _renderFooter = () => {
+    //   return
+    // }
+
+    // _onRefresh() {
+    //   this.setState({refreshing: true});
+    //   fetchData().then(() => {
+    //     this.setState({refreshing: false});
+    //   });
+    // }
+
+
     return (
       <Container style={{ backgroundColor: '#1B152D' }}>
         <Header style={{ borderBottomWidth: 0 }}>
@@ -103,52 +207,56 @@ class CoinListing extends Component {
             </Title>
           </Body>
           <Right>
-            {activePortfolio && <Button transparent onPress={() => editPortfolio ? editPortfolio(activePortfolio) : ''}>
-              <Icon name='Edit' width={28} />
-            </Button>}
+            {
+              activePortfolio &&
+              <Button transparent onPress={() => editPortfolio ? editPortfolio(activePortfolio) : ''}>
+                <Icon name='Edit' width={28} />
+              </Button>
+            }
           </Right>
         </Header>
         <Content style={{ shadowOpacity: 0, elevation: 0 }}>
-          <PortfolioTotal totals={totals} changePct={changePct} />
-          <Chart />
-          {
-            portfoliosList.length ? portfoliosList.map(portfolio => (
-              <List key={portfolio.id} style={{ borderColor: '#2F2A40', borderTopWidth: 1, paddingLeft: 10, paddingRight: 10 }}>
-                <PortfolioHeader show={!activePortfolio} title={portfolio.title} totals={portfolio.total} changePct={getChangePct(portfolio.prices)} />
-                {
-                  portfolio.coins && portfolio.coins.length ? portfolio.coins.map(coin => (
-                    <CoinCard
-                      key={coin.id}
-                      coin={coin}
-                      showCoin={showCoin}
-                      removeCoin={removeCoin}
-                    ></CoinCard>
-                  )) : (
-                    <ListItem style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}>
-                      <Text style={{ fontSize: 14, color: '#8D8A96', textAlign: 'center', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>No coins here</Text>
-                    </ListItem>
-                  )
-                }
-                { activePortfolio ? <View /> : <Button small bordered full onPress={() => addCoin(portfolio.id)} style={{ borderColor: '#2F2A40', borderRadius: 5, paddingTop: 15, paddingBottom: 15 }}>
-                  <Text style={{ color: '#8D8A96', fontWeight: 'normal' }}>+ ADD NEW COIN</Text>
-                </Button> }
-                <Spacer size={10} />
-              </List>
-            )) : (
-              <List>
-                <ListItem style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}>
-                  <Text style={{ fontSize: 14, color: '#8D8A96', textAlign: 'center', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>List is empty</Text>
-                </ListItem>
-              </List>
-            )
-          }
-          <Spacer size={50} />
+          <SGListView
+            dataSource={this.state.dataSource}
+            renderRow={_renderRow}
+            enableEmptySections
+            ref={'listview'}
+            // refreshControl={
+            //   <RefreshControl
+            //     refreshing={this.state.refreshing}
+            //     onRefresh={this._onRefresh.bind(this)}
+            //   />
+            // }
+            initialListSize={1}
+            stickyHeaderIndices={[]}
+            onEndReachedThreshold={1}
+            scrollRenderAheadDistance={1}
+            pageSize={1}
+            renderHeader={() => (
+              <View>
+                <PortfolioTotal totals={totals} changePct={changePct} />
+                <Chart dataPoints={portfoliosChart} />
+                <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                  { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (
+                    <Button key={period} small transparent onPress={() => this.updateChart(activePortfolio || 'all', period)}>
+                      <Text style={{ color: '#8D8A96', fontSize: 14, fontFamily: 'Lato-Medium' }}>
+                        {period.toUpperCase()}
+                      </Text>
+                    </Button>
+                  )) }
+                </View>
+              </View>
+            )}
+            renderFooter={() => <Spacer size={40} />}
+            renderSectionHeader={_renderSectionHeader}
+          />
         </Content>
-        { activePortfolio && <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
-          <Button small bordered full onPress={() => addCoin(activePortfolio)} style={{ flex: 1, borderColor: '#2F2A40', borderRadius: 5, marginTop: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 10, marginRight: 10 }}>
+        {activePortfolio &&
+        <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
+          <Button small bordered full onPress={() => addCoin(activePortfolio)} style={{ flex: 1, borderColor: '#2F2A40', borderRadius: 5, marginTop: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 15, marginRight: 15 }}>
             <Text style={{ color: '#8D8A96', fontFamily: 'Lato-Medium' }}>+ ADD NEW COIN</Text>
           </Button>
-        </Footer> }
+        </Footer>}
       </Container>
     );
   }

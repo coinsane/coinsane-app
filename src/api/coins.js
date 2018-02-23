@@ -1,6 +1,16 @@
 import { FirebaseRef } from '../lib/firebase';
-import { getUID } from '../lib/utils';
+import { getUID, fetch } from '../lib/utils';
 
+export const getCoinHisto = ({fsym = 'BTC', tsym = 'USD', range = '6m'}) => new Promise(async (resolve, reject) => {
+  const UID = await getUID();
+  if (!UID) return reject('auth problem');
+  return fetch(`/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`)
+    .then(json => {
+      // console.log('totalstotalstotalstotalstotals', json)
+      return json.data || json;
+    })
+    .catch(console.error);
+});
 
 export const fetchCoins = (portfolioId) => new Promise(async (resolve, reject) => {
   const UID = await getUID();

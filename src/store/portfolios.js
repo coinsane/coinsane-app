@@ -2,5 +2,7 @@ export default {
   loading: true,
   error: null,
   list: [],
-  selected: null
+  selected: null,
+  chart: {},
+  coinData: []
 };

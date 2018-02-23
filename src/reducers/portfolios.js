@@ -23,7 +23,7 @@ export default function portfolioReducer(state = initialState, action) {
     case 'PORTFOLIO_SELECT': {
       return {
         ...state,
-        selected: action.data
+        selected: action.data || null
       };
     }
     case 'PORTFOLIO_REMOVED': {
@@ -50,6 +50,21 @@ export default function portfolioReducer(state = initialState, action) {
         })]
       };
     }
+    case 'TOTALS_REPLACE': {
+      const { portfolioId, totals } = action.data;
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        chart: totals,
+        // list: [...state.list.map(portfolio => {
+        //   if (portfolio.id === portfolioId) {
+        //     portfolio.chart = totals;
+        //   }
+        //   return portfolio;
+        // })]
+      };
+    }
     case 'PORTFOLIO_COIN_REMOVED': {
       const { coinId, portfolioId } = action.data;
       return {
@@ -70,10 +85,10 @@ export default function portfolioReducer(state = initialState, action) {
         error: action.data,
       };
     }
-    case 'DRAWER_ACTIONS': {
+    case 'SET_COIN_DATA': {
       return {
         ...state,
-        drawer: action.data
+        coinData: action.data,
       };
     }
     default:

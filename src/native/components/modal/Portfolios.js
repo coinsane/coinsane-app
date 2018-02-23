@@ -10,8 +10,7 @@ import Modal from './BaseModal';
 const PortfoliosModal = ({
   portfolios,
   selectPortfolio,
-  selected,
-  addPortfolio
+  selected
 }) => {
   return (
     <Modal hideClose>
@@ -59,7 +58,12 @@ const PortfoliosModal = ({
           </List>
         </Content>
         <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
-          <Button small full onPress={() => addPortfolio()} style={{ flex: 1, backgroundColor: '#282239', borderRadius: 5, marginTop: 15, marginBottom: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 10, marginRight: 10 }}>
+          <Button small full
+            onPress={() => {
+              Actions.pop();
+              Actions.createPortfolio();
+            }}
+            style={{ flex: 1, backgroundColor: '#282239', borderRadius: 5, marginTop: 15, marginBottom: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 15, marginRight: 15 }}>
             <Text style={{ color: '#8D8A96', fontFamily: 'Lato-Medium' }}>+ ADD NEW PORTFOLIO</Text>
           </Button>
         </Footer>
@@ -71,8 +75,7 @@ const PortfoliosModal = ({
 PortfoliosModal.propTypes = {
   selected: PropTypes.string,
   selectPortfolio: PropTypes.func.isRequired,
-  portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  addPortfolio: PropTypes.func.isRequired,
+  portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
 
 PortfoliosModal.defaultProps = {

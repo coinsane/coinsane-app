@@ -1,4 +1,4 @@
-import { fetchPortfolios, setPortfolio, update, delPortfolio, watchUserPortfolios } from '../api/portfolios';
+import { fetchPortfolios, fetchTotals, etPortfolio, update, delPortfolio, watchUserPortfolios } from '../api/portfolios';
 
 /**
   * Get Portfolios
@@ -9,6 +9,25 @@ export function getPortfolios() {
     .then(portfolios => dispatch({
       type: 'PORTFOLIOS_REPLACE',
       data: portfolios || [],
+    }))
+    .catch(e => console.log(e));
+}
+
+/**
+  * Get Totals
+  */
+export function getTotals(data) {
+  console.log('getTotals', data)
+  return dispatch => Promise.resolve(data)
+    .then(fetchTotals)
+    .then(result => {
+      console.log('qweqweqweqwe')
+      console.log(result)
+      return result;
+    })
+    .then(data => dispatch({
+      type: 'TOTALS_REPLACE',
+      data,
     }))
     .catch(e => console.log(e));
 }
@@ -72,6 +91,15 @@ export function setPortfoliosError(message) {
     .then(() => dispatch({
       type: 'PORTFOLIOS_ERROR',
       data: message,
+    }))
+    .catch(e => console.log(e));
+}
+
+export function setCoinData(data) {
+  return dispatch => Promise.resolve()
+    .then(() => dispatch({
+      type: 'SET_COIN_DATA',
+      data
     }))
     .catch(e => console.log(e));
 }

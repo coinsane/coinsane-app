@@ -1,4 +1,4 @@
-import { fetchCoins, setCoin, delCoin } from '../api/coins';
+import { fetchCoins, getCoinHisto, setCoin, delCoin } from '../api/coins';
 import { fetchPortfolios } from '../api/portfolios';
 
 /**
@@ -10,6 +10,16 @@ import { fetchPortfolios } from '../api/portfolios';
 //     .then(coins => dispatch({ type: 'COINS_REPLACE', data: coins || [] }))
 //     .catch(e => console.log(e));
 // }
+
+/**
+  * Add Coin
+  */
+export function updateCoinHisto(data) {
+  return dispatch => Promise.resolve(data)
+    .then(getCoinHisto)
+    .then(histo => dispatch({ type: 'COIN_HISTO_UPDATE', data: histo }))
+    .catch(e => console.log(e));
+}
 
 /**
   * Add Coin

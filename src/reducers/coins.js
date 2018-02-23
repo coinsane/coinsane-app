@@ -12,6 +12,14 @@ export default function portfolioReducer(state = initialState, action) {
         list: action.data,
       };
     }
+    case 'COIN_HISTO_UPDATE': {
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        list: action.data,
+      };
+    }
     case 'COINS_ERROR': {
       return {
         ...state,

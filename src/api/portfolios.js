@@ -1,5 +1,21 @@
+import Config from '../constants/config';
 import { FirebaseRef } from '../lib/firebase';
 import { getUID } from '../lib/utils';
+
+export const fetchTotals = (data) => new Promise(async (resolve, reject) => {
+  const UID = await getUID();
+  if (!UID) return reject('auth problem');
+  const { portfolioId, range } = data;
+  const Authorization = `${Config.appName} token=${UID}`;
+  console.log('fetchfetchfetchfetchfetchfetch', `${Config.apiUri}/totals?portfolioId=${portfolioId}&range=${range}`)
+  return fetch(`${Config.apiUri}/totals?portfolioId=${portfolioId}&range=${range}`, { headers: { Authorization } })
+    .then(response => response.json())
+    .then(json => {
+      console.log('totalstotalstotalstotalstotals', json.data)
+      return resolve(json.data);
+    })
+    .catch(reject);
+});
 
 
 export const fetchPortfolios = () => new Promise(async (resolve, reject) => {
