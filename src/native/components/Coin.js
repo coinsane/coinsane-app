@@ -9,6 +9,7 @@ import Spacer from './Spacer';
 import Icon from './Icon';
 import CoinCard from './CoinCard';
 import { Actions } from 'react-native-router-flux';
+import { getUID } from '../../lib/utils';
 
 import { AreaChart, YAxis } from 'react-native-svg-charts'
 import { LinearGradient, Stop, G, Line } from 'react-native-svg'
@@ -60,11 +61,16 @@ class CoinView extends Component {
     error: null,
   }
 
-  getCoinHisto(fsym = 'BTC', tsym = 'USD', range = '6m') {
-    return fetch(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`)
+  async getCoinHisto(fsym = 'BTC', tsym = 'USD', range = '6m') {
+    const UID = await getUID();
+    if (!UID) return reject('auth problem');
+    const Authorization = `${Config.appName} token=${UID}`;
+      console.log(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, Authorization)
+    return fetch(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, { headers: { Authorization } })
       .then((response) => response.json())
       .then((responseJson) => {
         const mapObj = responseJson.data || responseJson;
+        console.log('responseJsonmapObjmapObjmapObj', mapObj)
         const data = mapObj.map(tick => parseFloat(tick.close));
         console.log(data, 'getCoinHisto2', fsym, tsym, range)
         return data;
