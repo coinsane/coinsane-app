@@ -53,8 +53,10 @@ class CoinListing extends Component {
   }
 
   addCoin = (portfolioId) => {
-    const title = `Coin ${Math.random()}`;
-    const newCoin = { title, portfolioId };
+    const mockMarkets = [41122,41125,411271,411496,411620,411647,41192,412081,412112,412197,412267,413886,41587,41590,41592,41819,418671,41868,418694,41871,418778,419209,41962,41967,41971,419711,41974];
+    const marketId = mockMarkets[Math.floor(Math.random() * mockMarkets.length)]
+    const amount = Math.round(0.5 + Math.random() * 2000);
+    const newCoin = { marketId, amount, portfolioId };
     return this.props.addCoin(newCoin);
   }
 

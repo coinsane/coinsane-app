@@ -152,6 +152,7 @@ class CoinListing extends Component {
           title={portfolio.title}
           totals={portfolio.total}
           count={portfolio.count}
+          addCoin={addCoin}
           changePct={getChangePct(portfolio.prices)}
         />
       )
@@ -166,6 +167,7 @@ class CoinListing extends Component {
           key={coin.id}
           coin={coin}
           showCoin={showCoin}
+          addCoin={addCoin}
           removeCoin={removeCoin}
           activePortfolio={activePortfolio}
         />

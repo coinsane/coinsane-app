@@ -34,7 +34,6 @@ export const setCoin = (data = {}) => new Promise(async (resolve, reject) => {
   const UID = await getUID();
   if (!UID) return reject('auth problem');
 
-  if (!data.title) return reject('title is empty');
   if (!data.portfolioId) return reject('portfolioId missing');
 
   const coinRef = FirebaseRef.child(`coins`).push();

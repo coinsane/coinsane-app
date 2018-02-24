@@ -5,6 +5,7 @@ import ErrorMessages from '../../constants/errors';
 
 const CoinCard = ({
   coin,
+  addCoin,
   showCoin,
   removeCoin,
   activePortfolio
@@ -63,6 +64,7 @@ const CoinCard = ({
 
 CoinCard.propTypes = {
   coin: PropTypes.shape({}),
+  addCoin: PropTypes.func,
   showCoin: PropTypes.func,
   removeCoin: PropTypes.func,
   activePortfolio: PropTypes.string,

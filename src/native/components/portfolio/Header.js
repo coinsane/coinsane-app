@@ -4,7 +4,7 @@ import { ListItem, Body, Text, Left, Right, View, Button } from 'native-base';
 import Spacer from '../Spacer';
 import Icon from '../Icon';
 
-const PortfolioHeader = ({ id, show, title, totals, count, changePct }) => {
+const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct }) => {
   if (!show) return <Spacer size={15} />;
 
   const totalDisplay = totals && totals.USD ? `$${totals.USD.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : '$0.00';
@@ -43,6 +43,7 @@ PortfolioHeader.propTypes = {
   title: PropTypes.string,
   count: PropTypes.number,
   totals: PropTypes.shape({}),
+  addCoin: PropTypes.func,
   changePct: PropTypes.shape({}),
 };
 
