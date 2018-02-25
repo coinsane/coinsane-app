@@ -1,52 +1,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { StatusBar, View } from 'react-native';
-import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Left, Button, Title, Right } from 'native-base';
+import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Left, Button, Title, Right, Tabs, Tab, TabHeading, Thumbnail } from 'native-base';
 import ErrorMessages from '../../constants/errors';
 import Config from '../../constants/config';
 import Error from './Error';
 import Spacer from './Spacer';
 import Icon from './Icon';
 import CoinCard from './CoinCard';
+import CoinTabOverview from './CoinTabOverview';
+import CoinTabTransactions from './CoinTabTransactions';
 import { Actions } from 'react-native-router-flux';
 import { getUID } from '../../lib/utils';
-
-import { AreaChart, YAxis } from 'react-native-svg-charts'
-import { LinearGradient, Stop, G, Line } from 'react-native-svg'
-import * as shape from 'd3-shape'
-
-function maxAvgMin(arr) {
-    var max = arr[0];
-    var min = arr[0];
-    var sum = arr[0]; //changed from original post
-    for (var i = 1; i < arr.length; i++) {
-        if (arr[i] > max) {
-            max = arr[i];
-        }
-        if (arr[i] < min) {
-            min = arr[i];
-        }
-        sum = sum + arr[i];
-    }
-    return [max, sum/arr.length, min]; //changed from original post
-}
-
-const CustomGrid = ({ x, y, dataPoints, ticks }) => (
-  <G>
-    {
-      maxAvgMin(ticks).map(tick => (
-        <Line
-          key={tick}
-          x1={'0%'}
-          x2={'100%'}
-          y1={y(tick)}
-          y2={y(tick)}
-          stroke={'#2F2A40'}
-        />
-      ))
-    }
-  </G>
-)
 
 class CoinView extends Component {
   static propTypes = {
@@ -61,18 +26,15 @@ class CoinView extends Component {
     error: null,
   }
 
-  async getCoinHisto(fsym = 'BTC', tsym = 'USD', range = '6m') {
+  async getCoinHisto({fsym = 'BTC', tsym = 'USD', range = '3m'}) {
     const UID = await getUID();
     if (!UID) return reject('auth problem');
     const Authorization = `${Config.appName} token=${UID}`;
-      console.log(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, Authorization)
     return fetch(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, { headers: { Authorization } })
       .then((response) => response.json())
       .then((responseJson) => {
         const mapObj = responseJson.data || responseJson;
-        console.log('responseJsonmapObjmapObjmapObj', mapObj)
         const data = mapObj.map(tick => parseFloat(tick.close));
-        console.log(data, 'getCoinHisto2', fsym, tsym, range)
         return data;
       })
       .catch((error) => {
@@ -97,7 +59,7 @@ class CoinView extends Component {
       }
     }
 
-    this.getCoinHisto(coin.symbol).then(data => {
+    this.getCoinHisto({fsym: coin.symbol}).then(data => {
       setCoinData(data);
     });
   }
@@ -126,12 +88,11 @@ class CoinView extends Component {
     // Coin not found
     if (!coin) return <Error content={ErrorMessages.coin404} />;
 
-    // const data = [ 50, 10, 40, 95, 5, 85, 91, 35, 53, 4, 24, 50 ];
-    const contentInset = { top: 20, bottom: 20 };
+    const icon = { uri: coin.imageUrl };
 
     return (
       <Container>
-        <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }}>
+        <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }} hasTabs>
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
@@ -139,44 +100,36 @@ class CoinView extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>{coin.name}</Title>
+            <Title style={{ flexDirection: 'row', flexWrap:'wrap' }}>
+              <Thumbnail small square source={icon} style={{ height: 24, width: 24, marginRight: 10 }} />
+              <Text>{coin.name}</Text>
+              <Text style={{ color: '#8D8A96', fontSize: 14 }}>&nbsp;{coin.symbol}</Text>
+            </Title>
           </Body>
           <Right></Right>
         </Header>
-        <Content style={{ backgroundColor: '#1B152D' }}>
-
-          <View style={{ height: 170, flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10, position: 'relative' }}>
-            <YAxis
-              style={{ position: 'absolute', top: 0, bottom: 0, left: 5 }}
-              dataPoints={coinData}
-              numberOfTicks={3}
-              contentInset={contentInset}
-              labelStyle={{ color: '#8D8A96' }}
-              formatLabel={value => `${value.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}
+        <Tabs style={{ backgroundColor: '#1B152D' }} tabBarUnderlineStyle={{ height: 1 }}>
+          <Tab heading={
+            <TabHeading style={{ backgroundColor: '#1B152D' }}>
+              <Text>OVERVIEW</Text>
+            </TabHeading>
+          }>
+            <CoinTabOverview
+              error={error}
+              portfolios={portfolios}
+              coinId={coinId}
+              setCoinData={setCoinData}
+              coinData={coinData}
             />
-            <AreaChart
-              style={{ flex: 1 }}
-              dataPoints={coinData}
-              svg={{ stroke: '#31E981' }}
-              contentInset={contentInset}
-              curve={shape.curveLinear}
-              renderGradient={({ id }) => (
-                <LinearGradient id={id} x1={'0%'} y1={'0%'} x2={'0%'} y2={'100%'}>
-                  <Stop offset={'0%'} stopColor={'#31E981'} stopOpacity={0.2}/>
-                  <Stop offset={'100%'} stopColor={'#31E981'} stopOpacity={0}/>
-                </LinearGradient>
-              )}
-              renderGrid={CustomGrid}
-            />
-          </View>
-
-          <Spacer size={25} />
-          <CoinCard
-            key={coin.id}
-            coin={coin}
-          ></CoinCard>
-          <Spacer size={20} />
-        </Content>
+          </Tab>
+          <Tab heading={
+            <TabHeading style={{ backgroundColor: '#1B152D' }}>
+              <Text>TRANSACTIONS</Text>
+            </TabHeading>
+          }>
+            <CoinTabTransactions />
+          </Tab>
+        </Tabs>
       </Container>
     );
   }

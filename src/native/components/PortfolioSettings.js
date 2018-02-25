@@ -133,7 +133,7 @@ class PortfolioSettings extends Component {
           </Button>
         </Content>
         <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
-          <Button small full onPress={() => this.handleSubmit()} style={{ flex: 1, backgroundColor: '#282239', borderRadius: 5, marginTop: 15, marginBottom: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 15, marginRight: 15 }}>
+          <Button small full onPress={() => this.handleSubmit()} style={{ flex: 1, backgroundColor: '#282239', height: 49, marginTop: 15, marginBottom: 15 }}>
             <Text style={{ color: '#8D8A96', fontFamily: 'Lato-Medium' }}>SAVE</Text>
           </Button>
         </Footer>
