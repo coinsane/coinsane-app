@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import styles from '../../styles';
 
 const { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
 
@@ -12,7 +13,7 @@ const BaseModal = ({ children, verticalPercent, horizontalPercent, hideClose }) 
   const renderClose = () => {
     if (!hideClose) {
       return (
-        <View style={styles.closeBtnContainer}>
+        <View style={styles.components.modal.closeBtnContainer}>
           <TouchableOpacity onPress={Actions.pop}>
             <Text>Close</Text>
           </TouchableOpacity>
@@ -22,7 +23,7 @@ const BaseModal = ({ children, verticalPercent, horizontalPercent, hideClose }) 
   };
 
   return (
-    <View style={[styles.container, { height, width }]}>
+    <View style={[styles.components.modal.container, { height, width }]}>
       {renderClose()}
       {children}
     </View>
@@ -35,22 +36,5 @@ BaseModal.propTypes = {
   horizontalPercent: PropTypes.number,
   hideClose: PropTypes.bool,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#1B152D',
-  },
-  closeBtnContainer: {
-    paddingTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingHorizontal: 10,
-  },
-});
 
 export default BaseModal;
