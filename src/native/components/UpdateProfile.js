@@ -6,6 +6,8 @@ import Loading from './Loading';
 import Lead from './Lead';
 import Spacer from './Spacer';
 
+import { base } from '../styles';
+
 class UpdateProfile extends React.Component {
   static propTypes = {
     error: PropTypes.string,
@@ -61,7 +63,7 @@ class UpdateProfile extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#1B152D' }}>
+        <Content padder style={base.contentContainer}>
           <Lead
             title="Update my profile"
             content="Thanks for keeping your account up to date!"

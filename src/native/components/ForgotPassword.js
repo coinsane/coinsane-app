@@ -7,6 +7,8 @@ import Messages from './Messages';
 import Lead from './Lead';
 import Spacer from './Spacer';
 
+import { base } from '../styles';
+
 class ForgotPassword extends React.Component {
   static propTypes = {
     member: PropTypes.shape({
@@ -53,7 +55,7 @@ class ForgotPassword extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#1B152D' }}>
+        <Content padder style={base.contentContainer}>
           <Lead
             title="Reset your Password"
             content="No stress, no stress. We'll get you back into your account."

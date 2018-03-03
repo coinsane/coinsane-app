@@ -16,6 +16,9 @@ import Colors from '../../../native-base-theme/variables/commonColor';
 
 import SGListView from 'react-native-sglistview';
 
+import styles from './Coins.styles';
+import { colors, base } from '../styles';
+
 class CoinListing extends Component {
   static propTypes = {
     portfoliosError: PropTypes.string,
@@ -172,8 +175,8 @@ class CoinListing extends Component {
           activePortfolio={activePortfolio}
         />
       ) : (
-        <ListItem style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}>
-          <Text style={{ fontSize: 14, color: '#8D8A96', textAlign: 'center', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>No coins here</Text>
+        <ListItem style={styles.coins__nocoinsRow}>
+          <Text style={styles.coins__nocoinsRowText}>No coins here</Text>
         </ListItem>
       )
     };
@@ -194,8 +197,8 @@ class CoinListing extends Component {
 
 
     return (
-      <Container style={{ backgroundColor: '#1B152D' }}>
-        <Header style={{ borderBottomWidth: 0 }}>
+      <Container style={base.contentContainer}>
+        <Header style={styles.coinsHeader}>
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => drawer.open()}>
@@ -204,7 +207,7 @@ class CoinListing extends Component {
           </Left>
           <Body>
             <Title button onPress={() => Actions.portfolioSelect()}>
-              <Icon name='Arrow' width={15} height={15} fill={'#8D8A96'} style={{ transform: [{ rotate: '270deg'}, { translateX: -3 }, { translateY: -5 }] }} />
+              <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={styles.coins__bodyArrowIcon} />
               <Text>{activePortfolio && portfoliosList.length ? portfoliosList[0].title : 'All Portfolios'}</Text>
             </Title>
           </Body>
@@ -238,10 +241,10 @@ class CoinListing extends Component {
               <View>
                 <PortfolioTotal totals={totals} changePct={changePct} />
                 <Chart dataPoints={portfoliosChart} />
-                <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                <View style={styles.coins__contentHeader}>
                   { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (
                     <Button key={period} small transparent onPress={() => this.updateChart(activePortfolio || 'all', period)}>
-                      <Text style={{ color: '#8D8A96', fontSize: 14, fontFamily: 'Lato-Medium' }}>
+                      <Text style={styles.coins__contentHeaderText}>
                         {period.toUpperCase()}
                       </Text>
                     </Button>
@@ -254,9 +257,15 @@ class CoinListing extends Component {
           />
         </Content>
         {activePortfolio &&
-        <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
-          <Button small bordered full onPress={() => addCoin(activePortfolio)} style={{ flex: 1, borderColor: '#2F2A40', borderRadius: 5, marginTop: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 15, marginRight: 15 }}>
-            <Text style={{ color: '#8D8A96', fontFamily: 'Lato-Medium' }}>+ ADD NEW COIN</Text>
+        <Footer style={base.footer}>
+          <Button
+            small
+            bordered
+            full
+            onPress={() => addCoin(activePortfolio)}
+            style={base.footer__button}
+          >
+            <Text style={base.footer__buttonText}>+ ADD NEW COIN</Text>
           </Button>
         </Footer>}
       </Container>

@@ -6,13 +6,15 @@ import Spacer from './Spacer';
 import Lead from './Lead';
 import Icon from './Icon';
 
+import { colors, base } from '../styles';
+
 const Watchlist = ({ drawer}) => (
   <Container>
     <Header style={{ borderBottomWidth: 0 }}>
       <StatusBar barStyle="light-content"/>
       <Left>
         <Button transparent onPress={() => drawer.open()}>
-          <Icon name='Menu' width={28} fill={'#fff'} />
+          <Icon name='Menu' width={28} fill={colors.white} />
         </Button>
       </Left>
       <Body>
@@ -21,7 +23,7 @@ const Watchlist = ({ drawer}) => (
       <Right>
       </Right>
     </Header>
-    <Content padder style={{ backgroundColor: '#1B152D' }}>
+    <Content padder style={base.contentContainer}>
       <Text>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </Text>
     </Content>
   </Container>

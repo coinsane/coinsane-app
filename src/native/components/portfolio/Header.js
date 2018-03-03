@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { ListItem, Body, Text, Left, Right, View, Button } from 'native-base';
 import Spacer from '../Spacer';
 import Icon from '../Icon';
-import styles from '../../styles';
-
-const { portfolio } = styles.components;
-const colors = styles.variables.colors;
+import styles from './Header.styles';
+import { typography, colors } from '../../styles';
 
 const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct }) => {
   if (!show) return <Spacer size={15} />;
@@ -17,24 +15,27 @@ const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct })
 
   return (
     <View style={{ paddingLeft: 15, paddingRight: 15 }}>
-      <ListItem style={portfolio.listItemContainer}>
-        <Body style={portfolio.body}>
-          <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={portfolio.bodyArrowIcon} />
-          <Text numberOfLines={1} style={portfolio.bodyText}>{title}</Text>
+      <ListItem style={styles.listItemContainer}>
+        <Body style={styles.body}>
+          <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={styles.body__arrowIcon} />
+          <Text numberOfLines={1} style={styles.body__text}>{title}</Text>
         </Body>
-        <Right style={portfolio.right}>
+        <Right style={styles.right}>
           <Text numberOfLines={1}>
-            <Text style={portfolio.rightText}>{totalDisplay}</Text>  <Text style={{ color: changeColor, fontSize: styles.variables.size12, fontFamily: styles.variables.fontRegular }}>{changePctDisplay}</Text>
+            <Text style={styles.right__text}>{totalDisplay}</Text>  <Text style={{ color: changeColor, fontSize: typography.size12, fontFamily: typography.fontRegular }}>{changePctDisplay}</Text>
           </Text>
         </Right>
       </ListItem>
       {
         !count &&
-        <Button small bordered full
-          style={portfolio.headerBtn}
+        <Button
+          small
+          bordered
+          full
+          style={styles.headerBtn}
           onPress={() => addCoin(id)}
         >
-          <Text style={portfolio.headerBtnText}>+ ADD NEW COIN</Text>
+          <Text style={styles.headerBtn__text}>+ ADD NEW COIN</Text>
         </Button>
       }
     </View>

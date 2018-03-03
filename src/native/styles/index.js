@@ -1,9 +1,9 @@
-import variables from './_variables';
+import typography from './_typography';
+import colors from './_colors';
 import base from './_base';
-import components from './components';
 
-export default {
-  variables,
+export {
+  typography,
+  colors,
   base,
-  components,
 };

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import { setDrawerActions } from '../../actions/navigation';
 
+import { colors } from '../styles';
+
 class NavigationDrawer extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,7 @@ class NavigationDrawer extends Component {
         tweenHandler={this.tweenHandler.bind(this)}
         acceptTap
         tapToClose
-        style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }}
+        style={{ backgroundColor: colors.bgGray, borderBottomWidth: 0 }}
       >
         {this.props.children[0]}
       </Drawer>

@@ -7,6 +7,8 @@ import Messages from './Messages';
 import Lead from './Lead';
 import Spacer from './Spacer';
 
+import { base } from '../styles';
+
 class SignUp extends React.Component {
   static propTypes = {
     error: PropTypes.string,
@@ -53,7 +55,7 @@ class SignUp extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#1B152D' }}>
+        <Content padder style={base.contentContainer}>
           <Lead
             title="Welcome"
             content="We're glad to welcome you to the community. There's only a few questions and you'll be on your way."

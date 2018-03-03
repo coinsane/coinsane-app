@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { ListItem, View, Button, Text, Body, Left, Right, SwipeRow, Thumbnail } from 'native-base';
 import ErrorMessages from '../../constants/errors';
 
+import styles from './CoinCard.styles';
+import { colors, base, typography } from '../styles';
+
 const CoinCard = ({
   coin,
   addCoin,
@@ -11,8 +14,8 @@ const CoinCard = ({
   activePortfolio
 }) => {
   if (!coin) return (
-    <ListItem style={{ backgroundColor: 'transparent', borderBottomWidth: 0, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}>
-      <Text style={{ textAlign: 'center' }}>{ErrorMessages.coin404}</Text>
+    <ListItem style={styles.coinCard__errorItem}>
+      <Text style={{ textAlign: base.textCenter }}>{ErrorMessages.coin404}</Text>
     </ListItem>
   );
 
@@ -22,39 +25,42 @@ const CoinCard = ({
   const price = coin.prices && coin.prices.USD && coin.prices.USD.price ? parseFloat(coin.prices.USD.price) : 0;
   const priceDisplay = `$${price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
   const changePctDay = coin.prices && coin.prices.USD && coin.prices.USD.changePctDay ? `${(coin.prices.USD.changePctDay > 0 ? '+' : '')}${coin.prices.USD.changePctDay.toFixed(2)}` : 0;
-  const changeColor = changePctDay && changePctDay > 0 ? '#31E981' : '#F61067';
+  const changeColor = changePctDay && changePctDay > 0 ? colors.primaryGreen : colors.primaryPink;
   const totalAmount = coin.total.USD;
   const totalAmountDisplay = `$${totalAmount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
 
   return (
-    <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+    <View style={styles.coinCard__container}>
       <ListItem
-        style={{ backgroundColor: '#282239', borderBottomWidth: 0, borderRadius: 4, marginLeft: 0, paddingLeft: 15, marginBottom: 15 }}
+        style={styles.coinCard__listItem}
         button
         onPress={() => showCoin ? showCoin(coin) : ''}
       >
-        <Body style={{ flexDirection: 'row', flexWrap:'wrap' }}>
-          <Thumbnail small square source={icon} style={{ marginTop: 4, marginRight: 10 }} />
+        <Body style={styles.coinCard__body}>
+          <Thumbnail small square source={icon} style={styles.coinCard__thumbnail} />
           <View>
-            <Text style={{ marginBottom: 6 }}>
-              <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Medium' }}>{symbol}</Text>  <Text style={{ fontSize: 14, fontFamily: 'Lato-Medium' }}>{amount}</Text>
+            <Text style={styles.coinCard__textContainer}>
+              <Text style={styles.coinCard__text}>{symbol}</Text>  <Text style={styles.coinCard__text}>{amount}</Text>
             </Text>
-            <Text style={{ fontSize: 14, color: '#8D8A96', fontFamily: 'Lato-Regular' }}>{priceDisplay}</Text>
+            <Text style={styles.coinCard__subtext}>{priceDisplay}</Text>
           </View>
         </Body>
-        <Right style={{ flex: 0.4 }}>
-          <Text style={{ fontSize: 14, marginBottom: 6, fontFamily: 'Lato-Medium' }}>{totalAmountDisplay}</Text>
-          <Text style={{ fontSize: 14, color: changeColor, fontFamily: 'Lato-Regular' }}>{changePctDay}%</Text>
+        <Right style={styles.rightContainer}>
+          <Text style={styles.right__text}>{totalAmountDisplay}</Text>
+          <Text style={{ fontSize: typography.size14, color: changeColor, fontFamily: typography.fontRegular }}>{changePctDay}%</Text>
         </Right>
       </ListItem>
       {
         coin.last && !activePortfolio &&
-        <View style={{ paddingBottom: 15, borderColor: '#2F2A40', borderBottomWidth: 1 }}>
-          <Button small bordered full
-            style={{ borderColor: '#2F2A40', borderRadius: 5, paddingTop: 15, paddingBottom: 15, marginBottom: 15 }}
+        <View style={base.footer}>
+          <Button
+            small
+            bordered
+            full
+            style={base.footer__button}
             onPress={() => addCoin(coin.last)}
           >
-            <Text style={{ color: '#8D8A96', fontWeight: 'normal' }}>+ ADD NEW COIN</Text>
+            <Text style={base.footer__buttonText}>+ ADD NEW COIN</Text>
           </Button>
         </View>
       }

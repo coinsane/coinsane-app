@@ -13,6 +13,9 @@ import CoinTabTransactions from './CoinTabTransactions';
 import { Actions } from 'react-native-router-flux';
 import { getUID } from '../../lib/utils';
 
+import styles from './Coin.styles';
+import { colors } from '../styles';
+
 class CoinView extends Component {
   static propTypes = {
     error: PropTypes.string,
@@ -92,25 +95,28 @@ class CoinView extends Component {
 
     return (
       <Container>
-        <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }} hasTabs>
-          <StatusBar barStyle="light-content"/>
+        <Header
+          style={styles.coinHeader}
+          hasTabs
+        >
+          <StatusBar barStyle="light-content" />
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
-              <Icon name='Back' width={28} fill={'#fff'} />
+              <Icon name='Back' width={28} fill={colors.white} />
             </Button>
           </Left>
           <Body>
-            <Title style={{ flexDirection: 'row', flexWrap:'wrap' }}>
-              <Thumbnail small square source={icon} style={{ height: 24, width: 24, marginRight: 10 }} />
+            <Title style={styles.coinHeader__body}>
+              <Thumbnail small square source={icon} style={styles.coinHeader__thumbnail} />
               <Text>{coin.name}</Text>
-              <Text style={{ color: '#8D8A96', fontSize: 14 }}>&nbsp;{coin.symbol}</Text>
+              <Text style={styles.coinHeader__text}>&nbsp;{coin.symbol}</Text>
             </Title>
           </Body>
           <Right></Right>
         </Header>
-        <Tabs style={{ backgroundColor: '#1B152D' }} tabBarUnderlineStyle={{ height: 1 }}>
+        <Tabs style={{ backgroundColor: colors.bgGray }} tabBarUnderlineStyle={{ height: 1 }}>
           <Tab heading={
-            <TabHeading style={{ backgroundColor: '#1B152D' }}>
+            <TabHeading style={{ backgroundColor: colors.bgGray }}>
               <Text>OVERVIEW</Text>
             </TabHeading>
           }>
@@ -123,7 +129,7 @@ class CoinView extends Component {
             />
           </Tab>
           <Tab heading={
-            <TabHeading style={{ backgroundColor: '#1B152D' }}>
+            <TabHeading style={{ backgroundColor: colors.bgGray }}>
               <Text>TRANSACTIONS</Text>
             </TabHeading>
           }>

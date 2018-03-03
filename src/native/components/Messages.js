@@ -5,6 +5,8 @@ import { Text } from 'native-base';
 
 import Colors from '../../../native-base-theme/variables/commonColor';
 
+import { colors } from '../styles';
+
 const Messages = ({ message, type }) => (
   <View style={{
       backgroundColor: (type === 'error') ? Colors.brandDanger : (type === 'success') ? Colors.brandSuccess : Colors.brandInfo,
@@ -12,7 +14,7 @@ const Messages = ({ message, type }) => (
       paddingHorizontal: 5,
     }}
   >
-    <Text style={{ color: '#fff', textAlign: 'center' }}>{message}</Text>
+    <Text style={{ color: colors.white, textAlign: 'center' }}>{message}</Text>
   </View>
 );
 

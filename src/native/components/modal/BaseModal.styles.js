@@ -1,5 +1,5 @@
-import variables from '../_variables';
 import { StyleSheet } from 'react-native';
+import { colors } from '../../styles';
 
 export default StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ export default StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: variables.colors.bgGray,
+    backgroundColor: colors.bgGray,
   },
   closeBtnContainer: {
     paddingTop: 20,

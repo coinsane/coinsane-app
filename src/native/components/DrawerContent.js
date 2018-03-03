@@ -6,8 +6,11 @@ import { connect } from 'react-redux';
 
 import { setActiveMenu } from '../../actions/navigation';
 
-import Spacer from './Spacer'
-import Icon from './Icon'
+import Spacer from './Spacer';
+import Icon from './Icon';
+
+import styles from './DrawerContent.styles';
+import { colors } from '../styles';
 
 class DrawerContent extends Component {
   constructor(props) {
@@ -28,16 +31,21 @@ class DrawerContent extends Component {
     const { navigation } = this.props;
 
     return (
-      <Content style={{ backgroundColor: 'transparent' }} scrollEnabled={false}>
+      <Content style={styles.contentContainer} scrollEnabled={false}>
         <Spacer size={100} />
         <List>
           {navigation.menu.map(item => (
-            <ListItem key={item.icon} icon onPress={() => this.openScene(item.scene)} style={{ borderBottomWidth: 0, paddingTop: 30, paddingBottom: 30, paddingLeft: 10 }}>
+            <ListItem
+              key={item.icon}
+              icon
+              onPress={() => this.openScene(item.scene)}
+              style={styles.listItem}
+            >
               <Left>
-                <Icon name={item.icon} width={28} fill={(item.active ? '#7C778C' : '#fff')} />
+                <Icon name={item.icon} width={28} fill={(item.active ? colors.mediumGray : colors.white)} />
               </Left>
               <Body>
-                <Text style={{ fontSize: 18, color: (item.active ? '#7C778C' : '#fff') }}>{item.text}</Text>
+                <Text style={{ fontSize: 18, color: (item.active ? colors.mediumGray : colors.white) }}>{item.text}</Text>
               </Body>
             </ListItem>
           ))}

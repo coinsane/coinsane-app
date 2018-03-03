@@ -1,5 +1,5 @@
-import variables from '../_variables';
 import { StyleSheet } from 'react-native';
+import { typography, colors } from '../../styles';
 
 export default StyleSheet.flatten({
   listItemContainer: {
@@ -16,33 +16,33 @@ export default StyleSheet.flatten({
     flexDirection: 'row',
     flexWrap: 'nowrap',
   },
-  bodyArrowIcon: {
+  body__arrowIcon: {
     transform: [{ rotate: '270deg' }, { translateX: -4 }],
     marginRight: 8,
   },
-  bodyText: {
+  body__text: {
     marginLeft: 0,
     marginRight: 0,
-    fontSize: variables.size16,
-    fontFamily: variables.fontBold,
-    color: variables.colors.textGray,
+    fontSize: typography.size16,
+    fontFamily: typography.fontBold,
+    color: colors.textGray,
   },
   right: {
     flex: 0.4,
   },
-  rightText: {
-    color: variables.colors.textGray,
-    fontSize: variables.size12,
-    fontFamily: variables.fontRegular,
+  right__text: {
+    color: colors.textGray,
+    fontSize: typography.size12,
+    fontFamily: typography.fontRegular,
   },
   headerBtn: {
-    borderColor: variables.colors.blackBorder,
+    borderColor: colors.blackBorder,
     borderRadius: 5,
     paddingTop: 15,
     paddingBottom: 15,
   },
-  headerBtnText: {
-    color: variables.colors.textGray,
+  headerBtn__text: {
+    color: colors.textGray,
     fontWeight: 'normal',
   },
 });

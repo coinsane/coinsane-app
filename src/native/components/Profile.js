@@ -6,13 +6,15 @@ import { Actions } from 'react-native-router-flux';
 import Lead from './Lead';
 import Icon from './Icon';
 
+import { colors, base } from '../styles';
+
 const Profile = ({ member, logout, drawer }) => (
   <Container>
-    <Header style={{ borderBottomWidth: 0 }}>
+    <Header style={base.headerContainer}>
       <StatusBar barStyle="light-content"/>
       <Left>
         <Button transparent onPress={() => drawer.open()}>
-          <Icon name='Menu' width={28} fill={'#fff'} />
+          <Icon name='Menu' width={28} fill={colors.white} />
         </Button>
       </Left>
       <Body>
@@ -21,7 +23,7 @@ const Profile = ({ member, logout, drawer }) => (
       <Right>
       </Right>
     </Header>
-    <Content style={{ backgroundColor: '#1B152D' }}>
+    <Content style={base.contentContainer}>
       <List>
         {(member && member.email) ?
           <View>

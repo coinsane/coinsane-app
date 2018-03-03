@@ -7,6 +7,8 @@ import Messages from './Messages';
 import Lead from './Lead';
 import Spacer from './Spacer';
 
+import { base } from '../styles';
+
 class Login extends React.Component {
   static propTypes = {
     member: PropTypes.shape({
@@ -54,7 +56,7 @@ class Login extends React.Component {
 
     return (
       <Container>
-        <Content padder style={{ backgroundColor: '#1B152D' }}>
+        <Content padder style={base.contentContainer}>
           <Lead
             title="Welcome back"
             content="Please use your email and password to login."

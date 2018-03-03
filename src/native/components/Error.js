@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Text, H3 } from 'native-base';
 
+import { base } from '../styles';
+
 const Error = ({ title, content }) => (
   <Container>
-    <Content style={{ backgroundColor: '#1B152D' }}>
+    <Content style={base.contentContainer}>
       <H3>{title}</H3>
       <Text>{content}</Text>
     </Content>

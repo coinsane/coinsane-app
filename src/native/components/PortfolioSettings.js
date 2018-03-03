@@ -9,6 +9,9 @@ import Icon from './Icon';
 import { Actions } from 'react-native-router-flux';
 import CheckBox from 'react-native-check-box';
 
+import styles from './PortfolioSettings.styles';
+import { colors, base } from '../styles';
+
 class PortfolioSettings extends Component {
   static propTypes = {
     error: PropTypes.string,
@@ -95,12 +98,12 @@ class PortfolioSettings extends Component {
     if (!portfolio) return <Error content={ErrorMessages.portfolio404} />;
 
     return (
-      <Container style={{ backgroundColor: '#1B152D' }}>
-        <Header style={{ backgroundColor: '#1B152D', borderBottomColor: '#2F2A40' }}>
+      <Container style={base.contentContainer}>
+        <Header style={styles.settings__header}>
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
-              <Icon name='Back' width={28} fill={'#fff'} />
+              <Icon name='Back' width={28} fill={colors.white} />
             </Button>
           </Left>
           <Body>
@@ -108,33 +111,38 @@ class PortfolioSettings extends Component {
           </Body>
           <Right></Right>
         </Header>
-        <Content style={{ backgroundColor: '#1B152D', paddingTop: 15, paddingLeft: 15, paddingRight: 15, paddingRight: 15 }}>
-          <Text style={{ color: '#8D8A96', fontSize: 14, letterSpacing: 1, fontFamily: 'Lato-Medium', marginBottom: 20, marginTop: 5 }}>{'Edit portfolio'.toUpperCase()}</Text>
+        <Content style={styles.settings__container}>
+          <Text style={styles.container__text}>{'Edit portfolio'.toUpperCase()}</Text>
           <Form>
-            <Item stackedLabel style={{ marginLeft: 0, borderBottomColor: '#2F2A40' }}>
-              <Label style={{ color: '#8D8A96', fontSize: 12, letterSpacing: 1, fontFamily: 'Lato-Regular' }}>Portfolio title</Label>
+            <Item stackedLabel style={base.form__titleContainer}>
+              <Label style={base.form__titleLabel}>Portfolio title</Label>
               <Input
                 onChangeText={v => this.handleChange('title', v)}
                 value={this.state.title}
-                style={{ fontSize: 17, letterSpacing: -.25, fontFamily: 'Lato-Regular' }}
+                style={base.form__titleInput}
               />
             </Item>
             <CheckBox
-              style={{flex: 1, paddingTop: 25, paddingBottom: 25, borderBottomColor: '#2F2A40', borderBottomWidth: 1 }}
-              leftTextStyle={{ color: '#fff', fontSize: 17, letterSpacing: -.25, fontFamily: 'Lato-Regular' }}
-              checkBoxColor={'#8D8A96'}
+              style={base.form__checkbox}
+              leftTextStyle={base.form__checkboxText}
+              checkBoxColor={colors.textGray}
               onClick={() => this.handleChange('inTotal', !this.state.inTotal)}
               isChecked={this.state.inTotal}
               leftText={'Calculate amount on Total'}
              />
           </Form>
-          <Button style={{ marginTop: 15, marginBottom: 15 }} transparent onPress={() => this.removePortfolioAlert()}>
-            <Text style={{ color: '#F61067', fontSize: 17, fontFamily: 'Lato-Regular', paddingLeft: 0, paddingRight: 0 }}>Delete portfolio</Text>
+          <Button style={styles.form__button} transparent onPress={() => this.removePortfolioAlert()}>
+            <Text style={styles.form__buttonText}>Delete portfolio</Text>
           </Button>
         </Content>
-        <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
-          <Button small full onPress={() => this.handleSubmit()} style={{ flex: 1, backgroundColor: '#282239', height: 49, marginTop: 15, marginBottom: 15 }}>
-            <Text style={{ color: '#8D8A96', fontFamily: 'Lato-Medium' }}>SAVE</Text>
+        <Footer style={base.footer}>
+          <Button
+            small
+            full
+            onPress={() => this.handleSubmit()}
+            style={styles.footer__button}
+          >
+            <Text style={base.footer__buttonText}>SAVE</Text>
           </Button>
         </Footer>
       </Container>

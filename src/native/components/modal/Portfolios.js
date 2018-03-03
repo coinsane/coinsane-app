@@ -6,6 +6,8 @@ import Spacer from '../Spacer';
 import Icon from '../Icon';
 import { Actions } from 'react-native-router-flux';
 import Modal from './BaseModal';
+import styles from './Portfolios.styles';
+import { colors, base } from '../../styles';
 
 const PortfoliosModal = ({
   portfolios,
@@ -15,11 +17,11 @@ const PortfoliosModal = ({
   return (
     <Modal hideClose>
       <Container>
-        <Header style={{ backgroundColor: '#1B152D', borderBottomWidth: 0 }}>
+        <Header style={styles.headerContainer}>
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
-              <Icon name='Back' width={28} fill={'#fff'} />
+              <Icon name='Back' width={28} fill={colors.white} />
             </Button>
           </Left>
           <Body>
@@ -28,43 +30,46 @@ const PortfoliosModal = ({
           <Right>
           </Right>
         </Header>
-        <Content padder style={{ backgroundColor: '#1B152D' }}>
+        <Content padder style={{ backgroundColor: colors.bgGray }}>
 
           <Spacer size={30} />
           <List>
             <ListItem
               button
-              style={{ paddingBottom: 25, marginLeft: 0 }}
+              style={styles.listItem}
               onPress={() => {
                 selectPortfolio(null);
                 Actions.pop();
               }}
             >
-              <Text style={{ fontSize: 17, fontFamily: 'Lato-Regular' }}>All portfolios</Text>
+              <Text style={styles.listItem__text}>All portfolios</Text>
             </ListItem>
             {portfolios.map(portfolio => (
               <ListItem
                 key={portfolio.id}
                 button
-                style={{ borderTopWidth: 1, borderTopColor: '#2F2A40', paddingTop: 25, paddingBottom: 25, marginLeft: 0 }}
+                style={styles.listItem__portfolio}
                 onPress={() => {
                   selectPortfolio(portfolio.id);
                   Actions.pop();
                 }}
               >
-                <Text style={{ fontSize: 17, fontFamily: 'Lato-Regular' }}>{portfolio.title}</Text>
+                <Text style={styles.listItem__text}>{portfolio.title}</Text>
               </ListItem>
             ))}
           </List>
         </Content>
-        <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
-          <Button small full
+        <Footer style={base.footer}>
+          <Button
+            small
+            full
             onPress={() => {
               Actions.pop();
               Actions.createPortfolio();
             }}
-            style={{ flex: 1, backgroundColor: '#282239', borderRadius: 5, marginTop: 15, marginBottom: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 15, marginRight: 15 }}>
-            <Text style={{ color: '#8D8A96', fontFamily: 'Lato-Medium' }}>+ ADD NEW PORTFOLIO</Text>
+            style={base.footer__button}
+          >
+            <Text style={base.footer__buttonText}>+ ADD NEW PORTFOLIO</Text>
           </Button>
         </Footer>
       </Container>

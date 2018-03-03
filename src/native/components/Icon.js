@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import SvgIcon from 'react-native-svg-icon';
 import svgs from './assets/svgs';
 
+import { colors } from '../styles';
+
 const Icon = (props) => <SvgIcon {...props} svgs={svgs} />;
 
 Icon.propTypes = {
@@ -10,7 +12,7 @@ Icon.propTypes = {
 };
 
 Icon.defaultProps = {
-  fill: '#fff',
+  fill: colors.white,
 };
 
 export default Icon;

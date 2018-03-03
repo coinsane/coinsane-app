@@ -8,6 +8,9 @@ import Icon from './Icon';
 import { Actions } from 'react-native-router-flux';
 import CheckBox from 'react-native-check-box';
 
+import styles from './CreatePortfolio.styles';
+import { colors, base } from '../styles';
+
 class CreatePortfolio extends Component {
   static propTypes = {
     portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -47,12 +50,12 @@ class CreatePortfolio extends Component {
   render() {
 
     return (
-      <Container style={{ backgroundColor: '#1B152D' }}>
-        <Header style={{ backgroundColor: '#1B152D', borderBottomColor: '#2F2A40' }}>
+      <Container style={base.contentContainer}>
+        <Header style={styles.contentHeader}>
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
-              <Icon name='Back' width={28} fill={'#fff'} />
+              <Icon name='Back' width={28} fill={colors.white} />
             </Button>
           </Left>
           <Body>
@@ -60,31 +63,36 @@ class CreatePortfolio extends Component {
           </Body>
           <Right></Right>
         </Header>
-        <Content style={{ backgroundColor: '#1B152D', paddingTop: 15, paddingLeft: 15, paddingRight: 15, paddingRight: 15 }}>
-          <Text style={{ color: '#8D8A96', fontSize: 14, letterSpacing: 1, fontFamily: 'Lato-Medium', marginBottom: 20, marginTop: 5 }}>{'Basic'.toUpperCase()}</Text>
+        <Content style={styles.content}>
+          <Text style={styles.content__text}>{'Basic'.toUpperCase()}</Text>
           <Form>
-            <Item stackedLabel style={{ marginLeft: 0, borderBottomColor: '#2F2A40' }}>
-              <Label style={{ color: '#8D8A96', fontSize: 12, letterSpacing: 1, fontFamily: 'Lato-Regular' }}>Portfolio title</Label>
+            <Item stackedLabel style={styles.form__titleContainer}>
+              <Label style={styles.form__titleLabel}>Portfolio title</Label>
               <Input
                 autoFocus
                 onChangeText={v => this.handleChange('title', v)}
                 value={this.state.title}
-                style={{ fontSize: 17, letterSpacing: -.25, fontFamily: 'Lato-Regular' }}
+                style={styles.form__titleInput}
               />
             </Item>
             <CheckBox
-              style={{flex: 1, paddingTop: 25, paddingBottom: 25, borderBottomColor: '#2F2A40', borderBottomWidth: 1 }}
-              leftTextStyle={{ color: '#fff', fontSize: 17, letterSpacing: -.25, fontFamily: 'Lato-Regular' }}
-              checkBoxColor={'#8D8A96'}
+              style={styles.form__checkbox}
+              leftTextStyle={styles.form__checkboxText}
+              checkBoxColor={colors.textGray}
               onClick={() => this.handleChange('inTotal', !this.state.inTotal)}
               isChecked={this.state.inTotal}
               leftText={'Calculate amount on Total'}
              />
           </Form>
         </Content>
-        <Footer style={{ backgroundColor: '#1B152D', marginBottom: 15, paddingBottom: 15, borderTopWidth: 0 }}>
-          <Button small full onPress={() => this.handleSubmit()} style={{ flex: 1, backgroundColor: '#282239', borderRadius: 5, marginTop: 15, marginBottom: 15, paddingTop: 25, paddingBottom: 15, marginLeft: 15, marginRight: 15 }}>
-            <Text style={{ color: '#8D8A96', fontFamily: 'Lato-Medium' }}>ADD</Text>
+        <Footer style={base.footer}>
+          <Button
+            small
+            full
+            onPress={() => this.handleSubmit()}
+            style={base.footer__button}
+          >
+            <Text style={base.footer__buttonText}>ADD</Text>
           </Button>
         </Footer>
       </Container>
