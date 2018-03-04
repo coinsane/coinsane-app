@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import { Router } from 'react-native-router-flux';
@@ -12,6 +12,12 @@ import theme from '../../native-base-theme/variables/commonColor';
 import Routes from './routes/index';
 import Loading from './components/Loading';
 
+import { setToken } from '../lib/utils';
+
+setToken();
+
+import { Firebase } from '../lib/firebase';
+Firebase.auth().signInAnonymously();
 
 const RouterWithRedux = connect()(Router);
 

@@ -1,4 +1,4 @@
-import { fetchPortfolios, fetchTotals, etPortfolio, update, delPortfolio, watchUserPortfolios } from '../api/portfolios';
+import { fetchPortfolios, fetchTotals, setPortfolio, update, delPortfolio, watchUserPortfolios } from '../api/portfolios';
 
 /**
   * Get Portfolios
@@ -17,14 +17,8 @@ export function getPortfolios() {
   * Get Totals
   */
 export function getTotals(data) {
-  console.log('getTotals', data)
   return dispatch => Promise.resolve(data)
     .then(fetchTotals)
-    .then(result => {
-      console.log('qweqweqweqwe')
-      console.log(result)
-      return result;
-    })
     .then(data => dispatch({
       type: 'TOTALS_REPLACE',
       data,

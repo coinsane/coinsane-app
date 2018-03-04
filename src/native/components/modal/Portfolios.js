@@ -48,7 +48,7 @@ const PortfoliosModal = ({
                 button
                 style={{ borderTopWidth: 1, borderTopColor: '#2F2A40', paddingTop: 25, paddingBottom: 25, marginLeft: 0 }}
                 onPress={() => {
-                  selectPortfolio(portfolio.id);
+                  selectPortfolio(portfolio._id);
                   Actions.pop();
                 }}
               >

@@ -51,18 +51,19 @@ export default function portfolioReducer(state = initialState, action) {
       };
     }
     case 'TOTALS_REPLACE': {
-      const { portfolioId, totals } = action.data;
+      const { portfolioId, totals, changePct } = action.data;
       return {
         ...state,
         error: null,
         loading: false,
         chart: totals,
-        // list: [...state.list.map(portfolio => {
-        //   if (portfolio.id === portfolioId) {
-        //     portfolio.chart = totals;
-        //   }
-        //   return portfolio;
-        // })]
+        changePct,
+        list: [...state.list.map(portfolio => {
+          if (portfolio.id === portfolioId) {
+            portfolio.changePct = changePct;
+          }
+          return portfolio;
+        })]
       };
     }
     case 'PORTFOLIO_COIN_REMOVED': {

@@ -6,8 +6,8 @@ import Icon from '../Icon';
 const PortfolioTotal = ({ totals, changePct }) => {
 
   const totalDisplay = totals && totals.USD ? `${totals.USD.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : '$0.00';
-  const changeColor = changePct && changePct.USD && changePct.USD > 0 ? '#31E981' : '#F61067';
-  const changePctDisplay = changePct && changePct.USD ? `${changePct.USD.toFixed(2)}%` : '0%';
+  const changeColor = changePct && parseFloat(changePct) > 0 ? '#31E981' : '#F61067';
+  const changePctDisplay = `${changePct}%`;
 
   return (
     <View style={{ flex: 1, marginTop: 10, marginBottom: 20, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -20,7 +20,7 @@ const PortfolioTotal = ({ totals, changePct }) => {
 
 PortfolioTotal.propTypes = {
   totals: PropTypes.shape({}),
-  changePct: PropTypes.shape({}),
+  changePct: PropTypes.string,
 };
 
 PortfolioTotal.defaultProps = {

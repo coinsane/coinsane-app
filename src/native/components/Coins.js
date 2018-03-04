@@ -43,18 +43,18 @@ class CoinListing extends Component {
     const rowIds = [];
 
     portfolios.forEach(portfolio => {
-      const { id, title, total, inTotal } = portfolio;
-      sectionIds.push(id);
+      const { _id, title, total, inTotal } = portfolio;
+      sectionIds.push(_id);
 
       const coins = portfolio.coins || [];
-      dataBlob[id] = { id, title, total, inTotal, count: coins.length };
+      dataBlob[_id] = { _id, title, total, inTotal, count: coins.length };
 
       rowIds.push([]);
 
       coins.forEach((coin, index) => {
-        const rowId = `${id}:${index}`;
+        const rowId = `${_id}:${index}`;
         rowIds[rowIds.length - 1].push(rowId);
-        if (coins.length - 1 === index) coin.last = id;
+        if (coins.length - 1 === index) coin.last = _id;
         dataBlob[rowId] = coin;
       });
     })
@@ -88,12 +88,12 @@ class CoinListing extends Component {
     } = this.props;
 
     // Loading
-    if (portfoliosLoading) return <Loading />;
+    // if (portfoliosLoading) return <Loading />;
 
     // // Error
-    if (portfoliosError) return <Error content={error} />;
+    if (portfoliosError) return <Error content={portfoliosError} />;
 
-    const keyExtractor = item => item.id;
+    const keyExtractor = item => item._id;
 
     const showCoin = item => Actions.coin({ match: { params: { coinId: String(item.id) } } });
     const editPortfolio = item => Actions.portfolioSettings({ match: { params: { portfolioId: String(item) } } });
@@ -101,11 +101,11 @@ class CoinListing extends Component {
     const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
     const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
 
-    const portfoliosList = activePortfolio ? portfolios.filter(portfolio => portfolio.id === activePortfolio) : portfolios;
+    const portfoliosList = activePortfolio ? portfolios.filter(portfolio => portfolio._id === activePortfolio) : portfolios;
 
     const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.id !== r2.id,
-      sectionHeaderHasChanged: (s1, s2) => s1.id !== s2.id,
+      rowHasChanged: (r1, r2) => r1._id !== r2._id,
+      sectionHeaderHasChanged: (s1, s2) => s1._id !== s2._id,
       getSectionData,
       getRowData,
     });
@@ -148,12 +148,13 @@ class CoinListing extends Component {
       return (
         <PortfolioHeader
           show={!activePortfolio}
-          id={portfolio.id}
+          id={portfolio._id}
           title={portfolio.title}
           totals={portfolio.total}
           count={portfolio.count}
           addCoin={addCoin}
-          changePct={getChangePct(portfolio.prices)}
+          // changePct={getChangePct(portfolio.prices)}
+          changePct={10}
         />
       )
     };
@@ -178,19 +179,20 @@ class CoinListing extends Component {
       )
     };
 
-    // const _renderHeader = () => ();
-
-
-    // const _renderFooter = () => {
-    //   return
-    // }
-
     // _onRefresh() {
     //   this.setState({refreshing: true});
     //   fetchData().then(() => {
     //     this.setState({refreshing: false});
     //   });
     // }
+
+
+    const portfoliosChartArray = portfoliosChart && Object.keys(portfoliosChart).length ? Object.keys(portfoliosChart).map(time => {
+      if (typeof portfoliosChart[time] === 'number') return portfoliosChart[time];
+      return portfoliosChart[time].avg;
+    }) : [];
+
+    const chartPct = parseFloat(1 - portfoliosChartArray[0]/portfoliosChartArray[portfoliosChartArray.length-1]).toFixed(2);
 
 
     return (
@@ -236,7 +238,7 @@ class CoinListing extends Component {
             pageSize={1}
             renderHeader={() => (
               <View>
-                <PortfolioTotal totals={totals} changePct={changePct} />
+                <PortfolioTotal totals={totals} changePct={chartPct} />
                 <Chart dataPoints={portfoliosChart} />
                 <View style={{flexDirection:'row', flexWrap:'wrap'}}>
                   { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (
