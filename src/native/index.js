@@ -10,7 +10,7 @@ import getTheme from '../../native-base-theme/components';
 import theme from '../../native-base-theme/variables/commonColor';
 
 import Routes from './routes/index';
-import Loading from './components/Loading';
+import Loading from './components/Loading/Loading.component';
 
 import { setToken } from '../lib/utils';
 
