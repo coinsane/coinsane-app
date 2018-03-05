@@ -91,7 +91,7 @@ class CoinListing extends Component {
     } = this.props;
 
     // Loading
-    // if (portfoliosLoading) return <Loading />;
+    if (portfoliosLoading) return <Loading />;
 
     // // Error
     if (portfoliosError) return <Error content={portfoliosError} />;
