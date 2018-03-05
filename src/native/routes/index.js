@@ -7,40 +7,40 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
 
-import NavigationDrawer from '../components/NavigationDrawer';
-import DrawerContent from '../components/DrawerContent';
+import NavigationDrawer from '../components/NavigationDrawer/NavigationDrawer.component';
+import DrawerContent from '../components/DrawerContent/DrawerContent.component';
 
 import CoinsContainer from '../../containers/Coins';
-import CoinsComponent from '../components/Coins';
-import CoinViewComponent from '../components/Coin';
+import CoinsComponent from '../components/Coins/Coins.component';
+import CoinViewComponent from '../components/Coin/Coin.component';
 
 import PortfoliosContainer from '../../containers/Portfolios';
-import PortfoliosModal from '../components/modal/Portfolios';
+import PortfoliosModal from '../components/modal/Portfolios.component';
 
-import PortfolioSettingsComponent from '../components/PortfolioSettings';
-import CreatePortfolioComponent from '../components/CreatePortfolio';
+import PortfolioSettingsComponent from '../components/PortfolioSettings/PortfolioSettings.component';
+import CreatePortfolioComponent from '../components/CreatePortfolio/CreatePortfolio.component';
 
 import SignUpContainer from '../../containers/SignUp';
-import SignUpComponent from '../components/SignUp';
+import SignUpComponent from '../components/SignUp/SignUp.component';
 
 import LoginContainer from '../../containers/Login';
-import LoginComponent from '../components/Login';
+import LoginComponent from '../components/Login/Login.component';
 
 import ForgotPasswordContainer from '../../containers/ForgotPassword';
-import ForgotPasswordComponent from '../components/ForgotPassword';
+import ForgotPasswordComponent from '../components/ForgotPassword/ForgotPassword.component';
 
 import UpdateProfileContainer from '../../containers/UpdateProfile';
-import UpdateProfileComponent from '../components/UpdateProfile';
+import UpdateProfileComponent from '../components/UpdateProfile/UpdateProfile.component';
 
 import MemberContainer from '../../containers/Member';
-import ProfileComponent from '../components/Profile';
+import ProfileComponent from '../components/Profile/Profile.component';
 
-import WatchlistComponent from '../components/Watchlist';
+import WatchlistComponent from '../components/Watchlist/Watchlist.component';
 
 import MarketContainer from '../../containers/Market';
-import MarketComponent from '../components/Market';
+import MarketComponent from '../components/Market/Market.component';
 
-import ErrorModal from '../components/modal/Error';
+import ErrorModal from '../components/modal/Error.component';
 
 
 const Index = (
