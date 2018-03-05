@@ -19,14 +19,15 @@ const CoinCard = ({
     </ListItem>
   );
 
-  const icon = { uri: coin.imageUrl };
-  const symbol = coin.symbol;
+  const icon = { uri: `https://www.cryptocompare.com${coin.market.imageUrl}` };
+  const symbol = coin.market.symbol;
   const amount = coin.amount || 0;
-  const price = coin.prices && coin.prices.USD && coin.prices.USD.price ? parseFloat(coin.prices.USD.price) : 0;
+  const price = coin.market.prices && coin.market.prices.USD && coin.market.prices.USD.price ? parseFloat(coin.market.prices.USD.price) : 0;
   const priceDisplay = `$${price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
-  const changePctDay = coin.prices && coin.prices.USD && coin.prices.USD.changePctDay ? `${(coin.prices.USD.changePctDay > 0 ? '+' : '')}${coin.prices.USD.changePctDay.toFixed(2)}` : 0;
+  // const changePctDay = coin.market.prices && coin.market.prices.USD && coin.market.prices.USD.changePctDay ? `${(coin.market.prices.USD.changePctDay > 0 ? '+' : '')}${coin.market.prices.USD.changePctDay.toFixed(2)}` : 0;
+  const changePctDay = 5.02
   const changeColor = changePctDay && changePctDay > 0 ? colors.primaryGreen : colors.primaryPink;
-  const totalAmount = coin.total.USD;
+  const totalAmount = parseFloat(amount * coin.market.prices.USD.price);
   const totalAmountDisplay = `$${totalAmount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
 
   return (
@@ -40,7 +41,7 @@ const CoinCard = ({
           <Thumbnail small square source={icon} style={styles.coinCard__thumbnail} />
           <View>
             <Text style={styles.coinCard__textContainer}>
-              <Text style={styles.coinCard__text}>{symbol}</Text>  <Text style={styles.coinCard__text}>{amount}</Text>
+              <Text style={styles.coinCard__textSymbol}>{symbol}</Text>  <Text style={styles.coinCard__textAmount}>{amount}</Text>
             </Text>
             <Text style={styles.coinCard__subtext}>{priceDisplay}</Text>
           </View>

@@ -168,7 +168,7 @@ class CoinListing extends Component {
     const _renderRow = (coin) => {
       return coin ? (
         <CoinCard
-          key={coin.id}
+          key={coin._id}
           coin={coin}
           showCoin={showCoin}
           addCoin={addCoin}

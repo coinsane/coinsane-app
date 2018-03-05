@@ -32,9 +32,14 @@ export default StyleSheet.create({
   coinCard__textContainer: {
     marginBottom: 6,
   },
-  coinCard__text: {
+  coinCard__textSymbol: {
     fontSize: typography.size14,
     color: colors.textGray,
+    fontFamily: typography.fontMedium,
+  },
+  coinCard__textAmount: {
+    fontSize: typography.size14,
+    color: colors.white,
     fontFamily: typography.fontMedium,
   },
   coinCard__subtext: {
