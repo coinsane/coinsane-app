@@ -50,7 +50,7 @@ const PortfoliosModal = ({
                 button
                 style={styles.listItem__portfolio}
                 onPress={() => {
-                  selectPortfolio(portfolio.id);
+                  selectPortfolio(portfolio._id);
                   Actions.pop();
                 }}
               >

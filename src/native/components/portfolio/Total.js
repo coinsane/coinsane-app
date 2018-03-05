@@ -8,8 +8,8 @@ import { typography, colors } from '../../styles';
 const PortfolioTotal = ({ totals, changePct }) => {
 
   const totalDisplay = totals && totals.USD ? `${totals.USD.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : '$0.00';
-  const changeColor = changePct && changePct.USD && changePct.USD > 0 ? colors.primaryGreen : colors.primaryPink;
-  const changePctDisplay = changePct && changePct.USD ? `${changePct.USD.toFixed(2)}%` : '0%';
+  const changeColor = changePct && parseFloat(changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
+  const changePctDisplay = `${changePct}%`;
 
   return (
     <View style={styles.totalContainer}>
@@ -22,7 +22,7 @@ const PortfolioTotal = ({ totals, changePct }) => {
 
 PortfolioTotal.propTypes = {
   totals: PropTypes.shape({}),
-  changePct: PropTypes.shape({}),
+  changePct: PropTypes.string,
 };
 
 PortfolioTotal.defaultProps = {

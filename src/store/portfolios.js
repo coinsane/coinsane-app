@@ -4,5 +4,6 @@ export default {
   list: [],
   selected: null,
   chart: {},
-  coinData: []
+  coinData: [], // TODO move to coins store
+
 };

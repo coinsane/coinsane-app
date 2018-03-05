@@ -1,5 +1,23 @@
 import { Firebase } from './firebase';
+
+import { AsyncStorage } from 'react-native';
+import axios from 'axios';
 import Config from '../constants/config';
+
+export const setToken = async () => {
+  axios.defaults.baseURL = Config.apiUri;
+  const token = await AsyncStorage.getItem('token');
+
+  if (token !== null) {
+    axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${token}`;
+  } else {
+    const response = await axios.get('/auth/getToken');
+    if (response.data && response.data.success) {
+      AsyncStorage.setItem('token', response.data.result.token);
+      axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${response.data.result.token}`;
+    }
+  }
+}
 
 export const getUID = async () => new Promise((resolve, reject) => {
   if (Firebase === null) return reject();
@@ -8,12 +26,19 @@ export const getUID = async () => new Promise((resolve, reject) => {
 });
 
 export const fetch = (data) => new Promise(async (resolve, reject) => {
-  const UID = await getUID();
-  if (!UID) return reject('auth problem');
-  const Authorization = `${Config.appName} token=${UID}`;
+  const instance = axios.create({
+    baseURL: Config.apiUri
+  });
 
-  console.log(`fetch === ${data}`)
-
-  return fetch(`${Config.apiUri}${data}`, { headers: { Authorization } })
-    .then(response => response.json())
+  const token = await AsyncStorage.getItem('token');
+  if (token !== null) {
+    instance.defaults.headers.common['Authorization'] = `${Config.appName} token=${token}`;
+    resolve(instance)
+  } else {
+    instance.get('/auth/getToken').then(({ success, result }) => {
+      if (success) {
+        instance.defaults.headers.common['Authorization'] = `${Config.appName} token=${result.token}`;
+      }
+    });
+  }
 });

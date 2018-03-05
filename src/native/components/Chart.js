@@ -49,6 +49,7 @@ const Chart = ({ dataPoints }) => {
     if (typeof dataPoints[time] === 'number') return dataPoints[time];
     return dataPoints[time].avg;
   }) : [];
+  const dataColor = dataArray[0] > dataArray[dataArray.length-1] ? colors.primaryPink : colors.primaryGreen;
 
   return (
     <View style={styles.chartContainer}>
@@ -63,13 +64,13 @@ const Chart = ({ dataPoints }) => {
       <AreaChart
         style={{ flex: 1 }}
         dataPoints={dataArray}
-        svg={{ stroke: colors.primaryGreen }}
+        svg={{ stroke: dataColor }}
         contentInset={contentInset}
         curve={shape.curveLinear}
         renderGradient={({ id }) => (
           <LinearGradient id={id} x1={'0%'} y1={'0%'} x2={'0%'} y2={'100%'}>
-            <Stop offset={'0%'} stopColor={colors.primaryGreen} stopOpacity={0.2}/>
-            <Stop offset={'100%'} stopColor={colors.primaryGreen} stopOpacity={0}/>
+            <Stop offset={'0%'} stopColor={dataColor} stopOpacity={0.2}/>
+            <Stop offset={'100%'} stopColor={dataColor} stopOpacity={0}/>
           </LinearGradient>
         )}
         renderGrid={CustomGrid}
