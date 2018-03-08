@@ -52,15 +52,15 @@ const CoinCard = ({
       </ListItem>
       {
         coin.last && !activePortfolio &&
-        <View style={base.footer}>
+        <View style={styles.coinCard__footer}>
           <Button
             small
             bordered
             full
-            style={base.footer__button}
+            style={styles.coinCard__footerButton}
             onPress={() => addCoin(coin.last)}
           >
-            <Text style={base.footer__buttonText}>+ ADD NEW COIN</Text>
+            <Text style={styles.coinCard__footerButtonText}>+ ADD NEW COIN</Text>
           </Button>
         </View>
       }

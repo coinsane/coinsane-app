@@ -53,20 +53,20 @@ export default StyleSheet.create({
     marginBottom: 6,
     fontFamily: typography.fontMedium,
   },
-  // footer: {
-  //   paddingBottom: 15,
-  //   borderColor: colors.blackBorder,
-  //   borderBottomWidth: 1,
-  // },
-  // footer_button: {
-  //   borderColor: colors.blackBorder,
-  //   borderRadius: 5,
-  //   paddingTop: 15,
-  //   paddingBottom: 15,
-  //   marginBottom: 15,
-  // },
-  // footer__buttonText: {
-  //   color: colors.textGray,
-  //   fontWeight: 'normal',
-  // },
+  coinCard__footer: {
+    paddingBottom: 15,
+    // borderColor: colors.blackBorder,
+    // borderBottomWidth: 1,
+  },
+  coinCard__footerButton: {
+    borderColor: colors.blackBorder,
+    borderRadius: 5,
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginBottom: 15,
+  },
+  coinCard__footerButtonText: {
+    color: colors.textGray,
+    fontWeight: 'normal',
+  },
 });

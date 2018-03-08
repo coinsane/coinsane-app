@@ -46,11 +46,11 @@ class CoinListing extends Component {
     const rowIds = [];
 
     portfolios.forEach(portfolio => {
-      const { _id, title, total, inTotal } = portfolio;
+      const { _id, title, total, inTotal, changePct, amount } = portfolio;
       sectionIds.push(_id);
 
       const coins = portfolio.coins || [];
-      dataBlob[_id] = { _id, title, total, inTotal, count: coins.length };
+      dataBlob[_id] = { _id, title, total, inTotal, count: coins.length, changePct, amount };
 
       rowIds.push([]);
 
@@ -157,7 +157,8 @@ class CoinListing extends Component {
           count={portfolio.count}
           addCoin={addCoin}
           // changePct={getChangePct(portfolio.prices)}
-          changePct={10}
+          changePct={portfolio.changePct}
+          amount={portfolio.amount}
         />
       )
     };

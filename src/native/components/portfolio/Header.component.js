@@ -6,10 +6,18 @@ import Icon from '../Icon/Icon.component';
 import styles from './Header.styles';
 import { typography, colors } from '../../styles';
 
-const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct }) => {
+const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, amount }) => {
   if (!show) return <Spacer size={15} />;
 
-  const totalDisplay = totals && totals.USD ? `$${totals.USD.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : '$0.00';
+  const symbol = 'BTC';
+  const fixed = 6;
+
+  const amountSplit = amount.toString().split('.');
+  const totalDisplay = amountSplit.length > 1
+    ? `${amountSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${amountSplit[1].slice(0, fixed)} ${symbol}`
+    : `${amount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`
+
+  // const totalDisplay = amount ? `${amount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}` : `0 ${symbol}`;
   // const changeColor = changePct && changePct.USD && changePct.USD > 0 ? '#31E981' : '#F61067';
   // const changePctDisplay = changePct && changePct.USD ? `${changePct.USD.toFixed(2)}%` : '0%';
   const changeColor = changePct && parseFloat(changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
@@ -52,6 +60,7 @@ PortfolioHeader.propTypes = {
   totals: PropTypes.shape({}),
   addCoin: PropTypes.func,
   changePct: PropTypes.number,
+  amount: PropTypes.number,
 };
 
 PortfolioHeader.defaultProps = {

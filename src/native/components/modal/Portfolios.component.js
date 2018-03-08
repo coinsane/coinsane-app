@@ -46,7 +46,7 @@ const PortfoliosModal = ({
             </ListItem>
             {portfolios.map(portfolio => (
               <ListItem
-                key={portfolio.id}
+                key={portfolio._id}
                 button
                 style={styles.listItem__portfolio}
                 onPress={() => {
