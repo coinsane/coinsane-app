@@ -24,8 +24,7 @@ const CoinCard = ({
   const amount = coin.amount || 0;
   const price = coin.market.prices && coin.market.prices.USD && coin.market.prices.USD.price ? parseFloat(coin.market.prices.USD.price) : 0;
   const priceDisplay = `$${price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
-  // const changePctDay = coin.market.prices && coin.market.prices.USD && coin.market.prices.USD.changePctDay ? `${(coin.market.prices.USD.changePctDay > 0 ? '+' : '')}${coin.market.prices.USD.changePctDay.toFixed(2)}` : 0;
-  const changePctDay = 5.02
+  const changePctDay = coin.market.prices && coin.market.prices.USD && coin.market.prices.USD.changePctDay ? `${(coin.market.prices.USD.changePctDay > 0 ? '+' : '')}${coin.market.prices.USD.changePctDay.toFixed(2)}` : 0;
   const changeColor = changePctDay && changePctDay > 0 ? colors.primaryGreen : colors.primaryPink;
   const totalAmount = parseFloat(amount * coin.market.prices.USD.price);
   const totalAmountDisplay = `$${totalAmount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;

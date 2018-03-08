@@ -209,7 +209,7 @@ class CoinListing extends Component {
           </Left>
           <Body>
             <Title button onPress={() => Actions.portfolioSelect()}>
-              <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={styles.coins__bodyArrowIcon} />
+              <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={[styles.coins__bodyArrowIcon]} />
               <Text>{activePortfolio && portfoliosList.length ? portfoliosList[0].title : 'All Portfolios'}</Text>
             </Title>
           </Body>

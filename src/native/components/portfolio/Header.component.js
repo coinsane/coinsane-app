@@ -19,7 +19,7 @@ const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct })
     <View style={{ paddingLeft: 15, paddingRight: 15 }}>
       <ListItem style={styles.listItemContainer}>
         <Body style={styles.body}>
-          <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={styles.body__arrowIcon} />
+          <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={[styles.body__arrowIcon]} />
           <Text numberOfLines={1} style={styles.body__text}>{title}</Text>
         </Body>
         <Right style={styles.right}>
@@ -51,7 +51,7 @@ PortfolioHeader.propTypes = {
   count: PropTypes.number,
   totals: PropTypes.shape({}),
   addCoin: PropTypes.func,
-  changePct: PropTypes.string,
+  changePct: PropTypes.number,
 };
 
 PortfolioHeader.defaultProps = {
