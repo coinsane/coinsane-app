@@ -66,18 +66,18 @@ class CreatePortfolio extends Component {
         <Content style={styles.content}>
           <Text style={styles.content__text}>{'Basic'.toUpperCase()}</Text>
           <Form>
-            <Item stackedLabel style={styles.form__titleContainer}>
-              <Label style={styles.form__titleLabel}>Portfolio title</Label>
+            <Item stackedLabel style={base.form__titleContainer}>
+              <Label style={base.form__titleLabel}>Portfolio title</Label>
               <Input
                 autoFocus
                 onChangeText={v => this.handleChange('title', v)}
                 value={this.state.title}
-                style={styles.form__titleInput}
+                style={base.form__titleInput}
               />
             </Item>
             <CheckBox
-              style={styles.form__checkbox}
-              leftTextStyle={styles.form__checkboxText}
+              style={base.form__checkbox}
+              leftTextStyle={base.form__checkboxText}
               checkBoxColor={colors.textGray}
               onClick={() => this.handleChange('inTotal', !this.state.inTotal)}
               isChecked={this.state.inTotal}
@@ -89,6 +89,7 @@ class CreatePortfolio extends Component {
           <Button
             small
             full
+            bordered
             onPress={() => this.handleSubmit()}
             style={base.footer__button}
           >
