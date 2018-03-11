@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StatusBar, Alert } from 'react-native';
-import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Footer, Left, Button, Title, Right, Form, Item, Label, Input } from 'native-base';
+import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Footer, Left, Button, Title, Right, Form, Item, Label, Input, View } from 'native-base';
 import ErrorMessages from '../../../constants/errors';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
 import Icon from '../Icon/Icon.component';
 import { Actions } from 'react-native-router-flux';
-import CheckBox from 'react-native-check-box';
+import Switch from 'react-native-switch-pro';
 
 import styles from './PortfolioSettings.styles';
 import { colors, base } from '../../styles';
@@ -37,7 +37,7 @@ class PortfolioSettings extends Component {
 
   getPortfolio = () => {
     const { portfolios, portfolioId } = this.props;
-    return portfolioId && portfolios ? portfolios.find(item => item.id === portfolioId) : null;
+    return portfolioId && portfolios ? portfolios.find(item => item._id === portfolioId) : null;
   }
 
   handleChange = (name, val) => {
@@ -63,7 +63,7 @@ class PortfolioSettings extends Component {
         {
           text: 'Delete',
           onPress: () => {
-            this.props.removePortfolio(this.state.id)
+            this.props.removePortfolio(this.state._id)
               .then(() => this.props.selectPortfolio())
               .then(Actions.pop)
               .catch(e => console.log(`Error: ${e}`));
@@ -122,14 +122,22 @@ class PortfolioSettings extends Component {
                 style={base.form__titleInput}
               />
             </Item>
-            <CheckBox
-              style={base.form__checkbox}
-              leftTextStyle={base.form__checkboxText}
-              checkBoxColor={colors.textGray}
-              onClick={() => this.handleChange('inTotal', !this.state.inTotal)}
-              isChecked={this.state.inTotal}
-              leftText={'Calculate amount on Total'}
-             />
+            <View style={{paddingBottom: 24, paddingTop: 24, borderBottomColor: '#2F2A40', borderBottomWidth: 1, flexDirection: 'row'}}>
+              <Text style={{flex: .8, color: '#fff', fontFamily: 'Lato-Regular', fontSize: 17}}>Calculate amount on total</Text>
+              <View style={{flex: .2}}>
+                <Switch
+                  onSyncPress={() => this.handleChange('inTotal', !this.state.inTotal)}
+                  defaultValue={this.state.inTotal}
+                  backgroundActive={'#31E981'}
+                  backgroundInactive={'#2C263F'}
+                  circleColorInactive={'#8D8A96'}
+                  width={44}
+                  height={23}
+                  circleStyle={{ width: 18, height: 18 }}
+                  style={{padding: 3, marginLeft: 'auto'}}
+                />
+              </View>
+            </View>
           </Form>
           <Button style={styles.form__button} transparent onPress={() => this.removePortfolioAlert()}>
             <Text style={styles.form__buttonText}>Delete portfolio</Text>
