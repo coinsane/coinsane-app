@@ -25,6 +25,7 @@ class CoinListing extends Component {
     portfoliosLoading: PropTypes.bool.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     portfoliosChart: PropTypes.shape({}),
+    changePct: PropTypes.string,
     drawer: PropTypes.shape({}),
     portfoliosFetch: PropTypes.func,
     getTotals: PropTypes.func,
@@ -83,6 +84,7 @@ class CoinListing extends Component {
       addPortfolio,
       removePortfolio,
       portfoliosChart,
+      changePct,
       portfoliosFetch,
       getTotals,
       addCoin,
@@ -118,24 +120,24 @@ class CoinListing extends Component {
       dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds),
     };
 
+    const symbol = 'BTC';
 
-    const totals = {
-      BTC: 0,
-      USD: 0,
-      RUB: 0
-    };
+    // const totals = {
+    //   BTC: 0,
+    //   USD: 0,
+    //   RUB: 0
+    // };
 
-    const changePct = {
-      BTC: 0,
-      USD: 0,
-      RUB: 0
-    };
+    // const changePct = {
+    //   BTC: 0,
+    //   USD: 0,
+    //   RUB: 0
+    // };
+
+    let lastTotal = 0;
 
     portfoliosList.forEach(portfolio => {
-      if (portfolio.total) Object.keys(portfolio.total).forEach(symbol => {
-        if (!totals[symbol]) totals[symbol] = portfolio.total[symbol];
-        else totals[symbol] += portfolio.total[symbol];
-      });
+      if (portfolio.amount) lastTotal += portfolio.amount;
     });
 
     const getChangePct = prices => {
@@ -156,6 +158,7 @@ class CoinListing extends Component {
           totals={portfolio.total}
           count={portfolio.count}
           addCoin={addCoin}
+          symbol={symbol}
           // changePct={getChangePct(portfolio.prices)}
           changePct={portfolio.changePct}
           amount={portfolio.amount}
@@ -171,6 +174,7 @@ class CoinListing extends Component {
         <CoinCard
           key={coin._id}
           coin={coin}
+          symbol={symbol}
           showCoin={showCoin}
           addCoin={addCoin}
           removeCoin={removeCoin}
@@ -242,7 +246,7 @@ class CoinListing extends Component {
             pageSize={1}
             renderHeader={() => (
               <View>
-                <PortfolioTotal totals={totals} changePct={chartPct} />
+                <PortfolioTotal lastTotal={lastTotal} changePct={changePct} symbol={symbol} />
                 <Chart dataPoints={portfoliosChart} />
                 <View style={styles.coins__contentHeader}>
                   { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (

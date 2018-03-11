@@ -42,12 +42,12 @@ export function selectPortfolio(portfolioId) {
   * Update Portfolio
   */
 export function updatePortfolio(data) {
-  const { id, title, inTotal } = data;
-  return dispatch => Promise.resolve({ id, title, inTotal })
+  const { _id, title, inTotal } = data;
+  return dispatch => Promise.resolve({ _id, title, inTotal })
     .then(update)
     .then(() => dispatch({
       type: 'PORTFOLIO_UPDATE',
-      data: { id, title, inTotal },
+      data: { _id, title, inTotal },
     }))
     .catch(e => console.log(e));
 }
@@ -70,7 +70,7 @@ export function addPortfolio(newPortfolio) {
 export function removePortfolio(portfolioId) {
   return dispatch => Promise.resolve(portfolioId)
     .then(delPortfolio)
-    .then(portfolioId => dispatch({
+    .then(() => dispatch({
       type: 'PORTFOLIO_REMOVED',
       data: portfolioId,
     }))

@@ -35,7 +35,7 @@ export const update = (data = {}) => new Promise(async (resolve, reject) => {
 export const delPortfolio = (portfolioId) => new Promise(async (resolve, reject) => {
   if (!portfolioId) return Promise.reject('portfolioId missing');
 
-  const response = await axios.put('/portfolios', { portfolioId });
+  const response = await axios.delete('/portfolios', { data: { portfolioId }});
   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
   resolve(response.data.response.portfolioId);
 });

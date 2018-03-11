@@ -32,17 +32,17 @@ export default function portfolioReducer(state = initialState, action) {
         error: null,
         loading: false,
         selected: state.selected !== action.data ? state.selected : null,
-        list: [...state.list.filter(portfolio => portfolio.id !== action.data)]
+        list: [...state.list.filter(portfolio => portfolio._id !== action.data)]
       };
     }
     case 'PORTFOLIO_UPDATE': {
-      const { id, title, inTotal } = action.data;
+      const { _id, title, inTotal } = action.data;
       return {
         ...state,
         error: null,
         loading: false,
         list: [...state.list.map(portfolio => {
-          if (portfolio.id === id) {
+          if (portfolio._id === _id) {
             portfolio.title = title;
             portfolio.inTotal = inTotal;
           }
@@ -51,19 +51,20 @@ export default function portfolioReducer(state = initialState, action) {
       };
     }
     case 'TOTALS_REPLACE': {
-      const { portfolioId, totals, changePct } = action.data;
+      const { portfolioId, totals, changePct, lastTotal } = action.data;
       return {
         ...state,
         error: null,
         loading: false,
         chart: totals,
         changePct,
-        list: [...state.list.map(portfolio => {
-          if (portfolio.id === portfolioId) {
-            portfolio.changePct = changePct;
-          }
-          return portfolio;
-        })]
+        lastTotal,
+        // list: [...state.list.map(portfolio => {
+        //   if (portfolio.id === portfolioId) {
+        //     portfolio.changePct = changePct;
+        //   }
+        //   return portfolio;
+        // })]
       };
     }
     case 'PORTFOLIO_COIN_REMOVED': {

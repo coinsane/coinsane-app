@@ -5,9 +5,12 @@ import Icon from '../Icon/Icon.component';
 import styles from './Total.styles';
 import { typography, colors } from '../../styles';
 
-const PortfolioTotal = ({ totals, changePct }) => {
+const PortfolioTotal = ({ lastTotal, changePct, symbol = 'BTC' }) => {
 
-  const totalDisplay = totals && totals.USD ? `${totals.USD.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : '$0.00';
+  const fixed = 6;
+
+  // const totalDisplay = totals && totals.USD ? `${totals.USD.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : '$0.00';
+  const totalDisplay = `${parseFloat(lastTotal).toFixed(fixed)} ${symbol}`;
   const changeColor = changePct && parseFloat(changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
   const changePctDisplay = `${changePct}%`;
 
@@ -21,8 +24,9 @@ const PortfolioTotal = ({ totals, changePct }) => {
 };
 
 PortfolioTotal.propTypes = {
-  totals: PropTypes.shape({}),
+  lastTotal: PropTypes.number,
   changePct: PropTypes.string,
+  symbol: PropTypes.string,
 };
 
 PortfolioTotal.defaultProps = {

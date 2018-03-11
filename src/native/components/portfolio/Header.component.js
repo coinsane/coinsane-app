@@ -6,16 +6,15 @@ import Icon from '../Icon/Icon.component';
 import styles from './Header.styles';
 import { typography, colors } from '../../styles';
 
-const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, amount }) => {
+const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, amount, symbol }) => {
   if (!show) return <Spacer size={15} />;
 
-  const symbol = 'BTC';
   const fixed = 6;
 
   const amountSplit = amount.toString().split('.');
   const totalDisplay = amountSplit.length > 1
     ? `${amountSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${amountSplit[1].slice(0, fixed)} ${symbol}`
-    : `${amount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`
+    : `${amount !== 0 ? amount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0'} ${symbol}`
 
   // const totalDisplay = amount ? `${amount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}` : `0 ${symbol}`;
   // const changeColor = changePct && changePct.USD && changePct.USD > 0 ? '#31E981' : '#F61067';
@@ -64,7 +63,9 @@ PortfolioHeader.propTypes = {
 };
 
 PortfolioHeader.defaultProps = {
-  show: null
+  show: null,
+  amount: 0,
+  changePct: 0,
 };
 
 export default PortfolioHeader;

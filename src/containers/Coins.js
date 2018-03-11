@@ -103,6 +103,8 @@ class CoinListing extends Component {
         portfoliosLoading={portfolios.loading}
         portfolios={portfolios.list}
         portfoliosChart={portfolios.chart}
+        changePct={portfolios.changePct}
+        lastTotal={portfolios.lastTotal}
         drawer={navigation.drawer}
         removePortfolio={this.removePortfolio}
         selectPortfolio={this._selectPortfolio}

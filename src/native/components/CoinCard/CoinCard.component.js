@@ -11,6 +11,7 @@ const CoinCard = ({
   addCoin,
   showCoin,
   removeCoin,
+  symbol,
   activePortfolio
 }) => {
   if (!coin) return (
@@ -19,15 +20,68 @@ const CoinCard = ({
     </ListItem>
   );
 
-  const icon = { uri: `https://www.cryptocompare.com${coin.market.imageUrl}` };
-  const symbol = coin.market.symbol;
-  const amount = coin.amount || 0;
-  const price = coin.market.prices && coin.market.prices.USD && coin.market.prices.USD.price ? parseFloat(coin.market.prices.USD.price) : 0;
-  const priceDisplay = `$${price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
-  const changePctDay = coin.market.prices && coin.market.prices.USD && coin.market.prices.USD.changePctDay ? `${(coin.market.prices.USD.changePctDay > 0 ? '+' : '')}${coin.market.prices.USD.changePctDay.toFixed(2)}` : 0;
-  const changeColor = changePctDay && changePctDay > 0 ? colors.primaryGreen : colors.primaryPink;
-  const totalAmount = parseFloat(amount * coin.market.prices.USD.price);
-  const totalAmountDisplay = `$${totalAmount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
+  let fixed = 6;
+
+  const coinCard = {
+    icon: { uri: `https://www.cryptocompare.com${coin.market.imageUrl}` },
+    symbol: coin.market.symbol,
+    amount: coin.amount || 0,
+    changePct: '0',
+    price: 0,
+    priceDisplay: '0',
+    totalPrice: 0,
+    totalPriceDisplay: '0'
+  };
+
+
+  if (coin.market.symbol === 'BTC') {
+    coinCard.price = 1.000000;
+    coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(fixed);
+    coinCard.changePct = '0%';
+  } else {
+    coinCard.price = parseFloat(coin.market.prices[symbol].price).toFixed(fixed);
+    coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(fixed);
+    coinCard.changePct = coin.market.prices && coin.market.prices[symbol] && coin.market.prices[symbol].changePctDay
+      ? `${(coin.market.prices[symbol].changePctDay > 0 ? '+' : '')}${coin.market.prices[symbol].changePctDay.toFixed(2)}%`
+      : '0%';
+  }
+
+  const priceSplit = coinCard.price.toString().split('.');
+  coinCard.priceDisplay = priceSplit.length > 1
+    ? `${priceSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${priceSplit[1].slice(0, fixed)} ${symbol}`
+    : `${coinCard.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`;
+
+  const changeColor = parseFloat(coinCard.changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
+
+  const totalPriceSplit = coinCard.totalPrice.toString().split('.');
+  coinCard.totalPriceDisplay = totalPriceSplit.length > 1
+    ? `${totalPriceSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${totalPriceSplit[1].slice(0, fixed)} ${symbol}`
+    : `${coinCard.totalPrice.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`
+
+  // const amountSplit = amount.toString().split('.');
+  // const totalDisplay = amountSplit.length > 1
+  //   ? `${amountSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${amountSplit[1].slice(0, fixed)} ${symbol}`
+  //   : `${amount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`
+
+  // const icon = { uri: `https://www.cryptocompare.com${coin.market.imageUrl}` };
+  // const coinSymbol = coin.market.symbol;
+  // const amount = coin.amount || 0;
+  // const price = coin.market.symbol === 'BTC' ? amount : parseFloat(coin.market.prices[symbol].price);
+
+  // const priceSplit = price.toString().split('.');
+  // const priceDisplay = priceSplit.length > 1
+  //   ? `${priceSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${priceSplit[1].slice(0, fixed)} ${symbol}`
+  //   : `${price.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`;
+
+  // const changePctDay = coin.market.prices && coin.market.prices[symbol] && coin.market.prices[symbol].changePctDay ? `${(coin.market.prices[symbol].changePctDay > 0 ? '+' : '')}${coin.market.prices[symbol].changePctDay.toFixed(2)}` : 0;
+  // const changeColor = changePctDay && changePctDay > 0 ? colors.primaryGreen : colors.primaryPink;
+
+  // const totalAmount = symbol === 'BTC' ? amount : amount * price;
+  // const totalAmountSplit = totalAmount.toString().split('.');
+  // const totalAmountDisplay = totalAmountSplit.length > 1
+  //   ? `${totalAmountSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${totalAmountSplit[1].slice(0, fixed)} ${symbol}`
+  //   : `${totalAmount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`
+  // const totalAmountDisplay = `$${totalAmount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
 
   return (
     <View style={styles.coinCard__container}>
@@ -37,17 +91,17 @@ const CoinCard = ({
         onPress={() => showCoin ? showCoin(coin) : ''}
       >
         <Body style={styles.coinCard__body}>
-          <Thumbnail small square source={icon} style={styles.coinCard__thumbnail} />
+          <Thumbnail small square source={coinCard.icon} style={styles.coinCard__thumbnail} />
           <View>
             <Text style={styles.coinCard__textContainer}>
-              <Text style={styles.coinCard__textSymbol}>{symbol}</Text>  <Text style={styles.coinCard__textAmount}>{amount}</Text>
+              <Text style={styles.coinCard__textSymbol}>{coinCard.symbol}</Text>  <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
             </Text>
-            <Text style={styles.coinCard__subtext}>{priceDisplay}</Text>
+            <Text style={styles.coinCard__subtext}>{coinCard.priceDisplay}</Text>
           </View>
         </Body>
         <Right style={styles.rightContainer}>
-          <Text style={styles.right__text}>{totalAmountDisplay}</Text>
-          <Text style={{ fontSize: typography.size14, color: changeColor, fontFamily: typography.fontRegular }}>{changePctDay}%</Text>
+          <Text style={styles.right__text}>{coinCard.totalPriceDisplay}</Text>
+          <Text style={{ fontSize: typography.size14, color: changeColor, fontFamily: typography.fontRegular }}>{coinCard.changePct}</Text>
         </Right>
       </ListItem>
       {
@@ -73,6 +127,7 @@ CoinCard.propTypes = {
   addCoin: PropTypes.func,
   showCoin: PropTypes.func,
   removeCoin: PropTypes.func,
+  symbol: PropTypes.string,
   activePortfolio: PropTypes.string,
 };
 
