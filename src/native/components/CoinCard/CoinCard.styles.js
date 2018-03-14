@@ -63,7 +63,6 @@ export default StyleSheet.create({
     borderRadius: 5,
     paddingTop: 15,
     paddingBottom: 15,
-    marginBottom: 15,
   },
   coinCard__footerButtonText: {
     color: colors.textGray,

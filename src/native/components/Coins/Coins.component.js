@@ -34,6 +34,11 @@ class CoinListing extends Component {
     addCoin: PropTypes.func,
     removeCoin: PropTypes.func,
     activePortfolio: PropTypes.string,
+    updateCurrency: PropTypes.func,
+    updatePeriod: PropTypes.func,
+    currency: PropTypes.string,
+    period: PropTypes.string,
+    lastTotal: PropTypes.number,
   }
 
   static defaultProps = {
@@ -66,12 +71,18 @@ class CoinListing extends Component {
     return { dataBlob, sectionIds, rowIds };
   }
 
-  updateChart(portfolioId, range) {
-    this.props.getTotals({ portfolioId, range });
+  updateChart(portfolioId, range, symbol) {
+    this.props.getTotals({ portfolioId, range, symbol });
+    this.props.updatePeriod(range);
   }
 
   componentDidMount() {
-    this.updateChart(this.props.activePortfolio || 'all', '1d');
+    const {
+      activePortfolio,
+      period,
+      currency
+    } = this.props;
+    this.updateChart(activePortfolio || 'all', period, currency);
   }
 
 
@@ -90,6 +101,11 @@ class CoinListing extends Component {
       addCoin,
       removeCoin,
       activePortfolio,
+      updateCurrency,
+      updatePeriod,
+      currency,
+      period,
+      lastTotal,
     } = this.props;
 
     // Loading
@@ -120,25 +136,11 @@ class CoinListing extends Component {
       dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds),
     };
 
-    const symbol = 'BTC';
-
-    // const totals = {
-    //   BTC: 0,
-    //   USD: 0,
-    //   RUB: 0
-    // };
-
-    // const changePct = {
-    //   BTC: 0,
-    //   USD: 0,
-    //   RUB: 0
-    // };
-
-    let lastTotal = 0;
-
-    portfoliosList.forEach(portfolio => {
-      if (portfolio.amount) lastTotal += portfolio.amount;
-    });
+    // let lastTotal = 0;
+    //
+    // portfoliosList.forEach(portfolio => {
+    //   if (portfolio.amount) lastTotal += portfolio.amount;
+    // });
 
     const getChangePct = prices => {
       const changes = {};
@@ -158,7 +160,7 @@ class CoinListing extends Component {
           totals={portfolio.total}
           count={portfolio.count}
           addCoin={addCoin}
-          symbol={symbol}
+          symbol={currency}
           // changePct={getChangePct(portfolio.prices)}
           changePct={portfolio.changePct}
           amount={portfolio.amount}
@@ -174,7 +176,7 @@ class CoinListing extends Component {
         <CoinCard
           key={coin._id}
           coin={coin}
-          symbol={symbol}
+          symbol={currency}
           showCoin={showCoin}
           addCoin={addCoin}
           removeCoin={removeCoin}
@@ -246,13 +248,23 @@ class CoinListing extends Component {
             pageSize={1}
             renderHeader={() => (
               <View>
-                <PortfolioTotal lastTotal={lastTotal} changePct={changePct} symbol={symbol} />
+                <PortfolioTotal
+                  lastTotal={lastTotal}
+                  changePct={changePct}
+                  currency={currency}
+                  updateCurrency={updateCurrency}
+                  updateChart={(currency) => this.updateChart(activePortfolio || 'all', period, currency)}
+                />
                 <Chart dataPoints={portfoliosChart} />
                 <View style={styles.coins__contentHeader}>
-                  { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (
-                    <Button key={period} small transparent onPress={() => this.updateChart(activePortfolio || 'all', period)}>
-                      <Text style={styles.coins__contentHeaderText}>
-                        {period.toUpperCase()}
+                  { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(periodKey => (
+                    <Button
+                      key={periodKey} small transparent
+                      onPress={() => this.updateChart(activePortfolio || 'all', periodKey, currency)}
+                      style={[styles.coins__buttonPeriod, period === periodKey && styles.coins__buttonPeriodActive]}
+                    >
+                      <Text style={[styles.coins__buttonPeriodText, period === periodKey && styles.coins__buttonPeriodTextActive]}>
+                        {periodKey.toUpperCase()}
                       </Text>
                     </Button>
                   )) }

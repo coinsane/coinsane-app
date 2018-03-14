@@ -2,15 +2,16 @@ import Config from '../constants/config';
 import axios from 'axios';
 
 export const fetchTotals = (data) => new Promise(async (resolve, reject) => {
-  const { portfolioId, range } = data;
-  const response = await axios.get(`/totals?portfolioId=${portfolioId}&range=${range}`);
+  const { portfolioId, range, symbol } = data;
+  const response = await axios.get(`/totals?portfolioId=${portfolioId}&range=${range}&symbol=${symbol}`);
   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
   resolve(response.data.response);
 });
 
-export const fetchPortfolios = () => new Promise(async (resolve, reject) => {
-  const response = await axios.get('/portfolios');
+export const fetchPortfolios = (symbol) => new Promise(async (resolve, reject) => {
+  const response = await axios.get('/portfolios', { symbol });
   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
+  console.log('response.data.response.portfolios', response.data.response.portfolios)
   resolve(response.data.response.portfolios);
 });
 

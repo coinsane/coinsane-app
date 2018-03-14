@@ -13,11 +13,35 @@ export default StyleSheet.create({
   coins__contentHeader: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginLeft: 15,
+    marginRight: 15,
   },
   coins__contentHeaderText: {
     color: colors.textGray,
     fontSize: typography.size14,
     fontFamily: typography.fontMedium,
+  },
+  coins__buttonPeriod: {
+    height: 26,
+    paddingTop: 3,
+    paddingBottom: 3,
+    marginLeft: 2,
+    marginRight: 2,
+    borderRadius: 3,
+  },
+  coins__buttonPeriodActive: {
+    backgroundColor: '#251F38',
+  },
+  coins__buttonPeriodText: {
+    color: colors.textGray,
+    fontSize: typography.size14,
+    fontFamily: typography.fontMedium,
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  coins__buttonPeriodTextActive: {
+    color: '#fff',
   },
   coins__nocoinsRow: {
     backgroundColor: colors.btnBgBlack,

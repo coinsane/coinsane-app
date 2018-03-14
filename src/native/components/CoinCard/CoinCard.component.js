@@ -20,7 +20,7 @@ const CoinCard = ({
     </ListItem>
   );
 
-  let fixed = 6;
+  let fixed = symbol === 'BTC' ? 6 : 2;
 
   const coinCard = {
     icon: { uri: `https://www.cryptocompare.com${coin.market.imageUrl}` },
@@ -34,7 +34,7 @@ const CoinCard = ({
   };
 
 
-  if (coin.market.symbol === 'BTC') {
+  if (coin.market.symbol === 'BTC' && symbol === 'BTC') {
     coinCard.price = 1.000000;
     coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(fixed);
     coinCard.changePct = '0%';
@@ -100,7 +100,7 @@ const CoinCard = ({
           </View>
         </Body>
         <Right style={styles.rightContainer}>
-          <Text style={styles.right__text}>{coinCard.totalPriceDisplay}</Text>
+          <Text numberOfLines={1} style={styles.right__text}>{coinCard.totalPriceDisplay}</Text>
           <Text style={{ fontSize: typography.size14, color: changeColor, fontFamily: typography.fontRegular }}>{coinCard.changePct}</Text>
         </Right>
       </ListItem>

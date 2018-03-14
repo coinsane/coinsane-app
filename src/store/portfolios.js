@@ -5,5 +5,6 @@ export default {
   selected: null,
   chart: {},
   coinData: [], // TODO move to coins store
-
+  currency: 'BTC',
+  period: '1d',
 };
