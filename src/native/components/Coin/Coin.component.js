@@ -14,7 +14,7 @@ import { Actions } from 'react-native-router-flux';
 import { getUID } from '../../../lib/utils';
 
 import styles from './Coin.styles';
-import { colors } from '../../styles';
+import { colors, typography } from '../../styles';
 
 class CoinView extends Component {
   static propTypes = {
@@ -109,7 +109,7 @@ class CoinView extends Component {
             <Title style={styles.coinHeader__body}>
               <Thumbnail small square source={icon} style={styles.coinHeader__thumbnail} />
               <Text>{coin.name}</Text>
-              <Text style={styles.coinHeader__text}>&nbsp;{coin.symbol}</Text>
+              <Text style={[styles.coinHeader__text, typography.small]}>&nbsp;{coin.symbol}</Text>
             </Title>
           </Body>
           <Right></Right>

@@ -1,6 +1,6 @@
 import navigation from './navigation';
 import status from './status';
-import member from './member';
+import auth from './auth';
 import portfolios from './portfolios';
 import coins from './coins';
 
@@ -17,7 +17,7 @@ export default {
   rehydrated,
   navigation,
   status,
-  member,
+  auth,
   portfolios,
   coins,
 };

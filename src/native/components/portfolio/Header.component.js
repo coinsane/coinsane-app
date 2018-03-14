@@ -4,6 +4,7 @@ import { ListItem, Body, Text, Left, Right, View, Button } from 'native-base';
 import Spacer from '../Spacer/Spacer.component';
 import Icon from '../Icon/Icon.component';
 import styles from './Header.styles';
+import { Actions } from 'react-native-router-flux';
 import { typography, colors } from '../../styles';
 
 const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, amount, symbol }) => {
@@ -42,7 +43,7 @@ const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, a
           bordered
           full
           style={styles.headerBtn}
-          onPress={() => addCoin(id)}
+          onPress={() => Actions.selectCoin()}
         >
           <Text style={styles.headerBtn__text}>+ ADD NEW COIN</Text>
         </Button>

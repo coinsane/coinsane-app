@@ -16,7 +16,7 @@ import { SidebarNavItems } from './Sidebar';
 
 class Header extends Component {
   static propTypes = {
-    member: PropTypes.shape({
+    auth: PropTypes.shape({
       firstName: PropTypes.string,
       email: PropTypes.string,
     }),
@@ -27,7 +27,7 @@ class Header extends Component {
   }
 
   static defaultProps = {
-    member: {},
+    auth: {},
   }
 
   constructor(props) {
@@ -42,8 +42,8 @@ class Header extends Component {
   toggleDropDown = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
-    const { member } = this.props;
-    const loggedIn = !!(member && member.email);
+    const { auth } = this.props;
+    const loggedIn = !!(auth && auth.email);
 
     return (
       <header>
@@ -60,7 +60,7 @@ class Header extends Component {
               </div>
               <UncontrolledDropdown nav>
                 <DropdownToggle nav caret>
-                  {loggedIn ? `Hi, ${member.firstName}` : 'My Account'}
+                  {loggedIn ? `Hi, ${auth.firstName}` : 'My Account'}
                 </DropdownToggle>
                 <DropdownMenu>
                   {!loggedIn &&

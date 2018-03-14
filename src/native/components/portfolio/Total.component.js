@@ -25,7 +25,7 @@ const PortfolioTotal = ({ lastTotal, changePct, symbol = 'BTC' }) => {
 
 PortfolioTotal.propTypes = {
   lastTotal: PropTypes.number,
-  changePct: PropTypes.string,
+  changePct: PropTypes.number,
   symbol: PropTypes.string,
 };
 

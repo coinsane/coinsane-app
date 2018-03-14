@@ -1,15 +1,15 @@
 import { fetchCoins, getCoinHisto, setCoin, delCoin } from '../api/coins';
 import { fetchPortfolios } from '../api/portfolios';
+import { API_GET_AVALIABLE_COINS, COIN_HISTO_UPDATE, PORTFOLIOS_UPDATE, PORTFOLIO_COIN_REMOVED, COINS_ERROR } from './action.types';
 
 /**
-  * Get Coins
+  * Get All Coins
   */
-// export function getCoins(portfolioId) {
-//   return dispatch => Promise.resolve(portfolioId)
-//     .then(fetchCoins)
-//     .then(coins => dispatch({ type: 'COINS_REPLACE', data: coins || [] }))
-//     .catch(e => console.log(e));
-// }
+export function getAvaliableCoins() {
+  return {
+    type: API_GET_AVALIABLE_COINS
+  };
+}
 
 /**
   * Add Coin
@@ -17,7 +17,7 @@ import { fetchPortfolios } from '../api/portfolios';
 export function updateCoinHisto(data) {
   return dispatch => Promise.resolve(data)
     .then(getCoinHisto)
-    .then(histo => dispatch({ type: 'COIN_HISTO_UPDATE', data: histo }))
+    .then(histo => dispatch({ type: COIN_HISTO_UPDATE, data: histo }))
     .catch(e => console.log(e));
 }
 
@@ -30,7 +30,7 @@ export function addCoin(newCoin) {
     // .then(fetchCoins)
     // .then(coins => dispatch({ type: 'COINS_REPLACE', data: coins || [] }))
     .then(fetchPortfolios)
-    .then(portfolios => dispatch({ type: 'PORTFOLIOS_REPLACE', data: portfolios || [] }))
+    .then(portfolios => dispatch({ type: PORTFOLIOS_UPDATE, data: portfolios || [] }))
     .catch(e => console.log(e));
 }
 
@@ -41,7 +41,7 @@ export function removeCoin(coinId) {
   return dispatch => Promise.resolve(coinId)
     .then(delCoin)
     .then(data => dispatch({
-      type: 'PORTFOLIO_COIN_REMOVED',
+      type: PORTFOLIO_COIN_REMOVED,
       data,
     }))
     .catch(e => console.log(e));
@@ -52,6 +52,6 @@ export function removeCoin(coinId) {
   */
 export function setCoinsError(data) {
   return dispatch => Promise.resolve()
-    .then(() => dispatch({ type: 'COINS_ERROR', data }))
+    .then(() => dispatch({ type: COINS_ERROR, data }))
     .catch(e => console.log(e));
 }

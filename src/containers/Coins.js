@@ -135,7 +135,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getPortfolios,
   getTotals,
-  // getCoins,
   addCoin,
   removePortfolio,
   updatePortfolio,

@@ -1,10 +1,11 @@
 import Store from '../store/portfolios';
+import { PORTFOLIOS_UPDATE, PORTFOLIO_ADDED, PORTFOLIO_SELECT, PORTFOLIO_REMOVED, PORTFOLIO_UPDATE, TOTALS_REPLACE, PORTFOLIO_COIN_REMOVED, PORTFOLIOS_ERROR, SET_COIN_DATA } from '../actions/action.types';
 
 export const initialState = Store;
 
 export default function portfolioReducer(state = initialState, action) {
   switch (action.type) {
-    case 'PORTFOLIOS_REPLACE': {
+    case PORTFOLIOS_UPDATE: {
       return {
         ...state,
         error: null,
@@ -12,7 +13,7 @@ export default function portfolioReducer(state = initialState, action) {
         list: action.data,
       };
     }
-    case 'PORTFOLIO_ADDED': {
+    case PORTFOLIO_ADDED: {
       return {
         ...state,
         error: null,
@@ -20,13 +21,13 @@ export default function portfolioReducer(state = initialState, action) {
         list: [ ...state.list, action.data ]
       };
     }
-    case 'PORTFOLIO_SELECT': {
+    case PORTFOLIO_SELECT: {
       return {
         ...state,
         selected: action.data || null
       };
     }
-    case 'PORTFOLIO_REMOVED': {
+    case PORTFOLIO_REMOVED: {
       return {
         ...state,
         error: null,
@@ -35,7 +36,7 @@ export default function portfolioReducer(state = initialState, action) {
         list: [...state.list.filter(portfolio => portfolio._id !== action.data)]
       };
     }
-    case 'PORTFOLIO_UPDATE': {
+    case PORTFOLIO_UPDATE: {
       const { _id, title, inTotal } = action.data;
       return {
         ...state,
@@ -50,7 +51,7 @@ export default function portfolioReducer(state = initialState, action) {
         })]
       };
     }
-    case 'TOTALS_REPLACE': {
+    case TOTALS_REPLACE: {
       const { portfolioId, totals, changePct, lastTotal } = action.data;
       return {
         ...state,
@@ -67,7 +68,7 @@ export default function portfolioReducer(state = initialState, action) {
         // })]
       };
     }
-    case 'PORTFOLIO_COIN_REMOVED': {
+    case PORTFOLIO_COIN_REMOVED: {
       const { coinId, portfolioId } = action.data;
       return {
         ...state,
@@ -81,13 +82,13 @@ export default function portfolioReducer(state = initialState, action) {
         })]
       };
     }
-    case 'PORTFOLIOS_ERROR': {
+    case PORTFOLIOS_ERROR: {
       return {
         ...state,
         error: action.data,
       };
     }
-    case 'SET_COIN_DATA': {
+    case SET_COIN_DATA: {
       return {
         ...state,
         coinData: action.data,

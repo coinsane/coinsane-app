@@ -1,4 +1,5 @@
 import { fetchPortfolios, fetchTotals, setPortfolio, update, delPortfolio, watchUserPortfolios } from '../api/portfolios';
+import { PORTFOLIOS_UPDATE, TOTALS_REPLACE, PORTFOLIO_SELECT, PORTFOLIO_UPDATE, PORTFOLIO_ADDED, PORTFOLIO_REMOVED, PORTFOLIOS_ERROR, SET_COIN_DATA } from './action.types';
 
 /**
   * Get Portfolios
@@ -7,7 +8,7 @@ export function getPortfolios() {
   return dispatch => Promise.resolve()
     .then(fetchPortfolios)
     .then(portfolios => dispatch({
-      type: 'PORTFOLIOS_REPLACE',
+      type: PORTFOLIOS_UPDATE,
       data: portfolios || [],
     }))
     .catch(e => console.log(e));
@@ -20,7 +21,7 @@ export function getTotals(data) {
   return dispatch => Promise.resolve(data)
     .then(fetchTotals)
     .then(data => dispatch({
-      type: 'TOTALS_REPLACE',
+      type: TOTALS_REPLACE,
       data,
     }))
     .catch(e => console.log(e));
@@ -32,7 +33,7 @@ export function getTotals(data) {
 export function selectPortfolio(portfolioId) {
   return dispatch => Promise.resolve()
     .then(() => dispatch({
-      type: 'PORTFOLIO_SELECT',
+      type: PORTFOLIO_SELECT,
       data: portfolioId,
     }))
     .catch(e => console.log(e));
@@ -46,7 +47,7 @@ export function updatePortfolio(data) {
   return dispatch => Promise.resolve({ _id, title, inTotal })
     .then(update)
     .then(() => dispatch({
-      type: 'PORTFOLIO_UPDATE',
+      type: PORTFOLIO_UPDATE,
       data: { _id, title, inTotal },
     }))
     .catch(e => console.log(e));
@@ -58,7 +59,7 @@ export function updatePortfolio(data) {
 export function addPortfolio(newPortfolio) {
   return dispatch => setPortfolio(newPortfolio)
     .then(portfolio => dispatch({
-      type: 'PORTFOLIO_ADDED',
+      type: PORTFOLIO_ADDED,
       data: portfolio,
     }))
     .catch(e => console.log(e));
@@ -71,7 +72,7 @@ export function removePortfolio(portfolioId) {
   return dispatch => Promise.resolve(portfolioId)
     .then(delPortfolio)
     .then(() => dispatch({
-      type: 'PORTFOLIO_REMOVED',
+      type: PORTFOLIO_REMOVED,
       data: portfolioId,
     }))
     .catch(e => console.log(e));
@@ -83,7 +84,7 @@ export function removePortfolio(portfolioId) {
 export function setPortfoliosError(message) {
   return dispatch => Promise.resolve()
     .then(() => dispatch({
-      type: 'PORTFOLIOS_ERROR',
+      type: PORTFOLIOS_ERROR,
       data: message,
     }))
     .catch(e => console.log(e));
@@ -92,7 +93,7 @@ export function setPortfoliosError(message) {
 export function setCoinData(data) {
   return dispatch => Promise.resolve()
     .then(() => dispatch({
-      type: 'SET_COIN_DATA',
+      type: SET_COIN_DATA,
       data
     }))
     .catch(e => console.log(e));

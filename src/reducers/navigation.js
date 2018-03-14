@@ -1,17 +1,18 @@
 import Store from '../store/navigation';
+import { DRAWER_ACTIONS, SET_ACTIVE_MENU } from '../actions/action.types';
 
 export const initialState = Store;
 
 export default function portfolioReducer(state = initialState, action) {
   switch (action.type) {
-    case 'DRAWER_ACTIONS': {
+    case DRAWER_ACTIONS: {
+      console.log(action);
       return {
         ...state,
         drawer: action.data
       };
     }
-    case 'SET_ACTIVE_MENU': {
-      console.log('SET_ACTIVE_MENU');
+    case SET_ACTIVE_MENU: {
       return {
         ...state,
         menu: [...state.menu.map(item => {

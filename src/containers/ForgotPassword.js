@@ -2,17 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { resetPassword } from '../actions/member';
-
 const ForgotPassword = ({
   Layout,
   onFormSubmit,
-  member,
+  auth,
   isLoading,
   errorMessage,
 }) => (
   <Layout
-    member={member}
+    auth={auth}
     loading={isLoading}
     error={errorMessage}
     onFormSubmit={onFormSubmit}
@@ -21,7 +19,7 @@ const ForgotPassword = ({
 
 ForgotPassword.propTypes = {
   Layout: PropTypes.func.isRequired,
-  member: PropTypes.shape({}).isRequired,
+  auth: PropTypes.shape({}).isRequired,
   onFormSubmit: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
@@ -32,15 +30,13 @@ ForgotPassword.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  member: state.member || {},
+  auth: state.auth || {},
   isLoading: state.status.loading || false,
   infoMessage: state.status.info || null,
   errorMessage: state.status.error || null,
   successMessage: state.status.success || null,
 });
 
-const mapDispatchToProps = {
-  onFormSubmit: resetPassword,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

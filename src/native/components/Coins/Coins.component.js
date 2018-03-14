@@ -25,7 +25,7 @@ class CoinListing extends Component {
     portfoliosLoading: PropTypes.bool.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     portfoliosChart: PropTypes.shape({}),
-    changePct: PropTypes.string,
+    changePct: PropTypes.number,
     drawer: PropTypes.shape({}),
     portfoliosFetch: PropTypes.func,
     getTotals: PropTypes.func,
