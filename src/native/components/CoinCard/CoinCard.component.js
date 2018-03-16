@@ -8,7 +8,7 @@ import { colors, base, typography } from '../../styles';
 
 const CoinCard = ({
   coin,
-  addCoin,
+  addTransaction,
   showCoin,
   removeCoin,
   symbol,
@@ -112,7 +112,7 @@ const CoinCard = ({
             bordered
             full
             style={styles.coinCard__footerButton}
-            onPress={() => addCoin(coin.last)}
+            onPress={() => addTransaction(coin.last)}
           >
             <Text style={styles.coinCard__footerButtonText}>+ ADD NEW COIN</Text>
           </Button>
@@ -124,7 +124,7 @@ const CoinCard = ({
 
 CoinCard.propTypes = {
   coin: PropTypes.shape({}),
-  addCoin: PropTypes.func,
+  addTransaction: PropTypes.func,
   showCoin: PropTypes.func,
   removeCoin: PropTypes.func,
   symbol: PropTypes.string,

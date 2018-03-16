@@ -1,5 +1,6 @@
 import { 
-  UPDATE_TRANSACTION
+  UPDATE_TRANSACTION,
+  CLEAR_TRANSACTION
 } from './action.types';
 
 /////////////////////////////////////////////////////////////////
@@ -9,4 +10,8 @@ import {
 // state = { ...state, ...payload }
 export const updateProccessTransaction = (payload) => dispatch => {
   dispatch({ type: UPDATE_TRANSACTION, payload: payload });
+}
+
+export const clearProccessTransaction = () => dispatch => {
+  dispatch({ type: CLEAR_TRANSACTION, payload: {} });
 }

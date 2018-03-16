@@ -1,23 +1,27 @@
 import { fetchCoins, getCoinHisto, setCoin, delCoin } from '../api/coins';
 import { fetchPortfolios } from '../api/portfolios';
-import { CLEAR_COINS, SEARCH_AVALIABLE_COINS, GET_AVALIABLE_COINS, COIN_HISTO_UPDATE, PORTFOLIOS_UPDATE, PORTFOLIO_COIN_REMOVED, COINS_ERROR } from './action.types';
+import { 
+  ADD_TRANSACTION, 
+  GET_COURSE,
+  COIN_HISTO_UPDATE, 
+  PORTFOLIOS_UPDATE, 
+  PORTFOLIO_COIN_REMOVED, 
+  COINS_ERROR 
+} from './action.types';
 
-/**
-  * Get All Coins
-  */
-export function getAvaliableCoins() {
-  return {
-    type: GET_AVALIABLE_COINS
-  };
-}
 
+/////////////////////////////////////////////////////////////////
 /**
-  * Search for coin
+  * Get course for particular pair and date
   */
-export function changeSearchTerm(term) {
+export function getCourse(from, to, date) {
   return {
-    type: SEARCH_AVALIABLE_COINS,
-    payload: term
+    type: GET_COURSE,
+    payload: {
+      from,
+      to,
+      date
+    }
   };
 }
 
@@ -32,16 +36,13 @@ export function updateCoinHisto(data) {
 }
 
 /**
-  * Add Coin
+  * Add Transaction
   */
-export function addCoin(newCoin) {
-  return dispatch => Promise.resolve(newCoin)
-    .then(setCoin)
-    // .then(fetchCoins)
-    // .then(coins => dispatch({ type: 'COINS_REPLACE', data: coins || [] }))
-    .then(fetchPortfolios)
-    .then(portfolios => dispatch({ type: PORTFOLIOS_UPDATE, data: portfolios || [] }))
-    .catch(e => console.log(e));
+export function addTransaction(transaction) {
+  return {
+    type: ADD_TRANSACTION,
+    payload: transaction
+  };
 }
 
 /**
@@ -66,12 +67,3 @@ export function setCoinsError(data) {
     .catch(e => console.log(e));
 }
 
-
-/**
-  * Clear coins result
-  */
-export function clearCoins() {
-  return {
-    type: CLEAR_COINS
-  };
-}

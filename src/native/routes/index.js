@@ -74,6 +74,14 @@ const Index = (
                component={CoinsContainer}
                Layout={CreatePortfolioComponent}
              />
+             <Scene
+               key="selectCoin"
+               component={SearchList}
+             />
+             <Scene
+               key="createNewTransaction"
+               component={CreateNewTransaction}
+             />
           </Stack>
 
           <Stack
@@ -149,21 +157,6 @@ const Index = (
       component={PortfoliosContainer}
       Layout={PortfoliosModal}
     />
-    <Scene
-      hideNavBar
-      key="selectCoin"
-      {...DefaultProps.navbarProps}
-    >
-      <Scene
-        key="selectCoin"
-        component={SearchList}
-      />
-      <Scene
-        key="createNewTransaction"
-        component={CreateNewTransaction}
-      />
-    </Scene>
-    
   </Modal>
 );
 

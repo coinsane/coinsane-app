@@ -6,10 +6,11 @@ export const api = ({dispatch}) => next => action => {
   
   if(action.type === API_REQUEST) {
     const { method, url, onSuccess, onError } = action.meta;
+    let data = (method === 'POST') ? action.payload : undefined;
 
-    axios({ url: url, method: method })
-      .then((res) => dispatch({ type: onSuccess, payload: res.data.response.result || [] }))
-      .catch(error => dispatch({ type: onError, payload: error }))
+    axios({ url: url, method: method, data })
+      .then((res) => { dispatch({ type: onSuccess, payload: res.data || {} }) })
+      .catch(error => { dispatch({ type: onError, payload: error })})
   }
   return next(action);
   

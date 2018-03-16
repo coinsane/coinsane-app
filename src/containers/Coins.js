@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData } from '../actions/portfolios';
 import { updateProccessTransaction } from '../actions/inProccess';
-import { addCoin, removeCoin, setCoinsError } from '../actions/coins';
+import { addTransaction, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
   static propTypes = {
@@ -24,7 +24,7 @@ class CoinListing extends Component {
     getPortfolios: PropTypes.func.isRequired,
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
-    addCoin: PropTypes.func.isRequired,
+    addTransaction: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     updatePortfolio: PropTypes.func.isRequired,
     selectPortfolio: PropTypes.func.isRequired,
@@ -54,12 +54,12 @@ class CoinListing extends Component {
       });
   }
 
-  addCoin = (portfolioId) => {
+  addTransaction = (portfolioId) => {
     // add portfolioId (passed as object) to proccess transaction peace of state
-    this.props.updateProccessTransaction({portfolioId});
+    this.props.updateProccessTransaction({portfolio: portfolioId});
     // show SelectCoin screen
     Actions.selectCoin();
-    //return this.props.addCoin(newCoin);
+    //return this.props.addTransaction(newCoin);
   }
 
   removePortfolio = (portfolioId) => {
@@ -118,7 +118,7 @@ class CoinListing extends Component {
         coinData={portfolios.coinData}
         portfoliosFetch={() => this.fetchPortfolios()}
 
-        addCoin={this.addCoin}
+        addTransaction={this.addTransaction}
         removeCoin={this.removeCoin}
       />
     );
@@ -137,7 +137,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getPortfolios,
   getTotals,
-  addCoin,
+  addTransaction,
   removePortfolio,
   updatePortfolio,
   selectPortfolio,

@@ -7,7 +7,8 @@ import Spacer from '../Spacer/Spacer.component';
 import SearchBar from '../SearchBar/SearchBar.component';
 import { Actions } from 'react-native-router-flux';
 import Modal from '../modal/BaseModal.component';
-import { getAvaliableCoins, clearCoins } from '../../../actions/coins';
+import { getAvaliableMarkets, clearMarkets } from '../../../actions/markets';
+import { getAvaliableCurrencies } from '../../../actions/currencies';
 import { updateProccessTransaction } from '../../../actions/inProccess';
 import SearchListItem from '../SearchListItem/SearchListItem.component';
 import styles from './SearchList.styles';
@@ -15,16 +16,17 @@ import { colors, base } from '../../styles';
 
 class SearchList extends Component {
   componentWillMount() {
-    this.props.getAvaliableCoins();
+    this.props.getAvaliableMarkets();
+    this.props.getAvaliableCurrencies();
   }
   
   close() {
-    this.props.clearCoins();
+    this.props.clearMarkets();
     Actions.pop()
   }
   
   onPress(coinId) {
-    this.props.updateProccessTransaction({coinId});
+    this.props.updateProccessTransaction({coin: coinId});
     Actions.createNewTransaction()
   }
   
@@ -47,9 +49,9 @@ class SearchList extends Component {
           <Content padder style={{ backgroundColor: colors.bgGray }}>
             <SearchBar />
             <List style={ styles.ListContainer }>
-              { this.props.coins.list.map(coin => {
+              { this.props.markets.list.map(market => {
                 return(
-                  <SearchListItem key={coin._id} coin={coin} onPress={ () => this.onPress(coin._id) } />
+                  <SearchListItem key={market._id} coin={market} onPress={ () => this.onPress(market._id) } />
                 );
               }) }
             </List>
@@ -60,10 +62,10 @@ class SearchList extends Component {
   }
 }
 
-const mapStateToProps = ({ coins }) => {
+const mapStateToProps = ({ markets }) => {
   return {
-    coins
+    markets
   };
 }
 
-export default connect(mapStateToProps, { getAvaliableCoins, clearCoins, updateProccessTransaction })(SearchList);
+export default connect(mapStateToProps, { getAvaliableMarkets, getAvaliableCurrencies, clearMarkets, updateProccessTransaction })(SearchList);

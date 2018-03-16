@@ -3,6 +3,8 @@ import status from './status';
 import auth from './auth';
 import portfolios from './portfolios';
 import coins from './coins';
+import markets from './markets';
+import currencies from './currencies';
 import inProccess from './inProccess';
 
 const rehydrated = (state = false, action) => {
@@ -21,5 +23,7 @@ export default {
   auth,
   portfolios,
   coins,
+  markets,
+  currencies,
   inProccess
 };

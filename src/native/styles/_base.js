@@ -26,7 +26,16 @@ export default StyleSheet.create({
     color: colors.white,
     fontFamily: typography.fontMedium,
   },
-  //form with input for name
+  // List item shared input field with label
+  listItem__labelInputContainer: {
+    paddingLeft: 10,
+    borderBottomColor: colors.bgGray
+  },
+  listItem__labelInput: {
+    height: 21,
+    paddingLeft: 0
+  },
+  // form with input for name
   form__titleContainer: {
     marginLeft: 0,
     borderBottomColor: colors.blackBorder,

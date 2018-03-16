@@ -7,7 +7,7 @@ import styles from './Header.styles';
 import { Actions } from 'react-native-router-flux';
 import { typography, colors } from '../../styles';
 
-const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, amount, symbol }) => {
+const PortfolioHeader = ({ id, show, title, totals, count, addTransaction, changePct, amount, symbol }) => {
   if (!show) return <Spacer size={15} />;
 
   const fixed = 6;
@@ -43,7 +43,7 @@ const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, a
           bordered
           full
           style={styles.headerBtn}
-          onPress={() => addCoin(id)}
+          onPress={() => addTransaction(id)}
         >
           <Text style={styles.headerBtn__text}>+ ADD NEW COIN</Text>
         </Button>
@@ -58,7 +58,7 @@ PortfolioHeader.propTypes = {
   title: PropTypes.string,
   count: PropTypes.number,
   totals: PropTypes.shape({}),
-  addCoin: PropTypes.func,
+  addTransaction: PropTypes.func,
   changePct: PropTypes.number,
   amount: PropTypes.number,
 };
