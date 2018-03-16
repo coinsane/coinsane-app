@@ -4,9 +4,9 @@ import { PORTFOLIOS_UPDATE, TOTALS_REPLACE, PORTFOLIO_SELECT, PORTFOLIO_UPDATE, 
 /**
   * Get Portfolios
   */
-export function getPortfolios() {
+export function getPortfolios(symbol) {
   return dispatch => Promise.resolve()
-    .then(fetchPortfolios)
+    .then(() => fetchPortfolios(symbol))
     .then(portfolios => dispatch({
       type: PORTFOLIOS_UPDATE,
       data: portfolios || [],
@@ -94,6 +94,24 @@ export function setCoinData(data) {
   return dispatch => Promise.resolve()
     .then(() => dispatch({
       type: SET_COIN_DATA,
+      data
+    }))
+    .catch(e => console.log(e));
+}
+
+export function updateCurrency(data) {
+  return dispatch => Promise.resolve()
+    .then(() => dispatch({
+      type: 'UPDATE_CURRENCY',
+      data
+    }))
+    .catch(e => console.log(e));
+}
+
+export function updatePeriod(data) {
+  return dispatch => Promise.resolve()
+    .then(() => dispatch({
+      type: 'UPDATE_PERIOD',
       data
     }))
     .catch(e => console.log(e));

@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import { typography, colors } from '../../styles';
 
 const PortfolioHeader = ({ id, show, title, totals, count, addTransaction, changePct, amount, symbol }) => {
-  if (!show) return <Spacer size={15} />;
+  if (!show) return <Spacer size={30} />;
 
   const fixed = 6;
 
@@ -24,7 +24,7 @@ const PortfolioHeader = ({ id, show, title, totals, count, addTransaction, chang
   const changePctDisplay = `${changePct}%`;
 
   return (
-    <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+    <View style={{ borderTopColor: '#2C263F', borderTopWidth: 1, marginTop: 20, }}>
       <ListItem style={styles.listItemContainer}>
         <Body style={styles.body}>
           <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={[styles.body__arrowIcon]} />

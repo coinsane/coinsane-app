@@ -15,6 +15,7 @@ export default StyleSheet.flatten({
     flex: 0.6,
     flexDirection: 'row',
     flexWrap: 'nowrap',
+    paddingLeft: 15,
   },
   body__arrowIcon: {
     transform: [{ rotate: '270deg' }, { translateX: -4 }],
@@ -29,6 +30,7 @@ export default StyleSheet.flatten({
   },
   right: {
     flex: 0.4,
+    paddingRight: 15,
   },
   right__text: {
     color: colors.textGray,
@@ -40,6 +42,9 @@ export default StyleSheet.flatten({
     borderRadius: 5,
     paddingTop: 15,
     paddingBottom: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 15,
   },
   headerBtn__text: {
     color: colors.textGray,

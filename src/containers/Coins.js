@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData } from '../actions/portfolios';
+import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updateCurrency, updatePeriod } from '../actions/portfolios';
 import { updateProccessTransaction } from '../actions/inProccess';
 import { addTransaction, removeCoin, setCoinsError } from '../actions/coins';
 
@@ -32,6 +32,8 @@ class CoinListing extends Component {
     setPortfoliosError: PropTypes.func.isRequired,
     setCoinsError: PropTypes.func.isRequired,
     setCoinData: PropTypes.func.isRequired,
+    updateCurrency: PropTypes.func.isRequired,
+    updatePeriod: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -47,10 +49,15 @@ class CoinListing extends Component {
     * Fetch Data from API, saving to Redux
     */
   fetchPortfolios = () => {
-    return this.props.getPortfolios()
+    const {
+      portfolios,
+      getPortfolios,
+      setPortfoliosError,
+    } = this.props;
+    return getPortfolios(portfolios.currency)
       .catch((err) => {
         console.log(`Error: ${err}`);
-        return this.props.setPortfoliosError(err);
+        return setPortfoliosError(err);
       });
   }
 
@@ -80,6 +87,14 @@ class CoinListing extends Component {
 
   _setCoinData = (data) => {
     return this.props.setCoinData(data);
+  }
+
+  _updateCurrency = (data) => {
+    return this.props.updateCurrency(data);
+  }
+
+  _updatePeriod = (data) => {
+    return this.props.updatePeriod(data);
   }
 
   _getTotals = (data) => {
@@ -113,6 +128,10 @@ class CoinListing extends Component {
         editPortfolio={this.editPortfolio}
         addPortfolio={this._addPortfolio}
         setCoinData={this._setCoinData}
+        updateCurrency={this._updateCurrency}
+        updatePeriod={this._updatePeriod}
+        currency={portfolios.currency}
+        period={portfolios.period}
         getTotals={this._getTotals}
         activePortfolio={portfolios.selected}
         coinData={portfolios.coinData}
@@ -146,6 +165,8 @@ const mapDispatchToProps = {
   setPortfoliosError,
   setCoinsError,
   setCoinData,
+  updateCurrency,
+  updatePeriod,
   updateProccessTransaction
 };
 

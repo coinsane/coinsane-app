@@ -94,6 +94,18 @@ export default function portfolioReducer(state = initialState, action) {
         coinData: action.data,
       };
     }
+    case 'UPDATE_CURRENCY': {
+      return {
+        ...state,
+        currency: action.data,
+      };
+    }
+    case 'UPDATE_PERIOD': {
+      return {
+        ...state,
+        period: action.data,
+      };
+    }
     default:
       return state;
   }
