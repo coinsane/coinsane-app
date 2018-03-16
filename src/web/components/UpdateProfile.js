@@ -1,4 +1,4 @@
-import React from 'react';
+authimport React from 'react';
 import PropTypes from 'prop-types';
 import {
   Row,
@@ -21,7 +21,7 @@ class UpdateProfile extends React.Component {
     success: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
-    member: PropTypes.shape({
+    auth: PropTypes.shape({
       firstName: PropTypes.string,
       lastName: PropTypes.string,
       email: PropTypes.string,
@@ -36,9 +36,9 @@ class UpdateProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: props.member.firstName || '',
-      lastName: props.member.lastName || '',
-      email: props.member.email || '',
+      firstName: props.auth.firstName || '',
+      lastName: props.auth.lastName || '',
+      email: props.auth.email || '',
       password: '',
       password2: '',
       changeEmail: false,

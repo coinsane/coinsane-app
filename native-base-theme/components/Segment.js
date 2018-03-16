@@ -1,42 +1,41 @@
 import variable from "./../variables/platform";
+import { colors } from '../../src/native/styles';
 
 export default (variables = variable) => {
 	const platform = variables.platform;
 
 	const segmentTheme = {
 		height: 45,
-		borderColor: variables.segmentBorderColorMain,
 		flexDirection: "row",
 		justifyContent: "center",
-		backgroundColor: variables.segmentBackgroundColor,
 		"NativeBase.Button": {
 			alignSelf: "center",
-			borderRadius: 0,
 			paddingHorizontal: 20,
-			height: 30,
+			height: 36,
 			backgroundColor: "transparent",
-			borderWidth: 1,
-			borderLeftWidth: 0,
-			borderColor: variables.segmentBorderColor,
 			elevation: 0,
+			justifyContent: 'center',
 			".active": {
-				backgroundColor: variables.segmentActiveBackgroundColor,
+				backgroundColor: colors.inputBg,
 				"NativeBase.Text": {
-					color: variables.segmentActiveTextColor,
+					color: colors.white,
 				},
 			},
 			".first": {
-				borderTopLeftRadius: platform === "ios" ? 5 : undefined,
-				borderBottomLeftRadius: platform === "ios" ? 5 : undefined,
-				borderLeftWidth: 1,
+				borderTopLeftRadius: platform === "ios" ? 18 : undefined,
+				borderBottomLeftRadius: platform === "ios" ? 18 : undefined,
+				borderTopRightRadius: platform === "ios" ? 18 : undefined,
+				borderBottomRightRadius: platform === "ios" ? 18 : undefined,
 			},
 			".last": {
-				borderTopRightRadius: platform === "ios" ? 5 : undefined,
-				borderBottomRightRadius: platform === "ios" ? 5 : undefined,
+				borderTopLeftRadius: platform === "ios" ? 18 : undefined,
+				borderBottomLeftRadius: platform === "ios" ? 18 : undefined,
+				borderTopRightRadius: platform === "ios" ? 18 : undefined,
+				borderBottomRightRadius: platform === "ios" ? 18 : undefined,
 			},
 			"NativeBase.Text": {
-				color: variables.segmentTextColor,
-				fontSize: 14,
+				color: colors.textGray,
+				fontSize: 14
 			},
 		},
 	};

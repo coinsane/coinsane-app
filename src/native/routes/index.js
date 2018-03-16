@@ -17,6 +17,10 @@ import CoinViewComponent from '../components/Coin/Coin.component';
 import PortfoliosContainer from '../../containers/Portfolios';
 import PortfoliosModal from '../components/modal/Portfolios.component';
 
+import SearchList from '../components/SearchList/SearchList.component';
+
+import CreateNewTransaction from '../components/CreateNewTransaction/CreateNewTransaction.component';
+
 import PortfolioSettingsComponent from '../components/PortfolioSettings/PortfolioSettings.component';
 import CreatePortfolioComponent from '../components/CreatePortfolio/CreatePortfolio.component';
 
@@ -47,7 +51,7 @@ const Index = (
   <Modal key="modal"
     hideNavBar
     transitionConfig={() => ({ screenInterpolator: CardStackStyleInterpolator.forFadeFromBottomAndroid })}
-  >
+    >
     <Overlay key="overlay" contentComponent={NavigationDrawer}>
       <Lightbox key="lightbox">
         <Tabs key="tabbar" swipeEnabled={false} animationEnabled={false} tabBarComponent={() => <View/>}>
@@ -69,6 +73,14 @@ const Index = (
                key="createPortfolio"
                component={CoinsContainer}
                Layout={CreatePortfolioComponent}
+             />
+             <Scene
+               key="selectCoin"
+               component={SearchList}
+             />
+             <Scene
+               key="createNewTransaction"
+               component={CreateNewTransaction}
              />
           </Stack>
 

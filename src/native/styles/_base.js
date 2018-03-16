@@ -9,26 +9,33 @@ export default StyleSheet.create({
   contentContainer: { backgroundColor: colors.bgGray },
   //footer with btn
   footer: {
-    backgroundColor: colors.bgGray,
-    marginBottom: 15,
-    paddingBottom: 15,
+    backgroundColor: colors.inputBg,
     borderTopWidth: 0,
+    height: 45,
+    marginTop: 15
   },
   footer__button: {
     flex: 1,
-    borderColor: colors.blackBorder,
-    borderRadius: 5,
-    marginTop: 15,
-    paddingTop: 25,
-    paddingBottom: 15,
-    marginLeft: 15,
-    marginRight: 15,
+    height: 45,
+    borderTopWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    borderBottomWidth: 0
   },
   footer__buttonText: {
-    color: colors.textGray,
+    color: colors.white,
     fontFamily: typography.fontMedium,
   },
-  //form with input for name
+  // List item shared input field with label
+  listItem__labelInputContainer: {
+    paddingLeft: 10,
+    borderBottomColor: colors.bgGray
+  },
+  listItem__labelInput: {
+    height: 21,
+    paddingLeft: 0
+  },
+  // form with input for name
   form__titleContainer: {
     marginLeft: 0,
     borderBottomColor: colors.blackBorder,

@@ -8,7 +8,7 @@ import Icon from '../Icon/Icon.component';
 
 import { colors, base } from '../../styles';
 
-const Profile = ({ member, logout, drawer }) => (
+const Profile = ({ auth, logout, drawer }) => (
   <Container>
     <Header style={base.headerContainer}>
       <StatusBar barStyle="light-content"/>
@@ -25,12 +25,12 @@ const Profile = ({ member, logout, drawer }) => (
     </Header>
     <Content style={base.contentContainer}>
       <List>
-        {(member && member.email) ?
+        {(auth && auth.email) ?
           <View>
             <Content padder>
               <Lead
-                title={`Hi ${member.firstName},`}
-                content={`You are currently logged in as ${member.email}`}
+                title={`Hi ${auth.firstName},`}
+                content={`You are currently logged in as ${auth.email}`}
               />
             </Content>
 
@@ -92,13 +92,12 @@ const Profile = ({ member, logout, drawer }) => (
 );
 
 Profile.propTypes = {
-  member: PropTypes.shape({}),
-  logout: PropTypes.func.isRequired,
+  auth: PropTypes.shape({}),
   drawer: PropTypes.shape({}),
 };
 
 Profile.defaultProps = {
-  member: {},
+  auth: {},
 };
 
 export default Profile;

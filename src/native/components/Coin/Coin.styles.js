@@ -16,7 +16,6 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   coinHeader__text: {
-    color: colors.textGray,
-    fontSize: 14,
+    color: colors.textGray
   },
 });

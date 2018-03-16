@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updateCurrency, updatePeriod } from '../actions/portfolios';
-import { addCoin, removeCoin, setCoinsError } from '../actions/coins';
+import { updateProccessTransaction } from '../actions/inProccess';
+import { addTransaction, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
   static propTypes = {
@@ -22,7 +24,7 @@ class CoinListing extends Component {
     getPortfolios: PropTypes.func.isRequired,
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
-    addCoin: PropTypes.func.isRequired,
+    addTransaction: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     updatePortfolio: PropTypes.func.isRequired,
     selectPortfolio: PropTypes.func.isRequired,
@@ -59,12 +61,12 @@ class CoinListing extends Component {
       });
   }
 
-  addCoin = (portfolioId) => {
-    const mockMarkets = [41122,41125,411271,411496,411620,411647,41192,412081,412112,412197,412267,413886,41587,41590,41592,41819,418671,41868,418694,41871,418778,419209,41962,41967,41971,419711,41974];
-    const marketId = mockMarkets[Math.floor(Math.random() * mockMarkets.length)]
-    const amount = Math.round(0.5 + Math.random() * 2000);
-    const newCoin = { marketId, amount, portfolioId };
-    return this.props.addCoin(newCoin);
+  addTransaction = (portfolioId) => {
+    // add portfolioId (passed as object) to proccess transaction peace of state
+    this.props.updateProccessTransaction({portfolio: portfolioId});
+    // show SelectCoin screen
+    Actions.selectCoin();
+    //return this.props.addTransaction(newCoin);
   }
 
   removePortfolio = (portfolioId) => {
@@ -135,7 +137,7 @@ class CoinListing extends Component {
         coinData={portfolios.coinData}
         portfoliosFetch={() => this.fetchPortfolios()}
 
-        addCoin={this.addCoin}
+        addTransaction={this.addTransaction}
         removeCoin={this.removeCoin}
       />
     );
@@ -154,8 +156,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getPortfolios,
   getTotals,
-  // getCoins,
-  addCoin,
+  addTransaction,
   removePortfolio,
   updatePortfolio,
   selectPortfolio,
@@ -166,6 +167,7 @@ const mapDispatchToProps = {
   setCoinData,
   updateCurrency,
   updatePeriod,
+  updateProccessTransaction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinListing);
