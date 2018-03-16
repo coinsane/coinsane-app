@@ -8,13 +8,17 @@ export const GET_TOKEN_ERROR = '[auth] GET_TOKEN_ERROR';
 
 
 // ========= [coins] peace of state action types ========= //
-export const API_GET_AVALIABLE_COINS = '[api] GET_AVALIABLE_COINS'
+export const GET_AVALIABLE_COINS = '[api] GET_AVALIABLE_COINS';
+export const SEARCH_AVALIABLE_COINS = '[api] SEARCH_AVALIABLE_COINS';
+export const GET_SEARCHED_COINS_SUCCESS = '[api] GET_SEARCHED_COINS_SUCCESS';
+export const GET_SEARCHED_COINS_ERROR = '[api] GET_SEARCHED_COINS_ERROR';
 export const GET_AVALIABLE_COINS_SUCCESS = '[coins] GET_AVALIABLE_COINS_SUCCESS';
 export const GET_AVALIABLE_COINS_ERROR = '[coins] GET_AVALIABLE_COINS_ERROR';
 export const COIN_HISTO_UPDATE = '[coins] COIN_HISTO_UPDATE';
 export const PORTFOLIO_COIN_REMOVED = '[coins] PORTFOLIO_COIN_REMOVED';
 export const COINS_ERROR = '[coins] COINS_ERROR';
 export const SET_COIN_DATA = '[coins] SET_COIN_DATA';
+export const CLEAR_COINS = '[coins] CLEAR_COINS';
 
 
 // ========= [portfolios] peace of state action types ========= //
@@ -30,6 +34,10 @@ export const PORTFOLIOS_ERROR = '[portfolios] PORTFOLIOS_ERROR';
 // ========= [navigation] peace of state action types ========= //
 export const DRAWER_ACTIONS = '[navigation] DRAWER_ACTIONS';
 export const SET_ACTIVE_MENU = '[navigation] SET_ACTIVE_MENU';
+
+
+// ========= [inProccess] peace of state action types ========= //
+export const UPDATE_TRANSACTION = '[proccess] UPDATE_TRANSACTION';
 
 
 export const API_REQUEST = '[api] API_REQUEST';

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData } from '../actions/portfolios';
+import { updateProccessTransaction } from '../actions/inProccess';
 import { addCoin, removeCoin, setCoinsError } from '../actions/coins';
 
 class CoinListing extends Component {
@@ -53,11 +55,11 @@ class CoinListing extends Component {
   }
 
   addCoin = (portfolioId) => {
-    const mockMarkets = [41122,41125,411271,411496,411620,411647,41192,412081,412112,412197,412267,413886,41587,41590,41592,41819,418671,41868,418694,41871,418778,419209,41962,41967,41971,419711,41974];
-    const marketId = mockMarkets[Math.floor(Math.random() * mockMarkets.length)]
-    const amount = Math.round(0.5 + Math.random() * 2000);
-    const newCoin = { marketId, amount, portfolioId };
-    return this.props.addCoin(newCoin);
+    // add portfolioId (passed as object) to proccess transaction peace of state
+    this.props.updateProccessTransaction({portfolioId});
+    // show SelectCoin screen
+    Actions.selectCoin();
+    //return this.props.addCoin(newCoin);
   }
 
   removePortfolio = (portfolioId) => {
@@ -144,6 +146,7 @@ const mapDispatchToProps = {
   setPortfoliosError,
   setCoinsError,
   setCoinData,
+  updateProccessTransaction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinListing);

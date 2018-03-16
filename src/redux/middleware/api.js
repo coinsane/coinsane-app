@@ -8,7 +8,7 @@ export const api = ({dispatch}) => next => action => {
     const { method, url, onSuccess, onError } = action.meta;
 
     axios({ url: url, method: method })
-      .then((res) => dispatch({ type: onSuccess, payload: res.data.response.result }))
+      .then((res) => dispatch({ type: onSuccess, payload: res.data.response.result || [] }))
       .catch(error => dispatch({ type: onError, payload: error }))
   }
   return next(action);

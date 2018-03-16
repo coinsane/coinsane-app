@@ -3,6 +3,7 @@ import status from './status';
 import auth from './auth';
 import portfolios from './portfolios';
 import coins from './coins';
+import inProccess from './inProccess';
 
 const rehydrated = (state = false, action) => {
   switch (action.type) {
@@ -20,4 +21,5 @@ export default {
   auth,
   portfolios,
   coins,
+  inProccess
 };

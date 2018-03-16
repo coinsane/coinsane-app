@@ -19,6 +19,8 @@ import PortfoliosModal from '../components/modal/Portfolios.component';
 
 import SearchList from '../components/SearchList/SearchList.component';
 
+import CreateNewTransaction from '../components/CreateNewTransaction/CreateNewTransaction.component';
+
 import PortfolioSettingsComponent from '../components/PortfolioSettings/PortfolioSettings.component';
 import CreatePortfolioComponent from '../components/CreatePortfolio/CreatePortfolio.component';
 
@@ -148,9 +150,20 @@ const Index = (
       Layout={PortfoliosModal}
     />
     <Scene
+      hideNavBar
       key="selectCoin"
-      component={SearchList}
-    />
+      {...DefaultProps.navbarProps}
+    >
+      <Scene
+        key="selectCoin"
+        component={SearchList}
+      />
+      <Scene
+        key="createNewTransaction"
+        component={CreateNewTransaction}
+      />
+    </Scene>
+    
   </Modal>
 );
 

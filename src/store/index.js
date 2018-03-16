@@ -5,6 +5,7 @@ import storage from 'redux-persist/es/storage'; // default: localStorage if web,
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { api } from '../redux/middleware/api';
+import throttle from '../redux/middleware/throttle';
 import { coinsActionsFlow } from '../redux/middleware/coins';
 import reducers from '../reducers';
 
@@ -19,7 +20,7 @@ const reducer = persistCombineReducers(config, reducers);
 
 const logger = createLogger();
 
-const middleware = [thunk, logger, api, coinsActionsFlow];
+const middleware = [thunk, throttle, api, coinsActionsFlow];
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

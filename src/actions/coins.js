@@ -1,13 +1,23 @@
 import { fetchCoins, getCoinHisto, setCoin, delCoin } from '../api/coins';
 import { fetchPortfolios } from '../api/portfolios';
-import { API_GET_AVALIABLE_COINS, COIN_HISTO_UPDATE, PORTFOLIOS_UPDATE, PORTFOLIO_COIN_REMOVED, COINS_ERROR } from './action.types';
+import { CLEAR_COINS, SEARCH_AVALIABLE_COINS, GET_AVALIABLE_COINS, COIN_HISTO_UPDATE, PORTFOLIOS_UPDATE, PORTFOLIO_COIN_REMOVED, COINS_ERROR } from './action.types';
 
 /**
   * Get All Coins
   */
 export function getAvaliableCoins() {
   return {
-    type: API_GET_AVALIABLE_COINS
+    type: GET_AVALIABLE_COINS
+  };
+}
+
+/**
+  * Search for coin
+  */
+export function changeSearchTerm(term) {
+  return {
+    type: SEARCH_AVALIABLE_COINS,
+    payload: term
   };
 }
 
@@ -54,4 +64,14 @@ export function setCoinsError(data) {
   return dispatch => Promise.resolve()
     .then(() => dispatch({ type: COINS_ERROR, data }))
     .catch(e => console.log(e));
+}
+
+
+/**
+  * Clear coins result
+  */
+export function clearCoins() {
+  return {
+    type: CLEAR_COINS
+  };
 }

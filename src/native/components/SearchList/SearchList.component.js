@@ -7,7 +7,8 @@ import Spacer from '../Spacer/Spacer.component';
 import SearchBar from '../SearchBar/SearchBar.component';
 import { Actions } from 'react-native-router-flux';
 import Modal from '../modal/BaseModal.component';
-import { getAvaliableCoins } from '../../../actions/coins';
+import { getAvaliableCoins, clearCoins } from '../../../actions/coins';
+import { updateProccessTransaction } from '../../../actions/inProccess';
 import SearchListItem from '../SearchListItem/SearchListItem.component';
 import styles from './SearchList.styles';
 import { colors, base } from '../../styles';
@@ -15,6 +16,16 @@ import { colors, base } from '../../styles';
 class SearchList extends Component {
   componentWillMount() {
     this.props.getAvaliableCoins();
+  }
+  
+  close() {
+    this.props.clearCoins();
+    Actions.pop()
+  }
+  
+  onPress(coinId) {
+    this.props.updateProccessTransaction({coinId});
+    Actions.createNewTransaction()
   }
   
   render() {
@@ -28,7 +39,7 @@ class SearchList extends Component {
               <Title>{'Select coin'}</Title>
             </Body>
             <Right>
-              <Button transparent onPress={() => Actions.pop()}>
+              <Button transparent onPress={() => this.close() }>
                 <Icon name='md-close' width={28} style={{ color: colors.white }} />
               </Button>
             </Right>
@@ -37,9 +48,8 @@ class SearchList extends Component {
             <SearchBar />
             <List style={ styles.ListContainer }>
               { this.props.coins.list.map(coin => {
-                console.log(coin)
                 return(
-                  <SearchListItem key={coin._id} coin={coin} />
+                  <SearchListItem key={coin._id} coin={coin} onPress={ () => this.onPress(coin._id) } />
                 );
               }) }
             </List>
@@ -56,4 +66,4 @@ const mapStateToProps = ({ coins }) => {
   };
 }
 
-export default connect(mapStateToProps, { getAvaliableCoins })(SearchList);
+export default connect(mapStateToProps, { getAvaliableCoins, clearCoins, updateProccessTransaction })(SearchList);

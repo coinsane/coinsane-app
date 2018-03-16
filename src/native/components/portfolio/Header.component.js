@@ -43,7 +43,7 @@ const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, a
           bordered
           full
           style={styles.headerBtn}
-          onPress={() => Actions.selectCoin()}
+          onPress={() => addCoin(id)}
         >
           <Text style={styles.headerBtn__text}>+ ADD NEW COIN</Text>
         </Button>

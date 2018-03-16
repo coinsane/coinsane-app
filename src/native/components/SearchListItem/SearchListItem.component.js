@@ -5,9 +5,9 @@ import { typography } from '../../styles';
 
 const imgSourceUrl = 'https://www.cryptocompare.com';
 
-export default ({ coin }) => {
+export default ({ coin, onPress }) => {
   return (
-    <ListItem avatar style={ styles.listItemContainer }>
+    <ListItem avatar style={ styles.listItemContainer } onPress={ onPress } >
       <Left>
         <Thumbnail source={{ uri: imgSourceUrl + coin.imageUrl }} style={ styles.listItem__leftIcon } />
       </Left>
