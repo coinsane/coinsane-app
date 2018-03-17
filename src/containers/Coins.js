@@ -46,13 +46,13 @@ class CoinListing extends Component {
   /**
     * Fetch Data from API, saving to Redux
     */
-  fetchPortfolios = () => {
+  fetchPortfolios = (symbol) => {
     const {
       portfolios,
       getPortfolios,
       setPortfoliosError,
     } = this.props;
-    return getPortfolios(portfolios.currency)
+    return getPortfolios(symbol || portfolios.currency)
       .catch((err) => {
         console.log(`Error: ${err}`);
         return setPortfoliosError(err);
@@ -133,7 +133,7 @@ class CoinListing extends Component {
         getTotals={this._getTotals}
         activePortfolio={portfolios.selected}
         coinData={portfolios.coinData}
-        portfoliosFetch={() => this.fetchPortfolios()}
+        portfoliosFetch={(symbol) => this.fetchPortfolios(symbol)}
 
         addCoin={this.addCoin}
         removeCoin={this.removeCoin}

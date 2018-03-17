@@ -3,13 +3,13 @@ import axios from 'axios';
 
 export const fetchTotals = (data) => new Promise(async (resolve, reject) => {
   const { portfolioId, range, symbol } = data;
-  const response = await axios.get(`/totals?portfolioId=${portfolioId}&range=${range}&symbol=${symbol}`);
+  const response = await axios.get('/totals', { params: { portfolioId, range, symbol} });
   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
   resolve(response.data.response);
 });
 
 export const fetchPortfolios = (symbol) => new Promise(async (resolve, reject) => {
-  const response = await axios.get('/portfolios', { symbol });
+  const response = await axios.get('/portfolios', { params: { symbol } });
   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
   console.log('response.data.response.portfolios', response.data.response.portfolios)
   resolve(response.data.response.portfolios);

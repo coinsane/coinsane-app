@@ -9,7 +9,7 @@ import { typography, colors } from '../../styles';
 const PortfolioHeader = ({ id, show, title, totals, count, addCoin, changePct, amount, symbol }) => {
   if (!show) return <Spacer size={30} />;
 
-  const fixed = 6;
+  const fixed = symbol === 'BTC' ? 6 : 2;
 
   const amountSplit = amount.toString().split('.');
   const totalDisplay = amountSplit.length > 1

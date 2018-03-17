@@ -74,6 +74,7 @@ class CoinListing extends Component {
   updateChart(portfolioId, range, symbol) {
     this.props.getTotals({ portfolioId, range, symbol });
     this.props.updatePeriod(range);
+    this.props.portfoliosFetch(symbol);
   }
 
   componentDidMount() {
