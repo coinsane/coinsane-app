@@ -29,7 +29,7 @@ export default StyleSheet.flatten({
     color: colors.textGray,
   },
   right: {
-    flex: 0.4,
+    flex: 0.5,
     paddingRight: 15,
   },
   right__text: {

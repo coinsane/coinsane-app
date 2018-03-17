@@ -1,9 +1,21 @@
-import Store from '../store/member';
+import Store from '../store/auth';
+import { GET_TOKEN_SUCCEED } from '../actions/action.types';
 
 export const initialState = Store;
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_TOKEN_SUCCEED: {
+      if (action.payload.token) {
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          token: action.payload.token,
+        };
+      }
+      return initialState;
+    }
     case 'USER_LOGIN': {
       if (action.data) {
         return {

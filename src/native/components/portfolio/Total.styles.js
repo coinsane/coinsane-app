@@ -24,8 +24,7 @@ export default StyleSheet.create({
     color: '#fff',
   },
   total__summary: {
-    fontSize: typography.size36,
-    fontFamily: typography.fontLight,
+    fontSize: typography.h1,
     letterSpacing: -1,
   },
   total__pct: {

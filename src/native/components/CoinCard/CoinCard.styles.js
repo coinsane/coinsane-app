@@ -47,7 +47,7 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontFamily: typography.fontRegular,
   },
-  rightContainer: { flex: 0.4 },
+  rightContainer: { flex: 0.5 },
   right__text: {
     fontSize: typography.size14,
     marginBottom: 6,

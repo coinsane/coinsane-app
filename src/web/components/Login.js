@@ -18,7 +18,7 @@ import Loading from './Loading';
 
 class Login extends React.Component {
   static propTypes = {
-    member: PropTypes.shape({
+    auth: PropTypes.shape({
       email: PropTypes.string,
     }),
     error: PropTypes.string,
@@ -31,13 +31,13 @@ class Login extends React.Component {
 
   static defaultProps = {
     error: null,
-    member: {},
+    auth: {},
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      email: (props.member && props.member.email) ? props.member.email : '',
+      email: (props.auth && props.auth.email) ? props.auth.email : '',
       password: '',
     };
 

@@ -2,6 +2,12 @@ import ErrorMessages from '../constants/errors';
 import statusMessage from './status';
 import { Firebase, FirebaseRef } from '../lib/firebase';
 
+import { GET_TOKEN } from './action.types';
+
+export const getToken = () => ({
+  type: GET_TOKEN,
+});
+
 /**
   * Sign Up to Firebase
   */

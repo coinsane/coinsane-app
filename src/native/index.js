@@ -16,9 +16,6 @@ import { setToken } from '../lib/utils';
 
 setToken();
 
-// import { Firebase } from '../lib/firebase';
-// Firebase.auth().signInAnonymously();
-
 const RouterWithRedux = connect()(Router);
 
 const getSceneStyle = () => ({

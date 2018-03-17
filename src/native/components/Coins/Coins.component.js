@@ -31,7 +31,7 @@ class CoinListing extends Component {
     getTotals: PropTypes.func,
     addPortfolio: PropTypes.func,
     removePortfolio: PropTypes.func,
-    addCoin: PropTypes.func,
+    addTransaction: PropTypes.func,
     removeCoin: PropTypes.func,
     activePortfolio: PropTypes.string,
     updateCurrency: PropTypes.func,
@@ -99,7 +99,7 @@ class CoinListing extends Component {
       changePct,
       portfoliosFetch,
       getTotals,
-      addCoin,
+      addTransaction,
       removeCoin,
       activePortfolio,
       updateCurrency,
@@ -160,7 +160,7 @@ class CoinListing extends Component {
           title={portfolio.title}
           totals={portfolio.total}
           count={portfolio.count}
-          addCoin={addCoin}
+          addTransaction={addTransaction}
           symbol={currency}
           // changePct={getChangePct(portfolio.prices)}
           changePct={portfolio.changePct}
@@ -179,7 +179,7 @@ class CoinListing extends Component {
           coin={coin}
           symbol={currency}
           showCoin={showCoin}
-          addCoin={addCoin}
+          addTransaction={addTransaction}
           removeCoin={removeCoin}
           activePortfolio={activePortfolio}
         />
@@ -282,7 +282,7 @@ class CoinListing extends Component {
             small
             bordered
             full
-            onPress={() => addCoin(activePortfolio)}
+            onPress={() => addTransaction(activePortfolio)}
             style={base.footer__button}
           >
             <Text style={base.footer__buttonText}>+ ADD NEW COIN</Text>
