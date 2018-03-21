@@ -8,6 +8,9 @@ import { Actions } from 'react-native-router-flux';
 import Modal from '../modal/BaseModal.component';
 import { getCourse, addTransaction } from '../../../actions/coins';
 import { clearMarkets } from '../../../actions/markets';
+import SwitchSelector from 'react-native-switch-selector';
+import WiseStackedLabel from '../Atoms/WiseStackedLabel/WiseStackedLabel.atom';
+import DatePicker from 'react-native-datepicker';
 import { updateProccessTransaction, clearProccessTransaction } from '../../../actions/inProccess';
 import styles from './CreateNewTransaction.styles';
 import { colors, base, typography } from '../../styles';
@@ -43,21 +46,46 @@ class CreateNewTransaction extends Component {
   handleChange = (name, val) => {
     let value = val;
     if (name === 'amount') { 
-      let exp = /^\d*(\.*\d*)$/;
+      let exp = /^\d*(\.{0,1}\d{0,8})$/;
       value = value.replace(/[,]/g, '.');
-      value = value.replace(/[^0-9.]/g, '') 
+      value = value.replace(/[^0-9.]/g, '');
       if (exp.test(value)) {
         this.props.updateProccessTransaction({ [name]: value });
       }
-    } else {
-      this.props.updateProccessTransaction({ [name]: value });
+    } 
+    if (name === 'price') {
+      let exp = /^\d*(\.{0,1}\d{0,4})$/;
+      value = value.replace(/[,]/g, '.');
+      value = value.replace(/[^0-9.]/g, '');
+      if (exp.test(value)) {
+        this.props.updateProccessTransaction({ [name]: { [this.currency.code]: value } });
+      }
+    }
+    if (name === 'total') {
+      let exp = /^\d*(\.{0,1}\d{0,8})$/;
+      value = value.replace(/[,]/g, '.');
+      value = value.replace(/[^0-9.]/g, '');
+      if (exp.test(value)) {
+        this.props.updateProccessTransaction({ [name]: value });
+      }
     }
   }
   
-  onBlur() {
+  onBlur = (name, val) => {
     console.log('blur');
-    let value = parseFloat(this.props.inProccess.transaction.amount)*this.props.inProccess.course['USD'];
-    this.props.updateProccessTransaction({ total: value });
+    if (name === 'total') {
+      let amount = parseFloat(this.props.inProccess.transaction.amount);
+      let total = parseFloat(this.props.inProccess.transaction.total);
+      let price = total/amount;
+      if (!price || price === Infinity) {
+        this.props.getCourse(this.coin.symbol, this.currency.code);
+      } else {
+        this.props.updateProccessTransaction({ price: { [this.currency.code]: price } });
+      }
+    } else {
+      let value = parseFloat(this.props.inProccess.transaction.amount)*this.props.inProccess.transaction.price[this.currency.code];
+      this.props.updateProccessTransaction({ total: value });
+    }
   }
   
   close() {
@@ -66,8 +94,8 @@ class CreateNewTransaction extends Component {
     this.props.clearProccessTransaction();
   }
   
-  toggleSegment() {
-    this.props.updateProccessTransaction({ buy: !this.props.inProccess.transaction.buy });
+  toggleSegment(value) {
+    this.props.updateProccessTransaction({ buy: value });
   }
   
   addTransaction() {
@@ -81,6 +109,12 @@ class CreateNewTransaction extends Component {
   }
   
   render() {
+    
+    const segmentOptions = [
+        { label: 'BUY', value: true },
+        { label: 'SELL', value: false }
+    ];
+    
     return (
       <Modal hideClose>
         <Container>
@@ -100,10 +134,7 @@ class CreateNewTransaction extends Component {
             <ScrollView
               keyboardShouldPersistTaps='never'
             >
-              <Segment style={ styles.segmentControl } >
-                <Button first active={ this.props.inProccess.transaction.buy } onPress={ () => { this.toggleSegment() } } style={ styles.segmentBtn } ><Text>BUY</Text></Button>
-                <Button last active={ !this.props.inProccess.transaction.buy } onPress={ () => { this.toggleSegment() } } style={ styles.segmentBtn } ><Text>SELL</Text></Button>
-              </Segment>
+              <SwitchSelector options={segmentOptions} initial={0} onPress={value => this.toggleSegment(value)} buttonColor={colors.inputBg} backgroundColor={colors.bgGray} textColor={colors.textGray} />
               <List>
                 <ListItem style={ styles.listItemContainer } onPress={ () => Actions.portfolioSelect() } >
                   <Body>
@@ -116,17 +147,15 @@ class CreateNewTransaction extends Component {
                 </ListItem>
                 <ListItem style={ styles.listItemContainer } >
                   <Body>
-                    <Item stackedLabel style={base.listItem__labelInputContainer}>
-                      <Label style={[typography.smallest, { color: colors.textGray }]}>Amount</Label>
-                      <Input
-                        clearTextOnFocus={true}
-                        keyboardType='numeric'
-                        onChangeText={v => this.handleChange('amount', v)}
-                        onBlur={e => this.onBlur()}
-                        value={this.props.inProccess.transaction.amount+''}
-                        style={base.listItem__labelInput}
-                      />
-                    </Item>
+                    <WiseStackedLabel
+                      sublabel="Amount"
+                      propName="amount"
+                      clearTextOnFocus={ true }
+                      onChangeText={ this.handleChange.bind(this) }
+                      keyboardType="numeric"
+                      onBlur={ this.onBlur.bind(this) }
+                      value={this.props.inProccess.transaction.amount}
+                    />
                   </Body>
                   <Right >
                     <Button style={ styles.listItem__rightButton } onPress={ () => { this.changeCoin() } }>
@@ -137,8 +166,15 @@ class CreateNewTransaction extends Component {
                 </ListItem>
                 <ListItem style={ styles.listItemContainer } >
                   <Body>
-                    <Text style={ [typography.smallest, { color: colors.textGray }] } >Price by coin</Text>
-                    <Text style={ typography.menuSmall }>{ this.currency.symbol + this.props.inProccess.course['USD'] }</Text>
+                    <WiseStackedLabel
+                      sublabel="Price by coin"
+                      propName="price"
+                      clearTextOnFocus={ true }
+                      onChangeText={ this.handleChange.bind(this) }
+                      keyboardType="numeric"
+                      onBlur={ this.onBlur.bind(this) }
+                      value={this.props.inProccess.transaction.price[this.currency.code]+''}
+                    />
                   </Body>
                   <Right >
                     <Button style={ styles.listItem__rightButton } onPress={ () => { this.changeCurrency() } }>
@@ -149,14 +185,49 @@ class CreateNewTransaction extends Component {
                 </ListItem>
                 <ListItem style={ styles.listItemContainer } >
                   <Body>
-                    <Text style={ [typography.smallest, { color: colors.textGray }] } >Total value</Text>
-                    <Text style={ typography.menuSmall }>{ this.currency.symbol + this.props.inProccess.transaction.total+''}</Text>
+                    <WiseStackedLabel
+                      sublabel="Total value"
+                      propName="total"
+                      clearTextOnFocus={ true }
+                      onChangeText={ this.handleChange.bind(this) }
+                      keyboardType="numeric"
+                      onBlur={ this.onBlur.bind(this) }
+                      value={this.props.inProccess.transaction.total+''}
+                    />
                   </Body>
                 </ListItem>
                 <ListItem style={ styles.listItemContainer } >
                   <Body>
                     <Text style={ [typography.smallest, { color: colors.textGray }] } >Date and time</Text>
-                    <Text style={ typography.menuSmall }>{ this.formatDate(this.props.inProccess.transaction.date) }</Text>
+                    <DatePicker
+                      style={{ 
+                        width: '100%'
+                      }}
+                      date={this.props.inProccess.transaction.date}
+                      mode="datetime"
+                      placeholder="select date"
+                      format="YYYY-MM-DD, hh:mm"
+                      confirmBtnText="Set"
+                      cancelBtnText="Cancel"
+                      customStyles={{
+                        dateIcon: {
+                          display: 'none'
+                        },
+                        dateInput: {
+                          height: 21,
+                          paddingLeft: 10,
+                          borderWidth: 0,
+                          alignItems: 'flex-start',
+                          justifyContent: 'flex-start'
+                        },
+                        dateText: {
+                          fontSize: 17,
+                          color: colors.white
+                        }
+                        // ... You can check the source to find the other keys.
+                      }}
+                      onDateChange={(date) => {this.props.updateProccessTransaction({date: new Date(date)})}}
+                    />
                   </Body>
                 </ListItem>
                 <ListItem itemHeader>

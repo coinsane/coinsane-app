@@ -9,14 +9,14 @@ export const initialState = {
     portfolio: '',
     date: new Date(),
     buy: true,
+    price: {},
     amount: '0',
     total: '0',
     currency: '',
     market: '',
     category: '',
     note: ''
-  },
-  course: {}
+  }
 };
 
 export default function appReducer(state = initialState, action) {
@@ -33,7 +33,10 @@ export default function appReducer(state = initialState, action) {
     case GET_COURSE_SUCCESS: {
       return {
         ...state,
-        course: action.payload.data
+        transaction: {
+          ...state.transaction,
+          price: action.payload.data
+        }
       };
     }
     case CLEAR_TRANSACTION: {
