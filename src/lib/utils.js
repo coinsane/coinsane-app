@@ -42,3 +42,5 @@ export const fetch = (data) => new Promise(async (resolve, reject) => {
     });
   }
 });
+
+export const round = (amount, n) => Math.round(amount*10**n) / 10**n;

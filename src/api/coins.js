@@ -1,5 +1,25 @@
 import { FirebaseRef } from '../lib/firebase';
+import axios from 'axios';
 import { getUID, fetch } from '../lib/utils';
+
+export const addTransaction = (transaction) => {
+  try {
+      axios.post(`/coins`, transaction);
+  } catch (e) {
+      //yield put(fetchFailed(e));
+      return;
+  }
+}
+
+export const getCourse = async ({ fsym, tsym, date }) => {
+  try {
+      console.log(fsym, tsym, date);
+      return await axios.get(`/price?fsym=${fsym}&tsyms=${tsym}`);
+  } catch (e) {
+      console.log(e);
+      return;
+  }
+}
 
 export const getCoinHisto = ({fsym = 'BTC', tsym = 'USD', range = '6m'}) => new Promise(async (resolve, reject) => {
   const UID = await getUID();

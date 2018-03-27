@@ -19,7 +19,7 @@ const WiseStackedLabel = ({
         clearTextOnFocus={clearTextOnFocus}
         keyboardType={keyboardType}
         onChangeText={v => onChangeText(propName, v)}
-        onBlur={e => onBlur(propName, e.target.value)}
+        onBlur={e => onBlur(propName)}
         value={value}
         style={base.listItem__labelInput}
       />

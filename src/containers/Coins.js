@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updateCurrency, updatePeriod } from '../actions/portfolios';
-import { updateProccessTransaction } from '../actions/inProccess';
-import { addTransaction, removeCoin, setCoinsError } from '../actions/coins';
+import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updateCurrency, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
+import { updateProccessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
+import { addTransaction, removeCoin, setCoinsError } from '../redux/state/coins/coins.actioncreators';
+import { getAvaliableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
+import { getAvaliableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 
 class CoinListing extends Component {
   static propTypes = {
@@ -61,11 +63,29 @@ class CoinListing extends Component {
       });
   }
 
-  addTransaction = (portfolioId) => {
+  addTransaction = (portfolio) => {
     // add portfolioId (passed as object) to proccess transaction peace of state
-    this.props.updateProccessTransaction({portfolio: portfolioId});
+    this.props.updateProccessTransaction({ portfolio });
     // show SelectCoin screen
-    Actions.selectCoin();
+    Actions.selector({
+      preLoad: () => {
+        this.props.getAvaliableMarkets();
+        this.props.getAvaliableCurrencies();
+      },
+      clear: () => {
+        //this.props.clearMarkets();
+      },
+      title: 'Select coin',
+      listItemType: 'arrow',
+      navigationType: 'close',
+      searchBar: true,
+      listName: 'markets',
+      selectAction: (item) => { // id - of selected item
+        this.props.updateProccessTransaction({ coin: item._id, coinItem: item });
+        Actions.createNewTransaction();
+      },
+      closeType: 'close'
+    });
     //return this.props.addTransaction(newCoin);
   }
 
@@ -167,7 +187,9 @@ const mapDispatchToProps = {
   setCoinData,
   updateCurrency,
   updatePeriod,
-  updateProccessTransaction
+  updateProccessTransaction,
+  getAvaliableMarkets,
+  getAvaliableCurrencies
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinListing);

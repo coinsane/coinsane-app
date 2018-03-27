@@ -4,7 +4,7 @@ import DrawerContent from '../DrawerContent/DrawerContent.component';
 
 import { connect } from 'react-redux';
 
-import { setDrawerActions } from '../../../actions/navigation';
+import { setDrawerActions } from '../../../redux/state/navigation/navigation.actioncreators';
 
 import { colors } from '../../styles';
 

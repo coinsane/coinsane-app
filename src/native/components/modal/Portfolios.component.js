@@ -49,10 +49,7 @@ const PortfoliosModal = ({
                 key={portfolio._id}
                 button
                 style={styles.listItem__portfolio}
-                onPress={() => {
-                  selectPortfolio(portfolio._id);
-                  Actions.pop();
-                }}
+                onPress={() => { this.props.selectAction(portfolio) }}
               >
                 <Text style={styles.listItem__text}>{portfolio.title}</Text>
               </ListItem>
