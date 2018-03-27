@@ -17,7 +17,7 @@ import CoinViewComponent from '../components/Coin/Coin.component';
 import PortfoliosContainer from '../../containers/Portfolios';
 import PortfoliosModal from '../components/modal/Portfolios.component';
 
-import SearchList from '../components/SearchList/SearchList.component';
+import Selector from '../components/Organisms/Selector/Selector.organism';
 
 import CreateNewTransaction from '../components/CreateNewTransaction/CreateNewTransaction.component';
 
@@ -75,12 +75,12 @@ const Index = (
                Layout={CreatePortfolioComponent}
              />
              <Scene
-               key="selectCoin"
-               component={SearchList}
-             />
-             <Scene
                key="createNewTransaction"
                component={CreateNewTransaction}
+             />
+             <Scene
+               key="selector"
+               component={Selector}
              />
           </Stack>
 

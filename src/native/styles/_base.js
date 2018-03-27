@@ -29,7 +29,12 @@ export default StyleSheet.create({
   // List item shared input field with label
   listItem__labelInputContainer: {
     paddingLeft: 10,
-    borderBottomColor: colors.bgGray
+    borderBottomColor: colors.bgGray,
+    marginLeft: 0
+  },
+  listItem__labelText: {
+    paddingTop: 0,
+    paddingRight: 0
   },
   listItem__labelInput: {
     height: 21,

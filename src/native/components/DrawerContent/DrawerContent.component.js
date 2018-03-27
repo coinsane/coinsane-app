@@ -4,7 +4,7 @@ import { Content, List, ListItem, Left, Body, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
-import { setActiveMenu } from '../../../actions/navigation';
+import { setActiveMenu } from '../../../redux/state/navigation/navigation.actioncreators';
 
 import Spacer from '../Spacer/Spacer.component';
 import Icon from '../Icon/Icon.component';

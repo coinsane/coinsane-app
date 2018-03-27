@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectPortfolio, addPortfolio } from '../actions/portfolios';
+import { selectPortfolio, addPortfolio } from '../redux/state/portfolios/portfolios.actioncreators';
 
 class PortolioSettings extends Component {
   static propTypes = {
