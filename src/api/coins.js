@@ -21,16 +21,23 @@ export const getCourse = async ({ fsym, tsym, date }) => {
   }
 }
 
-export const getCoinHisto = ({fsym = 'BTC', tsym = 'USD', range = '6m'}) => new Promise(async (resolve, reject) => {
-  const UID = await getUID();
-  if (!UID) return reject('auth problem');
-  return fetch(`/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`)
-    .then(json => {
-      // console.log('totalstotalstotalstotalstotals', json)
-      return json.data || json;
-    })
-    .catch(console.error);
+export const getCoinHisto = ({ fsym, tsym, range }) => new Promise(async (resolve, reject) => {
+  const response = await axios.get('/histo', { params: { fsym, tsym, range } });
+  if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
+  console.log('response.data.response.portfolios', response.data.response.portfolios)
+  resolve(response.data.response.portfolios);
 });
+
+// export const getCoinHisto = ({fsym = 'BTC', tsym = 'USD', range = '6m'}) => new Promise(async (resolve, reject) => {
+//   const UID = await getUID();
+//   if (!UID) return reject('auth problem');
+//   return fetch(`/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`)
+//     .then(json => {
+//       // console.log('totalstotalstotalstotalstotals', json)
+//       return json.data || json;
+//     })
+//     .catch(console.error);
+// });
 
 export const fetchCoins = (portfolioId) => new Promise(async (resolve, reject) => {
   const UID = await getUID();

@@ -22,6 +22,7 @@ class CoinView extends Component {
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     setCoinData: PropTypes.func,
+    updateCoinHisto: PropTypes.func,
     coinData: PropTypes.arrayOf(PropTypes.number),
   }
 
@@ -29,27 +30,28 @@ class CoinView extends Component {
     error: null,
   }
 
-  async getCoinHisto({fsym = 'BTC', tsym = 'USD', range = '3m'}) {
-    const UID = await getUID();
-    if (!UID) return reject('auth problem');
-    const Authorization = `${Config.appName} token=${UID}`;
-    return fetch(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, { headers: { Authorization } })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        const mapObj = responseJson.data || responseJson;
-        const data = mapObj.map(tick => parseFloat(tick.close));
-        return data;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+  // async updateCoinHisto({fsym = 'BTC', tsym = 'USD', range = '3m'}) {
+  //   const UID = await getUID();
+  //   if (!UID) return reject('auth problem');
+  //   const Authorization = `${Config.appName} token=${UID}`;
+  //   return fetch(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, { headers: { Authorization } })
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       const mapObj = responseJson.data || responseJson;
+  //       const data = mapObj.map(tick => parseFloat(tick.close));
+  //       return data;
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }
 
   componentDidMount() {
     const {
       portfolios,
       coinId,
       setCoinData,
+      updateCoinHisto,
       coinData
     } = this.props;
 
@@ -57,12 +59,12 @@ class CoinView extends Component {
     if (coinId && portfolios) {
       for (let i = 0; i < portfolios.length; i++) {
         const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item.id === coinId);
+        coin = portfolio.coins.find(item => item._id === coinId);
         if (coin) break;
       }
     }
 
-    this.getCoinHisto({fsym: coin.symbol}).then(data => {
+    updateCoinHisto({fsym: coin.symbol, tsym: 'BTC', range: '1m' }).then(data => {
       setCoinData(data);
     });
   }
@@ -83,7 +85,7 @@ class CoinView extends Component {
     if (coinId && portfolios) {
       for (let i = 0; i < portfolios.length; i++) {
         const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item.id === coinId);
+        coin = portfolio.coins.find(item => item._id === coinId);
         if (coin) break;
       }
     }
@@ -108,8 +110,8 @@ class CoinView extends Component {
           <Body>
             <Title style={styles.coinHeader__body}>
               <Thumbnail small square source={icon} style={styles.coinHeader__thumbnail} />
-              <Text>{coin.name}</Text>
-              <Text style={[styles.coinHeader__text, typography.small]}>&nbsp;{coin.symbol}</Text>
+              <Text>{coin.market.name}</Text>
+              <Text style={[styles.coinHeader__text, typography.small]}>&nbsp;{coin.market.symbol}</Text>
             </Title>
           </Body>
           <Right></Right>

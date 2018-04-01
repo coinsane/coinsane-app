@@ -1,12 +1,12 @@
 import { fetchCoins, getCoinHisto, setCoin, delCoin } from '../../../api/coins';
 import { fetchPortfolios } from '../../../api/portfolios';
-import { 
-  ADD_TRANSACTION, 
+import {
+  ADD_TRANSACTION,
   GET_COURSE,
-  COIN_HISTO_UPDATE, 
-  PORTFOLIOS_UPDATE, 
-  PORTFOLIO_COIN_REMOVED, 
-  COINS_ERROR 
+  COIN_HISTO_UPDATE,
+  PORTFOLIOS_UPDATE,
+  PORTFOLIO_COIN_REMOVED,
+  COINS_ERROR
 } from '../../actions/action.types';
 
 
@@ -66,4 +66,3 @@ export function setCoinsError(data) {
     .then(() => dispatch({ type: COINS_ERROR, data }))
     .catch(e => console.log(e));
 }
-

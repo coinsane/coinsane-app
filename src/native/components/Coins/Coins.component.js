@@ -117,7 +117,7 @@ class CoinListing extends Component {
 
     const keyExtractor = item => item._id;
 
-    const showCoin = item => Actions.coin({ match: { params: { coinId: String(item.id) } } });
+    const showCoin = item => Actions.coin({ match: { params: { coinId: String(item._id) } } });
     const editPortfolio = item => Actions.portfolioSettings({ match: { params: { portfolioId: String(item) } } });
 
     const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];

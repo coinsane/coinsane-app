@@ -100,12 +100,12 @@ class CoinTabOverview extends Component {
     if (coinId && portfolios) {
       for (let i = 0; i < portfolios.length; i++) {
         const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item.id === coinId);
+        coin = portfolio.coins.find(item => item._id === coinId);
         if (coin) break;
       }
     }
 
-    this._setCoinData({fsym: coin.symbol});
+    this._setCoinData({fsym: coin.market.symbol});
   }
 
   render () {
@@ -124,7 +124,7 @@ class CoinTabOverview extends Component {
     if (coinId && portfolios) {
       for (let i = 0; i < portfolios.length; i++) {
         const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item.id === coinId);
+        coin = portfolio.coins.find(item => item._id === coinId);
         if (coin) break;
       }
     }
@@ -164,7 +164,7 @@ class CoinTabOverview extends Component {
         </View>
         <View style={styles.cointab__graphButtonsContainer}>
           { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (
-            <Button key={period} small transparent onPress={() => this._setCoinData({fsym: coin.symbol, range: period})}>
+            <Button key={period} small transparent onPress={() => this._setCoinData({fsym: coin.market.symbol, range: period})}>
               <Text style={styles.cointab__graphButtonsText}>
                 {period.toUpperCase()}
               </Text>
@@ -174,8 +174,9 @@ class CoinTabOverview extends Component {
 
         <Spacer size={25} />
         <CoinCard
-          key={coin.id}
+          key={coin._id}
           coin={coin}
+          symbol={'BTC'}
         ></CoinCard>
         <Spacer size={20} />
       </Content>

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updateCurrency, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProccessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
-import { addTransaction, removeCoin, setCoinsError } from '../redux/state/coins/coins.actioncreators';
+import { addTransaction, removeCoin, getCoinHisto, setCoinsError } from '../redux/state/coins/coins.actioncreators';
 import { getAvaliableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
 import { getAvaliableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 
@@ -32,6 +32,7 @@ class CoinListing extends Component {
     selectPortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
     setPortfoliosError: PropTypes.func.isRequired,
+    getCoinHisto: PropTypes.func,
     setCoinsError: PropTypes.func.isRequired,
     setCoinData: PropTypes.func.isRequired,
     updateCurrency: PropTypes.func.isRequired,
@@ -124,6 +125,9 @@ class CoinListing extends Component {
   removeCoin = (coinId) => {
     return this.props.removeCoin(coinId);
   }
+  _getCoinHisto = (data) => {
+    return this.props.getCoinHisto(data);
+  }
 
   render = () => {
     const { Layout, portfolios, navigation, match } = this.props;
@@ -159,6 +163,7 @@ class CoinListing extends Component {
 
         addTransaction={this.addTransaction}
         removeCoin={this.removeCoin}
+        getCoinHisto={this._getCoinHisto}
       />
     );
   }
@@ -182,6 +187,7 @@ const mapDispatchToProps = {
   selectPortfolio,
   addPortfolio,
   removeCoin,
+  getCoinHisto,
   setPortfoliosError,
   setCoinsError,
   setCoinData,
