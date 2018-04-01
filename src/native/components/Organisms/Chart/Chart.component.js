@@ -6,7 +6,7 @@ import { AreaChart, YAxis } from 'react-native-svg-charts';
 import { LinearGradient, Stop, G, Line } from 'react-native-svg';
 import * as shape from 'd3-shape';
 
-import { colors } from '../../styles';
+import { colors } from '../../../styles';
 import styles from './Chart.styles';
 
 const contentInset = { top: 20, bottom: 20 };

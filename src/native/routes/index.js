@@ -17,7 +17,7 @@ import CoinViewComponent from '../components/Coin/Coin.component';
 import PortfoliosContainer from '../../containers/Portfolios';
 import PortfoliosModal from '../components/modal/Portfolios.component';
 
-import Selector from '../components/Organisms/Selector/Selector.organism';
+import Selector from '../components/Organisms/WiseList/WiseList.organism';
 
 import CreateNewTransaction from '../components/CreateNewTransaction/CreateNewTransaction.component';
 

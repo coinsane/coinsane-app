@@ -1,6 +1,6 @@
 import React from 'react';
 import { Left, Right, Body, Text, ListItem, Thumbnail, Icon } from 'native-base';
-import styles from './SelectorListItem.styles';
+import styles from './CoinCell.styles';
 import { typography } from '../../../styles';
 
 const imgSourceUrl = 'https://www.cryptocompare.com';

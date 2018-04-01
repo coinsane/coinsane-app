@@ -2,7 +2,7 @@ import navigation from './navigation/navigation.reducer';
 import status from './status/status.reducer';
 import auth from './auth/auth.reducer';
 import portfolios from './portfolios/portfolios.reducer';
-import coins from './coins/coins.reducer';
+import coin from './coin/coin.reducer';
 import markets from './markets/markets.reducer';
 import currencies from './currencies/currencies.reducer';
 import inProcess from './inProcess/inProcess.reducer';
@@ -22,7 +22,7 @@ export default {
   status,
   auth,
   portfolios,
-  coins,
+  coin,
   markets,
   currencies,
   inProcess

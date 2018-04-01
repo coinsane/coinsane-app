@@ -21,12 +21,21 @@ export const getCourse = async ({ fsym, tsym, date }) => {
   }
 }
 
-export const getCoinHisto = ({ fsym, tsym, range }) => new Promise(async (resolve, reject) => {
-  const response = await axios.get('/histo', { params: { fsym, tsym, range } });
-  if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
-  console.log('response.data.response.portfolios', response.data.response.portfolios)
-  resolve(response.data.response.portfolios);
-});
+// export const getCoinHisto = ({ fsym, tsym, range }) => new Promise(async (resolve, reject) => {
+//   const response = await axios.get('/histo', { params: { fsym, tsym, range } });
+//   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
+//   console.log('response.data.response.portfolios', response.data)
+//   resolve(response.data);
+// });
+
+export const getCoinHisto = async ({ fsym, tsym, range }) => {
+  try {
+    return await axios.get('/histo', { params: { fsym, tsym, range } });
+  } catch (e) {
+      //yield put(fetchFailed(e));
+      return;
+  }
+}
 
 // export const getCoinHisto = ({fsym = 'BTC', tsym = 'USD', range = '6m'}) => new Promise(async (resolve, reject) => {
 //   const UID = await getUID();

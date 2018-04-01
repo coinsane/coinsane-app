@@ -9,8 +9,8 @@ import { Actions } from 'react-native-router-flux';
 import Modal from '../../modal/BaseModal.component';
 import { clearMarkets } from '../../../../redux/state/markets/markets.actioncreators';
 import { updateProccessTransaction } from '../../../../redux/state/inProcess/inProcess.actioncreators';
-import SelectorListItem from '../../Molecules/SelectorListItem/SelectorListItem.component';
-import styles from './Selector.styles';
+import SelectorListItem from '../../Molecules/CoinCell/CoinCell.component';
+import styles from './WiseList.styles';
 import { colors, base } from '../../../styles';
 
 class Selector extends Component {

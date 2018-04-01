@@ -10,7 +10,7 @@ import Lead from '../Lead/Lead.component';
 import Spacer from '../Spacer/Spacer.component';
 import PortfolioTotal from '../portfolio/Total.component';
 import PortfolioHeader from '../portfolio/Header.component';
-import Chart from '../Chart/Chart.component';
+import Chart from '../Organisms/Chart/Chart.component';
 import CoinCard from '../CoinCard/CoinCard.component';
 import Colors from '../../../../native-base-theme/variables/commonColor';
 

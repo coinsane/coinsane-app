@@ -22,7 +22,7 @@ class CoinView extends Component {
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     setCoinData: PropTypes.func,
-    updateCoinHisto: PropTypes.func,
+    getCoinHisto: PropTypes.func,
     coinData: PropTypes.arrayOf(PropTypes.number),
   }
 
@@ -51,7 +51,7 @@ class CoinView extends Component {
       portfolios,
       coinId,
       setCoinData,
-      updateCoinHisto,
+      getCoinHisto,
       coinData
     } = this.props;
 
@@ -64,9 +64,7 @@ class CoinView extends Component {
       }
     }
 
-    updateCoinHisto({fsym: coin.symbol, tsym: 'BTC', range: '1m' }).then(data => {
-      setCoinData(data);
-    });
+    getCoinHisto({fsym: coin.market.symbol, tsym: 'BTC', range: '1m' });
   }
 
   render () {

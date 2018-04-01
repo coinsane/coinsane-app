@@ -6,7 +6,7 @@ import { Header, Left, Right, Title, Body, Container, Content, List, Item, Label
 import Spacer from '../Spacer/Spacer.component';
 import { Actions } from 'react-native-router-flux';
 import Modal from '../modal/BaseModal.component';
-import { getCourse, addTransaction } from '../../../redux/state/coins/coins.actioncreators';
+import { getCourse, addTransaction } from '../../../redux/state/coin/coin.actioncreators';
 import SwitchSelector from 'react-native-switch-selector';
 import WiseStackedLabel from '../Atoms/WiseStackedLabel/WiseStackedLabel.atom';
 import DatePicker from 'react-native-datepicker';

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updateCurrency, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProccessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
-import { addTransaction, removeCoin, getCoinHisto, setCoinsError } from '../redux/state/coins/coins.actioncreators';
+import { addTransaction, removeCoin, getCoinHisto, setCoinsError } from '../redux/state/coin/coin.actioncreators';
 import { getAvaliableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
 import { getAvaliableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 
@@ -126,11 +126,11 @@ class CoinListing extends Component {
     return this.props.removeCoin(coinId);
   }
   _getCoinHisto = (data) => {
-    return this.props.getCoinHisto(data);
+    this.props.getCoinHisto(data);
   }
 
   render = () => {
-    const { Layout, portfolios, navigation, match } = this.props;
+    const { Layout, portfolios, navigation, match, coin } = this.props;
     const coinId = (match && match.params && match.params.coinId) ? match.params.coinId : null;
     const portfolioId = (match && match.params && match.params.portfolioId) ? match.params.portfolioId : null;
 
@@ -158,7 +158,7 @@ class CoinListing extends Component {
         period={portfolios.period}
         getTotals={this._getTotals}
         activePortfolio={portfolios.selected}
-        coinData={portfolios.coinData}
+        coinData={coin.list}
         portfoliosFetch={(symbol) => this.fetchPortfolios(symbol)}
 
         addTransaction={this.addTransaction}
@@ -174,7 +174,7 @@ const mapStateToProps = state => {
   return {
     portfolios: state.portfolios || {},
     navigation: state.navigation || {},
-    // coins: state.coins || {},
+    coin: state.coin || {}
   };
 };
 
