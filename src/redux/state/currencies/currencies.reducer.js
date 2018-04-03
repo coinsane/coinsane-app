@@ -1,11 +1,13 @@
-import { 
-  GET_AVALIABLE_CURRENCIES_SUCCESS
+import {
+  GET_AVALIABLE_CURRENCIES_SUCCESS,
+  UPDATE_CURRENT_CURRENCY
 } from '../../actions/action.types';
 
 export const initialState = {
   loading: true,
   error: null,
-  list: []
+  list: [],
+  current: 'BTC',
 };
 
 export default function portfolioReducer(state = initialState, action) {
@@ -16,6 +18,12 @@ export default function portfolioReducer(state = initialState, action) {
         error: null,
         loading: false,
         list: action.payload.response.result,
+      };
+    }
+    case UPDATE_CURRENT_CURRENCY: {
+      return {
+        ...state,
+        current: action.payload,
       };
     }
     default:

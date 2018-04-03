@@ -28,12 +28,6 @@ export function getCourse(fsym, tsym, date) {
 // /**
 //   * Add Coin
 //   */
-// export function updateCoinHisto(data) {
-//   return dispatch => Promise.resolve(data)
-//     .then(getCoinHisto)
-//     .then(histo => dispatch({ type: COIN_HISTO_UPDATE, data: histo }))
-//     .catch(e => console.log(e));
-// }
 
 export function getCoinHisto(payload) {
   return { type: COIN_HISTO_UPDATE, payload };

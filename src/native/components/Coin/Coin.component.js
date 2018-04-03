@@ -21,38 +21,19 @@ class CoinView extends Component {
     error: PropTypes.string,
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    setCoinData: PropTypes.func,
-    getCoinHisto: PropTypes.func,
     coinData: PropTypes.arrayOf(PropTypes.number),
+    getCoinHisto: PropTypes.func,
   }
 
   static defaultProps = {
     error: null,
   }
 
-  // async updateCoinHisto({fsym = 'BTC', tsym = 'USD', range = '3m'}) {
-  //   const UID = await getUID();
-  //   if (!UID) return reject('auth problem');
-  //   const Authorization = `${Config.appName} token=${UID}`;
-  //   return fetch(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, { headers: { Authorization } })
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       const mapObj = responseJson.data || responseJson;
-  //       const data = mapObj.map(tick => parseFloat(tick.close));
-  //       return data;
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }
-
   componentDidMount() {
     const {
       portfolios,
       coinId,
-      setCoinData,
       getCoinHisto,
-      coinData
     } = this.props;
 
     let coin = null;
@@ -72,8 +53,8 @@ class CoinView extends Component {
       error,
       portfolios,
       coinId,
-      setCoinData,
-      coinData
+      coinData,
+      getCoinHisto,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -124,8 +105,8 @@ class CoinView extends Component {
               error={error}
               portfolios={portfolios}
               coinId={coinId}
-              setCoinData={setCoinData}
               coinData={coinData}
+              getCoinHisto={getCoinHisto}
             />
           </Tab>
           <Tab heading={

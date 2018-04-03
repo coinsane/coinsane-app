@@ -1,6 +1,6 @@
-import { 
-  COINS_REPLACE, 
-  COIN_HISTO_UPDATE, 
+import {
+  COINS_REPLACE,
+  COIN_HISTO_UPDATE,
   COIN_HISTO_UPDATE_SUCCESS,
   COINS_ERROR
 } from '../../actions/action.types';
@@ -18,7 +18,7 @@ export default function portfolioReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: false,
-        list: action.payload.data,
+        list: action.payload.data ? Object.keys(action.payload.data).map(key => action.payload.data[key]) : {},
       };
     }
     case COINS_ERROR: {

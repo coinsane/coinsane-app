@@ -35,6 +35,7 @@ export const CLEAR_MARKETS = '[coins] CLEAR_MARKETS';
 export const GET_AVALIABLE_CURRENCIES = '[currencies] GET_AVALIABLE_CURRENCIES';
 export const GET_AVALIABLE_CURRENCIES_SUCCESS = '[currencies] GET_AVALIABLE_CURRENCIES_SUCCESS';
 export const GET_AVALIABLE_CURRENCIES_ERROR = '[currencies] GET_AVALIABLE_CURRENCIES_ERROR';
+export const UPDATE_CURRENT_CURRENCY = '[currencies] UPDATE_CURRENT_CURRENCY';
 
 
 // ========= [portfolios] peace of state action types ========= //

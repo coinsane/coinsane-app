@@ -66,7 +66,7 @@ class CoinListing extends Component {
         if (coins.length - 1 === index) coin.last = _id;
         dataBlob[rowId] = coin;
       });
-    })
+    });
 
     return { dataBlob, sectionIds, rowIds };
   }
@@ -203,8 +203,8 @@ class CoinListing extends Component {
       return portfoliosChart[time].avg;
     }) : [];
 
-    const chartPct = parseFloat(1 - portfoliosChartArray[0]/portfoliosChartArray[portfoliosChartArray.length-1]).toFixed(2);
 
+    const chartPct = parseFloat(1 - portfoliosChartArray[0]/portfoliosChartArray[portfoliosChartArray.length-1]).toFixed(2);
 
     return (
       <Container style={base.contentContainer}>
@@ -256,7 +256,9 @@ class CoinListing extends Component {
                   updateCurrency={updateCurrency}
                   updateChart={(currency) => this.updateChart(activePortfolio || 'all', period, currency)}
                 />
-                <Chart dataPoints={portfoliosChart} />
+                <Chart
+                  dataPoints={portfoliosChart}
+                />
                 <View style={styles.coins__contentHeader}>
                   { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(periodKey => (
                     <Button

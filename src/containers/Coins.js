@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updateCurrency, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
+import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProccessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
 import { addTransaction, removeCoin, getCoinHisto, setCoinsError } from '../redux/state/coin/coin.actioncreators';
 import { getAvaliableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
-import { getAvaliableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
+import { getAvaliableCurrencies, updateCurrentCurrency } from '../redux/state/currencies/currencies.actioncreators';
 
 class CoinListing extends Component {
   static propTypes = {
@@ -35,7 +35,7 @@ class CoinListing extends Component {
     getCoinHisto: PropTypes.func,
     setCoinsError: PropTypes.func.isRequired,
     setCoinData: PropTypes.func.isRequired,
-    updateCurrency: PropTypes.func.isRequired,
+    updateCurrentCurrency: PropTypes.func.isRequired,
     updatePeriod: PropTypes.func.isRequired,
   }
 
@@ -56,8 +56,9 @@ class CoinListing extends Component {
       portfolios,
       getPortfolios,
       setPortfoliosError,
+      currencies,
     } = this.props;
-    return getPortfolios(symbol || portfolios.currency)
+    return getPortfolios(symbol || currencies.currecnt)
       .catch((err) => {
         console.log(`Error: ${err}`);
         return setPortfoliosError(err);
@@ -111,7 +112,7 @@ class CoinListing extends Component {
   }
 
   _updateCurrency = (data) => {
-    return this.props.updateCurrency(data);
+    return this.props.updateCurrentCurrency(data);
   }
 
   _updatePeriod = (data) => {
@@ -125,15 +126,15 @@ class CoinListing extends Component {
   removeCoin = (coinId) => {
     return this.props.removeCoin(coinId);
   }
+
   _getCoinHisto = (data) => {
-    this.props.getCoinHisto(data);
+    return this.props.getCoinHisto(data);
   }
 
   render = () => {
-    const { Layout, portfolios, navigation, match, coin } = this.props;
+    const { Layout, portfolios, navigation, match, coin, currencies } = this.props;
     const coinId = (match && match.params && match.params.coinId) ? match.params.coinId : null;
     const portfolioId = (match && match.params && match.params.portfolioId) ? match.params.portfolioId : null;
-
 
     return (
       <Layout
@@ -154,7 +155,7 @@ class CoinListing extends Component {
         setCoinData={this._setCoinData}
         updateCurrency={this._updateCurrency}
         updatePeriod={this._updatePeriod}
-        currency={portfolios.currency}
+        currency={currencies.current}
         period={portfolios.period}
         getTotals={this._getTotals}
         activePortfolio={portfolios.selected}
@@ -174,7 +175,8 @@ const mapStateToProps = state => {
   return {
     portfolios: state.portfolios || {},
     navigation: state.navigation || {},
-    coin: state.coin || {}
+    coin: state.coin || {},
+    currencies: state.currencies || {},
   };
 };
 
@@ -191,7 +193,7 @@ const mapDispatchToProps = {
   setPortfoliosError,
   setCoinsError,
   setCoinData,
-  updateCurrency,
+  updateCurrentCurrency,
   updatePeriod,
   updateProccessTransaction,
   getAvaliableMarkets,

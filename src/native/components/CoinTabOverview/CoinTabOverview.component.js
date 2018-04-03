@@ -56,35 +56,12 @@ class CoinTabOverview extends Component {
     error: PropTypes.string,
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    setCoinData: PropTypes.func,
     coinData: PropTypes.arrayOf(PropTypes.number),
+    getCoinHisto: PropTypes.func,
   }
 
   static defaultProps = {
     error: null,
-  }
-
-  async getCoinHisto({fsym = 'BTC', tsym = 'USD', range = '3m'}) {
-    const UID = await getUID();
-    if (!UID) return reject('auth problem');
-    const Authorization = `${Config.appName} token=${UID}`;
-    return fetch(`${Config.apiUri}/histo?fsym=${fsym}&tsym=${tsym}&range=${range}`, { headers: { Authorization } })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        const mapObj = responseJson.data || responseJson;
-        const data = mapObj.map(tick => parseFloat(tick.close));
-        return data;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  _setCoinData({fsym = 'BTC', tsym = 'USD', range = '3m'}) {
-    const {
-      setCoinData
-    } = this.props;
-    this.getCoinHisto({fsym, tsym, range}).then(data => setCoinData(data));
   }
 
 
@@ -92,8 +69,6 @@ class CoinTabOverview extends Component {
     const {
       portfolios,
       coinId,
-      setCoinData,
-      coinData
     } = this.props;
 
     let coin = null;
@@ -105,7 +80,6 @@ class CoinTabOverview extends Component {
       }
     }
 
-    this._setCoinData({fsym: coin.market.symbol});
   }
 
   render () {
@@ -113,8 +87,8 @@ class CoinTabOverview extends Component {
       error,
       portfolios,
       coinId,
-      setCoinData,
-      coinData
+      coinData,
+      getCoinHisto,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -132,7 +106,6 @@ class CoinTabOverview extends Component {
     // Coin not found
     if (!coin) return <Error content={ErrorMessages.coin404} />;
 
-    // const data = [ 50, 10, 40, 95, 5, 85, 91, 35, 53, 4, 24, 50 ];
     const contentInset = { top: 20, bottom: 20 };
 
     return (
@@ -164,7 +137,7 @@ class CoinTabOverview extends Component {
         </View>
         <View style={styles.cointab__graphButtonsContainer}>
           { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (
-            <Button key={period} small transparent onPress={() => this._setCoinData({fsym: coin.market.symbol, range: period})}>
+            <Button key={period} small transparent onPress={() => getCoinHisto({fsym: coin.market.symbol, tsym: 'BTC', range: period})}>
               <Text style={styles.cointab__graphButtonsText}>
                 {period.toUpperCase()}
               </Text>

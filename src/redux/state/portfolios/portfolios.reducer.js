@@ -9,6 +9,8 @@ export const initialState = {
   coinData: [], // TODO move to coins store
   currency: 'BTC',
   period: '1d',
+  changePct: '0',
+  lastTotal: 0,
 };
 
 export default function portfolioReducer(state = initialState, action) {
