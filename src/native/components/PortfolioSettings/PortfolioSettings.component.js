@@ -5,7 +5,7 @@ import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Hea
 import ErrorMessages from '../../../constants/errors';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
 import Switch from 'react-native-switch-pro';
 

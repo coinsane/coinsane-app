@@ -6,10 +6,9 @@ import ErrorMessages from '../../../constants/errors';
 import Config from '../../../constants/config';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import CoinCard from '../CoinCard/CoinCard.component';
 import { Actions } from 'react-native-router-flux';
-import { getUID } from '../../../lib/utils';
 
 import { AreaChart, YAxis } from 'react-native-svg-charts';
 import { LinearGradient, Stop, G, Line } from 'react-native-svg';

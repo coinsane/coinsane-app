@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { setActiveMenu } from '../../../redux/state/navigation/navigation.actioncreators';
 
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './DrawerContent.styles';
 import { colors } from '../../styles';

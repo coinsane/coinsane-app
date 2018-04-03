@@ -1,40 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button } from 'native-base';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsanePctsText from '../_Atoms/CoinsanePctsText/CoinsanePctsText.component';
+import CoinsaneSummaryText from '../_Atoms/CoinsaneSummaryText/CoinsaneSummaryText.component';
+import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import styles from './Total.styles';
 import { typography, colors } from '../../styles';
 
-const PortfolioTotal = ({ lastTotal, changePct, currency = 'BTC', updateCurrency, updateChart }) => {
+const PortfolioTotal = ({ lastTotal, changePct, currency, updateCurrency, updateChart }) => {
 
   const currencies = ['BTC', 'USD', 'RUB'];
-  let fixed = currency === 'BTC' ? 6 : 2;
-
-  // const totalDisplay = totals && totals.USD ? `${totals.USD.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : '$0.00';
-  const totalDisplay = currency === 'BTC' ? `${parseFloat(lastTotal).toFixed(fixed)} ${currency}` : `${parseFloat(lastTotal).toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${currency}`;
-  const changeColor = changePct && parseFloat(changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
-  const changePctDisplay = `${changePct}%`;
 
   function _updateCurrency(currency) {
-    updateCurrency(currency).then(() => updateChart(currency))
+    updateCurrency(currency); // TODO update them together with saga
+    updateChart(currency);
   }
 
   return (
     <View style={styles.totalContainer}>
       <View style={styles.total__buttons}>
-        { currencies.map(currencyKey => (
-          <Button
-            key={currencyKey} small transparent
-            onPress={() => _updateCurrency(currencyKey)}
-          >
-            <Text style={[styles.total__buttonText, currency === currencyKey && styles.total__buttonTextActive]}>
-              {currencyKey.toUpperCase()}
-            </Text>
-          </Button>
-        )) }
+        {currencies.map(key => (
+          <CoinsaneButton
+            key={key}
+            type={'currency'}
+            value={key}
+            uppercase={true}
+            onPress={() => _updateCurrency(key)}
+            active={currency === key}
+          />
+        ))}
       </View>
-      <Text style={styles.total__summary}>{totalDisplay}</Text>
-      <Text style={[styles.total__pct, { color: changeColor }]}>{changePctDisplay}</Text>
+      <CoinsaneSummaryText value={lastTotal} currency={currency} />
+      <CoinsanePctsText value={changePct} />
     </View>
   )
 };
@@ -48,6 +46,7 @@ PortfolioTotal.propTypes = {
 };
 
 PortfolioTotal.defaultProps = {
+  currency: 'BTC'
 };
 
 export default PortfolioTotal;

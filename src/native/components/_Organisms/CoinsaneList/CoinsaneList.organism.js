@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 import { Header, Left, Right, Title, Body, Container, Content, Icon, Text, List, ListItem, Button, Thumbnail } from 'native-base';
 import Spacer from '../../Spacer/Spacer.component';
-import SearchBar from '../../Molecules/SearchBar/SearchBar.component';
+import SearchBar from '../../_Molecules/SearchBar/SearchBar.component';
 import { Actions } from 'react-native-router-flux';
 import Modal from '../../modal/BaseModal.component';
 import { clearMarkets } from '../../../../redux/state/markets/markets.actioncreators';
 import { updateProccessTransaction } from '../../../../redux/state/inProcess/inProcess.actioncreators';
-import SelectorListItem from '../../Molecules/CoinCell/CoinCell.component';
-import styles from './WiseList.styles';
+import SelectorListItem from '../../_Molecules/CoinCell/CoinCell.component';
+import styles from './CoinsaneList.styles';
 import { colors, base } from '../../../styles';
 
 class Selector extends Component {
@@ -19,19 +19,19 @@ class Selector extends Component {
       this.props.preLoad(); // from top container
     }
   }
-  
+
   close() {
     if (this.props.clear) {
       this.props.clear(); // from top container
     }
     Actions.pop()
   }
-  
+
   renderSearchBar() {
     if (!this.props.searchBar) return;
     return <SearchBar />;
   }
-  
+
   renderLeft() {
     if (this.props.navigationType === 'back') {
       return(
@@ -41,7 +41,7 @@ class Selector extends Component {
       );
     }
   }
-  
+
   renderRight() {
     if (this.props.navigationType === 'close') {
       return(
@@ -51,7 +51,7 @@ class Selector extends Component {
       );
     }
   }
-  
+
   render() {
     return (
       <Modal hideClose>
@@ -65,7 +65,7 @@ class Selector extends Component {
             <Right>{ this.renderRight() }</Right>
           </Header>
           <Content padder style={{ backgroundColor: colors.bgGray }}>
-            { this.renderSearchBar() }  
+            { this.renderSearchBar() }
             <List style={ styles.ListContainer }>
               { this.props.state[this.props.listName].list.map(item => {
                 return(

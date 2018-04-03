@@ -3,7 +3,7 @@ import { Item, Label, Input } from 'native-base';
 import { base, colors, typography } from '../../../styles';
 
 
-const WiseStackedLabel = ({
+const CoinsaneStackedLabel = ({
   type,
   sublabel,
   propName,
@@ -11,7 +11,7 @@ const WiseStackedLabel = ({
   keyboardType,
   onChangeText,
   onBlur,
-  value 
+  value
 }) => (
     <Item stackedLabel style={base.listItem__labelInputContainer}>
       <Label style={[base.listItem__labelText, typography.smallest, { color: colors.textGray }]}>{ sublabel }</Label>
@@ -26,4 +26,4 @@ const WiseStackedLabel = ({
     </Item>
 );
 
-export default WiseStackedLabel;
+export default CoinsaneStackedLabel;

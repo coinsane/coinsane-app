@@ -6,7 +6,7 @@ import ErrorMessages from '../../../constants/errors';
 import Config from '../../../constants/config';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import CoinCard from '../CoinCard/CoinCard.component';
 import CoinTabOverview from '../CoinTabOverview/CoinTabOverview.component';
 import CoinTabTransactions from '../CoinTabTransactions/CoinTabTransactions.component';

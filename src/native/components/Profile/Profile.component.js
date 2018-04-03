@@ -4,7 +4,7 @@ import { StatusBar, View } from 'react-native';
 import { Header, Button, Title, Right, Container, Content, List, ListItem, Body, Left, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Lead from '../Lead/Lead.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import { colors, base } from '../../styles';
 

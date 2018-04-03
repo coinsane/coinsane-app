@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native';
 import { Header, Left, Button, Body, Title, Right, Container, Content, Text } from 'native-base';
 import Spacer from '../Spacer/Spacer.component';
 import Lead from '../Lead/Lead.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './Market.styles';
 import { base, colors } from '../../styles';

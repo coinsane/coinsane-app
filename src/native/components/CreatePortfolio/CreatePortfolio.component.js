@@ -4,7 +4,7 @@ import { StatusBar, Alert } from 'react-native';
 import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Footer, Left, Button, Title, Right, Form, Item, Label, Input, View } from 'native-base';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
 import Switch from 'react-native-switch-pro';
 

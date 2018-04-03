@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Body, Text, Left, Right, View, Button } from 'native-base';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import styles from './Header.styles';
 import { Actions } from 'react-native-router-flux';
 import { typography, colors } from '../../styles';

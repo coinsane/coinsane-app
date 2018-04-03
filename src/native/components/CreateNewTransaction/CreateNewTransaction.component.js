@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import Modal from '../modal/BaseModal.component';
 import { getCourse, addTransaction } from '../../../redux/state/coin/coin.actioncreators';
 import SwitchSelector from 'react-native-switch-selector';
-import WiseStackedLabel from '../Atoms/WiseStackedLabel/WiseStackedLabel.atom';
+import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
 import DatePicker from 'react-native-datepicker';
 import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
 import { updateProccessTransaction, clearProccessTransaction, recalculate } from '../../../redux/state/inProcess/inProcess.actioncreators';
@@ -18,12 +18,12 @@ import styles from './CreateNewTransaction.styles';
 import { colors, base, typography } from '../../styles';
 
 class CreateNewTransaction extends Component {
-  
+
   componentWillMount() {
     // selected portfolio and coin
     const portfolioItem = this.props.portfolios.list.filter(portfolio => { return portfolio._id === this.props.inProcess.transaction.portfolio })[0];
     const currencyItem = this.props.currencies.list.filter(currency => { return currency.code === 'USD' })[0];
-    let update = { 
+    let update = {
       portfolioItem,
       currencyItem,
       currency: currencyItem._id
@@ -31,19 +31,19 @@ class CreateNewTransaction extends Component {
     this.props.updateProccessTransaction(update);
     this.props.recalculate();
   }
-  
+
   componentDidMount() {
     console.log(this.props.inProcess.transaction);
   }
-  
+
   static onEnter() {
     console.log('On Enter');
   }
-  
+
   formatDate(d) {
     return `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}. ${d.getHours()}:${d.getMinutes()}`;
   }
-  
+
   changeCoin() {
     Actions.selector({
       preLoad: () => {
@@ -65,7 +65,7 @@ class CreateNewTransaction extends Component {
       }
     });
   }
-  
+
   changeCurrency() {
     Actions.selector({
       preLoad: () => {
@@ -88,7 +88,7 @@ class CreateNewTransaction extends Component {
       closeType: 'close'
     });
   }
-  
+
   changePortfolio() {
     Actions.selector({
       title: 'Choose portfolio',
@@ -103,17 +103,17 @@ class CreateNewTransaction extends Component {
       closeType: 'close'
     });
   }
-  
+
   handleChange = (name, val) => {
     let value = val;
-    if (name === 'amount') { 
+    if (name === 'amount') {
       let exp = /^\d*(\.{0,1}\d{0,8})$/;
       value = value.replace(/[,]/g, '.');
       value = value.replace(/[^0-9.]/g, '');
       if (exp.test(value)) {
         this.props.updateProccessTransaction({ [name]: value });
       }
-    } 
+    }
     if (name === 'price') {
       let exp = /^\d*(\.{0,1}\d{0,8})$/;
       value = value.replace(/[,]/g, '.');
@@ -137,9 +137,9 @@ class CreateNewTransaction extends Component {
       this.props.updateProccessTransaction({ [name]: value });
     }
   }
-  
+
   onBlur = (fieldName) => {
-    
+
     // Check that always be a price
     if (!+this.props.inProcess.transaction.price || this.props.inProcess.transaction.price === Infinity) {
       this.props.getCourse(this.props.inProcess.transaction.coinItem.symbol, this.props.inProcess.transaction.currencyItem.code);
@@ -148,17 +148,17 @@ class CreateNewTransaction extends Component {
       this.props.recalculate(fieldName);
     }
   }
-  
+
   close() {
     // clear selected coin
     Actions.pop()
     this.props.clearProccessTransaction();
   }
-  
+
   toggleSegment(value) {
     this.props.updateProccessTransaction({ buy: value });
   }
-  
+
   addTransaction() {
     if (+this.props.inProcess.transaction.amount && +this.props.inProcess.transaction.total) {
       this.props.addTransaction(this.props.inProcess.transaction);
@@ -167,14 +167,14 @@ class CreateNewTransaction extends Component {
       Actions.coins();
     }
   }
-  
+
   render() {
-    
+
     const segmentOptions = [
         { label: 'BUY', value: true },
         { label: 'SELL', value: false }
     ];
-    
+
     return (
       <Modal hideClose>
         <Container>
@@ -207,7 +207,7 @@ class CreateNewTransaction extends Component {
                 </ListItem>
                 <ListItem style={ styles.listItemContainer } >
                   <Body>
-                    <WiseStackedLabel
+                    <CoinsaneStackedLabel
                       sublabel="Amount"
                       propName="amount"
                       clearTextOnFocus={ true }
@@ -226,7 +226,7 @@ class CreateNewTransaction extends Component {
                 </ListItem>
                 <ListItem style={ styles.listItemContainer } >
                   <Body>
-                    <WiseStackedLabel
+                    <CoinsaneStackedLabel
                       sublabel="Price by coin"
                       propName="price"
                       clearTextOnFocus={ false }
@@ -245,7 +245,7 @@ class CreateNewTransaction extends Component {
                 </ListItem>
                 <ListItem style={ styles.listItemContainer } >
                   <Body>
-                    <WiseStackedLabel
+                    <CoinsaneStackedLabel
                       sublabel="Total value"
                       propName="total"
                       clearTextOnFocus={ true }
@@ -260,7 +260,7 @@ class CreateNewTransaction extends Component {
                   <Body>
                     <Text style={ [typography.smallest, { color: colors.textGray }] } >Date and time</Text>
                     <DatePicker
-                      style={{ 
+                      style={{
                         width: '100%'
                       }}
                       date={this.props.inProcess.transaction.date}
@@ -324,7 +324,7 @@ class CreateNewTransaction extends Component {
                 </ListItem>
               </List>
             </ScrollView>
-            
+
           </Content>
         </Container>
         <Footer style={base.footer}>
@@ -353,13 +353,13 @@ const mapStateToProps = ({ markets, currencies, inProcess, portfolios }) => {
 }
 
 export default connect(
-  mapStateToProps, 
-  { 
+  mapStateToProps,
+  {
     getAvaliableMarkets,
     getAvaliableCurrencies,
-    getCourse, 
-    updateProccessTransaction, 
-    clearProccessTransaction, 
+    getCourse,
+    updateProccessTransaction,
+    clearProccessTransaction,
     addTransaction,
     clearMarkets,
     recalculate

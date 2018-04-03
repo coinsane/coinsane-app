@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, SectionList, TouchableOpacity, RefreshControl, Image, StyleSheet, StatusBar, View } from 'react-native';
 import { Container, Content, Card, CardItem, Body, Text, Button, Left, Right, List, ListItem, Separator, Header, Title, Subtitle, Footer } from 'native-base';
-import Icon from '../Icon/Icon.component';
+import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
 import Loading from '../Loading/Loading.component';
 import Error from '../Error/Error.component';
@@ -10,7 +10,7 @@ import Lead from '../Lead/Lead.component';
 import Spacer from '../Spacer/Spacer.component';
 import PortfolioTotal from '../portfolio/Total.component';
 import PortfolioHeader from '../portfolio/Header.component';
-import Chart from '../Organisms/Chart/Chart.component';
+import Chart from '../_Organisms/Chart/Chart.component';
 import CoinCard from '../CoinCard/CoinCard.component';
 import Colors from '../../../../native-base-theme/variables/commonColor';
 
