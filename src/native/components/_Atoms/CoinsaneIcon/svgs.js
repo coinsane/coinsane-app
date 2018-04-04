@@ -54,14 +54,6 @@ export default {
     </G>,
     viewBox: "0 0 28 28"
   },
-  Arrow: {
-    svg: <G id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-      <G id="arrow-icon" fill-rule="nonzero">
-        <Path d="M4.17904077,7.42828313 L9.68783253,12.8228567 C9.92955463,13.0590478 10.3211831,13.0590478 10.5635156,12.8228567 C10.8052377,12.5866657 10.8052377,12.2030296 10.5635156,11.9668386 L5.4916752,7.00029898 L10.5629052,2.03375937 C10.8046273,1.79756833 10.8046273,1.41393228 10.5629052,1.17714328 C10.3211831,0.940952239 9.92894422,0.940952239 9.68722212,1.17714328 L4.17843036,6.57166704 C3.94042158,6.80541645 3.94042158,7.19508184 4.17904077,7.42828313 Z" id="Chevron_RiGht" transform="translate(7.372404, 7.000000) scale(-1, -1) translate(-7.372404, -7.000000) "></Path>
-      </G>
-    </G>,
-    viewBox: "0 0 14 14"
-  },
   Edit: {
     svg: <G id="edit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
       <G id="edit-icon" fill-rule="nonzero">

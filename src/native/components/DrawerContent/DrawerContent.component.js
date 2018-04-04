@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { setActiveMenu } from '../../../redux/state/navigation/navigation.actioncreators';
 
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './DrawerContent.styles';
 import { colors } from '../../styles';
@@ -42,7 +42,7 @@ class DrawerContent extends Component {
               style={styles.listItem}
             >
               <Left>
-                <Icon name={item.icon} width={28} fill={(item.active ? colors.mediumGray : colors.white)} />
+                <CoinsaneIcon name={item.icon} width={28} fill={(item.active ? colors.mediumGray : colors.white)} />
               </Left>
               <Body>
                 <Text style={{ fontSize: 18, color: (item.active ? colors.mediumGray : colors.white) }}>{item.text}</Text>

@@ -156,6 +156,7 @@ class CoinListing extends Component {
         updateCurrency={this._updateCurrency}
         updatePeriod={this._updatePeriod}
         currency={currencies.current}
+        currencies={currencies.list}
         period={portfolios.period}
         getTotals={this._getTotals}
         activePortfolio={portfolios.selected}

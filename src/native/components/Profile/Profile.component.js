@@ -4,7 +4,7 @@ import { StatusBar, View } from 'react-native';
 import { Header, Button, Title, Right, Container, Content, List, ListItem, Body, Left, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Lead from '../Lead/Lead.component';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import { colors, base } from '../../styles';
 
@@ -14,7 +14,7 @@ const Profile = ({ auth, logout, drawer }) => (
       <StatusBar barStyle="light-content"/>
       <Left>
         <Button transparent onPress={() => drawer.open()}>
-          <Icon name='Menu' width={28} fill={colors.white} />
+          <CoinsaneIcon name='Menu' width={28} fill={colors.white} />
         </Button>
       </Left>
       <Body>

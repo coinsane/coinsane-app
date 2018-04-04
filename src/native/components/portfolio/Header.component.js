@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Body, Text, Left, Right, View, Button } from 'native-base';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import styles from './Header.styles';
 import { Actions } from 'react-native-router-flux';
 import { typography, colors } from '../../styles';
@@ -27,7 +27,7 @@ const PortfolioHeader = ({ id, show, title, totals, count, addTransaction, chang
     <View style={{ borderTopColor: '#2C263F', borderTopWidth: 1, marginTop: 20, }}>
       <ListItem style={styles.listItemContainer}>
         <Body style={styles.body}>
-          <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={[styles.body__arrowIcon]} />
+          <CoinsaneIcon name='Arrow' width={15} height={15} fill={colors.textGray} style={[styles.body__arrowIcon]} />
           <Text numberOfLines={1} style={styles.body__text}>{title}</Text>
         </Body>
         <Right style={styles.right}>

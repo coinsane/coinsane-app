@@ -5,14 +5,14 @@ import svgs from './svgs';
 
 import { colors } from '../../../styles';
 
-const Icon = (props) => <SvgIcon {...props} svgs={svgs} />;
+const CoinsaneIcon = (props) => <SvgIcon {...props} svgs={svgs} />;
 
-Icon.propTypes = {
+CoinsaneIcon.propTypes = {
   fill: PropTypes.string,
 };
 
-Icon.defaultProps = {
+CoinsaneIcon.defaultProps = {
   fill: colors.white,
 };
 
-export default Icon;
+export default CoinsaneIcon;

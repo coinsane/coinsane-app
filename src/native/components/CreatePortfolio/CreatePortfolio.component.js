@@ -4,7 +4,7 @@ import { StatusBar, Alert } from 'react-native';
 import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Footer, Left, Button, Title, Right, Form, Item, Label, Input, View } from 'native-base';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
 import Switch from 'react-native-switch-pro';
 
@@ -55,7 +55,7 @@ class CreatePortfolio extends Component {
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
-              <Icon name='Back' width={28} fill={colors.white} />
+              <CoinsaneIcon name='Back' width={28} fill={colors.white} />
             </Button>
           </Left>
           <Body>

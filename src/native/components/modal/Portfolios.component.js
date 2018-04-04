@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 import { Header, Left, Right, Title, Body, Container, Content, Text, List, ListItem, Button, Footer } from 'native-base';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
 import Modal from './BaseModal.component';
 import styles from './Portfolios.styles';
@@ -21,7 +21,7 @@ const PortfoliosModal = ({
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
-              <Icon name='Back' width={28} fill={colors.white} />
+              <CoinsaneIcon name='Back' width={28} fill={colors.white} />
             </Button>
           </Left>
           <Body>

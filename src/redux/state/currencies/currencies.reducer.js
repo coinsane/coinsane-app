@@ -6,7 +6,7 @@ import {
 export const initialState = {
   loading: true,
   error: null,
-  list: [],
+  list: ['BTC', 'USD', 'RUB'],
   current: 'BTC',
 };
 

@@ -6,7 +6,7 @@ import ErrorMessages from '../../../constants/errors';
 import Config from '../../../constants/config';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import CoinCard from '../CoinCard/CoinCard.component';
 import CoinTabOverview from '../CoinTabOverview/CoinTabOverview.component';
 import CoinTabTransactions from '../CoinTabTransactions/CoinTabTransactions.component';
@@ -23,6 +23,9 @@ class CoinView extends Component {
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     coinData: PropTypes.arrayOf(PropTypes.number),
     getCoinHisto: PropTypes.func,
+    currency: PropTypes.string,
+    currencies: PropTypes.arrayOf(PropTypes.string),
+    updateCurrency: PropTypes.func,
   }
 
   static defaultProps = {
@@ -55,6 +58,9 @@ class CoinView extends Component {
       coinId,
       coinData,
       getCoinHisto,
+      currency,
+      currencies,
+      updateCurrency,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -83,7 +89,7 @@ class CoinView extends Component {
           <StatusBar barStyle="light-content" />
           <Left>
             <Button transparent onPress={() => Actions.pop()}>
-              <Icon name='Back' width={28} fill={colors.white} />
+              <CoinsaneIcon name='Back' width={28} fill={colors.white} />
             </Button>
           </Left>
           <Body>
@@ -107,6 +113,9 @@ class CoinView extends Component {
               coinId={coinId}
               coinData={coinData}
               getCoinHisto={getCoinHisto}
+              currency={currency}
+              currencies={currencies}
+              updateCurrency={updateCurrency}
             />
           </Tab>
           <Tab heading={

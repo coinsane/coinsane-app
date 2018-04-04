@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button } from 'native-base';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
-import CoinsanePctsText from '../_Atoms/CoinsanePctsText/CoinsanePctsText.component';
-import CoinsaneSummaryText from '../_Atoms/CoinsaneSummaryText/CoinsaneSummaryText.component';
-import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
-import styles from './Total.styles';
-import { typography, colors } from '../../styles';
+import CoinsanePctsText from '../../_Atoms/CoinsanePctsText/CoinsanePctsText.component';
+import CoinsaneSummaryText from '../../_Atoms/CoinsaneSummaryText/CoinsaneSummaryText.component';
+import CoinsaneButton from '../../_Atoms/CoinsaneButton/CoinsaneButton.component';
+import styles from './CoinsaneSummary.styles';
+import { typography, colors } from '../../../styles';
 
-const PortfolioTotal = ({ lastTotal, changePct, currency, updateCurrency, updateChart }) => {
-
-  const currencies = ['BTC', 'USD', 'RUB'];
+const CoinsaneSummary = ({ value, changePct, currency, updateCurrency, updateChart, buttons }) => {
 
   function _updateCurrency(currency) {
     updateCurrency(currency); // TODO update them together with saga
@@ -20,7 +17,7 @@ const PortfolioTotal = ({ lastTotal, changePct, currency, updateCurrency, update
   return (
     <View style={styles.totalContainer}>
       <View style={styles.total__buttons}>
-        {currencies.map(key => (
+        {buttons.map(key => (
           <CoinsaneButton
             key={key}
             type={'currency'}
@@ -31,22 +28,23 @@ const PortfolioTotal = ({ lastTotal, changePct, currency, updateCurrency, update
           />
         ))}
       </View>
-      <CoinsaneSummaryText value={lastTotal} currency={currency} />
+      <CoinsaneSummaryText value={value} currency={currency} />
       <CoinsanePctsText value={changePct} />
     </View>
   )
 };
 
-PortfolioTotal.propTypes = {
-  lastTotal: PropTypes.number,
+CoinsaneSummary.propTypes = {
+  value: PropTypes.number,
   changePct: PropTypes.string,
   currency: PropTypes.string,
   updateCurrency: PropTypes.func,
   updateChart: PropTypes.func,
+  buttons: PropTypes.arrayOf(PropTypes.string),
 };
 
-PortfolioTotal.defaultProps = {
+CoinsaneSummary.defaultProps = {
   currency: 'BTC'
 };
 
-export default PortfolioTotal;
+export default CoinsaneSummary;

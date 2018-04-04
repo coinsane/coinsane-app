@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, SectionList, TouchableOpacity, RefreshControl, Image, StyleSheet, StatusBar, View } from 'react-native';
 import { Container, Content, Card, CardItem, Body, Text, Button, Left, Right, List, ListItem, Separator, Header, Title, Subtitle, Footer } from 'native-base';
-import Icon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
 import Loading from '../Loading/Loading.component';
 import Error from '../Error/Error.component';
 import Lead from '../Lead/Lead.component';
 import Spacer from '../Spacer/Spacer.component';
-import PortfolioTotal from '../portfolio/Total.component';
+import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
 import PortfolioHeader from '../portfolio/Header.component';
 import Chart from '../_Organisms/Chart/Chart.component';
 import CoinCard from '../CoinCard/CoinCard.component';
@@ -37,6 +37,7 @@ class CoinListing extends Component {
     updateCurrency: PropTypes.func,
     updatePeriod: PropTypes.func,
     currency: PropTypes.string,
+    currencies: PropTypes.arrayOf(PropTypes.string),
     period: PropTypes.string,
     lastTotal: PropTypes.number,
   }
@@ -105,6 +106,7 @@ class CoinListing extends Component {
       updateCurrency,
       updatePeriod,
       currency,
+      currencies,
       period,
       lastTotal,
     } = this.props;
@@ -190,6 +192,8 @@ class CoinListing extends Component {
       )
     };
 
+    const updateChart = (currency) => this.updateChart(activePortfolio || 'all', period, currency);
+
     // _onRefresh() {
     //   this.setState({refreshing: true});
     //   fetchData().then(() => {
@@ -197,27 +201,18 @@ class CoinListing extends Component {
     //   });
     // }
 
-
-    const portfoliosChartArray = portfoliosChart && Object.keys(portfoliosChart).length ? Object.keys(portfoliosChart).map(time => {
-      if (typeof portfoliosChart[time] === 'number') return portfoliosChart[time];
-      return portfoliosChart[time].avg;
-    }) : [];
-
-
-    const chartPct = parseFloat(1 - portfoliosChartArray[0]/portfoliosChartArray[portfoliosChartArray.length-1]).toFixed(2);
-
     return (
       <Container style={base.contentContainer}>
         <Header style={styles.coinsHeader}>
           <StatusBar barStyle="light-content"/>
           <Left>
             <Button transparent onPress={() => drawer.open()}>
-              <Icon name='Menu' width={28} />
+              <CoinsaneIcon name='Menu' width={28} />
             </Button>
           </Left>
           <Body>
             <Title button onPress={() => Actions.portfolioSelect()}>
-              <Icon name='Arrow' width={15} height={15} fill={colors.textGray} style={[styles.coins__bodyArrowIcon]} />
+              <CoinsaneIcon name='Arrow' width={15} height={15} fill={colors.textGray} style={[styles.coins__bodyArrowIcon]} />
               <Text>{activePortfolio && portfoliosList.length ? portfoliosList[0].title : 'All Portfolios'}</Text>
             </Title>
           </Body>
@@ -225,7 +220,7 @@ class CoinListing extends Component {
             {
               activePortfolio &&
               <Button transparent onPress={() => editPortfolio ? editPortfolio(activePortfolio) : ''}>
-                <Icon name='Edit' width={28} />
+                <CoinsaneIcon name='Edit' width={28} />
               </Button>
             }
           </Right>
@@ -249,12 +244,13 @@ class CoinListing extends Component {
             pageSize={1}
             renderHeader={() => (
               <View>
-                <PortfolioTotal
-                  lastTotal={lastTotal}
-                  changePct={changePct}
+                <CoinsaneSummary
+                  value={lastTotal}
                   currency={currency}
+                  buttons={currencies}
+                  changePct={changePct}
                   updateCurrency={updateCurrency}
-                  updateChart={(currency) => this.updateChart(activePortfolio || 'all', period, currency)}
+                  updateChart={updateChart}
                 />
                 <Chart
                   dataPoints={portfoliosChart}
