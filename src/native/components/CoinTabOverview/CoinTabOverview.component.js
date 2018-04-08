@@ -9,7 +9,11 @@ import Spacer from '../Spacer/Spacer.component';
 import CoinCard from '../CoinCard/CoinCard.component';
 import { Actions } from 'react-native-router-flux';
 
+import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
+import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
+import MarketInfoCell from '../_Molecules/MarketInfoCell/MarketInfoCell.molecula';
+import TabHeader from '../_Molecules/TabHeader/TabHeader.molecula';
 import Chart from '../_Organisms/Chart/Chart.component';
 
 import { AreaChart, YAxis } from 'react-native-svg-charts';
@@ -24,11 +28,12 @@ class CoinTabOverview extends Component {
     error: PropTypes.string,
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    coinData: PropTypes.arrayOf(PropTypes.number),
+    coinData: PropTypes.shape({}),
     getCoinHisto: PropTypes.func,
     currency: PropTypes.string,
     currencies: PropTypes.arrayOf(PropTypes.string),
     updateCurrency: PropTypes.func,
+    period: PropTypes.string,
   }
 
   static defaultProps = {
@@ -61,6 +66,7 @@ class CoinTabOverview extends Component {
       currency,
       currencies,
       updateCurrency,
+      period,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -80,7 +86,46 @@ class CoinTabOverview extends Component {
 
     const contentInset = { top: 20, bottom: 20 };
 
-    console.log('coin', coin)
+    const periods = ['1h', '1d', '1w', '1m', '3m', '6m', '1y'];
+
+    const summaryList = [
+      {
+        label: 'Market Cap',
+        value: '$8,682,770'
+      },
+      {
+        label: 'Vol (24h)',
+        value: '$4,622,770'
+      },
+      {
+        label: 'Supply',
+        value: '16,868 BTC'
+      },
+    ];
+
+    const marketsList = [
+        {
+          source: 'Bitfinex',
+          pair: 'BTC/USD',
+          volume: '$560,05M',
+          price: '$8006.7',
+          changePct: '7.95',
+        },
+        {
+          source: 'OKEx',
+          pair: 'ETH/BTC',
+          volume: '$287,09M',
+          price: '$8056.2',
+          changePct: '4.07',
+        },
+        {
+          source: 'OKEx',
+          pair: 'ETH/BTC',
+          volume: '$287,09M',
+          price: '$8056.2',
+          changePct: '4.07',
+        },
+      ];
 
     return (
       <Content style={base.contentContainer}>
@@ -88,7 +133,7 @@ class CoinTabOverview extends Component {
           value={coin.amount * coin.market.prices[currency].price}
           currency={currency}
           buttons={currencies}
-          changePct={coin.market.prices[currency].changePctDay}
+          changePct={coin.market.prices[currency].changePctDay.toString()}
           updateCurrency={updateCurrency}
           updateChart={() => {}}
         />
@@ -96,22 +141,29 @@ class CoinTabOverview extends Component {
           dataPoints={coinData}
         />
         <View style={styles.cointab__graphButtonsContainer}>
-          { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(period => (
-            <Button key={period} small transparent onPress={() => getCoinHisto({fsym: coin.market.symbol, tsym: 'BTC', range: period})}>
-              <Text style={styles.cointab__graphButtonsText}>
-                {period.toUpperCase()}
-              </Text>
-            </Button>
+          { periods.map(key => (
+            <CoinsaneButton
+              key={key}
+              type={'period'}
+              value={key}
+              uppercase={true}
+              onPress={() => getCoinHisto({fsym: coin.market.symbol, tsym: currency, range: key})}
+              active={period === key}
+            />
           )) }
         </View>
-
-        <Spacer size={25} />
-        <CoinCard
-          key={coin._id}
-          coin={coin}
-          symbol={'BTC'}
-        ></CoinCard>
+        <Spacer size={10} />
+        <SummaryCell
+          summaryList={summaryList}
+        />
         <Spacer size={20} />
+        <TabHeader title="Markets" />
+        <MarketInfoCell
+          list={marketsList}
+        />
+        <Spacer size={20} />
+        {/* <TabHeader title="News" />
+        <Spacer size={50} /> */}
       </Content>
     );
   }

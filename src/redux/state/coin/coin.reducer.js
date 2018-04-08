@@ -8,7 +8,7 @@ import {
 export const initialState = {
   loading: true,
   error: null,
-  list: [],
+  list: {},
 };
 
 export default function portfolioReducer(state = initialState, action) {
@@ -18,7 +18,7 @@ export default function portfolioReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: false,
-        list: action.payload.data ? Object.keys(action.payload.data).map(key => action.payload.data[key]) : {},
+        list: action.payload.data,
       };
     }
     case COINS_ERROR: {

@@ -10,14 +10,28 @@ const CoinsaneButton = ({
   onPress
 }) => {
   const displayValue = uppercase ? value.toUpperCase() : value;
-  let textStyle = [styles.total__buttonText, active && styles.total__buttonTextActive]
-  console.log('displayValue', displayValue)
+  let buttonStyle = [];
+  let textStyle = [];
+
+  switch (type) {
+    case 'currency': {
+      textStyle = [styles.currency__buttonText, active && styles.currency__buttonTextActive];
+      break;
+    }
+    case 'period': {
+      buttonStyle = [styles.period__button, active && styles.period__buttonActive];
+      textStyle = [styles.period__buttonText, active && styles.period__buttonTextActive];
+      break;
+    }
+    default:
+  }
 
   return (
     <Button
       small
       transparent
       onPress={onPress}
+      style={buttonStyle}
     >
       <Text style={textStyle}>{displayValue}</Text>
     </Button>

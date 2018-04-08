@@ -71,7 +71,7 @@ export default function portfolioReducer(state = initialState, action) {
         changePct,
         lastTotal,
         // list: [...state.list.map(portfolio => {
-        //   if (portfolio.id === portfolioId) {
+        //   if (portfolio._id === portfolioId) {
         //     portfolio.changePct = changePct;
         //   }
         //   return portfolio;
@@ -85,8 +85,8 @@ export default function portfolioReducer(state = initialState, action) {
         error: null,
         loading: false,
         list: [...state.list.map(portfolio => {
-          if (portfolio.id === portfolioId) {
-            portfolio.coins = portfolio.coins.filter(coin => coin.id !== coinId);
+          if (portfolio._id === portfolioId) {
+            portfolio.coins = portfolio.coins.filter(coin => coin._id !== coinId);
           }
           return portfolio;
         })]

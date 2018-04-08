@@ -21,11 +21,12 @@ class CoinView extends Component {
     error: PropTypes.string,
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    coinData: PropTypes.arrayOf(PropTypes.number),
+    coinData: PropTypes.shape({}),
     getCoinHisto: PropTypes.func,
     currency: PropTypes.string,
     currencies: PropTypes.arrayOf(PropTypes.string),
     updateCurrency: PropTypes.func,
+    period: PropTypes.string,
   }
 
   static defaultProps = {
@@ -61,6 +62,7 @@ class CoinView extends Component {
       currency,
       currencies,
       updateCurrency,
+      period,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -116,6 +118,7 @@ class CoinView extends Component {
               currency={currency}
               currencies={currencies}
               updateCurrency={updateCurrency}
+              period={period}
             />
           </Tab>
           <Tab heading={

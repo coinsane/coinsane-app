@@ -41,7 +41,7 @@ class CreatePortfolio extends Component {
   handleSubmit = () => {
     const { addPortfolio, selectPortfolio, portfolios } = this.props;
     addPortfolio(this.state)
-      .then(action => selectPortfolio(action.data.id))
+      .then(action => selectPortfolio(action.data._id))
       .then(Actions.pop)
       .catch(e => console.log(`Error: ${e}`));
   }

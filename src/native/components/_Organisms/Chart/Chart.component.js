@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'native-base';
 
-import { AreaChart, YAxis } from 'react-native-svg-charts';
+import { AreaChart } from 'react-native-svg-charts';
+import YAxis from './YAxis.component'
 import { LinearGradient, Stop, G, Line } from 'react-native-svg';
 import * as shape from 'd3-shape';
+
+import CoinsaneAmount from '../../_Atoms/CoinsaneAmount/CoinsaneAmount.component';
 
 import { colors } from '../../../styles';
 import styles from './Chart.styles';
@@ -44,6 +47,8 @@ const CustomGrid = ({ x, y, dataPoints, ticks }) => (
   </G>
 )
 
+const formatLabel = value => <CoinsaneAmount value={value} currency={'BTC'} />;
+
 const Chart = ({ dataPoints }) => {
   const dataArray = dataPoints && Object.keys(dataPoints).length ? Object.keys(dataPoints).map(time => {
     if (typeof dataPoints[time] === 'number') return dataPoints[time];
@@ -59,7 +64,7 @@ const Chart = ({ dataPoints }) => {
         numberOfTicks={3}
         contentInset={contentInset}
         labelStyle={{ color: colors.textGray }}
-        formatLabel={value => `${value.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}
+        formatLabel={formatLabel}
       />
       <AreaChart
         style={{ flex: 1 }}

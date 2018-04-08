@@ -10,6 +10,7 @@ import Lead from '../Lead/Lead.component';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
 import PortfolioHeader from '../portfolio/Header.component';
+import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import Chart from '../_Organisms/Chart/Chart.component';
 import CoinCard from '../CoinCard/CoinCard.component';
 import Colors from '../../../../native-base-theme/variables/commonColor';
@@ -194,6 +195,8 @@ class CoinListing extends Component {
 
     const updateChart = (currency) => this.updateChart(activePortfolio || 'all', period, currency);
 
+    const periods = ['1h', '1d', '1w', '1m', '3m', '6m', '1y'];
+
     // _onRefresh() {
     //   this.setState({refreshing: true});
     //   fetchData().then(() => {
@@ -256,16 +259,15 @@ class CoinListing extends Component {
                   dataPoints={portfoliosChart}
                 />
                 <View style={styles.coins__contentHeader}>
-                  { ['1h', '1d', '1w', '1m', '3m', '6m', '1y'].map(periodKey => (
-                    <Button
-                      key={periodKey} small transparent
-                      onPress={() => this.updateChart(activePortfolio || 'all', periodKey, currency)}
-                      style={[styles.coins__buttonPeriod, period === periodKey && styles.coins__buttonPeriodActive]}
-                    >
-                      <Text style={[styles.coins__buttonPeriodText, period === periodKey && styles.coins__buttonPeriodTextActive]}>
-                        {periodKey.toUpperCase()}
-                      </Text>
-                    </Button>
+                  { periods.map(key => (
+                    <CoinsaneButton
+                      key={key}
+                      type={'period'}
+                      value={key}
+                      uppercase={true}
+                      onPress={() => this.updateChart(activePortfolio || 'all', key, currency)}
+                      active={period === key}
+                    />
                   )) }
                 </View>
               </View>
