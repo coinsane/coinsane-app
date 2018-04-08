@@ -18,7 +18,7 @@ export default function portfolioReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: false,
-        list: action.payload.response.result,
+        list: action.payload,
       };
     }
     case UPDATE_CURRENT_CURRENCY: {

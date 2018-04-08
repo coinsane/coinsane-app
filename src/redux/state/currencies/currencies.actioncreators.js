@@ -3,8 +3,8 @@ import {
   UPDATE_CURRENT_CURRENCY
 } from '../../actions/action.types';
 
-export const getAvaliableCurrencies = () => dispatch => {
-  dispatch({ type: GET_AVALIABLE_CURRENCIES, payload: {} });
+export const getAvaliableCurrencies = () => {
+  return { type: GET_AVALIABLE_CURRENCIES, payload: {} };
 }
 
 export const updateCurrentCurrency = (payload) => {
