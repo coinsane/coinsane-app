@@ -1,14 +1,11 @@
-import React, {Component} from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Drawer, Overlay, Scene, Tabs, Stack, Actions, ActionConst, Modal, Lightbox } from 'react-native-router-flux';
-import { Header, Left, Body, Right, Button, Title, View } from 'native-base';
+import React from 'react';
+import { Overlay, Scene, Tabs, Stack, Modal, Lightbox } from 'react-native-router-flux';
+import { View } from 'native-base';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 import DefaultProps from '../constants/navigation';
-import AppConfig from '../../constants/config';
 
 import NavigationDrawer from '../components/NavigationDrawer/NavigationDrawer.component';
-import DrawerContent from '../components/DrawerContent/DrawerContent.component';
 
 import CoinsContainer from '../../containers/Coins';
 import CoinsComponent from '../components/Coins/Coins.component';
@@ -48,64 +45,84 @@ import ErrorModal from '../components/modal/Error.component';
 
 
 const Index = (
-  <Modal key="modal"
+  <Modal
+    key="modal"
     hideNavBar
-    transitionConfig={() => ({ screenInterpolator: CardStackStyleInterpolator.forFadeFromBottomAndroid })}
+    transitionConfig={() => ({
+      screenInterpolator: CardStackStyleInterpolator.forFadeFromBottomAndroid,
+    })}
+  >
+    <Overlay
+      key="overlay"
+      contentComponent={NavigationDrawer}
     >
-    <Overlay key="overlay" contentComponent={NavigationDrawer}>
       <Lightbox key="lightbox">
-        <Tabs key="tabbar" swipeEnabled={false} animationEnabled={false} tabBarComponent={() => <View/>}>
+        <Tabs
+          key="tabbar"
+          swipeEnabled={false}
+          animationEnabled={false}
+          tabBarComponent={() => <View />}
+        >
           <Stack
-            hideNavBar
             key="coins"
+            hideNavBar
             {...DefaultProps.navbarProps}
           >
-            <Scene key="coins"
+            <Scene
+              key="coins"
               component={CoinsContainer}
               Layout={CoinsComponent}
-             />
-             <Scene
-               key="portfolioSettings"
-               component={CoinsContainer}
-               Layout={PortfolioSettingsComponent}
-             />
-             <Scene
-               key="createPortfolio"
-               component={CoinsContainer}
-               Layout={CreatePortfolioComponent}
-             />
-             <Scene
-               key="createNewTransaction"
-               component={CreateNewTransaction}
-             />
-             <Scene
-               key="selector"
-               component={Selector}
-             />
+            />
+            <Scene
+              key="portfolioSettings"
+              component={CoinsContainer}
+              Layout={PortfolioSettingsComponent}
+            />
+            <Scene
+              key="createPortfolio"
+              component={CoinsContainer}
+              Layout={CreatePortfolioComponent}
+            />
+            <Scene
+              key="createNewTransaction"
+              component={CreateNewTransaction}
+            />
+            <Scene
+              key="selector"
+              component={Selector}
+            />
           </Stack>
 
           <Stack
-            hideNavBar
             key="watchlist"
+            hideNavBar
             {...DefaultProps.navbarProps}
           >
             <Scene key="watchlist" component={MarketContainer} Layout={WatchlistComponent} />
           </Stack>
 
           <Stack
-            hideNavBar
             key="market"
+            hideNavBar
             {...DefaultProps.navbarProps}
           >
-            <Scene key="market" component={MarketContainer} Layout={MarketComponent} />
+            <Scene
+              key="market"
+              component={MarketContainer}
+              Layout={MarketComponent}
+            />
           </Stack>
 
           <Stack
-            hideNavBar
             key="profile"
+            hideNavBar
             {...DefaultProps.navbarProps}
           >
-            <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />
+            <Scene
+              key="profileHome"
+              component={MemberContainer}
+              Layout={ProfileComponent}
+            />
             <Scene
               back
               key="signUp"
@@ -151,7 +168,10 @@ const Index = (
         Layout={CoinViewComponent}
       />
     </Overlay>
-    <Scene key="error" component={ErrorModal} />
+    <Scene
+      key="error"
+      component={ErrorModal}
+    />
     <Scene
       key="portfolioSelect"
       component={PortfoliosContainer}

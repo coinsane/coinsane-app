@@ -6,6 +6,7 @@ export default {
   btnBgBlack: '#2C263F',
   inputBg: '#2C263F',
   bgGray: '#1B152D',
+  iconDark: '#443F53',
   mediumGray: '#7C778C',
   textGray: '#8D8A96',
   white: '#fff',
