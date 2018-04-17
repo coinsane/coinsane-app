@@ -1,5 +1,5 @@
 import React from 'react';
-import { G, Path } from 'react-native-svg';
+import { G, Path, Polygon } from 'react-native-svg';
 
 export default {
   Menu: {
@@ -61,5 +61,11 @@ export default {
       </G>
     </G>,
     viewBox: "0 0 28 28"
+  },
+  Category: {
+    svg: <G id="triangle" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <Polygon id="triangle-icon" points="2 4 8 8 2 12"></Polygon>
+    </G>,
+    viewBox: "0 0 12 16"
   },
 }
