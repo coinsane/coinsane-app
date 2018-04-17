@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StatusBar, Alert } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import Switch from 'react-native-switch-pro';
 import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Footer, Left, Button, Title, Right, Form, Item, Label, Input, View } from 'native-base';
 import ErrorMessages from '../../../constants/errors';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
-import { Actions } from 'react-native-router-flux';
-import Switch from 'react-native-switch-pro';
 
 import styles from './PortfolioSettings.styles';
 import { colors, base } from '../../styles';
@@ -19,17 +19,17 @@ class PortfolioSettings extends Component {
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     editPortfolio: PropTypes.func,
     selectPortfolio: PropTypes.func,
-    removePortfolio: PropTypes.func
-  }
+    removePortfolio: PropTypes.func,
+  };
 
   static defaultProps = {
-    error: null
-  }
+    error: null,
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      ...this.getPortfolio()
+      ...this.getPortfolio(),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,22 +38,22 @@ class PortfolioSettings extends Component {
   getPortfolio = () => {
     const { portfolios, portfolioId } = this.props;
     return portfolioId && portfolios ? portfolios.find(item => item._id === portfolioId) : null;
-  }
+  };
 
   handleChange = (name, val) => {
-    console.log('handleChange', name, val)
+    console.log('handleChange', name, val);
     this.setState({
       ...this.state,
       [name]: val,
     });
-  }
+  };
 
   handleSubmit = () => {
-    console.log('handleSubmit this.state', this.state)
+    console.log('handleSubmit this.state', this.state);
     this.props.editPortfolio(this.state)
       .then(() => Actions.pop())
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   removePortfolioAlert = () => {
     Alert.alert(
@@ -77,7 +77,7 @@ class PortfolioSettings extends Component {
       ],
       { cancelable: false }
     );
-  }
+  };
 
   render() {
     const {
@@ -109,7 +109,7 @@ class PortfolioSettings extends Component {
           <Body>
             <Title>{portfolio.title}</Title>
           </Body>
-          <Right></Right>
+          <Right />
         </Header>
         <Content style={styles.settings__container}>
           <Text style={styles.container__text}>{'Edit portfolio'.toUpperCase()}</Text>

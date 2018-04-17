@@ -19,7 +19,7 @@ setToken();
 const RouterWithRedux = connect()(Router);
 
 const getSceneStyle = () => ({
-  backgroundColor: '#151022'
+  backgroundColor: '#151022',
 });
 
 // Hide StatusBar on Android as it overlaps tabs
