@@ -9,7 +9,6 @@ export default StyleSheet.create({
     color: colors.primaryPink
   },
   text: {
-    marginTop: 8,
     color: colors.textGray,
     fontSize: typography.size14,
     fontFamily: typography.fontRegular,

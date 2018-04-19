@@ -21,6 +21,16 @@ export const getCourse = async ({ fsym, tsym, date }) => {
   }
 }
 
+export const getTransactionsList = async ({ coinId }) => {
+  try {
+      console.log(coinId);
+      return await axios.get(`/transactions?coinId=${coinId}`);
+  } catch (e) {
+      console.log(e);
+      return;
+  }
+}
+
 // export const getCoinHisto = ({ fsym, tsym, range }) => new Promise(async (resolve, reject) => {
 //   const response = await axios.get('/histo', { params: { fsym, tsym, range } });
 //   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);

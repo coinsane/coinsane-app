@@ -6,7 +6,8 @@ import {
   COIN_HISTO_UPDATE,
   PORTFOLIOS_UPDATE,
   PORTFOLIO_COIN_REMOVED,
-  COINS_ERROR
+  COINS_ERROR,
+  GET_AVALIABLE_TRANSACTIONS
 } from '../../actions/action.types';
 
 
@@ -21,6 +22,18 @@ export function getCourse(fsym, tsym, date) {
       fsym,
       tsym,
       date
+    }
+  };
+}
+
+/**
+  * Get user transactions for particular coin
+  */
+export function getTransactionsList(coinId) {
+  return {
+    type: GET_AVALIABLE_TRANSACTIONS,
+    payload: {
+      coinId
     }
   };
 }

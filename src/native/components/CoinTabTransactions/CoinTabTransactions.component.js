@@ -8,38 +8,39 @@ import { base } from '../../styles';
 import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
 import TransactionItem from '../_Molecules/TransactionItem/TransactionItem.molecula';
 
-const CoinTabTransactions = ({}) => {
+const CoinTabTransactions = ({ coin, transactionsList, currency, getCourse }) => {
+  console.log('CoinTabTransactions', transactionsList)
+
   const summaryList = [
     {
       label: 'Coins',
-      value: '5.0'
+      value: 0
     },
     {
       label: 'Total',
-      value: '$1,936.00'
+      value:  0,
+      symbol: currency
     },
     {
       label: 'Profit',
-      value: '-16.88%'
+      symbol: '%'
     },
   ];
 
-  const transactionsList = [
-    {
-      time: '9 Feb. 2018 at 22:41',
-      category: 'Travel',
-      value: '5.00',
-      currencyAmount: '1936',
-      type: 'Buy',
-    },
-    {
-      time: '2 Feb. 2018 at 13:22',
-      category: 'Travel',
-      value: '5.00',
-      currencyAmount: '-1566',
-      type: 'Sell',
-    },
-  ];
+  const updateSummary = (amount, total, itemCurrency, histo, buy) => {
+
+    let itemTotal = histo[currency] * total;
+
+    if (buy) {
+      summaryList[0].value += amount;
+      summaryList[1].value += itemTotal;
+    } else {
+      summaryList[0].value -= amount;
+      summaryList[1].value -= itemTotal;
+    }
+
+    summaryList[2].value = parseFloat(coin.amount * coin.market.prices[currency].price  / summaryList[1].value * 100 - 100);
+  }
 
   const addTransaction = () => {};
 
@@ -52,16 +53,21 @@ const CoinTabTransactions = ({}) => {
         />
         <Spacer size={20} />
         <View>
-          {transactionsList.map(({time, category, value, currencyAmount, type}, i) => (
-            <TransactionItem
-              key={i}
-              time={time}
-              category={category}
-              value={value}
-              currencyAmount={currencyAmount}
-              type={type}
-            />
-          ))}
+          {transactionsList.map(({_id, date, category, amount, total, currency, histo, buy}, i) => {
+            // total convert to current currency
+            updateSummary(amount, total, currency, histo, buy);
+            return (
+              <TransactionItem
+                key={_id}
+                date={date}
+                category={category ? category.title : ''}
+                amount={amount}
+                total={total}
+                currency={currency ? currency.symbol : ''}
+                buy={buy}
+              />
+            )
+          })}
         </View>
       </Content>
       <Footer style={base.footer}>

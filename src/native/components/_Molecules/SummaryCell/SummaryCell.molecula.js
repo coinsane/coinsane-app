@@ -9,11 +9,12 @@ const SummaryCell = ({ summaryList, background }) => {
 
   return (
     <View style={[styles.container, background && styles.background]}>
-      {summaryList.map(({ label, value }, i) => (
+      {summaryList.map(({ label, value, symbol }, i) => (
         <SummaryInfo
           key={label}
           label={label}
           value={value}
+          symbol={symbol}
           isLast={i === summaryList.length - 1}
         />
       ))}

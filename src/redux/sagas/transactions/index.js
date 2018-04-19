@@ -8,17 +8,19 @@ import {
   GET_COURSE,
   GET_COURSE_SUCCESS,
   RECALCULATE,
-  UPDATE_TRANSACTION
+  UPDATE_TRANSACTION,
+  GET_AVALIABLE_TRANSACTIONS,
+  GET_AVALIABLE_TRANSACTIONS_SUCCESS,
 } from '../../actions/action.types';
 
-/** 
+/**
  * action.payload: {  }
  */
 export function* addTransaction(action) {
   yield call(api.coins.addTransaction, action.payload);
 }
 
-/** 
+/**
  * action.payload: {  }
  */
 export function* updateTransaction(action) {
@@ -30,7 +32,17 @@ export function* updateTransaction(action) {
   }
 }
 
-/** 
+/**
+ * action.payload: {  }
+ */
+export function* getTransactionsList(action) {
+  if (action.payload.coinId) {
+    const reponse = yield call(api.coins.getTransactionsList, { coinId: action.payload.coinId });
+    yield put({ type: GET_AVALIABLE_TRANSACTIONS_SUCCESS, payload: reponse.data.response.transactions });
+  }
+}
+
+/**
  * action.payload: { fsym, tsym, date }
  */
 export function* getCourse(action) {
@@ -40,13 +52,13 @@ export function* getCourse(action) {
   yield put({ type: RECALCULATE, payload: 'price' });
 }
 
-/** 
+/**
  * Calculate transaction amount, price, total
  */
 export function* recalculate(action) {
   // Get inProcess -> transaction peace of state
   let transaction = yield select(selectors.getTransaction);
-  
+
   if (action.payload === 'price') {
     if (+transaction.amount) {
       const total = transaction.price * transaction.amount;
@@ -66,7 +78,7 @@ export function* recalculate(action) {
         yield put(inProcess.updateProccessTransaction({ amount: round(amount, 8) }));
       }
     }
-  } 
+  }
   if (action.payload === 'amount') {
     if (+transaction.price) {
       const total = transaction.price * transaction.amount;
@@ -80,5 +92,6 @@ export default [
   takeLatest(GET_COURSE, getCourse),
   takeLatest(RECALCULATE, recalculate),
   takeLatest(ADD_TRANSACTION, addTransaction),
-  takeEvery(UPDATE_TRANSACTION, updateTransaction)
+  takeEvery(UPDATE_TRANSACTION, updateTransaction),
+  takeLatest(GET_AVALIABLE_TRANSACTIONS, getTransactionsList)
 ];

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProccessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
-import { addTransaction, removeCoin, getCoinHisto, setCoinsError } from '../redux/state/coin/coin.actioncreators';
+import { getTransactionsList, addTransaction, getCourse, removeCoin, getCoinHisto, setCoinsError } from '../redux/state/coin/coin.actioncreators';
 import { getAvaliableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
 import { getAvaliableCurrencies, updateCurrentCurrency } from '../redux/state/currencies/currencies.actioncreators';
 
@@ -26,7 +26,9 @@ class CoinListing extends Component {
     getPortfolios: PropTypes.func.isRequired,
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
+    getCourse: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
+    getTransactionsList: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     updatePortfolio: PropTypes.func.isRequired,
     selectPortfolio: PropTypes.func.isRequired,
@@ -131,11 +133,19 @@ class CoinListing extends Component {
     return this.props.getCoinHisto(data);
   }
 
+  _getCourse = (data) => {
+    return this.props.getCourse(data);
+  }
+
+  _getTransactionsList = (data) => {
+    return this.props.getTransactionsList(data);
+  }
+
   render = () => {
     const { Layout, portfolios, navigation, match, coin, currencies } = this.props;
     const coinId = (match && match.params && match.params.coinId) ? match.params.coinId : null;
     const portfolioId = (match && match.params && match.params.portfolioId) ? match.params.portfolioId : null;
-
+console.log('portfolios.changePct', portfolios.changePct)
     return (
       <Layout
         coinId={coinId}
@@ -163,7 +173,10 @@ class CoinListing extends Component {
         coinData={coin.list}
         portfoliosFetch={(symbol) => this.fetchPortfolios(symbol)}
 
+        getCourse={this._getCourse}
         addTransaction={this.addTransaction}
+        getTransactionsList={this._getTransactionsList}
+        transactionsList={coin.transactions}
         removeCoin={this.removeCoin}
         getCoinHisto={this._getCoinHisto}
       />
@@ -185,6 +198,8 @@ const mapDispatchToProps = {
   getPortfolios,
   getTotals,
   addTransaction,
+  getCourse,
+  getTransactionsList,
   removePortfolio,
   updatePortfolio,
   selectPortfolio,

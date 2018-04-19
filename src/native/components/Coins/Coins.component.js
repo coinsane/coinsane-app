@@ -26,7 +26,7 @@ class CoinListing extends Component {
     portfoliosLoading: PropTypes.bool.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     portfoliosChart: PropTypes.shape({}),
-    changePct: PropTypes.string,
+    changePct: PropTypes.number,
     drawer: PropTypes.shape({}),
     portfoliosFetch: PropTypes.func,
     getTotals: PropTypes.func,
@@ -140,21 +140,6 @@ class CoinListing extends Component {
       dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds),
     };
 
-    // let lastTotal = 0;
-    //
-    // portfoliosList.forEach(portfolio => {
-    //   if (portfolio.amount) lastTotal += portfolio.amount;
-    // });
-
-    const getChangePct = prices => {
-      const changes = {};
-      if (prices) Object.keys(prices).forEach(symbol => {
-        changes[symbol] = prices[symbol].changePctDay;
-      });
-      return changes;
-    }
-
-
     const _renderSectionHeader = (portfolio) => {
       return (
         <PortfolioHeader
@@ -165,7 +150,6 @@ class CoinListing extends Component {
           count={portfolio.count}
           addTransaction={addTransaction}
           symbol={currency}
-          // changePct={getChangePct(portfolio.prices)}
           changePct={portfolio.changePct}
           amount={portfolio.amount}
         />

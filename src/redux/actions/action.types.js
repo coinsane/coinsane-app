@@ -37,6 +37,11 @@ export const GET_AVALIABLE_CURRENCIES_SUCCESS = '[currencies] GET_AVALIABLE_CURR
 export const GET_AVALIABLE_CURRENCIES_ERROR = '[currencies] GET_AVALIABLE_CURRENCIES_ERROR';
 export const UPDATE_CURRENT_CURRENCY = '[currencies] UPDATE_CURRENT_CURRENCY';
 
+// ========= [transactions] peace of state action types ========= //
+export const GET_AVALIABLE_TRANSACTIONS = '[currencies] GET_AVALIABLE_TRANSACTIONS';
+export const GET_AVALIABLE_TRANSACTIONS_SUCCESS = '[currencies] GET_AVALIABLE_TRANSACTIONS_SUCCESS';
+export const GET_AVALIABLE_TRANSACTIONS_ERROR = '[currencies] GET_AVALIABLE_TRANSACTIONS_ERROR';
+export const UPDATE_CURRENT_TRANSACTION = '[currencies] UPDATE_CURRENT_TRANSACTION';
 
 // ========= [portfolios] peace of state action types ========= //
 export const TOTALS_REPLACE = '[portfolios] TOTALS_REPLACE';

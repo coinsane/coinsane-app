@@ -36,7 +36,7 @@ const CoinsaneSummary = ({ value, changePct, currency, updateCurrency, updateCha
 
 CoinsaneSummary.propTypes = {
   value: PropTypes.number,
-  changePct: PropTypes.string,
+  changePct: PropTypes.number,
   currency: PropTypes.string,
   updateCurrency: PropTypes.func,
   updateChart: PropTypes.func,

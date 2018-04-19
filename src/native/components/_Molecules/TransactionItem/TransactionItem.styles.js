@@ -16,6 +16,9 @@ export default StyleSheet.create({
     marginBottom: 5,
   },
   body: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     marginBottom: 5,
   },
   footer: {

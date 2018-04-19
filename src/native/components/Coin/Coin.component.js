@@ -21,11 +21,14 @@ class CoinView extends Component {
     error: PropTypes.string,
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
     coinData: PropTypes.shape({}),
     getCoinHisto: PropTypes.func,
+    getTransactionsList: PropTypes.func,
     currency: PropTypes.string,
     currencies: PropTypes.arrayOf(PropTypes.string),
     updateCurrency: PropTypes.func,
+    getCourse: PropTypes.func,
     period: PropTypes.string,
   }
 
@@ -38,6 +41,7 @@ class CoinView extends Component {
       portfolios,
       coinId,
       getCoinHisto,
+      getTransactionsList,
     } = this.props;
 
     let coin = null;
@@ -50,6 +54,7 @@ class CoinView extends Component {
     }
 
     getCoinHisto({fsym: coin.market.symbol, tsym: 'BTC', range: '1m' });
+    getTransactionsList(coinId);
   }
 
   render () {
@@ -58,10 +63,13 @@ class CoinView extends Component {
       portfolios,
       coinId,
       coinData,
+      transactionsList,
       getCoinHisto,
+      getTransactionsList,
       currency,
       currencies,
       updateCurrency,
+      getCourse,
       period,
     } = this.props;
     // Error
@@ -112,6 +120,7 @@ class CoinView extends Component {
             <CoinTabOverview
               error={error}
               portfolios={portfolios}
+              coin={coin}
               coinId={coinId}
               coinData={coinData}
               getCoinHisto={getCoinHisto}
@@ -126,7 +135,14 @@ class CoinView extends Component {
               <Text>TRANSACTIONS</Text>
             </TabHeading>
           }>
-            <CoinTabTransactions />
+            <CoinTabTransactions
+              error={error}
+              coin={coin}
+              coinId={coinId}
+              currency={currency}
+              getCourse={getCourse}
+              transactionsList={transactionsList}
+            />
           </Tab>
         </Tabs>
       </Container>

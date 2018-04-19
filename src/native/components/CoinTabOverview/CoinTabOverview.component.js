@@ -26,6 +26,7 @@ import { colors, base } from '../../styles';
 class CoinTabOverview extends Component {
   static propTypes = {
     error: PropTypes.string,
+    coin: PropTypes.shape({}),
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     coinData: PropTypes.shape({}),
@@ -40,26 +41,11 @@ class CoinTabOverview extends Component {
     error: null,
   }
 
-  componentDidMount() {
-    const {
-      portfolios,
-      coinId,
-    } = this.props;
-
-    let coin = null;
-    if (coinId && portfolios) {
-      for (let i = 0; i < portfolios.length; i++) {
-        const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item._id === coinId);
-        if (coin) break;
-      }
-    }
-  }
-
   render () {
     const {
       error,
       portfolios,
+      coin,
       coinId,
       coinData,
       getCoinHisto,
@@ -70,19 +56,6 @@ class CoinTabOverview extends Component {
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
-
-    // Get this Coin from all portfolios
-    let coin = null;
-    if (coinId && portfolios) {
-      for (let i = 0; i < portfolios.length; i++) {
-        const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item._id === coinId);
-        if (coin) break;
-      }
-    }
-
-    // Coin not found
-    if (!coin) return <Error content={ErrorMessages.coin404} />;
 
     const contentInset = { top: 20, bottom: 20 };
 
@@ -109,21 +82,21 @@ class CoinTabOverview extends Component {
           pair: 'BTC/USD',
           volume: '$560,05M',
           price: '$8006.7',
-          changePct: '7.95',
+          changePct: 7.95,
         },
         {
           source: 'OKEx',
           pair: 'ETH/BTC',
           volume: '$287,09M',
           price: '$8056.2',
-          changePct: '4.07',
+          changePct: 4.07,
         },
         {
           source: 'OKEx',
           pair: 'ETH/BTC',
           volume: '$287,09M',
           price: '$8056.2',
-          changePct: '4.07',
+          changePct: 4.07,
         },
       ];
 
@@ -133,7 +106,7 @@ class CoinTabOverview extends Component {
           value={coin.amount * coin.market.prices[currency].price}
           currency={currency}
           buttons={currencies}
-          changePct={coin.market.prices[currency].changePctDay.toString()}
+          changePct={coin.market.prices[currency].changePctDay}
           updateCurrency={updateCurrency}
           updateChart={() => {}}
         />
