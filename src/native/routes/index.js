@@ -8,13 +8,13 @@ import DefaultProps from '../constants/navigation';
 import NavigationDrawer from '../components/NavigationDrawer/NavigationDrawer.component';
 
 import CoinsContainer from '../../containers/Coins';
-import CoinsComponent from '../components/Coins/Coins.component';
+import CoinsComponent from '../components/Portfolios/Portfolios.component';
 import CoinViewComponent from '../components/Coin/Coin.component';
 
 import PortfoliosContainer from '../../containers/Portfolios';
 import PortfoliosModal from '../components/modal/Portfolios.component';
 
-import Selector from '../components/_Organisms/CoinsaneList/CoinsaneList.organism';
+import CoinsaneList from '../components/_Organisms/CoinsaneList/CoinsaneList.organism';
 
 import CreateNewTransaction from '../components/CreateNewTransaction/CreateNewTransaction.component';
 
@@ -82,14 +82,6 @@ const Index = (
               key="createPortfolio"
               component={CoinsContainer}
               Layout={CreatePortfolioComponent}
-            />
-            <Scene
-              key="createNewTransaction"
-              component={CreateNewTransaction}
-            />
-            <Scene
-              key="selector"
-              component={Selector}
             />
           </Stack>
 
@@ -176,6 +168,14 @@ const Index = (
       key="portfolioSelect"
       component={PortfoliosContainer}
       Layout={PortfoliosModal}
+    />
+    <Scene
+      key="selector"
+      component={CoinsaneList}
+    />
+    <Scene
+      key="createNewTransaction"
+      component={CreateNewTransaction}
     />
   </Modal>
 );

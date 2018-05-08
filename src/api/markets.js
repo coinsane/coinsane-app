@@ -1,33 +1,18 @@
 import axios from 'axios';
 
-/////////////////////////////////////////////////////////////////
 /**
- * Api for get avaliable markets. 
+ * Api for get avaliable markets.
  * @kind API
  * @param limit: Number - limit result array
  */
 
-export const fetchAvaliableMarkets = async (limit) => {
-  try {
-    return await axios.get(`/market?limit=${limit}`);
-  } catch (e) {
-      //yield put(fetchFailed(e));
-      return;
-  }
-}
+export const fetchAvailableMarkets = limit => axios.get('/market', { params: { limit } });
 
-/////////////////////////////////////////////////////////////////
 /**
- * Api for search avaliable markets. 
+ * Api for search avaliable markets.
  * @kind API
  * @param term: String - search string input
+ * @param type: String - can be market, currency or null for both
  */
 
-export const searchAvaliableMarkets = async (term) => {
-  try {
-    return await axios.get(`/search?type=market&q=${term}`);
-  } catch (e) {
-      //yield put(fetchFailed(e));
-      return;
-  }
-}
+export const searchAvailableMarkets = (term, type) => axios.get('/search', { params: { term, type } });

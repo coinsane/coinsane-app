@@ -1,4 +1,4 @@
-import { all, put, call, takeLatest, select, takeEvery } from 'redux-saga/effects';
+import { put, call, takeLatest, select, takeEvery } from 'redux-saga/effects';
 import { round } from '../../../lib/utils';
 import { inProcess } from '../../actions';
 import api from '../../../api';
@@ -9,8 +9,8 @@ import {
   GET_COURSE_SUCCESS,
   RECALCULATE,
   UPDATE_TRANSACTION,
-  GET_AVALIABLE_TRANSACTIONS,
-  GET_AVALIABLE_TRANSACTIONS_SUCCESS,
+  GET_AVAILABLE_TRANSACTIONS,
+  GET_AVAILABLE_TRANSACTIONS_SUCCESS,
 } from '../../actions/action.types';
 
 /**
@@ -24,11 +24,23 @@ export function* addTransaction(action) {
  * action.payload: {  }
  */
 export function* updateTransaction(action) {
-  if (action.payload.coin || action.payload.currency) {
-    let transaction = yield select(selectors.getTransaction);
-    const reponse = yield call(api.coins.getCourse, { fsym: transaction.coinItem.symbol, tsym: transaction.currencyItem.code });
-    yield put({ type: GET_COURSE_SUCCESS, payload: reponse.data.data[transaction.currencyItem.code] });
-    yield put({ type: RECALCULATE, payload: 'price' });
+  console.log('updateTransaction', action.payload);
+  if (!(action.payload.coin || action.payload.currency)) return;
+  const transaction = yield select(selectors.getTransaction);
+  if (transaction.coinItem.symbol && transaction.currencyItem.code && transaction.date) {
+    const response = yield call(api.coins.getCourse, {
+      fsym: transaction.coinItem.symbol,
+      tsyms: transaction.currencyItem.code,
+      date: transaction.date,
+    });
+    yield put({
+      type: GET_COURSE_SUCCESS,
+      payload: response.data.data[transaction.currencyItem.code],
+    });
+    yield put({
+      type: RECALCULATE,
+      payload: 'price',
+    });
   }
 }
 
@@ -37,8 +49,13 @@ export function* updateTransaction(action) {
  */
 export function* getTransactionsList(action) {
   if (action.payload.coinId) {
-    const reponse = yield call(api.coins.getTransactionsList, { coinId: action.payload.coinId });
-    yield put({ type: GET_AVALIABLE_TRANSACTIONS_SUCCESS, payload: reponse.data.response.transactions });
+    const response = yield call(api.coins.getTransactionsList, {
+      coinId: action.payload.coinId
+    });
+    yield put({
+      type: GET_AVAILABLE_TRANSACTIONS_SUCCESS,
+      payload: response.data.response.transactions
+    });
   }
 }
 
@@ -46,10 +63,15 @@ export function* getTransactionsList(action) {
  * action.payload: { fsym, tsym, date }
  */
 export function* getCourse(action) {
-  console.log(action);
-  const reponse = yield call(api.coins.getCourse, action.payload);
-  yield put({ type: GET_COURSE_SUCCESS, payload: reponse.data.data[action.payload.tsym] });
-  yield put({ type: RECALCULATE, payload: 'price' });
+  const response = yield call(api.coins.getCourse, action.payload);
+  yield put({
+    type: GET_COURSE_SUCCESS,
+    payload: response.data.data[action.payload.tsym],
+  });
+  yield put({
+    type: RECALCULATE,
+    payload: 'price',
+  });
 }
 
 /**
@@ -57,32 +79,33 @@ export function* getCourse(action) {
  */
 export function* recalculate(action) {
   // Get inProcess -> transaction peace of state
-  let transaction = yield select(selectors.getTransaction);
+  const transaction = yield select(selectors.getTransaction);
 
   if (action.payload === 'price') {
     if (+transaction.amount) {
       const total = transaction.price * transaction.amount;
-      yield put(inProcess.updateProccessTransaction({ total: round(total, 8) }));
+      yield put(inProcess.updateProcessTransaction({ total: round(total, 8) }));
     } else if (+transaction.total) {
       const amount = transaction.total / transaction.price;
-      yield put(inProcess.updateProccessTransaction({ amount: round(amount, 8) }));
+      yield put(inProcess.updateProcessTransaction({ amount: round(amount, 8) }));
     }
   }
   if (action.payload === 'total') {
     if (+transaction.total) {
       if (+transaction.amount) {
         const price = transaction.total / transaction.amount;
-        yield put(inProcess.updateProccessTransaction({ price: round(price, 8) }));
+        yield put(inProcess.updateProcessTransaction({ price: round(price, 8) }));
       } else {
         const amount = transaction.total / transaction.price;
-        yield put(inProcess.updateProccessTransaction({ amount: round(amount, 8) }));
+        yield put(inProcess.updateProcessTransaction({ amount: round(amount, 8) }));
       }
     }
   }
   if (action.payload === 'amount') {
     if (+transaction.price) {
       const total = transaction.price * transaction.amount;
-      yield put(inProcess.updateProccessTransaction({ total: round(total, 8) }));
+      console.log('total', total, round(total, 8))
+      yield put(inProcess.updateProcessTransaction({ total: round(total, 8) }));
     }
   }
 }
@@ -93,5 +116,5 @@ export default [
   takeLatest(RECALCULATE, recalculate),
   takeLatest(ADD_TRANSACTION, addTransaction),
   takeEvery(UPDATE_TRANSACTION, updateTransaction),
-  takeLatest(GET_AVALIABLE_TRANSACTIONS, getTransactionsList)
+  takeLatest(GET_AVAILABLE_TRANSACTIONS, getTransactionsList),
 ];

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { getPortfolios, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
-import { updateProccessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
-import { getTransactionsList, addTransaction, getCourse, removeCoin, getCoinHisto, setCoinsError } from '../redux/state/coin/coin.actioncreators';
-import { getAvaliableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
-import { getAvaliableCurrencies, updateCurrentCurrency } from '../redux/state/currencies/currencies.actioncreators';
+import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
+import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
+import { getTransactionsList, addTransaction, getCourse, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets } from '../redux/state/coin/coin.actioncreators';
+import { getAvailableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
+import { getAvailableCurrencies, selectCurrency } from '../redux/state/currencies/currencies.actioncreators';
 
-class CoinListing extends Component {
+class Coins extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     portfolios: PropTypes.shape({
@@ -17,67 +17,62 @@ class CoinListing extends Component {
       error: PropTypes.string,
       list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     }).isRequired,
+    coin: PropTypes.shape({}).isRequired,
     navigation: PropTypes.shape({
-      drawer: PropTypes.shape(),
-    }),
+      drawer: PropTypes.shape({}),
+    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({}),
     }),
-    getPortfolios: PropTypes.func.isRequired,
+
+    updatePortfolios: PropTypes.func.isRequired,
+    updatePortfolioChart: PropTypes.func.isRequired,
+    updatePortfolioPeriod: PropTypes.func.isRequired,
+    updatePortfolioCurrency: PropTypes.func.isRequired,
+
+    clearMarkets: PropTypes.func.isRequired,
+
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
     getCourse: PropTypes.func.isRequired,
-    addTransaction: PropTypes.func.isRequired,
     getTransactionsList: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     updatePortfolio: PropTypes.func.isRequired,
     selectPortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
     setPortfoliosError: PropTypes.func.isRequired,
-    getCoinHisto: PropTypes.func,
-    setCoinsError: PropTypes.func.isRequired,
+    getCoinHisto: PropTypes.func.isRequired,
+    getCoinMarkets: PropTypes.func.isRequired,
     setCoinData: PropTypes.func.isRequired,
-    updateCurrentCurrency: PropTypes.func.isRequired,
+    selectCurrency: PropTypes.func.isRequired,
     updatePeriod: PropTypes.func.isRequired,
-  }
+    updateProcessTransaction: PropTypes.func.isRequired,
+    getAvailableMarkets: PropTypes.func.isRequired,
+    getAvailableCurrencies: PropTypes.func.isRequired,
+    updateCollapsed: PropTypes.func.isRequired,
+    settings: PropTypes.shape({}).isRequired,
+    currencies: PropTypes.shape({
+      current: PropTypes.string,
+    }).isRequired,
+  };
 
   static defaultProps = {
     match: null,
-  }
-
-  componentDidMount = () => {
-    return Promise.resolve()
-      .then(this.fetchPortfolios)
   };
 
-  /**
-    * Fetch Data from API, saving to Redux
-    */
-  fetchPortfolios = (symbol) => {
-    const {
-      portfolios,
-      getPortfolios,
-      setPortfoliosError,
-      currencies,
-    } = this.props;
-    return getPortfolios(symbol || currencies.currecnt)
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-        return setPortfoliosError(err);
-      });
-  }
+  fetchPortfolios = symbol => this.props.updatePortfolios(symbol || this.props.currencies.current);
 
   addTransaction = (portfolio) => {
-    // add portfolioId (passed as object) to proccess transaction peace of state
-    this.props.updateProccessTransaction({ portfolio });
+    // add portfolioId (passed as object) to process transaction peace of state
+    this.props.updateProcessTransaction({ portfolio });
     // show SelectCoin screen
     Actions.selector({
       preLoad: () => {
-        this.props.getAvaliableMarkets();
-        this.props.getAvaliableCurrencies();
+        this.props.getAvailableMarkets();
+        this.props.getAvailableCurrencies();
       },
       clear: () => {
-        //this.props.clearMarkets();
+        this.props.clearMarkets();
       },
       title: 'Select coin',
       listItemType: 'arrow',
@@ -85,67 +80,32 @@ class CoinListing extends Component {
       searchBar: true,
       listName: 'markets',
       selectAction: (item) => { // id - of selected item
-        this.props.updateProccessTransaction({ coin: item._id, coinItem: item });
+        this.props.updateProcessTransaction({ coin: item._id, coinItem: item });
         Actions.createNewTransaction();
       },
-      closeType: 'close'
+      closeType: 'close',
     });
-    //return this.props.addTransaction(newCoin);
-  }
-
-  removePortfolio = (portfolioId) => {
-    return this.props.removePortfolio(portfolioId);
-  }
-
-  editPortfolio = (portfolio) => {
-    return this.props.updatePortfolio(portfolio);
-  }
-
-  _addPortfolio = (portfolio) => {
-    return this.props.addPortfolio(portfolio);
-  }
-
-  _selectPortfolio = (portfolioId) => {
-    return this.props.selectPortfolio(portfolioId);
-  }
-
-  _setCoinData = (data) => {
-    return this.props.setCoinData(data);
-  }
-
-  _updateCurrency = (data) => {
-    return this.props.updateCurrentCurrency(data);
-  }
-
-  _updatePeriod = (data) => {
-    return this.props.updatePeriod(data);
-  }
-
-  _getTotals = (data) => {
-    return this.props.getTotals(data);
-  }
-
-  removeCoin = (coinId) => {
-    return this.props.removeCoin(coinId);
-  }
-
-  _getCoinHisto = (data) => {
-    return this.props.getCoinHisto(data);
-  }
-
-  _getCourse = (data) => {
-    return this.props.getCourse(data);
-  }
-
-  _getTransactionsList = (data) => {
-    return this.props.getTransactionsList(data);
-  }
+    // return this.props.addTransaction(newCoin);
+  };
 
   render = () => {
-    const { Layout, portfolios, navigation, match, coin, currencies } = this.props;
+    const {
+      Layout,
+      portfolios,
+      navigation,
+      match,
+      coin,
+      currencies,
+      settings,
+    } = this.props;
     const coinId = (match && match.params && match.params.coinId) ? match.params.coinId : null;
-    const portfolioId = (match && match.params && match.params.portfolioId) ? match.params.portfolioId : null;
-console.log('portfolios.changePct', portfolios.changePct)
+    const portfolioId = match && match.params && match.params.portfolioId
+      ? match.params.portfolioId :
+      null;
+
+    const currenciesByName = settings.currencies.map(({ market, currency }) =>
+      (market ? market.symbol : currency.code));
+
     return (
       <Layout
         coinId={coinId}
@@ -155,47 +115,58 @@ console.log('portfolios.changePct', portfolios.changePct)
         portfoliosLoading={portfolios.loading}
         portfolios={portfolios.list}
         portfoliosChart={portfolios.chart}
+        currency={portfolios.currency}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}
         drawer={navigation.drawer}
-        removePortfolio={this.removePortfolio}
-        selectPortfolio={this._selectPortfolio}
-        editPortfolio={this.editPortfolio}
-        addPortfolio={this._addPortfolio}
-        setCoinData={this._setCoinData}
-        updateCurrency={this._updateCurrency}
-        updatePeriod={this._updatePeriod}
-        currency={currencies.current}
-        currencies={currencies.active}
+        removePortfolio={this.props.removePortfolio}
+        selectPortfolio={this.props.selectPortfolio}
+        editPortfolio={this.props.updatePortfolio}
+        addPortfolio={this.props.addPortfolio}
+        setCoinData={this.props.setCoinData}
+        updateCurrency={this.props.selectCurrency}
+        updatePeriod={this.props.updatePeriod}
+        currencies={currenciesByName}
         period={portfolios.period}
-        getTotals={this._getTotals}
+        getTotals={this.props.getTotals}
         activePortfolio={portfolios.selected}
         coinData={coin.list}
-        portfoliosFetch={(symbol) => this.fetchPortfolios(symbol)}
 
-        getCourse={this._getCourse}
+        fetchPortfolios={this.fetchPortfolios}
+        updatePortfolioChart={this.props.updatePortfolioChart}
+        updatePortfolioPeriod={this.props.updatePortfolioPeriod}
+        updatePortfolioCurrency={this.props.updatePortfolioCurrency}
+
+        getCourse={this.props.getCourse}
         addTransaction={this.addTransaction}
-        getTransactionsList={this._getTransactionsList}
+        getTransactionsList={this.props.getTransactionsList}
         transactionsList={coin.transactions}
-        removeCoin={this.removeCoin}
-        getCoinHisto={this._getCoinHisto}
+        removeCoin={this.props.removeCoin}
+        getCoinHisto={this.props.getCoinHisto}
+        getCoinMarkets={this.props.getCoinMarkets}
+        updateCollapsed={this.props.updateCollapsed}
+        collapsedList={portfolios.collapsed}
+        markets={coin.markets}
+        settings={settings}
       />
     );
   }
 }
 
-const mapStateToProps = state => {
-  // console.log('coins mapStateToProps', state)
-  return {
-    portfolios: state.portfolios || {},
-    navigation: state.navigation || {},
-    coin: state.coin || {},
-    currencies: state.currencies || {},
-  };
-};
+const mapStateToProps = state => ({
+  portfolios: state.portfolios,
+  navigation: state.navigation,
+  coin: state.coin,
+  currencies: state.currencies,
+  settings: state.settings,
+});
 
 const mapDispatchToProps = {
-  getPortfolios,
+  updatePortfolios,
+  updatePortfolioChart,
+  updatePortfolioPeriod,
+  updatePortfolioCurrency,
+
   getTotals,
   addTransaction,
   getCourse,
@@ -206,14 +177,17 @@ const mapDispatchToProps = {
   addPortfolio,
   removeCoin,
   getCoinHisto,
+  getCoinMarkets,
   setPortfoliosError,
   setCoinsError,
   setCoinData,
-  updateCurrentCurrency,
+  selectCurrency,
   updatePeriod,
-  updateProccessTransaction,
-  getAvaliableMarkets,
-  getAvaliableCurrencies
+  updateProcessTransaction,
+  getAvailableMarkets,
+  getAvailableCurrencies,
+  updateCollapsed,
+  clearMarkets,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinListing);
+export default connect(mapStateToProps, mapDispatchToProps)(Coins);

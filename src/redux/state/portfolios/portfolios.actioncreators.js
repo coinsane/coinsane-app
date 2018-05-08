@@ -1,18 +1,25 @@
+import React from 'react';
 import { fetchPortfolios, fetchTotals, setPortfolio, update, delPortfolio, watchUserPortfolios } from '../../../api/portfolios';
-import { PORTFOLIOS_UPDATE, TOTALS_REPLACE, PORTFOLIO_SELECT, PORTFOLIO_UPDATE, PORTFOLIO_ADDED, PORTFOLIO_REMOVED, PORTFOLIOS_ERROR, SET_COIN_DATA } from '../../actions/action.types';
+import {
+  UPDATE_PORTFOLIOS,
+  TOTALS_REPLACE,
+  PORTFOLIO_SELECT,
+  PORTFOLIO_UPDATE,
+  PORTFOLIO_ADDED,
+  PORTFOLIO_REMOVED,
+  PORTFOLIOS_ERROR,
+  SET_COIN_DATA,
+  UPDATE_PERIOD,
+  UPDATE_COLLAPSED,
+  UPDATE_PORTFOLIO_CHART,
+  UPDATE_PORTFOLIO_PERIOD,
+  UPDATE_PORTFOLIO_CURRENCY,
+} from '../../actions/action.types';
 
-/**
-  * Get Portfolios
-  */
-export function getPortfolios(symbol) {
-  return dispatch => Promise.resolve()
-    .then(() => fetchPortfolios(symbol))
-    .then(portfolios => dispatch({
-      type: PORTFOLIOS_UPDATE,
-      data: portfolios || [],
-    }))
-    .catch(e => console.log(e));
-}
+export const updatePortfolios = payload => ({ type: UPDATE_PORTFOLIOS, payload });
+export const updatePortfolioChart = payload => ({ type: UPDATE_PORTFOLIO_CHART, payload });
+export const updatePortfolioPeriod = payload => ({ type: UPDATE_PORTFOLIO_PERIOD, payload });
+export const updatePortfolioCurrency = payload => ({ type: UPDATE_PORTFOLIO_CURRENCY, payload });
 
 /**
   * Get Totals
@@ -111,8 +118,15 @@ export function updateCurrency(data) {
 export function updatePeriod(data) {
   return dispatch => Promise.resolve()
     .then(() => dispatch({
-      type: 'UPDATE_PERIOD',
+      type: UPDATE_PERIOD,
       data
     }))
     .catch(e => console.log(e));
+}
+
+export function updateCollapsed(portfolioId) {
+  return {
+    type: UPDATE_COLLAPSED,
+    portfolioId,
+  };
 }

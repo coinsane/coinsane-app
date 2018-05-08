@@ -1,16 +1,26 @@
-import { 
-  GET_AVALIABLE_MARKETS,
-  SEARCH_AVALIABLE_MARKETS,
-  CLEAR_MARKETS
+import {
+  GET_AVAILABLE_MARKETS,
+  SEARCH_AVAILABLE_MARKETS,
+  GET_AVAILABLE_CURRENCIES,
+  CLEAR_MARKETS,
 } from '../../actions/action.types';
 
 /**
   * Get All Markets
   */
-export function getAvaliableMarkets() {
+export function getAvailableMarkets() {
   return {
-    type: GET_AVALIABLE_MARKETS,
-    payload: { limit: 10 }
+    type: GET_AVAILABLE_MARKETS,
+    payload: { limit: 10 },
+  };
+}
+/**
+  * Get All Markets
+  */
+export function getAvailableCurrencies() {
+  return {
+    type: GET_AVAILABLE_CURRENCIES,
+    payload: { limit: 10 },
   };
 }
 
@@ -19,8 +29,8 @@ export function getAvaliableMarkets() {
   */
 export function changeSearchTerm(term) {
   return {
-    type: SEARCH_AVALIABLE_MARKETS,
-    payload: term
+    type: SEARCH_AVAILABLE_MARKETS,
+    payload: term,
   };
 }
 
@@ -29,6 +39,6 @@ export function changeSearchTerm(term) {
   */
 export function clearMarkets() {
   return {
-    type: CLEAR_MARKETS
+    type: CLEAR_MARKETS,
   };
 }

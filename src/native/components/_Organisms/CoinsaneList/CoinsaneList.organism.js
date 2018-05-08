@@ -1,78 +1,85 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { StatusBar } from 'react-native';
-import { Header, Left, Right, Title, Body, Container, Content, Icon, Text, List, ListItem, Button, Thumbnail } from 'native-base';
-import Spacer from '../../Spacer/Spacer.component';
-import SearchBar from '../../_Molecules/SearchBar/SearchBar.component';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { Container, Content, Text, List } from 'native-base';
+import SearchBar from '../../_Molecules/SearchBar/SearchBar.molecula';
 import Modal from '../../modal/BaseModal.component';
 import { clearMarkets } from '../../../../redux/state/markets/markets.actioncreators';
-import { updateProccessTransaction } from '../../../../redux/state/inProcess/inProcess.actioncreators';
 import SelectorListItem from '../../_Molecules/CoinCell/CoinCell.component';
+import CoinsaneHeader from '../../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Loading from '../../Loading/Loading.component';
 import styles from './CoinsaneList.styles';
-import { colors, base } from '../../../styles';
+import { colors } from '../../../styles';
 
-class Selector extends Component {
+class CoinsaneList extends Component {
+  static propTypes = {
+    navigationType: PropTypes.string.isRequired,
+    searchBar: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    listName: PropTypes.string.isRequired,
+    listItemType: PropTypes.string.isRequired,
+    selectAction: PropTypes.func.isRequired,
+    preLoad: PropTypes.func,
+    clear: PropTypes.func,
+    state: PropTypes.shape({}).isRequired,
+  };
+
+  static defaultProps = {
+    preLoad: () => {},
+    clear: () => {},
+  };
+
   componentWillMount() {
-    if (this.props.preLoad) {
-      this.props.preLoad(); // from top container
-    }
+    this.props.preLoad();
   }
 
   close() {
     if (this.props.clear) {
       this.props.clear(); // from top container
     }
-    Actions.pop()
-  }
-
-  renderSearchBar() {
-    if (!this.props.searchBar) return;
-    return <SearchBar />;
-  }
-
-  renderLeft() {
-    if (this.props.navigationType === 'back') {
-      return(
-        <Button transparent onPress={() => this.close() }>
-          <Icon name='ios-arrow-back' width={28} style={{ color: colors.white }} />
-        </Button>
-      );
-    }
-  }
-
-  renderRight() {
-    if (this.props.navigationType === 'close') {
-      return(
-        <Button transparent onPress={() => this.close() }>
-          <Icon name='md-close' width={28} style={{ color: colors.white }} />
-        </Button>
-      );
-    }
+    Actions.pop();
   }
 
   render() {
+    const {
+      navigationType,
+      searchBar,
+      title,
+      listName,
+      listItemType,
+      selectAction,
+      state,
+    } = this.props;
+
     return (
       <Modal hideClose>
         <Container>
-          <Header style={styles.headerContainer}>
-            <StatusBar barStyle="light-content"/>
-            <Left>{ this.renderLeft() }</Left>
-            <Body>
-              <Title>{this.props.title}</Title>
-            </Body>
-            <Right>{ this.renderRight() }</Right>
-          </Header>
-          <Content padder style={{ backgroundColor: colors.bgGray }}>
-            { this.renderSearchBar() }
-            <List style={ styles.ListContainer }>
-              { this.props.state[this.props.listName].list.map(item => {
-                return(
-                  <SelectorListItem key={item._id} listItemType={this.props.listItemType} item={item} selectAction={ () => this.props.selectAction(item) } />
-                );
-              }) }
-            </List>
+          <CoinsaneHeader
+            leftIcon="Back"
+            leftAction={() => this.close()}
+            leftActive={navigationType === 'back'}
+            title={<Text>{title}</Text>}
+            rightIcon="Close"
+            rightAction={() => this.close()}
+            rightActive={navigationType === 'close'}
+          />
+          <Content style={{ backgroundColor: colors.bgGray }}>
+            { searchBar && <SearchBar /> }
+            {
+              state[listName].loading ?
+                <Loading /> :
+                <List style={styles.ListContainer}>
+                  { state[listName].list.map(item => (
+                    <SelectorListItem
+                      key={item._id}
+                      listItemType={listItemType}
+                      item={item}
+                      selectAction={() => selectAction(item)}
+                    />
+                  )) }
+                </List>
+            }
           </Content>
         </Container>
       </Modal>
@@ -80,8 +87,10 @@ class Selector extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { state };
-}
+const mapStateToProps = state => ({ state });
 
-export default connect(mapStateToProps, { clearMarkets })(Selector);
+const mapDispatchToProps = {
+  clearMarkets,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoinsaneList);

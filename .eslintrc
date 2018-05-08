@@ -2,7 +2,11 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "ecmaFeatures": {
-    "classes": true,
+    "classes": true
+  },
+  "globals": {
+    "__DEV__": true,
+    "__PROD__": true
   },
   "rules": {
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
@@ -16,5 +20,5 @@
     "prefer-promise-reject-errors": "off",
     "no-nested-ternary": "off",
     "react/no-multi-comp": "off"
-  },
+  }
 }

@@ -15,7 +15,7 @@ export default {
   missingPassword: 'Password is missing',
   passwordsDontMatch: 'Passwords do not match',
 
-  // Coins
+  // Portfolios
   coin404: 'Coin not found',
   missingPortfolioId: 'Missing portfolio definition',
 };

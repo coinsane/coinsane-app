@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors } from '../../../styles';
+import { colors } from '../../../styles';
 
 export default StyleSheet.create({
   headerContainer: {
@@ -7,6 +7,6 @@ export default StyleSheet.create({
     borderBottomWidth: 0,
   },
   ListContainer: {
-    paddingTop: 15
-  }
+    padding: 15,
+  },
 });

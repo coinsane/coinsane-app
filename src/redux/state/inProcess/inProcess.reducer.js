@@ -1,9 +1,9 @@
-import { 
+import {
   UPDATE_TRANSACTION,
   GET_COURSE_SUCCESS,
   CLEAR_TRANSACTION,
-  RECALCULATE
 } from '../../actions/action.types';
+
 export const initialState = {
   transaction: {
     coin: '',
@@ -19,19 +19,20 @@ export const initialState = {
     note: '',
     coinItem: {},
     portfolioItem: {},
-    currencyItem: {}
-  }
+    currencyItem: {},
+  },
 };
 
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_TRANSACTION: {
+      console.log('UPDATE_TRANSACTION', state)
       return {
         ...state,
         transaction: {
           ...state.transaction,
-          ...action.payload
-        }
+          ...action.payload,
+        },
       };
     }
     case GET_COURSE_SUCCESS: {
@@ -39,8 +40,8 @@ export default function appReducer(state = initialState, action) {
         ...state,
         transaction: {
           ...state.transaction,
-          price: action.payload
-        }
+          price: action.payload,
+        },
       };
     }
     case CLEAR_TRANSACTION: {
@@ -49,17 +50,11 @@ export default function appReducer(state = initialState, action) {
         transaction: {
           ...state.transaction,
           amount: 0,
-          total: 0
-        }
+          total: 0,
+        },
       };
     }
     default:
       return state;
   }
-}
-
-
-function round(number, n) {
-  let k = 10**n;
-  return Math.round(number * k) / k;
 }

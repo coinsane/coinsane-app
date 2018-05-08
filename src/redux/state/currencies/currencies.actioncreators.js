@@ -1,12 +1,9 @@
 import {
-  GET_AVALIABLE_CURRENCIES,
-  UPDATE_CURRENT_CURRENCY
+  GET_AVAILABLE_CURRENCIES,
+  SELECT_CURRENCY,
 } from '../../actions/action.types';
 
-export const getAvaliableCurrencies = () => {
-  return { type: GET_AVALIABLE_CURRENCIES, payload: {} };
-}
+export const getAvailableCurrencies = () => ({ type: GET_AVAILABLE_CURRENCIES, payload: {} });
 
-export const updateCurrentCurrency = (payload) => {
-  return { type: UPDATE_CURRENT_CURRENCY, payload };
-}
+export const selectCurrency = payload => ({ type: SELECT_CURRENCY, payload });
+

@@ -13,9 +13,8 @@ export default StyleSheet.create({
   coinHeader__thumbnail: {
     height: 24,
     width: 24,
-    marginRight: 10,
   },
   coinHeader__text: {
-    color: colors.textGray
+    color: colors.textGray,
   },
 });

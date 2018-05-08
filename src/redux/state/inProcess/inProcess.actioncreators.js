@@ -1,22 +1,7 @@
-import { 
-  UPDATE_TRANSACTION,
-  CLEAR_TRANSACTION,
-  RECALCULATE
-} from '../../actions/action.types';
+import { UPDATE_TRANSACTION, CLEAR_TRANSACTION, RECALCULATE } from '../../actions/action.types';
 
-/////////////////////////////////////////////////////////////////
+export const updateProcessTransaction = payload => ({ type: UPDATE_TRANSACTION, payload });
 
-// payload format correspond to inProcess peace of state, all propTypes
-// in payload will be updated with spread operator - { portfolioId: 'qweqweqweqwe' }
-// state = { ...state, ...payload }
-export const updateProccessTransaction = (payload) => {
-  return { type: UPDATE_TRANSACTION, payload: payload };
-}
+export const clearProcessTransaction = () => ({ type: CLEAR_TRANSACTION, payload: {} });
 
-export const clearProccessTransaction = () => {
-  return { type: CLEAR_TRANSACTION, payload: {} };
-}
-
-export const recalculate = (payload) => {
-  return { type: RECALCULATE, payload: payload };
-}
+export const recalculate = payload => ({ type: RECALCULATE, payload });

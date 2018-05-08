@@ -1,4 +1,22 @@
-import { PORTFOLIOS_UPDATE, PORTFOLIO_ADDED, PORTFOLIO_SELECT, PORTFOLIO_REMOVED, PORTFOLIO_UPDATE, TOTALS_REPLACE, PORTFOLIO_COIN_REMOVED, PORTFOLIOS_ERROR, SET_COIN_DATA } from '../../actions/action.types';
+import {
+  UPDATE_PORTFOLIOS,
+  UPDATE_PORTFOLIOS_SUCCESS,
+  UPDATE_PORTFOLIOS_ERROR,
+  PORTFOLIO_ADDED,
+  PORTFOLIO_SELECT,
+  PORTFOLIO_REMOVED,
+  PORTFOLIO_UPDATE,
+  TOTALS_REPLACE,
+  PORTFOLIO_COIN_REMOVED,
+  PORTFOLIOS_ERROR,
+  SET_COIN_DATA,
+  UPDATE_PERIOD,
+  UPDATE_PORTFOLIO_CURRENCY_SUCCESS,
+  UPDATE_PORTFOLIO_PERIOD_SUCCESS,
+  UPDATE_PERIOD_SUCCESS,
+  UPDATE_COLLAPSED,
+  TOTALS_REPLACE_SUCCESS,
+} from '../../actions/action.types';
 
 export const initialState = {
   loading: true,
@@ -6,21 +24,37 @@ export const initialState = {
   list: [],
   selected: null,
   chart: {},
-  coinData: [], // TODO move to coins store
+  coinData: {}, // TODO move to coins store
   currency: 'BTC',
   period: '1d',
   changePct: 0,
   lastTotal: 0,
+  collapsed: [],
 };
 
 export default function portfolioReducer(state = initialState, action) {
   switch (action.type) {
-    case PORTFOLIOS_UPDATE: {
+    case UPDATE_PORTFOLIOS: {
+      return {
+        ...state,
+        error: null,
+        loading: true,
+      };
+    }
+    case UPDATE_PORTFOLIOS_SUCCESS: {
       return {
         ...state,
         error: null,
         loading: false,
-        list: action.data,
+        list: action.payload,
+      };
+    }
+    case UPDATE_PORTFOLIOS_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+        list: [],
       };
     }
     case PORTFOLIO_ADDED: {
@@ -62,7 +96,7 @@ export default function portfolioReducer(state = initialState, action) {
       };
     }
     case TOTALS_REPLACE: {
-      const { portfolioId, totals, changePct, lastTotal } = action.data;
+      const { totals, changePct, lastTotal } = action.data;
       return {
         ...state,
         error: null,
@@ -76,6 +110,17 @@ export default function portfolioReducer(state = initialState, action) {
         //   }
         //   return portfolio;
         // })]
+      };
+    }
+    case TOTALS_REPLACE_SUCCESS: {
+      const { totals, changePct, lastTotal } = action.payload;
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        chart: totals,
+        changePct,
+        lastTotal,
       };
     }
     case PORTFOLIO_COIN_REMOVED: {
@@ -110,10 +155,33 @@ export default function portfolioReducer(state = initialState, action) {
         currency: action.data,
       };
     }
-    case 'UPDATE_PERIOD': {
+    case UPDATE_PORTFOLIO_CURRENCY_SUCCESS: {
+      console.log(action.payload);
+      return {
+        ...state,
+        currency: action.payload,
+      };
+    }
+    case UPDATE_PERIOD: {
       return {
         ...state,
         period: action.data,
+      };
+    }
+    case UPDATE_PORTFOLIO_PERIOD_SUCCESS: {
+      return {
+        ...state,
+        period: action.payload,
+      };
+    }
+    case UPDATE_COLLAPSED: {
+      const collapsed = [...state.collapsed];
+      if (collapsed.indexOf(action.portfolioId) === -1) collapsed.push(action.portfolioId);
+      else collapsed.splice(collapsed.indexOf(action.portfolioId), 1);
+      console.log('UPDATE_COLLAPSED', collapsed);
+      return {
+        ...state,
+        collapsed,
       };
     }
     default:

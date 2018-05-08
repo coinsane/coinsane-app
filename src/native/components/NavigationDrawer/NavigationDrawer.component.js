@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Drawer from 'react-native-drawer';
-import DrawerContent from '../DrawerContent/DrawerContent.component';
-
 import { connect } from 'react-redux';
+import Drawer from 'react-native-drawer';
 
+import DrawerContent from '../DrawerContent/DrawerContent.component';
 import { setDrawerActions } from '../../../redux/state/navigation/navigation.actioncreators';
 
 import { colors } from '../../styles';
@@ -11,28 +10,29 @@ import { colors } from '../../styles';
 class NavigationDrawer extends Component {
   constructor(props) {
     super(props);
+    this.tweenHandler = this.tweenHandler.bind(this);
   }
 
   tweenHandler(ratio) {
     return {
       main: {
         transform: [
-          { scale: 1-ratio/5.1 }
+          { scale: 1 - ratio / 5.1 },
         ],
-        left: ratio * 200
+        left: ratio * 200,
       },
-    }
+    };
   }
 
-  render(){
+  render() {
     return (
       <Drawer
-        ref={drawer => {
-          if (!this.props.navigation.drawer.open) this.props.setDrawerActions(drawer.open, drawer.close)
+        ref={(drawer) => {
+          if (!this.props.navigation.drawer.open) this.props.setDrawerActions(drawer.open, drawer.close);
         }}
         openDrawerOffset={200}
         content={<DrawerContent />}
-        tweenHandler={this.tweenHandler.bind(this)}
+        tweenHandler={this.tweenHandler}
         acceptTap
         tapToClose
         style={{ backgroundColor: colors.bgGray, borderBottomWidth: 0 }}
@@ -43,11 +43,9 @@ class NavigationDrawer extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    navigation: state.navigation
-  };
-};
+const mapStateToProps = state => ({
+  navigation: state.navigation,
+});
 
 const mapDispatchToProps = {
   setDrawerActions,

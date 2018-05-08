@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StatusBar } from 'react-native';
-import { Header, Left, Right, Title, Body, Container, Content, Text, List, ListItem, Button, Footer } from 'native-base';
-import Spacer from '../Spacer/Spacer.component';
-import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
+import { Container, Content, Text, List, ListItem, Button, Footer } from 'native-base';
+import Spacer from '../Spacer/Spacer.component';
+import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import Modal from './BaseModal.component';
 import styles from './Portfolios.styles';
 import { colors, base } from '../../styles';
@@ -12,24 +11,14 @@ import { colors, base } from '../../styles';
 const PortfoliosModal = ({
   portfolios,
   selectPortfolio,
-  selected
 }) => {
   return (
     <Modal hideClose>
       <Container>
-        <Header style={styles.headerContainer}>
-          <StatusBar barStyle="light-content"/>
-          <Left>
-            <Button transparent onPress={() => Actions.pop()}>
-              <CoinsaneIcon name='Back' width={28} fill={colors.white} />
-            </Button>
-          </Left>
-          <Body>
-            <Title>{'Choose portfolio'}</Title>
-          </Body>
-          <Right>
-          </Right>
-        </Header>
+        <CoinsaneHeader
+          leftIcon="Back"
+          title={<Text>Choose portfolio</Text>}
+        />
         <Content padder style={{ backgroundColor: colors.bgGray }}>
 
           <Spacer size={30} />
@@ -79,9 +68,8 @@ const PortfoliosModal = ({
 };
 
 PortfoliosModal.propTypes = {
-  selected: PropTypes.string,
   selectPortfolio: PropTypes.func.isRequired,
-  portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+  portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 PortfoliosModal.defaultProps = {

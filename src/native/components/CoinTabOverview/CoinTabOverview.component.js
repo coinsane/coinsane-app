@@ -1,13 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StatusBar, View } from 'react-native';
-import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Left, Button, Title, Right, Tabs, Tab, TabHeading } from 'native-base';
-import ErrorMessages from '../../../constants/errors';
-import Config from '../../../constants/config';
+import { View } from 'react-native';
+import { Content } from 'native-base';
+import { nFormat } from '../../../lib/utils';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
-import CoinCard from '../CoinCard/CoinCard.component';
-import { Actions } from 'react-native-router-flux';
 
 import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
@@ -16,89 +13,68 @@ import MarketInfoCell from '../_Molecules/MarketInfoCell/MarketInfoCell.molecula
 import TabHeader from '../_Molecules/TabHeader/TabHeader.molecula';
 import Chart from '../_Organisms/Chart/Chart.component';
 
-import { AreaChart, YAxis } from 'react-native-svg-charts';
-import { LinearGradient, Stop, G, Line } from 'react-native-svg';
-import * as shape from 'd3-shape';
-
 import styles from './CoinTabOverview.styles';
-import { colors, base } from '../../styles';
+import { base } from '../../styles';
 
 class CoinTabOverview extends Component {
   static propTypes = {
     error: PropTypes.string,
-    coin: PropTypes.shape({}),
-    coinId: PropTypes.string.isRequired,
-    portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    coinData: PropTypes.shape({}),
-    getCoinHisto: PropTypes.func,
-    currency: PropTypes.string,
-    currencies: PropTypes.arrayOf(PropTypes.string),
-    updateCurrency: PropTypes.func,
-    period: PropTypes.string,
-  }
+    coin: PropTypes.shape({}).isRequired,
+    coinData: PropTypes.shape({}).isRequired,
+    getCoinHisto: PropTypes.func.isRequired,
+    currency: PropTypes.string.isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    markets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    updateCurrency: PropTypes.func.isRequired,
+    period: PropTypes.string.isRequired,
+  };
 
   static defaultProps = {
     error: null,
-  }
+  };
 
-  render () {
+  render() {
     const {
       error,
-      portfolios,
       coin,
-      coinId,
       coinData,
       getCoinHisto,
       currency,
       currencies,
+      markets,
       updateCurrency,
       period,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
 
-    const contentInset = { top: 20, bottom: 20 };
-
     const periods = ['1h', '1d', '1w', '1m', '3m', '6m', '1y'];
 
     const summaryList = [
       {
         label: 'Market Cap',
-        value: '$8,682,770'
+        value: nFormat(coin.market.prices[currency].marketCap, 2),
       },
       {
         label: 'Vol (24h)',
-        value: '$4,622,770'
+        value: nFormat(coin.market.prices[currency].totalVolume24HTo, 2),
       },
       {
         label: 'Supply',
-        value: '16,868 BTC'
+        value: nFormat(coin.market.prices[currency].supply, 2),
       },
     ];
 
-    const marketsList = [
-        {
-          source: 'Bitfinex',
-          pair: 'BTC/USD',
-          volume: '$560,05M',
-          price: '$8006.7',
-          changePct: 7.95,
-        },
-        {
-          source: 'OKEx',
-          pair: 'ETH/BTC',
-          volume: '$287,09M',
-          price: '$8056.2',
-          changePct: 4.07,
-        },
-        {
-          source: 'OKEx',
-          pair: 'ETH/BTC',
-          volume: '$287,09M',
-          price: '$8056.2',
-          changePct: 4.07,
-        },
-      ];
+    const marketsList = markets ?
+      markets.map((market) => {
+        return {
+          source: market.market,
+          pair: `${coin.market.symbol}/${currency}`,
+          volume: nFormat(market.volume, 2),
+          price: nFormat(parseFloat(market.price), 2),
+          changePct: 0,
+        };
+      }) : [];
 
     return (
       <Content style={base.contentContainer}>
@@ -117,10 +93,10 @@ class CoinTabOverview extends Component {
           { periods.map(key => (
             <CoinsaneButton
               key={key}
-              type={'period'}
+              type="period"
               value={key}
-              uppercase={true}
-              onPress={() => getCoinHisto({fsym: coin.market.symbol, tsym: currency, range: key})}
+              uppercase
+              onPress={() => getCoinHisto({ fsym: coin.market.symbol, tsym: currency, range: key })}
               active={period === key}
             />
           )) }

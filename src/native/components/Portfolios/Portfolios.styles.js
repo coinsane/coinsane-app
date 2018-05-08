@@ -16,6 +16,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 15,
     marginRight: 15,
+    marginBottom: 20,
   },
   coins__contentHeaderText: {
     color: colors.textGray,

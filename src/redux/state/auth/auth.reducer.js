@@ -1,23 +1,41 @@
-import { GET_TOKEN_SUCCEED } from '../../actions/action.types';
+import axios from 'axios';
+import Config from '../../../constants/config';
+import { GET_TOKEN, GET_TOKEN_SUCCEED, GET_TOKEN_ERROR } from '../../actions/action.types';
 
 export const initialState = {
   loading: false,
   error: null,
+  token: null,
 };
 
-export default function userReducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_TOKEN_SUCCEED: {
-      if (action.payload.token) {
-        return {
-          ...state,
-          loading: false,
-          error: null,
-          token: action.payload.token,
-        };
-      }
-      return initialState;
+    case GET_TOKEN: {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     }
+    case GET_TOKEN_SUCCEED: {
+      axios.defaults.baseURL = Config.apiUri;
+      axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${action.token}`;
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        token: action.token,
+      };
+    }
+    case GET_TOKEN_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        token: null,
+      };
+    }
+
     case 'USER_LOGIN': {
       if (action.data) {
         return {

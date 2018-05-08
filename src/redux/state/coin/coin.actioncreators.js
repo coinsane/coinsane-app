@@ -1,28 +1,39 @@
-import { fetchCoins, setCoin, delCoin } from '../../../api/coins';
-import { fetchPortfolios } from '../../../api/portfolios';
+import { delCoin } from '../../../api/coins';
 import {
   ADD_TRANSACTION,
   GET_COURSE,
   COIN_HISTO_UPDATE,
-  PORTFOLIOS_UPDATE,
   PORTFOLIO_COIN_REMOVED,
   COINS_ERROR,
-  GET_AVALIABLE_TRANSACTIONS
+  GET_AVAILABLE_TRANSACTIONS,
+  COIN_MARKETS_UPDATE,
 } from '../../actions/action.types';
 
 
-/////////////////////////////////////////////////////////////////
 /**
   * Get course for particular pair and date
   */
-export function getCourse(fsym, tsym, date) {
+export function getCourse({ fsym, tsyms, date }) {
   return {
     type: GET_COURSE,
     payload: {
       fsym,
+      tsyms,
+      date,
+    },
+  };
+}
+
+/**
+  * Get markets for particular coin
+  */
+export function getCoinMarkets({ fsym, tsym }) {
+  return {
+    type: COIN_MARKETS_UPDATE,
+    payload: {
+      fsym,
       tsym,
-      date
-    }
+    },
   };
 }
 
@@ -31,10 +42,10 @@ export function getCourse(fsym, tsym, date) {
   */
 export function getTransactionsList(coinId) {
   return {
-    type: GET_AVALIABLE_TRANSACTIONS,
+    type: GET_AVAILABLE_TRANSACTIONS,
     payload: {
-      coinId
-    }
+      coinId,
+    },
   };
 }
 
@@ -52,7 +63,7 @@ export function getCoinHisto(payload) {
 export function addTransaction(transaction) {
   return {
     type: ADD_TRANSACTION,
-    payload: transaction
+    payload: transaction,
   };
 }
 
@@ -70,7 +81,7 @@ export function removeCoin(coinId) {
 }
 
 /**
-  * Set an Error Coins Message
+  * Set an Error Portfolios Message
   */
 export function setCoinsError(data) {
   return dispatch => Promise.resolve()

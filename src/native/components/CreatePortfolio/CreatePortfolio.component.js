@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StatusBar, Alert } from 'react-native';
-import { Container, Content, Card, CardItem, Body, H3, List, ListItem, Text, Header, Footer, Left, Button, Title, Right, Form, Item, Label, Input, View } from 'native-base';
-import Error from '../Error/Error.component';
-import Spacer from '../Spacer/Spacer.component';
-import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Actions } from 'react-native-router-flux';
 import Switch from 'react-native-switch-pro';
+import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View } from 'native-base';
+import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 
 import styles from './CreatePortfolio.styles';
-import { colors, base } from '../../styles';
+import { base } from '../../styles';
 
 class CreatePortfolio extends Component {
   static propTypes = {
@@ -51,18 +48,10 @@ class CreatePortfolio extends Component {
 
     return (
       <Container style={base.contentContainer}>
-        <Header style={styles.contentHeader}>
-          <StatusBar barStyle="light-content"/>
-          <Left>
-            <Button transparent onPress={() => Actions.pop()}>
-              <CoinsaneIcon name='Back' width={28} fill={colors.white} />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Add new portfolio</Title>
-          </Body>
-          <Right></Right>
-        </Header>
+        <CoinsaneHeader
+          leftIcon="Back"
+          title={<Text>Add new portfolio</Text>}
+        />
         <Content style={styles.content}>
           <Text style={styles.content__text}>{'Basic'.toUpperCase()}</Text>
           <Form>

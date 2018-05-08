@@ -1,19 +1,29 @@
-import { 
-  CLEAR_MARKETS, 
-  GET_SEARCHED_MARKETS_SUCCESS,
-  GET_AVALIABLE_MARKETS_SUCCESS, 
-  GET_AVALIABLE_MARKETS_ERROR 
+import {
+  GET_AVAILABLE_MARKETS,
+  GET_AVAILABLE_MARKETS_SUCCESS,
+  GET_AVAILABLE_MARKETS_ERROR,
+  SEARCH_AVAILABLE_MARKETS,
+  SEARCH_AVAILABLE_MARKETS_SUCCESS,
+  SEARCH_AVAILABLE_MARKETS_ERROR,
+  CLEAR_MARKETS,
 } from '../../actions/action.types';
 
 export const initialState = {
   loading: true,
   error: null,
-  list: []
+  list: [],
 };
 
 export default function marketsReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_AVALIABLE_MARKETS_SUCCESS: {
+    case GET_AVAILABLE_MARKETS: {
+      return {
+        ...state,
+        error: null,
+        loading: true,
+      };
+    }
+    case GET_AVAILABLE_MARKETS_SUCCESS: {
       return {
         ...state,
         error: null,
@@ -21,19 +31,44 @@ export default function marketsReducer(state = initialState, action) {
         list: action.payload,
       };
     }
-    case GET_SEARCHED_MARKETS_SUCCESS: {
-      console.log(action.payload.response.result);
+    case GET_AVAILABLE_MARKETS_ERROR: {
+      return {
+        ...state,
+        error: true,
+        loading: false,
+        list: [],
+      };
+    }
+    case SEARCH_AVAILABLE_MARKETS: {
+      return {
+        ...state,
+        error: null,
+        loading: true,
+        list: [],
+      };
+    }
+    case SEARCH_AVAILABLE_MARKETS_SUCCESS: {
       return {
         ...state,
         error: null,
         loading: false,
-        list: action.payload
+        list: action.payload,
+      };
+    }
+    case SEARCH_AVAILABLE_MARKETS_ERROR: {
+      return {
+        ...state,
+        error: true,
+        loading: false,
+        list: [],
       };
     }
     case CLEAR_MARKETS: {
       return {
         ...state,
-        list: []
+        error: null,
+        loading: false,
+        list: [],
       };
     }
     default:

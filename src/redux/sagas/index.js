@@ -1,14 +1,18 @@
 import { all } from 'redux-saga/effects';
+import portfoliosSaga from './portfolios';
 import transactionsSaga from './transactions';
-import fetchAvaliableMarkets from './markets';
+import marketsSaga from './markets';
 import coinsSaga from './coins';
 import currenciesSaga from './currencies';
+import usersSaga from './users';
 
 export default function* rootSaga() {
   yield all([
+    ...portfoliosSaga,
     ...transactionsSaga,
-    ...fetchAvaliableMarkets,
+    ...marketsSaga,
     ...coinsSaga,
-    ...currenciesSaga
+    ...currenciesSaga,
+    ...usersSaga,
   ]);
 }

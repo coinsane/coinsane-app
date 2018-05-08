@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import Colors from '../../../../native-base-theme/variables/commonColor';
+import { View } from 'react-native';
+import Spinner from 'react-native-spinkit';
 
 import styles from './Loading.styles';
 import { colors } from '../../styles';
 
 const About = () => (
   <View style={styles.loadingContainer}>
-    <ActivityIndicator size="large" color={colors.white} />
+    <Spinner size={50} type="ThreeBounce" color={colors.white} />
   </View>
 );
 

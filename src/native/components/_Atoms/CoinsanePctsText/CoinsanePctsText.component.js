@@ -8,7 +8,7 @@ const CoinsanePctsText = ({
   currency,
 }) => {
   const color = value >= 0 ? styles.positive : styles.negative;
-  const symbol = value >= 0 >= 0 ? '+' : '-';
+  const symbol = value >= 0 ? '+' : '-';
   const displayValue = `${symbol}${parseFloat(Math.abs(value)).toFixed(2) || 0}${currency || '%'}`;
   return (
     <Text style={[styles.text, color]}>{displayValue}</Text>

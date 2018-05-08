@@ -1,6 +1,6 @@
 import {
-  GET_AVALIABLE_CURRENCIES_SUCCESS,
-  UPDATE_CURRENT_CURRENCY
+  GET_AVAILABLE_CURRENCIES_SUCCESS,
+  SELECT_CURRENCY_SUCCESS,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -13,7 +13,7 @@ export const initialState = {
 
 export default function portfolioReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_AVALIABLE_CURRENCIES_SUCCESS: {
+    case GET_AVAILABLE_CURRENCIES_SUCCESS: {
       return {
         ...state,
         error: null,
@@ -21,7 +21,7 @@ export default function portfolioReducer(state = initialState, action) {
         list: action.payload,
       };
     }
-    case UPDATE_CURRENT_CURRENCY: {
+    case SELECT_CURRENCY_SUCCESS: {
       return {
         ...state,
         current: action.payload,

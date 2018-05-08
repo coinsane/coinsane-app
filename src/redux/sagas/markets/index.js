@@ -1,38 +1,42 @@
-import { takeLatest, takeEvery, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import api from '../../../api';
 import {
-  GET_AVALIABLE_MARKETS,
-  SEARCH_AVALIABLE_MARKETS,
-  GET_AVALIABLE_MARKETS_SUCCESS,
-  GET_AVALIABLE_MARKETS_ERROR
+  GET_AVAILABLE_MARKETS,
+  GET_AVAILABLE_MARKETS_SUCCESS,
+  GET_AVAILABLE_MARKETS_ERROR,
+  SEARCH_AVAILABLE_MARKETS,
 } from '../../../redux/actions/action.types';
-
-/////////////////////////////////////////////////////////////////
 
 /**
  * Fetch Markets side effect.
  * @kind SideEffect
- * @param payload { limit: Number }
+ * @param action
  */
-export function* fetchAvaliableMarkets(action) {
-  const response = yield call(api.markets.fetchAvaliableMarkets, action.payload.limit);
-  yield put({ type: GET_AVALIABLE_MARKETS_SUCCESS, payload: response.data.response.result });
+export function* fetchAvailableMarkets(action) {
+  try {
+    const response = yield call(api.markets.fetchAvailableMarkets, action.payload.limit);
+    console.log('GET_AVAILABLE_MARKETS_SUCCESS', response.data.response.result);
+    yield put({ type: GET_AVAILABLE_MARKETS_SUCCESS, payload: response.data.response.result });
+  } catch (error) {
+    yield put({ type: GET_AVAILABLE_MARKETS_ERROR, payload: error });
+  }
 }
-
-/////////////////////////////////////////////////////////////////
 
 /**
  * Search Markets side effect.
  * @kind SideEffect
- * @param payload term: String - search string input
+ * @param action
  */
-export function* searchAvaliableMarkets(action) {
-  const response = yield call(api.markets.searchAvaliableMarkets, action.payload);
-  yield put({ type: GET_AVALIABLE_MARKETS_SUCCESS, payload: response.data.response.result });
+export function* searchAvailableMarkets(action) {
+  try {
+    const response = yield call(api.markets.searchAvailableMarkets, action.payload);
+    yield put({ type: GET_AVAILABLE_MARKETS_SUCCESS, payload: response.data.response.result });
+  } catch (error) {
+    yield put({ type: GET_AVAILABLE_MARKETS_ERROR, payload: error });
+  }
 }
 
-// for rootSaga
 export default [
-  takeLatest(GET_AVALIABLE_MARKETS, fetchAvaliableMarkets),
-  takeLatest(SEARCH_AVALIABLE_MARKETS, searchAvaliableMarkets)
+  takeLatest(GET_AVAILABLE_MARKETS, fetchAvailableMarkets),
+  takeLatest(SEARCH_AVAILABLE_MARKETS, searchAvailableMarkets),
 ];

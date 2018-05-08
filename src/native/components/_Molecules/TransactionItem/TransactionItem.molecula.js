@@ -12,9 +12,9 @@ const categoryRow = function() {
 
 }
 
-const TransactionItem = ({ date, category, categoryColor, amount, total, currency, buy, getCourse }) => {
+const TransactionItem = ({ date, category, categoryColor, amount, total, currency, buy }) => {
   // getCourse
-  total = buy ? total : `-${total}`;
+  total = buy ? total : -Math.abs(total);
   categoryColor = categoryColor || '#7ED4D8';
   return (
     <View style={styles.container}>

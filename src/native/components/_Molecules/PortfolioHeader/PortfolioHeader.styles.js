@@ -1,41 +1,44 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors } from '../../styles';
+import { typography, colors } from '../../../styles/index';
 
 export default StyleSheet.flatten({
-  listItemContainer: {
-    marginLeft: 0,
-    marginRight: 0,
+  container: {
+    borderTopColor: colors.btnBgBlack,
+    borderTopWidth: 1,
+  },
+  listItem: {
+    marginLeft: 15,
+    marginRight: 15,
     paddingLeft: 1,
     paddingRight: 1,
     backgroundColor: 'transparent',
     borderBottomWidth: 0,
-    marginBottom: 4,
+    marginBottom: 0,
   },
   body: {
     flex: 0.6,
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    paddingLeft: 15,
   },
   body__arrowIcon: {
-    transform: [{ rotate: '270deg' }, { translateX: -4 }],
     marginRight: 8,
+    fontSize: 18,
+    color: colors.textGray,
   },
   body__text: {
     marginLeft: 0,
     marginRight: 0,
-    fontSize: typography.size16,
+    fontSize: 15,
     fontFamily: typography.fontBold,
     color: colors.textGray,
   },
   right: {
     flex: 0.5,
-    paddingRight: 15,
   },
   right__text: {
-    color: colors.textGray,
-    fontSize: typography.size12,
+    fontSize: 14,
     fontFamily: typography.fontRegular,
+    color: colors.textGray,
   },
   headerBtn: {
     borderColor: colors.blackBorder,
