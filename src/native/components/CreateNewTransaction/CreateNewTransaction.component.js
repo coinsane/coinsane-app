@@ -36,6 +36,8 @@ class CreateNewTransaction extends Component {
     addTransaction: PropTypes.func.isRequired,
     clearMarkets: PropTypes.func.isRequired,
     recalculate: PropTypes.func.isRequired,
+    coinItem: PropTypes.shape({}).isRequired,
+    portfolioId: PropTypes.string,
   };
 
   static onEnter() {
@@ -50,19 +52,28 @@ class CreateNewTransaction extends Component {
 
   componentWillMount() {
     console.log('componentWillMount', this.props.portfolios);
-    const { inProcess, portfolios, currencies } = this.props;
+    const {
+      inProcess, portfolios, currencies, coinItem, portfolioId,
+    } = this.props;
     const { transaction } = inProcess;
+    const portfolio_id = transaction.portfolio !== '' ? transaction.portfolio : portfolioId;
     // selected portfolio and coin
-    const portfolioItem = portfolios.list.filter(portfolio => portfolio._id === transaction.portfolio)[0];
+    const portfolioItem = portfolios.list.filter(portfolio => portfolio._id === portfolio_id)[0];
     const currencyItem = currencies.list.filter(currency => currency.code === portfolios.currency)[0];
 
     console.log('portfolios.list', currencies.list, portfolios.currency);
     this.props.updateProcessTransaction({
+      coin: coinItem._id,
+      coinItem,
       portfolioItem,
       currencyItem,
       currency: currencyItem._id,
     });
-    this.props.recalculate();
+    this.props.getCourse({
+      fsym: coinItem.symbol,
+      tsyms: currencyItem.code,
+      date: new Date(),
+    });
   }
 
   componentDidMount() {
@@ -101,7 +112,6 @@ class CreateNewTransaction extends Component {
       listName: 'markets',
       selectAction: (coin) => { // id - of selected item
         this.props.updateProcessTransaction({ coin: coin._id, coinItem: coin });
-        this.props.recalculate();
         Actions.pop();
       },
       closeType: 'close',
@@ -124,7 +134,6 @@ class CreateNewTransaction extends Component {
       listName: 'currencies',
       selectAction: (currency) => { // id - of selected item
         this.props.updateProcessTransaction({ currency: currency._id, currencyItem: currency });
-        this.props.recalculate();
         Actions.pop();
       },
       closeType: 'close',
@@ -157,6 +166,7 @@ class CreateNewTransaction extends Component {
         this.props.recalculate(name);
       }
     }
+
     if (name === 'category' || name === 'note') {
       this.props.updateProcessTransaction({ [name]: value });
     }
@@ -164,8 +174,8 @@ class CreateNewTransaction extends Component {
 
   close() {
     // clear selected coin
-    Actions.pop();
     this.props.clearProcessTransaction();
+    Actions.pop();
   }
 
   toggleSegment(value) {
@@ -173,13 +183,14 @@ class CreateNewTransaction extends Component {
   }
 
   addTransaction() {
+    const { coinItem } = this.props;
     const { transaction } = this.props.inProcess;
 
     if (+transaction.amount && +transaction.total) {
       this.props.addTransaction(transaction);
       this.props.clearProcessTransaction();
       this.props.clearMarkets();
-      Actions.coins();
+      Actions.pop();
     }
   }
 
@@ -190,6 +201,12 @@ class CreateNewTransaction extends Component {
       { label: 'BUY', value: true },
       { label: 'SELL', value: false },
     ];
+
+    const values = {
+      amount: transaction.amount ? transaction.amount.toString() : '0',
+      price: transaction.price ? transaction.price.toString() : '0',
+      total: transaction.total ? transaction.total.toString() : '0',
+    };
 
     return (
       <Modal hideClose>
@@ -230,11 +247,11 @@ class CreateNewTransaction extends Component {
                     <CoinsaneStackedLabel
                       label="Amount"
                       propName="amount"
-                      // clearTextOnFocus
+                      clearTextOnFocus={values.amount === '0'}
                       onChangeText={this.handleChange}
                       keyboardType="numeric"
                       onBlur={this.onBlur}
-                      value={transaction.amount.toString()}
+                      value={values.amount}
                     />
                   </Body>
                   <Right >
@@ -257,7 +274,7 @@ class CreateNewTransaction extends Component {
                       onChangeText={this.handleChange}
                       keyboardType="numeric"
                       onBlur={this.onBlur}
-                      value={transaction.price.toString()}
+                      value={values.price}
                     />
                   </Body>
                   <Right >
@@ -277,11 +294,11 @@ class CreateNewTransaction extends Component {
                     <CoinsaneStackedLabel
                       label="Total value"
                       propName="total"
-                      // clearTextOnFocus
+                      clearTextOnFocus={values.total === '0'}
                       onChangeText={this.handleChange}
                       keyboardType="numeric"
                       onBlur={this.onBlur}
-                      value={transaction.total.toString()}
+                      value={values.total}
                     />
                   </Body>
                 </ListItem>

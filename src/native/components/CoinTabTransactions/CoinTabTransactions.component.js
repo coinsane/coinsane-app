@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text, Content, Container, Footer, Button, View } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 import Spacer from '../Spacer/Spacer.component';
 
 import { base } from '../../styles';
@@ -14,10 +15,13 @@ class CoinTabTransactions extends Component {
     coin: PropTypes.shape({}).isRequired,
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     selectedCurrency: PropTypes.string.isRequired,
+    addTransaction: PropTypes.func.isRequired,
   };
 
   render() {
-    const { coin, transactionsList, selectedCurrency } = this.props;
+    const {
+      coin, transactionsList, selectedCurrency, addTransaction,
+    } = this.props;
     console.log('transactionsList', transactionsList);
     const summaryList = [
       {
@@ -60,8 +64,6 @@ class CoinTabTransactions extends Component {
       });
     }
 
-    const addTransaction = () => {};
-
     return (
       <Container style={base.contentContainer}>
         <Content>
@@ -95,7 +97,7 @@ class CoinTabTransactions extends Component {
             small
             full
             bordered
-            onPress={() => addTransaction()}
+            onPress={() => Actions.createNewTransaction({ coinItem: coin.market, portfolioId: coin.portfolioId })}
             style={base.footer__button}
           >
             <Text style={base.footer__buttonText}>+ ADD NEW TRANSACTION</Text>

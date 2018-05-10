@@ -60,13 +60,13 @@ export function* getTransactionsList(action) {
 }
 
 /**
- * action.payload: { fsym, tsym, date }
+ * action.payload: { fsym, tsyms, date }
  */
 export function* getCourse(action) {
   const response = yield call(api.coins.getCourse, action.payload);
   yield put({
     type: GET_COURSE_SUCCESS,
-    payload: response.data.data[action.payload.tsym],
+    payload: response.data.data[action.payload.tsyms],
   });
   yield put({
     type: RECALCULATE,
@@ -80,6 +80,8 @@ export function* getCourse(action) {
 export function* recalculate(action) {
   // Get inProcess -> transaction peace of state
   const transaction = yield select(selectors.getTransaction);
+
+  console.log('recalculate', action);
 
   if (action.payload === 'price') {
     if (+transaction.amount) {

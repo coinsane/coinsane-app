@@ -4,6 +4,7 @@ import { ListItem, View, Button, Text, Body, Right, Thumbnail } from 'native-bas
 import ErrorMessages from '../../../constants/errors';
 import { nFormat } from '../../../lib/utils';
 
+
 import styles from './CoinCard.styles';
 import { colors, base, typography } from '../../styles';
 
@@ -62,12 +63,6 @@ const CoinCard = ({
     ? `${nFormat(coinCard.totalPrice, fixed)} ${symbol}`
     : `${coinCard.totalPrice.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`;
 
-  if (isLoading) {
-    coinCard.priceDisplay = '';
-    coinCard.totalPriceDisplay = '';
-    coinCard.changePct = '';
-  }
-
   return (
     (activePortfolio || !isCollapsed) && <View style={styles.coinCard__container}>
       <ListItem
@@ -82,12 +77,12 @@ const CoinCard = ({
               <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
               <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
             </Text>
-            <Text style={styles.coinCard__subtext}>{coinCard.priceDisplay}</Text>
+            <Text style={[styles.coinCard__subtext, isLoading && typography.textPlaceholder]}>{coinCard.priceDisplay}</Text>
           </View>
         </Body>
         <Right style={styles.rightContainer}>
-          <Text numberOfLines={1} style={styles.right__text}>{coinCard.totalPriceDisplay}</Text>
-          <Text style={{ fontSize: 14, color: changeColor, fontFamily: typography.fontRegular }}>
+          <Text numberOfLines={1} style={[styles.right__text, isLoading && typography.textPlaceholder]}>{coinCard.totalPriceDisplay}</Text>
+          <Text style={[{ fontSize: 14, color: changeColor, fontFamily: typography.fontRegular }, isLoading && typography.textPlaceholder]}>
             {coinCard.changePct}
           </Text>
         </Right>

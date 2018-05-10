@@ -79,9 +79,10 @@ class Coins extends Component {
       navigationType: 'close',
       searchBar: true,
       listName: 'markets',
-      selectAction: (item) => { // id - of selected item
-        this.props.updateProcessTransaction({ coin: item._id, coinItem: item });
-        Actions.createNewTransaction();
+      selectAction: (item) => {
+        console.log('selectAction', item);
+        Actions.pop();
+        Actions.createNewTransaction({ coinItem: item });
       },
       closeType: 'close',
     });

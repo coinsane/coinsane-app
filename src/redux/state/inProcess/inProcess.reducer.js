@@ -10,9 +10,9 @@ export const initialState = {
     portfolio: '',
     date: new Date(),
     buy: true,
-    price: '0',
-    amount: '0',
-    total: '0',
+    price: 0,
+    amount: 0,
+    total: 0,
     currency: '',
     market: '',
     category: '',
@@ -36,6 +36,7 @@ export default function appReducer(state = initialState, action) {
       };
     }
     case GET_COURSE_SUCCESS: {
+      console.log('GET_COURSE_SUCCESS', action.payload)
       return {
         ...state,
         transaction: {
@@ -47,11 +48,7 @@ export default function appReducer(state = initialState, action) {
     case CLEAR_TRANSACTION: {
       return {
         ...state,
-        transaction: {
-          ...state.transaction,
-          amount: 0,
-          total: 0,
-        },
+        transaction: initialState.transaction,
       };
     }
     default:

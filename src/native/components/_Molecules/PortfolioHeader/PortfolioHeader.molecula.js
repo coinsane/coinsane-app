@@ -5,6 +5,7 @@ import { ListItem, Body, Text, Icon, Right, View, Button } from 'native-base';
 import Spacer from '../../Spacer/Spacer.component';
 import styles from './PortfolioHeader.styles';
 import { colors } from '../../../styles/index';
+import {typography} from "../../../styles";
 
 const PortfolioHeader = ({
   id,
@@ -31,11 +32,6 @@ const PortfolioHeader = ({
   const changeColor = changePct > 0 ? colors.primaryGreen : colors.primaryPink;
   let changePctDisplay = `${changePct}%`;
 
-  if (isLoading) {
-    totalDisplay = '';
-    changePctDisplay = '';
-  }
-
   return (
     <View style={styles.container}>
       <ListItem style={styles.listItem} onPress={() => updateCollapsed(id)}>
@@ -50,10 +46,10 @@ const PortfolioHeader = ({
         <Right style={styles.right}>
           {
             !!amount &&
-            <Text style={styles.right__text} numberOfLines={1}>
-              <Text style={styles.right__text}>{totalDisplay}</Text>
+            <Text style={[styles.right__text, isLoading && typography.textPlaceholder]} numberOfLines={1}>
+              <Text style={[styles.right__text, isLoading && typography.textPlaceholder]}>{totalDisplay}</Text>
               &nbsp;
-              <Text style={[styles.right__text, { color: changeColor }]}>{changePctDisplay}</Text>
+              <Text style={[styles.right__text, { color: changeColor }, isLoading && typography.textPlaceholder]}>{changePctDisplay}</Text>
             </Text>
           }
         </Right>
@@ -85,6 +81,7 @@ PortfolioHeader.propTypes = {
   amount: PropTypes.number,
   symbol: PropTypes.string.isRequired,
   isCollapsed: PropTypes.bool,
+  isLoading: PropTypes.bool,
 };
 
 PortfolioHeader.defaultProps = {
@@ -92,6 +89,7 @@ PortfolioHeader.defaultProps = {
   amount: 0,
   changePct: 0,
   isCollapsed: false,
+  isLoading: false,
 };
 
 export default PortfolioHeader;

@@ -20,6 +20,7 @@ class CoinView extends Component {
     markets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     coinData: PropTypes.shape({}).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
+    addTransaction: PropTypes.func.isRequired,
     getCoinMarkets: PropTypes.func.isRequired,
     getTransactionsList: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
@@ -76,6 +77,7 @@ class CoinView extends Component {
       coinId,
       coinData,
       transactionsList,
+      addTransaction,
       getCoinHisto,
       currency,
       currencies,
@@ -158,6 +160,7 @@ class CoinView extends Component {
               selectedCurrency={currency}
               getCourse={getCourse}
               transactionsList={transactionsList}
+              addTransaction={addTransaction}
             />
           </Tab>
         </Tabs>

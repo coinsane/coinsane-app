@@ -50,5 +50,13 @@ export default StyleSheet.create({
   smallest: {
     fontFamily: fonts.fontRegular,
     fontSize: 12
-  }
+  },
+  textPlaceholder: {
+    backgroundColor: colors.textGray,
+    color: colors.textGray,
+    marginTop: 2,
+    borderRadius: 4,
+    fontSize: 10,
+    overflow: 'hidden',
+  },
 });
