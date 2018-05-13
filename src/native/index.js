@@ -5,6 +5,7 @@ import { Provider, connect } from 'react-redux';
 import { Router } from 'react-native-router-flux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { StyleProvider } from 'native-base';
+import SplashScreen from 'react-native-splash-screen';
 
 import Instabug from 'instabug-reactnative';
 
@@ -43,6 +44,10 @@ class Root extends Component {
     });
     this.props.getToken();
   };
+
+  componentDidMount() {
+    SplashScreen.hide();
+  }
 
   getSceneStyle = () => ({ backgroundColor: '#151022' });
 

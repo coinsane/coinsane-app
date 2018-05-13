@@ -13,9 +13,10 @@ import styles from './DrawerContent.styles';
 import { colors } from '../../styles';
 
 class DrawerContent extends Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    navigation: PropTypes.shape({}).isRequired,
+    setActiveMenu: PropTypes.func.isRequired,
+  };
 
   openScene(key) {
     const { navigation } = this.props;
@@ -41,10 +42,20 @@ class DrawerContent extends Component {
               style={styles.listItem}
             >
               <Left>
-                <CoinsaneIcon name={item.icon} width={28} fill={(item.active ? colors.mediumGray : colors.white)} />
+                <CoinsaneIcon
+                  name={item.icon}
+                  width={28}
+                  fill={item.active ? colors.white : colors.mediumGray}
+                />
               </Left>
               <Body>
-                <Text style={{ fontSize: 18, color: (item.active ? colors.mediumGray : colors.white) }}>{item.text}</Text>
+                <Text style={{
+                  fontSize: 18,
+                  color: item.active ? colors.white : colors.mediumGray
+                }}
+                >
+                  {item.text}
+                </Text>
               </Body>
             </ListItem>
           ))}
@@ -54,14 +65,12 @@ class DrawerContent extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    navigation: state.navigation
-  };
-};
+const mapStateToProps = state => ({
+  navigation: state.navigation,
+});
 
 const mapDispatchToProps = {
-  setActiveMenu
+  setActiveMenu,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent);

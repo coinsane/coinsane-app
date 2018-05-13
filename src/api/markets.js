@@ -15,4 +15,4 @@ export const fetchAvailableMarkets = limit => axios.get('/market', { params: { l
  * @param type: String - can be market, currency or null for both
  */
 
-export const searchAvailableMarkets = (term, type) => axios.get('/search', { params: { term, type } });
+export const searchAvailableMarkets = (q, type) => axios.get('/search', { params: { q, type } });

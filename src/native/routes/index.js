@@ -100,7 +100,7 @@ const Index = (
           >
             <Scene
               key="market"
-              component={MarketContainer}
+              component={CoinsContainer}
               Layout={MarketComponent}
             />
           </Stack>
