@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, List, ListItem, Text, Label } from 'native-base';
+import ActivityView from 'react-native-activity-view';
+
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
@@ -32,7 +34,12 @@ class Profile extends Component {
       },
       {
         name: 'Sharing',
-        onPress: () => {},
+        onPress: () => {
+          ActivityView.show({
+            text: 'Coinsane is awesome!',
+            url: 'https://coinsane.org',
+          });
+        },
       },
       {
         name: 'Terms and Conditions',
