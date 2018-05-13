@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Coinsane</string>
-    <color name="background">#151022</color>
+  <string name="app_name">Coinsane</string>
+  <color name="background">#151022</color>
 </resources>

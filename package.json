@@ -73,6 +73,7 @@
     "react-native-router-flux": "^4.0.0-beta.24",
     "react-native-sglistview": "^0.4.5",
     "react-native-spinkit": "^1.1.1",
+    "react-native-splash-screen": "^3.0.6",
     "react-native-svg": "5.4.1",
     "react-native-svg-charts": "^2.2.3",
     "react-native-svg-icon": "^0.7.0",

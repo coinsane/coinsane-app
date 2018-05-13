@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
     compile project(':instabug-reactnative')
     compile project(':react-native-autogrow-textinput')
     compile project(':react-native-spinkit')
