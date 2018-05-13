@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, List, ListItem, Text, Label } from 'native-base';
 import ActivityView from 'react-native-activity-view';
+import * as StoreReview from 'react-native-store-review';
+import VersionNumber from 'react-native-version-number';
 
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
@@ -51,7 +53,11 @@ class Profile extends Component {
       },
       {
         name: 'Rate the app',
-        onPress: () => {},
+        onPress: () => {
+          if (StoreReview.isAvailable) {
+            StoreReview.requestReview();
+          }
+        },
       },
       {
         name: 'Privacy policy',
@@ -119,7 +125,7 @@ class Profile extends Component {
               </ListItem>
             ))}
           </List>
-          <Text style={styles.container__text}>App version 0.1.0</Text>
+          <Text style={styles.container__text}>App version {VersionNumber.appVersion}</Text>
           <Spacer size={30} />
         </Content>
       </Container>

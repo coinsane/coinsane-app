@@ -7037,6 +7037,10 @@ react-native-splash-screen@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.0.6.tgz#c0bbf2c8ae40a313c4c7044f55e569414ff68332"
 
+react-native-store-review@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-store-review/-/react-native-store-review-0.1.5.tgz#9df69786a137580748e368641698d2104519e4cf"
+
 react-native-svg-charts@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/react-native-svg-charts/-/react-native-svg-charts-2.2.3.tgz#7d359131e9a77274c94d0710fdf9b83c72e246db"
@@ -7093,6 +7097,10 @@ react-native-vector-icons@~4.5.0:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-version-number@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-version-number/-/react-native-version-number-0.3.3.tgz#2a8df3a3f9e9ed272d748da7736309996182d55d"
 
 react-native@^0.49.5:
   version "0.49.5"
