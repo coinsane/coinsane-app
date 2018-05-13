@@ -17,6 +17,8 @@ class CoinView extends Component {
     coinId: PropTypes.string.isRequired,
     portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
+    transactionsLoading: PropTypes.bool.isRequired,
+    transactionsError: PropTypes.string,
     markets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     coinData: PropTypes.shape({}).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
@@ -24,6 +26,7 @@ class CoinView extends Component {
     getCoinMarkets: PropTypes.func.isRequired,
     getTransactionsList: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
+    coinCurrency: PropTypes.string.isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getCourse: PropTypes.func.isRequired,
@@ -33,6 +36,7 @@ class CoinView extends Component {
   static defaultProps = {
     error: null,
     transactionsList: [{}],
+    transactionsError: null,
   };
 
   componentDidMount() {
@@ -40,11 +44,11 @@ class CoinView extends Component {
       portfolios,
       coinId,
       currency,
+      coinCurrency,
       getCoinHisto,
       getCoinMarkets,
       getTransactionsList,
       period,
-      currencies,
     } = this.props;
 
     let coin = null;
@@ -56,17 +60,15 @@ class CoinView extends Component {
       }
     }
 
-    console.log('currencies', currencies);
+    let tempCurrency = coinCurrency;
 
-    let tempCurrency = currency;
-
-    if (coin.market.symbol === currency) {
+    if (coin.market.symbol === coinCurrency) {
       // update currency
       tempCurrency = 'USD';
     }
 
     getCoinHisto({ fsym: coin.market.symbol, tsym: tempCurrency, range: period });
-    getCoinMarkets({ fsym: coin.market.symbol, tsym: currency });
+    getCoinMarkets({ fsym: coin.market.symbol, tsym: coinCurrency });
     getTransactionsList(coinId);
   }
 
@@ -76,10 +78,13 @@ class CoinView extends Component {
       portfolios,
       coinId,
       coinData,
-      transactionsList,
       addTransaction,
+      transactionsList,
+      transactionsLoading,
+      transactionsError,
       getCoinHisto,
       currency,
+      coinCurrency,
       currencies,
       updateCurrency,
       getCourse,
@@ -144,7 +149,7 @@ class CoinView extends Component {
               coinId={coinId}
               coinData={coinData}
               getCoinHisto={getCoinHisto}
-              currency={currency}
+              currency={coinCurrency}
               currencies={currencies}
               updateCurrency={updateCurrency}
               period={period}
@@ -159,8 +164,10 @@ class CoinView extends Component {
               coinId={coinId}
               selectedCurrency={currency}
               getCourse={getCourse}
-              transactionsList={transactionsList}
               addTransaction={addTransaction}
+              transactionsList={transactionsList}
+              transactionsLoading={transactionsLoading}
+              transactionsError={transactionsError}
             />
           </Tab>
         </Tabs>

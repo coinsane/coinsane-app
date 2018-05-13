@@ -116,6 +116,7 @@ class Coins extends Component {
         portfolios={portfolios.list}
         portfoliosChart={portfolios.chart}
         currency={portfolios.currency}
+        coinCurrency={currencies.current}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}
         drawer={navigation.drawer}
@@ -140,7 +141,11 @@ class Coins extends Component {
         getCourse={this.props.getCourse}
         addTransaction={this.addTransaction}
         getTransactionsList={this.props.getTransactionsList}
+
         transactionsList={coin.transactions}
+        transactionsLoading={coin.transactionsLoading}
+        transactionsError={coin.transactionsError}
+
         removeCoin={this.props.removeCoin}
         getCoinHisto={this.props.getCoinHisto}
         getCoinMarkets={this.props.getCoinMarkets}

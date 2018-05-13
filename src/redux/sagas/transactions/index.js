@@ -11,13 +11,24 @@ import {
   UPDATE_TRANSACTION,
   GET_AVAILABLE_TRANSACTIONS,
   GET_AVAILABLE_TRANSACTIONS_SUCCESS,
+  UPDATE_PORTFOLIOS,
 } from '../../actions/action.types';
 
 /**
  * action.payload: {  }
  */
 export function* addTransaction(action) {
-  yield call(api.coins.addTransaction, action.payload);
+  const response = yield call(api.coins.addTransaction, action.payload);
+  const transactions = response.data.response.coin.transactions;
+  yield put({
+    type: GET_AVAILABLE_TRANSACTIONS_SUCCESS,
+    payload: transactions,
+  });
+  const symbol = yield select(selectors.getSymbol);
+  yield put({
+    type: UPDATE_PORTFOLIOS,
+    payload: { symbol },
+  });
 }
 
 /**
@@ -49,11 +60,11 @@ export function* updateTransaction(action) {
 export function* getTransactionsList(action) {
   if (action.payload.coinId) {
     const response = yield call(api.coins.getTransactionsList, {
-      coinId: action.payload.coinId
+      coinId: action.payload.coinId,
     });
     yield put({
       type: GET_AVAILABLE_TRANSACTIONS_SUCCESS,
-      payload: response.data.response.transactions
+      payload: response.data.response.transactions,
     });
   }
 }

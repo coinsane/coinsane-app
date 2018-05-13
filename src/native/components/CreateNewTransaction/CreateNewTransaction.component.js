@@ -8,7 +8,7 @@ import DatePicker from 'react-native-datepicker';
 import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
 import { Right, Body, Container, Content, List, Input, ListItem, Icon, Text, Button, Footer } from 'native-base';
 import Modal from '../modal/BaseModal.component';
-import { getCourse, addTransaction } from '../../../redux/state/coin/coin.actioncreators';
+import { getCourse, addTransaction, getTransactionsList } from '../../../redux/state/coin/coin.actioncreators';
 import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import { updateProcessTransaction, clearProcessTransaction, recalculate } from '../../../redux/state/inProcess/inProcess.actioncreators';
@@ -28,6 +28,7 @@ class CreateNewTransaction extends Component {
     portfolios: PropTypes.shape({
       list: PropTypes.arrayOf(PropTypes.shape({})),
     }).isRequired,
+    getTransactionsList: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
     getAvailableCurrencies: PropTypes.func.isRequired,
     getCourse: PropTypes.func.isRequired,
@@ -38,6 +39,10 @@ class CreateNewTransaction extends Component {
     recalculate: PropTypes.func.isRequired,
     coinItem: PropTypes.shape({}).isRequired,
     portfolioId: PropTypes.string,
+  };
+
+  static defaultProps = {
+    portfolioId: null,
   };
 
   static onEnter() {
@@ -55,15 +60,17 @@ class CreateNewTransaction extends Component {
       inProcess, portfolios, currencies, coinItem, portfolioId,
     } = this.props;
     const { transaction } = inProcess;
-    const portfolio_id = transaction.portfolio !== '' ? transaction.portfolio : portfolioId;
+    const portfolioItemId = transaction.portfolio !== '' ? transaction.portfolio : portfolioId;
     // selected portfolio and coin
-    const portfolioItem = portfolios.list.filter(portfolio => portfolio._id === portfolio_id)[0];
-    const currencyItem = currencies.list.filter(currency => currency.code === portfolios.currency)[0];
+    const portfolioItem = portfolios.list.filter(portfolio => portfolio._id === portfolioItemId)[0];
+    // const currencyItem = currencies.list.filter(currency => currency.code === portfolios.currency)[0];
+    const currencyItem = currencies.list.filter(currency => currency.code === 'USD')[0];
 
     this.props.updateProcessTransaction({
       coin: coinItem._id,
       coinItem,
       portfolioItem,
+      portfolio: portfolioItem._id,
       currencyItem,
       currency: currencyItem._id,
     });
@@ -177,7 +184,6 @@ class CreateNewTransaction extends Component {
   }
 
   addTransaction() {
-    const { coinItem } = this.props;
     const { transaction } = this.props.inProcess;
 
     if (+transaction.amount && +transaction.total) {
@@ -241,6 +247,7 @@ class CreateNewTransaction extends Component {
                     <CoinsaneStackedLabel
                       label="Amount"
                       propName="amount"
+                      autoFocus
                       clearTextOnFocus={values.amount === '0'}
                       onChangeText={this.handleChange}
                       keyboardType="numeric"
@@ -390,6 +397,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  getTransactionsList,
   getAvailableMarkets,
   getAvailableCurrencies,
   getCourse,

@@ -8,6 +8,7 @@ import { base } from '../../styles';
 
 import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
 import TransactionItem from '../_Molecules/TransactionItem/TransactionItem.molecula';
+import Loading from '../Loading/Loading.component';
 import { nFormat } from '../../../lib/utils';
 
 class CoinTabTransactions extends Component {
@@ -15,13 +16,14 @@ class CoinTabTransactions extends Component {
     coin: PropTypes.shape({}).isRequired,
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     selectedCurrency: PropTypes.string.isRequired,
-    addTransaction: PropTypes.func.isRequired,
+    transactionsLoading: PropTypes.bool.isRequired,
   };
 
-  render() {
+  getSummaryList = () => {
     const {
-      coin, transactionsList, selectedCurrency, addTransaction,
+      coin, transactionsList, selectedCurrency,
     } = this.props;
+
     const summaryList = [
       {
         label: 'Coins',
@@ -38,12 +40,10 @@ class CoinTabTransactions extends Component {
       },
     ];
 
-    const coinPrice = coin.amount * coin.market.prices[selectedCurrency].price;
-
     if (transactionsList.length && transactionsList[0].amount) {
-      transactionsList.forEach(({
-        amount, total, histo, buy,
-      }, i) => {
+      const coinPrice = coin.amount * coin.market.prices[selectedCurrency].price;
+
+      transactionsList.forEach(({ amount, total, histo, buy }, i) => {
         const itemTotal = histo[selectedCurrency] * total;
 
         if (buy) {
@@ -63,31 +63,43 @@ class CoinTabTransactions extends Component {
       });
     }
 
+    return summaryList;
+  };
+
+  render() {
+    const {
+      coin, transactionsList, transactionsLoading,
+    } = this.props;
+
+    if (transactionsList.length) transactionsList.reverse();
+
     return (
       <Container style={base.contentContainer}>
         <Content>
           <SummaryCell
-            summaryList={summaryList}
+            summaryList={this.getSummaryList()}
             background
           />
           <Spacer size={20} />
           <View>
             {
-              transactionsList.length && transactionsList[0].amount ?
-                transactionsList.map(({
-                                        _id, date, category, amount, total, currency, buy,
-                                      }) => (
-                                        <TransactionItem
-                                          key={_id}
-                                          date={date}
-                                          category={category ? category.title : ''}
-                                          amount={amount}
-                                          total={total}
-                                          currency={currency ? currency.symbol : ''}
-                                          buy={buy}
-                                        />
-                )) :
-                <Spacer size={20} />
+              transactionsLoading ?
+                <Loading /> :
+                transactionsList.length && transactionsList[0].amount ?
+                  transactionsList.map(({
+                                          _id, date, category, amount, total, currency, buy,
+                                        }) => (
+                                          <TransactionItem
+                                            key={_id}
+                                            date={date}
+                                            category={category ? category.title : ''}
+                                            amount={amount}
+                                            total={total}
+                                            currency={currency ? currency.symbol : ''}
+                                            buy={buy}
+                                          />
+                  )) :
+                  <Spacer size={20} />
             }
           </View>
         </Content>
@@ -96,7 +108,10 @@ class CoinTabTransactions extends Component {
             small
             full
             bordered
-            onPress={() => Actions.createNewTransaction({ coinItem: coin.market, portfolioId: coin.portfolioId })}
+            onPress={() => Actions.createNewTransaction({
+              coinItem: coin.market,
+              portfolioId: coin.portfolioId,
+            })}
             style={base.footer__button}
           >
             <Text style={base.footer__buttonText}>+ ADD NEW TRANSACTION</Text>

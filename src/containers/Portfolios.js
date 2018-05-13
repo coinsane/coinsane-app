@@ -43,12 +43,9 @@ class PortolioSettings extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  console.log('coins mapStateToProps', state)
-  return {
-    portfolios: state.portfolios || {},
-  };
-};
+const mapStateToProps = state => ({
+  portfolios: state.portfolios,
+});
 
 const mapDispatchToProps = {
   selectPortfolio,
