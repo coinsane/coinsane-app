@@ -28,7 +28,7 @@ export const coinsActionsFlow = ({dispatch}) => next => action => {
     dispatch(apiRequest('GET', `/price?fsym=${action.payload.from}&tsyms=${action.payload.to}`, null, GET_COURSE_SUCCESS, GET_COURSE_ERROR));
   }
 
-  if (action.type === ADD_TRANSACTION) {
-    dispatch(apiRequest('POST', `/coins`, action.payload, ADD_TRANSACTION_SUCCESS, ADD_TRANSACTION_ERROR));
-  }
+  // if (action.type === ADD_TRANSACTION) {
+  //   dispatch(apiRequest('POST', '/coins', action.payload, ADD_TRANSACTION_SUCCESS, ADD_TRANSACTION_ERROR));
+  // }
 };

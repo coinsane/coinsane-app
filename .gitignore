@@ -5,3 +5,9 @@ node_modules/
 npm-debug.*
 ios/build
 .eslintrc
+android/gradle.properties
+android/local.properties
+android/app/coinsane.keystore
+android/app/build
+android/build
+android/.gradle

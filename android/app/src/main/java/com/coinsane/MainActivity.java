@@ -1,4 +1,4 @@
-package com.coinsane;
+package com.coinsane.v1;
 
 import com.facebook.react.ReactActivity;
 

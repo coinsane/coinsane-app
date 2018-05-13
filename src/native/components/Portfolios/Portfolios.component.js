@@ -234,16 +234,15 @@ class Portfolios extends Component {
             dataSource={this.dataSource}
             renderRow={_renderRow}
             enableEmptySections
-            refreshControl={
-              <RefreshControl
-                progressViewOffset={40}
-                refreshing={this.state.refreshing}
-                onRefresh={this.refreshData}
-              />
-            }
+            // refreshControl={
+            //   <RefreshControl
+            //     progressViewOffset={40}
+            //     refreshing={this.state.refreshing}
+            //     onRefresh={this.refreshData}
+            //   />
+            // }
             initialListSize={10}
-            stickyHeaderIndices={[0]}
-            stickySectionHeadersEnabled
+            stickyHeaderIndices={[]}
             onEndReachedThreshold={1}
             scrollRenderAheadDistance={1}
             pageSize={1}

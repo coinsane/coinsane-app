@@ -6,6 +6,8 @@ import { Router } from 'react-native-router-flux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { StyleProvider } from 'native-base';
 
+import Instabug from 'instabug-reactnative';
+
 import getTheme from '../../native-base-theme/components';
 import theme from '../../native-base-theme/variables/commonColor';
 
@@ -32,6 +34,13 @@ class Root extends Component {
   };
 
   componentWillMount = () => {
+    Instabug.isRunningLive((isLive) => {
+      if (isLive) {
+        Instabug.startWithToken('f3d5cf204e7acddad6825dc52594c21c', Instabug.invocationEvent.shake);
+      } else {
+        Instabug.startWithToken('eb8edc791b160f8f1ba74fa4fbf0786f', Instabug.invocationEvent.screenshot);
+      }
+    });
     this.props.getToken();
   };
 

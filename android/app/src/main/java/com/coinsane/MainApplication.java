@@ -1,8 +1,9 @@
-package com.coinsane;
+package com.coinsane.v1;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.instabug.reactlibrary.RNInstabugReactnativePackage;
 import com.wix.autogrowtextinput.AutoGrowTextInputPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.horcrux.svg.SvgPackage;
@@ -26,6 +27,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            		new RNInstabugReactnativePackage.Builder("eb8edc791b160f8f1ba74fa4fbf0786f",MainApplication.this)
+							.setInvocationEvent("shake")
+							.setPrimaryColor("#1D82DC")
+							.setFloatingEdge("left")
+							.setFloatingButtonOffsetFromTop(250)
+							.build(),
             new AutoGrowTextInputPackage(),
             new RNSpinkitPackage(),
             new SvgPackage()
