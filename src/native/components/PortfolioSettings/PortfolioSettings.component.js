@@ -40,7 +40,6 @@ class PortfolioSettings extends Component {
   };
 
   handleChange = (name, val) => {
-    console.log('handleChange', name, val);
     this.setState({
       ...this.state,
       [name]: val,
@@ -48,10 +47,9 @@ class PortfolioSettings extends Component {
   };
 
   handleSubmit = () => {
-    console.log('handleSubmit this.state', this.state);
     this.props.editPortfolio(this.state)
       .then(() => Actions.pop())
-      .catch(e => console.log(`Error: ${e}`));
+      // .catch(e => console.log(`Error: ${e}`));
   };
 
   removePortfolioAlert = () => {
@@ -65,13 +63,13 @@ class PortfolioSettings extends Component {
             this.props.removePortfolio(this.state._id)
               .then(() => this.props.selectPortfolio())
               .then(Actions.pop)
-              .catch(e => console.log(`Error: ${e}`));
+              // .catch(e => console.log(`Error: ${e}`));
           },
           style: 'cancel'
         },
         {
           text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed')
+          onPress: () => {}
         },
       ],
       { cancelable: false }

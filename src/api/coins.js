@@ -1,32 +1,26 @@
 import axios from 'axios';
 
-export const addTransaction = (transaction) => {
+export const addTransaction = async (transaction) => {
   try {
-    axios.post('/coins', transaction);
+    return await axios.post('/coins', transaction);
   } catch (e) {
-    // yield put(fetchFailed(e));
-    return;
+    return null;
   }
 };
 
 export const getCourse = async ({ fsym, tsyms, date }) => {
   try {
-    console.log('getCourse', fsym, tsyms, date);
     const course = await axios.get('/price', { params: { fsym, tsyms } });
-    console.log('getCoursegetCourse', course)
     return course;
   } catch (e) {
-    console.log(e);
     return;
   }
 };
 
 export const getTransactionsList = async ({ coinId }) => {
   try {
-    console.log(coinId);
     return await axios.get(`/transactions?coinId=${coinId}`);
   } catch (e) {
-    console.log(e);
     return;
   }
 };

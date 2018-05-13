@@ -51,7 +51,6 @@ class CreateNewTransaction extends Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount', this.props.portfolios);
     const {
       inProcess, portfolios, currencies, coinItem, portfolioId,
     } = this.props;
@@ -61,7 +60,6 @@ class CreateNewTransaction extends Component {
     const portfolioItem = portfolios.list.filter(portfolio => portfolio._id === portfolio_id)[0];
     const currencyItem = currencies.list.filter(currency => currency.code === portfolios.currency)[0];
 
-    console.log('portfolios.list', currencies.list, portfolios.currency);
     this.props.updateProcessTransaction({
       coin: coinItem._id,
       coinItem,
@@ -74,10 +72,6 @@ class CreateNewTransaction extends Component {
       tsyms: currencyItem.code,
       date: new Date(),
     });
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount', this.props.inProcess.transaction);
   }
 
   onBlur = (fieldName) => {

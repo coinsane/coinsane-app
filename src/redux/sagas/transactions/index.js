@@ -24,7 +24,6 @@ export function* addTransaction(action) {
  * action.payload: {  }
  */
 export function* updateTransaction(action) {
-  console.log('updateTransaction', action.payload);
   if (!(action.payload.coin || action.payload.currency)) return;
   const transaction = yield select(selectors.getTransaction);
   if (transaction.coinItem.symbol && transaction.currencyItem.code && transaction.date) {
@@ -81,8 +80,6 @@ export function* recalculate(action) {
   // Get inProcess -> transaction peace of state
   const transaction = yield select(selectors.getTransaction);
 
-  console.log('recalculate', action);
-
   if (action.payload === 'price') {
     if (+transaction.amount) {
       const total = transaction.price * transaction.amount;
@@ -106,7 +103,6 @@ export function* recalculate(action) {
   if (action.payload === 'amount') {
     if (+transaction.price) {
       const total = transaction.price * transaction.amount;
-      console.log('total', total, round(total, 8))
       yield put(inProcess.updateProcessTransaction({ total: round(total, 8) }));
     }
   }

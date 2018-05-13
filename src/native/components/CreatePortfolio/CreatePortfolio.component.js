@@ -40,8 +40,8 @@ class CreatePortfolio extends Component {
     addPortfolio(this.state)
       .then(action => selectPortfolio(action.data._id))
       .then(Actions.pop)
-      .catch(e => console.log(`Error: ${e}`));
-  }
+      // .catch(e => console.log(`Error: ${e}`));
+  };
 
 
   render() {

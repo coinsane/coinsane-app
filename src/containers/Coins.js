@@ -80,7 +80,6 @@ class Coins extends Component {
       searchBar: true,
       listName: 'markets',
       selectAction: (item) => {
-        console.log('selectAction', item);
         Actions.pop();
         Actions.createNewTransaction({ coinItem: item });
       },

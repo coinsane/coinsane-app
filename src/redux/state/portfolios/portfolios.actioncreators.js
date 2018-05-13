@@ -31,7 +31,7 @@ export function getTotals(data) {
       type: TOTALS_REPLACE,
       data,
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 /**
@@ -43,7 +43,7 @@ export function selectPortfolio(portfolioId) {
       type: PORTFOLIO_SELECT,
       data: portfolioId,
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 /**
@@ -57,7 +57,7 @@ export function updatePortfolio(data) {
       type: PORTFOLIO_UPDATE,
       data: { _id, title, inTotal },
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 /**
@@ -69,7 +69,7 @@ export function addPortfolio(newPortfolio) {
       type: PORTFOLIO_ADDED,
       data: portfolio,
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 /**
@@ -82,7 +82,7 @@ export function removePortfolio(portfolioId) {
       type: PORTFOLIO_REMOVED,
       data: portfolioId,
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 /**
@@ -94,7 +94,7 @@ export function setPortfoliosError(message) {
       type: PORTFOLIOS_ERROR,
       data: message,
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 export function setCoinData(data) {
@@ -103,7 +103,7 @@ export function setCoinData(data) {
       type: SET_COIN_DATA,
       data
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 export function updateCurrency(data) {
@@ -112,7 +112,7 @@ export function updateCurrency(data) {
       type: 'UPDATE_CURRENCY',
       data
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 export function updatePeriod(data) {
@@ -121,7 +121,7 @@ export function updatePeriod(data) {
       type: UPDATE_PERIOD,
       data
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 export function updateCollapsed(portfolioId) {

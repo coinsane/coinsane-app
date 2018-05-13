@@ -8,7 +8,7 @@ export function setDrawerActions(open, close) {
       type: DRAWER_ACTIONS,
       data: { open, close },
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 /**
   * Set active menu
@@ -19,5 +19,5 @@ export function setActiveMenu(data) {
       type: SET_ACTIVE_MENU,
       data
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }

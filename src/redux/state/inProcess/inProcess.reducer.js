@@ -26,7 +26,6 @@ export const initialState = {
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_TRANSACTION: {
-      console.log('UPDATE_TRANSACTION', state)
       return {
         ...state,
         transaction: {
@@ -36,7 +35,6 @@ export default function appReducer(state = initialState, action) {
       };
     }
     case GET_COURSE_SUCCESS: {
-      console.log('GET_COURSE_SUCCESS', action.payload)
       return {
         ...state,
         transaction: {

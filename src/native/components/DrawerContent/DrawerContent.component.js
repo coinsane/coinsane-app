@@ -18,7 +18,6 @@ class DrawerContent extends Component {
   }
 
   openScene(key) {
-    console.log('open Actions.currentScene', Actions.currentScene)
     const { navigation } = this.props;
     if (Actions.currentScene !== key) {
       this.props.setActiveMenu(key);

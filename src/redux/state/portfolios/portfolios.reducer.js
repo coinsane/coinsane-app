@@ -156,7 +156,6 @@ export default function portfolioReducer(state = initialState, action) {
       };
     }
     case UPDATE_PORTFOLIO_CURRENCY_SUCCESS: {
-      console.log(action.payload);
       return {
         ...state,
         currency: action.payload,
@@ -178,7 +177,6 @@ export default function portfolioReducer(state = initialState, action) {
       const collapsed = [...state.collapsed];
       if (collapsed.indexOf(action.portfolioId) === -1) collapsed.push(action.portfolioId);
       else collapsed.splice(collapsed.indexOf(action.portfolioId), 1);
-      console.log('UPDATE_COLLAPSED', collapsed);
       return {
         ...state,
         collapsed,

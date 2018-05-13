@@ -24,7 +24,6 @@ class SearchBar extends Component {
   }
 
   onChangeText(value) {
-    console.log('value', value)
     return value && value.length > 1 ?
       this.props.changeSearchTerm(value) :
       this.props.getAvailableMarkets();

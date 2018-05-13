@@ -24,7 +24,6 @@ export const tokenFlow = ({dispatch}) => next => action => {
     case GET_TOKEN_SUCCEED:
       AsyncStorage.setItem('token', action.payload.result.token);
       axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${action.payload.result.token}`;
-      console.log(`${Config.appName} token=${action.payload.result.token}`);
       break;
   }
 

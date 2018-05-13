@@ -77,7 +77,7 @@ export function removeCoin(coinId) {
       type: PORTFOLIO_COIN_REMOVED,
       data,
     }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }
 
 /**
@@ -86,5 +86,5 @@ export function removeCoin(coinId) {
 export function setCoinsError(data) {
   return dispatch => Promise.resolve()
     .then(() => dispatch({ type: COINS_ERROR, data }))
-    .catch(e => console.log(e));
+    // .catch(e => console.log(e));
 }

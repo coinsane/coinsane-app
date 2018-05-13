@@ -15,7 +15,6 @@ import {
 export function* fetchAvailableMarkets(action) {
   try {
     const response = yield call(api.markets.fetchAvailableMarkets, action.payload.limit);
-    console.log('GET_AVAILABLE_MARKETS_SUCCESS', response.data.response.result);
     yield put({ type: GET_AVAILABLE_MARKETS_SUCCESS, payload: response.data.response.result });
   } catch (error) {
     yield put({ type: GET_AVAILABLE_MARKETS_ERROR, payload: error });

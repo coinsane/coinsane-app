@@ -5,7 +5,6 @@ import Config from '../constants/config';
 export const setTokenHeader = async (token) => {
   axios.defaults.baseURL = Config.apiUri;
   axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${token}`;
-  console.log('setTokenHeader');
   return true;
 };
 

@@ -51,8 +51,8 @@ class UpdateProfile extends React.Component {
 
   handleSubmit = () => {
     this.props.onFormSubmit(this.state)
-      .then(() => console.log('Profile Updated'))
-      .catch(e => console.log(`Error: ${e}`));
+      // .then(() => console.log('Profile Updated'))
+      // .catch(e => console.log(`Error: ${e}`));
   }
 
   render() {

@@ -22,7 +22,6 @@ class CoinTabTransactions extends Component {
     const {
       coin, transactionsList, selectedCurrency, addTransaction,
     } = this.props;
-    console.log('transactionsList', transactionsList);
     const summaryList = [
       {
         label: 'Coins',
