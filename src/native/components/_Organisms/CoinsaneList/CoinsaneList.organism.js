@@ -56,13 +56,9 @@ class CoinsaneList extends Component {
       <Modal hideClose>
         <Container>
           <CoinsaneHeader
-            leftIcon="Back"
+            leftIcon="Close"
             leftAction={() => this.close()}
-            leftActive={navigationType === 'back'}
             title={<Text>{title}</Text>}
-            rightIcon="Close"
-            rightAction={() => this.close()}
-            rightActive={navigationType === 'close'}
           />
           <Content style={{ backgroundColor: colors.bgGray }}>
             { searchBar && <SearchBar /> }

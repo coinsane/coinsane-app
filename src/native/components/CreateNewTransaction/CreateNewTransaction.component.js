@@ -212,9 +212,8 @@ class CreateNewTransaction extends Component {
       <Modal hideClose>
         <Container>
           <CoinsaneHeader
-            leftActive={false}
-            rightIcon="Close"
-            rightAction={() => this.close()}
+            leftIcon="Close"
+            leftAction={() => this.close()}
             title={<Text>Add new transaction</Text>}
           />
           <Content padder style={{ backgroundColor: colors.bgGray }}>

@@ -34,7 +34,7 @@ import UpdateProfileContainer from '../../containers/UpdateProfile';
 import UpdateProfileComponent from '../components/UpdateProfile/UpdateProfile.component';
 
 import MemberContainer from '../../containers/Member';
-import ProfileComponent from '../components/Profile/Profile.component';
+import SettingsComponent from '../components/Settings/Settings.component';
 
 import WatchlistComponent from '../components/Watchlist/Watchlist.component';
 
@@ -42,6 +42,7 @@ import MarketContainer from '../../containers/Market';
 import MarketComponent from '../components/Market/Market.component';
 
 import ErrorModal from '../components/modal/Error.component';
+import PageComponent from '../components/Page/Page.component';
 
 
 const Index = (
@@ -113,7 +114,7 @@ const Index = (
             <Scene
               key="profileHome"
               component={MemberContainer}
-              Layout={ProfileComponent}
+              Layout={SettingsComponent}
             />
             <Scene
               back
@@ -163,6 +164,10 @@ const Index = (
     <Scene
       key="error"
       component={ErrorModal}
+    />
+    <Scene
+      key="page"
+      component={PageComponent}
     />
     <Scene
       key="portfolioSelect"
