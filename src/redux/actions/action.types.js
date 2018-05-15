@@ -98,3 +98,9 @@ export const RECALCULATE = '[process] RECALCULATE';
 export const GET_SETTINGS = '[settings] GET_SETTINGS';
 export const GET_SETTINGS_SUCCEED = '[settings] GET_SETTINGS_SUCCEED';
 export const GET_SETTINGS_ERROR = '[settings] GET_SETTINGS_ERROR';
+
+
+// ========= [pages] peace of state action types ========= //
+export const GET_PAGES = '[pages] GET_PAGES';
+export const GET_PAGES_SUCCEED = '[pages] GET_PAGES_SUCCEED';
+export const GET_PAGES_ERROR = '[pages] GET_PAGES_ERROR';

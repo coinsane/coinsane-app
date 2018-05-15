@@ -7,6 +7,7 @@ import markets from './markets/markets.reducer';
 import currencies from './currencies/currencies.reducer';
 import inProcess from './inProcess/inProcess.reducer';
 import settings from './settings/settings.reducer';
+import pages from './pages/pages.reducer';
 
 const rehydrated = (state = false, action) => {
   switch (action.type) {
@@ -28,4 +29,5 @@ export default {
   currencies,
   inProcess,
   settings,
+  pages,
 };

@@ -5,6 +5,7 @@ import marketsSaga from './markets';
 import coinsSaga from './coins';
 import currenciesSaga from './currencies';
 import usersSaga from './users';
+import pagesSaga from './pages';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     ...coinsSaga,
     ...currenciesSaga,
     ...usersSaga,
+    ...pagesSaga,
   ]);
 }
