@@ -3,6 +3,7 @@ package com.coinsane.v1;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.apsl.versionnumber.RNVersionNumberPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.instabug.reactlibrary.RNInstabugReactnativePackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNI18nPackage(),
             new RNVersionNumberPackage(),
             new SplashScreenReactPackage(),
             		new RNInstabugReactnativePackage.Builder("eb8edc791b160f8f1ba74fa4fbf0786f",MainApplication.this)

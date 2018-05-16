@@ -1,3 +1,4 @@
+import I18n from '../../../i18n';
 import { DRAWER_ACTIONS, SET_ACTIVE_MENU } from '../../actions/action.types';
 
 export const initialState = {
@@ -5,23 +6,20 @@ export const initialState = {
     {
       scene: 'coins',
       icon: 'Portfolio',
-      text: 'Portfolio',
+      text: I18n.t('navigation_portfolio'),
       active: true,
     },
     {
       scene: 'market',
       icon: 'Market',
-      text: 'Markets',
+      text: I18n.t('navigation_markets'),
+      active: false,
     },
-    // {
-    //   scene: 'watchlist',
-    //   icon: 'Watchlist',
-    //   text: 'Watchlist',
-    // },
     {
       scene: 'profile',
       icon: 'Settings',
-      text: 'Settings',
+      text: I18n.t('navigation_settings'),
+      active: false,
     },
   ],
   drawer: {},
@@ -32,7 +30,7 @@ export default function portfolioReducer(state = initialState, action) {
     case DRAWER_ACTIONS: {
       return {
         ...state,
-        drawer: action.data
+        drawer: action.data,
       };
     }
     case SET_ACTIVE_MENU: {
