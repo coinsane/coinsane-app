@@ -72,6 +72,7 @@
     "react-native-drawer": "^2.5.0",
     "react-native-gifted-listview": "^0.0.15",
     "react-native-i18n": "^2.0.12",
+    "react-native-quick-actions": "^0.3.6",
     "react-native-router-flux": "^4.0.0-beta.24",
     "react-native-sglistview": "^0.4.5",
     "react-native-simple-markdown": "^1.1.0",

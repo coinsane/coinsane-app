@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, DeviceEventEmitter, Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import { Router } from 'react-native-router-flux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { StyleProvider } from 'native-base';
 import SplashScreen from 'react-native-splash-screen';
+import QuickActions from 'react-native-quick-actions';
 
 import Instabug from 'instabug-reactnative';
 
@@ -20,6 +21,20 @@ import { setToken } from '../lib/utils';
 import { getToken } from '../redux/state/auth/auth.actioncreators';
 
 setToken();
+
+DeviceEventEmitter.addListener('quickActionShortcut', console.log);
+
+QuickActions.setShortcutItems([
+  {
+    type: 'Transactions',
+    title: 'Add Transaction',
+    subtitle: '',
+    icon: 'Add',
+    userInfo: {
+      url: 'coinsane://transaction',
+    },
+  },
+]);
 
 const RouterWithRedux = connect()(Router);
 
@@ -47,9 +62,20 @@ class Root extends Component {
 
   componentDidMount() {
     SplashScreen.hide();
+    Linking.addEventListener('url', this.handleOpenURL);
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
   }
 
   getSceneStyle = () => ({ backgroundColor: '#151022' });
+
+  handleOpenURL = (event) => {
+    console.log(event.url);
+    // const route = e.url.replace(/.*?:\/\//g, '');
+    // do something with the url, in our case navigate(route)
+  };
 
   render() {
     const { store, persistor, auth } = this.props;
