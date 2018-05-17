@@ -16,6 +16,7 @@ export const initialState = {
   error: null,
   list: [],
   cap: {},
+  items: {},
 };
 
 export default function actionReducer(state = initialState, action) {
@@ -50,11 +51,17 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case GET_AVAILABLE_MARKETS_SUCCESS: {
+      const items = { ...state.markets.items };
+      const list = action.payload.map((market) => {
+        Object.assign(items, { [`${market._id}`]: market });
+        return market._id;
+      });
       return {
         ...state,
         error: null,
         loading: false,
-        list: action.payload,
+        list,
+        items,
       };
     }
     case GET_AVAILABLE_MARKETS_ERROR: {
@@ -74,11 +81,17 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case SEARCH_AVAILABLE_MARKETS_SUCCESS: {
+      const items = { ...state.markets.items };
+      const list = action.payload.map((market) => {
+        Object.assign(items, { [`${market._id}`]: market });
+        return market._id;
+      });
       return {
         ...state,
         error: null,
         loading: false,
-        list: action.payload,
+        list,
+        items,
       };
     }
     case SEARCH_AVAILABLE_MARKETS_ERROR: {

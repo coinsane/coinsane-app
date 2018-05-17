@@ -1,7 +1,7 @@
 import { delCoin } from '../../../api/coins';
 import {
   ADD_TRANSACTION,
-  GET_COURSE,
+  GET_PRICE,
   COIN_HISTO_UPDATE,
   PORTFOLIO_COIN_REMOVED,
   COINS_ERROR,
@@ -15,7 +15,7 @@ import {
   */
 export function getPrice({ fsym, tsyms, date }) {
   return {
-    type: GET_COURSE,
+    type: GET_PRICE,
     payload: {
       fsym,
       tsyms,

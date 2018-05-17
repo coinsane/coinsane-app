@@ -1,6 +1,6 @@
 import {
   UPDATE_TRANSACTION,
-  GET_COURSE_SUCCESS,
+  GET_TRANSACTION_PRICE_SUCCESS,
   CLEAR_TRANSACTION,
 } from '../../actions/action.types';
 
@@ -34,7 +34,7 @@ export default function actionReducer(state = initialState, action) {
         },
       };
     }
-    case GET_COURSE_SUCCESS: {
+    case GET_TRANSACTION_PRICE_SUCCESS: {
       return {
         ...state,
         transaction: {

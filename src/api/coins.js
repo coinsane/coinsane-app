@@ -8,13 +8,7 @@ export const addTransaction = async (transaction) => {
   }
 };
 
-export const getPrice = async ({ fsym, tsyms }) => {
-  try {
-    return await axios.get('/price', { params: { fsym, tsyms } });
-  } catch (e) {
-    return;
-  }
-};
+export const getPrice = ({ fsym, tsyms }) => axios.get('/price', { params: { fsym, tsyms } });
 
 export const getTransactionsList = async ({ coinId }) => {
   try {

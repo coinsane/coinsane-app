@@ -5,8 +5,8 @@ import api from '../../../api';
 import selectors from '../../selectors';
 import {
   ADD_TRANSACTION,
-  GET_COURSE,
-  GET_COURSE_SUCCESS,
+  GET_PRICE,
+  GET_TRANSACTION_PRICE_SUCCESS,
   RECALCULATE,
   UPDATE_TRANSACTION,
   GET_AVAILABLE_TRANSACTIONS,
@@ -44,7 +44,7 @@ export function* updateTransaction(action) {
       date: transaction.date,
     });
     yield put({
-      type: GET_COURSE_SUCCESS,
+      type: GET_TRANSACTION_PRICE_SUCCESS,
       payload: response.data.data[transaction.currencyItem.code],
     });
     yield put({
@@ -75,7 +75,7 @@ export function* getTransactionsList(action) {
 export function* getPrice(action) {
   const response = yield call(api.coins.getPrice, action.payload);
   yield put({
-    type: GET_COURSE_SUCCESS,
+    type: GET_TRANSACTION_PRICE_SUCCESS,
     payload: response.data.data[action.payload.tsyms],
   });
   yield put({
@@ -121,7 +121,7 @@ export function* recalculate(action) {
 
 // for rootSaga
 export default [
-  takeLatest(GET_COURSE, getPrice),
+  takeLatest(GET_PRICE, getPrice),
   takeLatest(RECALCULATE, recalculate),
   takeLatest(ADD_TRANSACTION, addTransaction),
   takeEvery(UPDATE_TRANSACTION, updateTransaction),

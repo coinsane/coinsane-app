@@ -8,9 +8,7 @@ export const GET_TOKEN_ERROR = '[auth] GET_TOKEN_ERROR';
 
 
 // ========= [coins] peace of state action types ========= //
-export const GET_COURSE = '[coins] GET_COURSE';
-export const GET_COURSE_SUCCESS = '[coins] GET_COURSE_SUCCESS';
-export const GET_COURSE_ERROR = '[coins] GET_COURSE_ERROR';
+export const GET_PRICE = '[coins] GET_PRICE';
 export const COIN_HISTO_UPDATE = '[coins] COIN_HISTO_UPDATE';
 export const COIN_HISTO_UPDATE_SUCCESS = '[coins] COIN_HISTO_UPDATE_SUCCESS';
 export const COIN_HISTO_UPDATE_ERROR = '[coins] COIN_HISTO_UPDATE_ERROR';
@@ -92,6 +90,8 @@ export const SET_ACTIVE_MENU = '[navigation] SET_ACTIVE_MENU';
 export const UPDATE_TRANSACTION = '[process] UPDATE_TRANSACTION';
 export const CLEAR_TRANSACTION = '[process] CLEAR_TRANSACTION';
 export const RECALCULATE = '[process] RECALCULATE';
+export const GET_TRANSACTION_PRICE_SUCCESS = '[inProcess] GET_TRANSACTION_PRICE_SUCCESS';
+export const GET_TRANSACTION_PRICE_ERROR = '[inProcess] GET_TRANSACTION_PRICE_ERROR';
 
 
 // ========= [settings] peace of state action types ========= //
