@@ -13,7 +13,7 @@ import {
 /**
   * Get course for particular pair and date
   */
-export function getCourse({ fsym, tsyms, date }) {
+export function getPrice({ fsym, tsyms, date }) {
   return {
     type: GET_COURSE,
     payload: {

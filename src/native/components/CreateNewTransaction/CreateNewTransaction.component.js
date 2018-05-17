@@ -8,7 +8,7 @@ import DatePicker from 'react-native-datepicker';
 import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
 import { Right, Body, Container, Content, List, Input, ListItem, Icon, Text, Button, Footer } from 'native-base';
 import Modal from '../modal/BaseModal.component';
-import { getCourse, addTransaction, getTransactionsList } from '../../../redux/state/coin/coin.actioncreators';
+import { getPrice, addTransaction, getTransactionsList } from '../../../redux/state/coin/coin.actioncreators';
 import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import { updateProcessTransaction, clearProcessTransaction, recalculate } from '../../../redux/state/inProcess/inProcess.actioncreators';
@@ -31,7 +31,7 @@ class CreateNewTransaction extends Component {
     getTransactionsList: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
     getAvailableCurrencies: PropTypes.func.isRequired,
-    getCourse: PropTypes.func.isRequired,
+    getPrice: PropTypes.func.isRequired,
     updateProcessTransaction: PropTypes.func.isRequired,
     clearProcessTransaction: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
@@ -74,7 +74,7 @@ class CreateNewTransaction extends Component {
       currencyItem,
       currency: currencyItem._id,
     });
-    this.props.getCourse({
+    this.props.getPrice({
       fsym: coinItem.symbol,
       tsyms: currencyItem.code,
       date: new Date(),
@@ -89,7 +89,7 @@ class CreateNewTransaction extends Component {
     if (!(+transaction.price && transaction.price !== Infinity)) {
     //   this.props.recalculate(fieldName);
     // } else {
-      this.props.getCourse({
+      this.props.getPrice({
         fsym: transaction.coinItem.symbol,
         tsyms: transaction.currencyItem.code,
         date: transaction.date,
@@ -399,7 +399,7 @@ const mapDispatchToProps = {
   getTransactionsList,
   getAvailableMarkets,
   getAvailableCurrencies,
-  getCourse,
+  getPrice,
   updateProcessTransaction,
   clearProcessTransaction,
   addTransaction,

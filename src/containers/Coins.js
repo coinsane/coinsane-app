@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
-import { getTransactionsList, addTransaction, getCourse, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets } from '../redux/state/coin/coin.actioncreators';
+import { getTransactionsList, addTransaction, getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies, selectCurrency } from '../redux/state/currencies/currencies.actioncreators';
 
@@ -36,7 +36,7 @@ class Coins extends Component {
 
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
-    getCourse: PropTypes.func.isRequired,
+    getPrice: PropTypes.func.isRequired,
     getTransactionsList: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     updatePortfolio: PropTypes.func.isRequired,
@@ -138,7 +138,7 @@ class Coins extends Component {
         updatePortfolioPeriod={this.props.updatePortfolioPeriod}
         updatePortfolioCurrency={this.props.updatePortfolioCurrency}
 
-        getCourse={this.props.getCourse}
+        getPrice={this.props.getPrice}
         addTransaction={this.addTransaction}
         getTransactionsList={this.props.getTransactionsList}
 
@@ -177,7 +177,7 @@ const mapDispatchToProps = {
 
   getTotals,
   addTransaction,
-  getCourse,
+  getPrice,
   getTransactionsList,
   removePortfolio,
   updatePortfolio,

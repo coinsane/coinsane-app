@@ -29,7 +29,7 @@ class CoinView extends Component {
     coinCurrency: PropTypes.string.isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateCurrency: PropTypes.func.isRequired,
-    getCourse: PropTypes.func.isRequired,
+    getPrice: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
   };
 
@@ -87,7 +87,7 @@ class CoinView extends Component {
       coinCurrency,
       currencies,
       updateCurrency,
-      getCourse,
+      getPrice,
       markets,
       getCoinMarkets,
       period,
@@ -163,7 +163,7 @@ class CoinView extends Component {
               coin={coin}
               coinId={coinId}
               selectedCurrency={currency}
-              getCourse={getCourse}
+              getPrice={getPrice}
               addTransaction={addTransaction}
               transactionsList={transactionsList}
               transactionsLoading={transactionsLoading}

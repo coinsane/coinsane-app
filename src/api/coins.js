@@ -8,10 +8,9 @@ export const addTransaction = async (transaction) => {
   }
 };
 
-export const getCourse = async ({ fsym, tsyms, date }) => {
+export const getPrice = async ({ fsym, tsyms }) => {
   try {
-    const course = await axios.get('/price', { params: { fsym, tsyms } });
-    return course;
+    return await axios.get('/price', { params: { fsym, tsyms } });
   } catch (e) {
     return;
   }

@@ -38,7 +38,7 @@ export function* updateTransaction(action) {
   if (!(action.payload.coin || action.payload.currency)) return;
   const transaction = yield select(selectors.getTransaction);
   if (transaction.coinItem.symbol && transaction.currencyItem.code && transaction.date) {
-    const response = yield call(api.coins.getCourse, {
+    const response = yield call(api.coins.getPrice, {
       fsym: transaction.coinItem.symbol,
       tsyms: transaction.currencyItem.code,
       date: transaction.date,
@@ -72,8 +72,8 @@ export function* getTransactionsList(action) {
 /**
  * action.payload: { fsym, tsyms, date }
  */
-export function* getCourse(action) {
-  const response = yield call(api.coins.getCourse, action.payload);
+export function* getPrice(action) {
+  const response = yield call(api.coins.getPrice, action.payload);
   yield put({
     type: GET_COURSE_SUCCESS,
     payload: response.data.data[action.payload.tsyms],
@@ -121,7 +121,7 @@ export function* recalculate(action) {
 
 // for rootSaga
 export default [
-  takeLatest(GET_COURSE, getCourse),
+  takeLatest(GET_COURSE, getPrice),
   takeLatest(RECALCULATE, recalculate),
   takeLatest(ADD_TRANSACTION, addTransaction),
   takeEvery(UPDATE_TRANSACTION, updateTransaction),
