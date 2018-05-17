@@ -82,9 +82,8 @@ class CoinTabOverview extends Component {
           value={coin.amount * coin.market.prices[currency].price}
           currency={currency}
           buttons={currencies}
-          changePct={coin.market.prices[currency].changePctDay}
+          subValue={coin.market.prices[currency].changePctDay}
           updateCurrency={updateCurrency}
-          updateChart={() => {}}
         />
         <Chart
           dataPoints={coinData}

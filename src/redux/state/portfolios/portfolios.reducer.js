@@ -32,7 +32,7 @@ export const initialState = {
   collapsed: [],
 };
 
-export default function portfolioReducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PORTFOLIOS: {
       return {

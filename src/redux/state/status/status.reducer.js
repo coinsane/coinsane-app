@@ -5,7 +5,7 @@ export const initialState = {
   success: null,
 };
 
-export default function appReducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case 'STATUS_REPLACE': {
       return {

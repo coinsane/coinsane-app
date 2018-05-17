@@ -100,6 +100,12 @@ export const GET_SETTINGS_SUCCEED = '[settings] GET_SETTINGS_SUCCEED';
 export const GET_SETTINGS_ERROR = '[settings] GET_SETTINGS_ERROR';
 
 
+// ========= [markets] peace of state action types ========= //
+export const GET_MARKET_CAP = '[markets] GET_MARKET_CAP';
+export const GET_MARKET_CAP_SUCCESS = '[markets] GET_MARKET_CAP_SUCCESS';
+export const GET_MARKET_CAP_ERROR = '[markets] GET_MARKET_CAP_ERROR';
+
+
 // ========= [pages] peace of state action types ========= //
 export const GET_PAGES = '[pages] GET_PAGES';
 export const GET_PAGES_SUCCEED = '[pages] GET_PAGES_SUCCEED';

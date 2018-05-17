@@ -34,4 +34,10 @@ export default StyleSheet.create({
     fontFamily: typography.fontRegular,
     letterSpacing: .5
   },
+  subValue: {
+    color: colors.textGray,
+    fontSize: 14,
+    fontFamily: typography.fontRegular,
+    letterSpacing: 0.5,
+  },
 });

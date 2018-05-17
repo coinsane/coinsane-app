@@ -3,15 +3,15 @@ import { colors, typography } from '../../../styles';
 
 export default StyleSheet.create({
   positive: {
-    color: colors.primaryGreen
+    color: colors.primaryGreen,
   },
   negative: {
-    color: colors.primaryPink
+    color: colors.primaryPink,
   },
   text: {
     color: colors.textGray,
-    fontSize: typography.size14,
+    fontSize: 14,
     fontFamily: typography.fontRegular,
-    letterSpacing: .5
+    letterSpacing: 0.5,
   },
 });

@@ -18,7 +18,7 @@ class Settings extends Component {
   static propTypes = {
     drawer: PropTypes.shape({}).isRequired,
     settings: PropTypes.shape({
-      currencies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+      currencies: PropTypes.shape({}).isRequired,
     }).isRequired,
     pages: PropTypes.shape({
       terms: PropTypes.shape({}).isRequired,
@@ -34,7 +34,7 @@ class Settings extends Component {
     const items = [
       {
         label: 'Currency',
-        name: settings.currencies.map(({ market, currency }) => (market ? market.symbol : currency.code)).join(','),
+        name: Object.keys(settings.currencies).join(','),
         onPress: () => {},
       },
       {

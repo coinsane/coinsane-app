@@ -26,8 +26,8 @@ export function* getToken() {
 
 export function* getSettings() {
   try {
-    const response = yield axios.get('/settings');
-    yield put({ type: GET_SETTINGS_SUCCEED, payload: response.data.result.settings });
+    const { data } = yield axios.get('/settings');
+    yield put({ type: GET_SETTINGS_SUCCEED, payload: data.data });
   } catch (error) {
     yield put({ type: GET_SETTINGS_ERROR, error });
   }

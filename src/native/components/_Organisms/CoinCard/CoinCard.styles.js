@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { colors, typography } from '../../../styles/index';
 
 export default StyleSheet.create({
   coinCard__container: {
