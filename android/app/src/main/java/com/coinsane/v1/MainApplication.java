@@ -3,6 +3,7 @@ package com.coinsane.v1;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.wix.interactable.Interactable;
 import com.reactNativeQuickActions.AppShortcutsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.apsl.versionnumber.RNVersionNumberPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new Interactable(),
             new AppShortcutsPackage(),
             new RNI18nPackage(),
             new RNVersionNumberPackage(),
