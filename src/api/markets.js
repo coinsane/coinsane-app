@@ -9,6 +9,13 @@ import axios from 'axios';
 export const fetchAvailableMarkets = limit => axios.get('/market', { params: { limit } });
 
 /**
+ * Api for get market cap.
+ * @kind API
+ */
+
+export const getMarketCap = () => axios.get('/market/cap');
+
+/**
  * Api for search avaliable markets.
  * @kind API
  * @param term: String - search string input

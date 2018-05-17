@@ -9,7 +9,7 @@ export const initialState = {
   pages: {},
 };
 
-export default function marketsReducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PAGES_SUCCEED: {
       return {

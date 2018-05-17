@@ -8,7 +8,7 @@ export const initialState = {
   token: null,
 };
 
-export default function reducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case GET_TOKEN: {
       return {

@@ -19,7 +19,7 @@ export const initialState = {
   marketsError: null,
 };
 
-export default function coinReducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case COIN_HISTO_UPDATE_SUCCESS: {
       return {

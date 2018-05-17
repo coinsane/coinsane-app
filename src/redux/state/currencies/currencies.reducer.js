@@ -11,7 +11,7 @@ export const initialState = {
   current: 'BTC',
 };
 
-export default function portfolioReducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case GET_AVAILABLE_CURRENCIES_SUCCESS: {
       return {

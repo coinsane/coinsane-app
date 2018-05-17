@@ -1,5 +1,5 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
-import api from '../../../api';
+import { takeLatest, put } from 'redux-saga/effects';
+import axios from 'axios/index';
 import {
   GET_PAGES,
   GET_PAGES_SUCCESS,
@@ -8,7 +8,7 @@ import {
 
 export function* getPagesSaga() {
   try {
-    const response = yield call(api.pages.fetchPages);
+    const response = yield axios.get('/pages');
     yield put({ type: GET_PAGES_SUCCESS, payload: response.data });
   } catch (error) {
     yield put({ type: GET_PAGES_ERROR, error });

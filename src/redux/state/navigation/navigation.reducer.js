@@ -16,7 +16,7 @@ export const initialState = {
       active: false,
     },
     {
-      scene: 'profile',
+      scene: 'settings',
       icon: 'Settings',
       text: I18n.t('navigation_settings'),
       active: false,
@@ -25,7 +25,7 @@ export const initialState = {
   drawer: {},
 };
 
-export default function portfolioReducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case DRAWER_ACTIONS: {
       return {

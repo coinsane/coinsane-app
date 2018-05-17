@@ -12,7 +12,7 @@ import PortfolioHeader from '../_Molecules/PortfolioHeader/PortfolioHeader.molec
 import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import Chart from '../_Organisms/Chart/Chart.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
-import CoinCard from '../CoinCard/CoinCard.component';
+import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 
 import styles from './Portfolios.styles';
 import { colors, base } from '../../styles';
@@ -40,7 +40,7 @@ class Portfolios extends Component {
     updatePeriod: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currencies: PropTypes.shape({}).isRequired,
     period: PropTypes.string,
     lastTotal: PropTypes.number.isRequired,
     settings: PropTypes.shape({}).isRequired,
@@ -58,9 +58,6 @@ class Portfolios extends Component {
     super(props);
     this.updateCurrency = this.updateCurrency.bind(this);
     this.refreshData = this.refreshData.bind(this);
-    this.state = {
-      refreshing: false,
-    };
   }
 
   componentDidMount() {
@@ -75,12 +72,8 @@ class Portfolios extends Component {
       updatePortfolioChart,
       fetchPortfolios,
     } = this.props;
-    this.setState({ refreshing: true });
     fetchPortfolios(currency);
     updatePortfolioChart({ currency, period, portfolio: activePortfolio });
-    setTimeout(() => {
-      this.setState({ refreshing: false });
-    }, 2000);
   }
 
   updatePeriod(period) {
@@ -159,7 +152,7 @@ class Portfolios extends Component {
     // // Error
     if (portfoliosError) return <Error content={portfoliosError} />;
 
-    const showCoin = item => Actions.coin({ match: { params: { coinId: String(item._id) } } });
+    const showCoin = coinId => Actions.coin({ match: { params: { coinId } } });
     const editPortfolio = item => Actions.portfolioSettings({ match: { params: { portfolioId: String(item) } } });
 
     const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
@@ -196,15 +189,19 @@ class Portfolios extends Component {
 
     const _renderRow = coin => (
       <CoinCard
+        type="portfolio"
         key={coin._id}
-        coin={coin}
-        symbol={currency}
+        coinId={coin._id}
+        amount={coin.amount}
+        market={coin.market}
+        currency={currencies[currency]}
         showCoin={showCoin}
         addTransaction={addTransaction}
         removeCoin={removeCoin}
         activePortfolio={activePortfolio}
         isCollapsed={collapsedList.indexOf(coin.portfolioId) !== -1}
         isLoading={portfoliosLoading}
+        portfolioId={coin.last}
       />
     );
 
@@ -251,8 +248,8 @@ class Portfolios extends Component {
                 <CoinsaneSummary
                   value={lastTotal}
                   currency={currency}
-                  buttons={currencies}
-                  changePct={changePct}
+                  buttons={Object.keys(currencies)}
+                  subValue={changePct}
                   updateCurrency={this.updateCurrency}
                 />
                 <Chart

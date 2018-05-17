@@ -21,22 +21,8 @@ import CreateNewTransaction from '../components/CreateNewTransaction/CreateNewTr
 import PortfolioSettingsComponent from '../components/PortfolioSettings/PortfolioSettings.component';
 import CreatePortfolioComponent from '../components/CreatePortfolio/CreatePortfolio.component';
 
-import SignUpContainer from '../../containers/SignUp';
-import SignUpComponent from '../components/SignUp/SignUp.component';
-
-import LoginContainer from '../../containers/Login';
-import LoginComponent from '../components/Login/Login.component';
-
-import ForgotPasswordContainer from '../../containers/ForgotPassword';
-import ForgotPasswordComponent from '../components/ForgotPassword/ForgotPassword.component';
-
-import UpdateProfileContainer from '../../containers/UpdateProfile';
-import UpdateProfileComponent from '../components/UpdateProfile/UpdateProfile.component';
-
-import MemberContainer from '../../containers/Member';
+import SettingsContainer from '../../containers/Settings';
 import SettingsComponent from '../components/Settings/Settings.component';
-
-import WatchlistComponent from '../components/Watchlist/Watchlist.component';
 
 import MarketContainer from '../../containers/Market';
 import MarketComponent from '../components/Market/Market.component';
@@ -87,66 +73,26 @@ const Index = (
           </Stack>
 
           <Stack
-            key="watchlist"
-            hideNavBar
-            {...DefaultProps.navbarProps}
-          >
-            <Scene key="watchlist" component={MarketContainer} Layout={WatchlistComponent} />
-          </Stack>
-
-          <Stack
             key="market"
             hideNavBar
             {...DefaultProps.navbarProps}
           >
             <Scene
               key="market"
-              component={CoinsContainer}
+              component={MarketContainer}
               Layout={MarketComponent}
             />
           </Stack>
 
           <Stack
-            key="profile"
+            key="settings"
             hideNavBar
             {...DefaultProps.navbarProps}
           >
             <Scene
-              key="profileHome"
-              component={MemberContainer}
+              key="settings"
+              component={SettingsContainer}
               Layout={SettingsComponent}
-            />
-            <Scene
-              back
-              key="signUp"
-              title="SIGN UP"
-              {...DefaultProps.navbarProps}
-              component={SignUpContainer}
-              Layout={SignUpComponent}
-            />
-            <Scene
-              back
-              key="login"
-              title="LOGIN"
-              {...DefaultProps.navbarProps}
-              component={LoginContainer}
-              Layout={LoginComponent}
-            />
-            <Scene
-              back
-              key="forgotPassword"
-              title="FORGOT PASSWORD"
-              {...DefaultProps.navbarProps}
-              component={ForgotPasswordContainer}
-              Layout={ForgotPasswordComponent}
-            />
-            <Scene
-              back
-              key="updateProfile"
-              title="UPDATE PROFILE"
-              {...DefaultProps.navbarProps}
-              component={UpdateProfileContainer}
-              Layout={UpdateProfileComponent}
             />
           </Stack>
         </Tabs>

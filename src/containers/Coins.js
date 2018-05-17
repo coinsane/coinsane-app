@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
 import { getTransactionsList, addTransaction, getCourse, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets } from '../redux/state/coin/coin.actioncreators';
-import { getAvailableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
+import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies, selectCurrency } from '../redux/state/currencies/currencies.actioncreators';
 
 class Coins extends Component {
@@ -31,6 +31,8 @@ class Coins extends Component {
     updatePortfolioCurrency: PropTypes.func.isRequired,
 
     clearMarkets: PropTypes.func.isRequired,
+    getMarketCap: PropTypes.func.isRequired,
+    markets: PropTypes.shape({}).isRequired,
 
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
@@ -97,14 +99,12 @@ class Coins extends Component {
       coin,
       currencies,
       settings,
+      markets,
     } = this.props;
     const coinId = (match && match.params && match.params.coinId) ? match.params.coinId : null;
     const portfolioId = match && match.params && match.params.portfolioId
       ? match.params.portfolioId :
       null;
-
-    const currenciesByName = settings.currencies.map(({ market, currency }) =>
-      (market ? market.symbol : currency.code));
 
     return (
       <Layout
@@ -127,7 +127,7 @@ class Coins extends Component {
         setCoinData={this.props.setCoinData}
         updateCurrency={this.props.selectCurrency}
         updatePeriod={this.props.updatePeriod}
-        currencies={currenciesByName}
+        currencies={settings.currencies}
         period={portfolios.period}
         getTotals={this.props.getTotals}
         activePortfolio={portfolios.selected}
@@ -146,6 +146,7 @@ class Coins extends Component {
         transactionsLoading={coin.transactionsLoading}
         transactionsError={coin.transactionsError}
 
+        getMarketCap={this.props.getMarketCap}
         removeCoin={this.props.removeCoin}
         getCoinHisto={this.props.getCoinHisto}
         getCoinMarkets={this.props.getCoinMarkets}
@@ -153,6 +154,7 @@ class Coins extends Component {
         collapsedList={portfolios.collapsed}
         markets={coin.markets}
         settings={settings}
+        marketsList={markets}
       />
     );
   }
@@ -164,6 +166,7 @@ const mapStateToProps = state => ({
   coin: state.coin,
   currencies: state.currencies,
   settings: state.settings,
+  markets: state.markets,
 });
 
 const mapDispatchToProps = {
@@ -193,6 +196,7 @@ const mapDispatchToProps = {
   getAvailableCurrencies,
   updateCollapsed,
   clearMarkets,
+  getMarketCap,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Coins);

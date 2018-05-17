@@ -6,16 +6,42 @@ import {
   SEARCH_AVAILABLE_MARKETS_SUCCESS,
   SEARCH_AVAILABLE_MARKETS_ERROR,
   CLEAR_MARKETS,
+  GET_MARKET_CAP,
+  GET_MARKET_CAP_SUCCESS,
+  GET_MARKET_CAP_ERROR,
 } from '../../actions/action.types';
 
 export const initialState = {
   loading: true,
   error: null,
   list: [],
+  cap: {},
 };
 
-export default function marketsReducer(state = initialState, action) {
+export default function actionReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_MARKET_CAP: {
+      return {
+        ...state,
+        error: null,
+        loading: true,
+      };
+    }
+    case GET_MARKET_CAP_SUCCESS: {
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        cap: action.payload,
+      };
+    }
+    case GET_MARKET_CAP_ERROR: {
+      return {
+        ...state,
+        error: true,
+        loading: false,
+      };
+    }
     case GET_AVAILABLE_MARKETS: {
       return {
         ...state,
