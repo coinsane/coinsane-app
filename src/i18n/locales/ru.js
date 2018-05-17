@@ -1,5 +1,10 @@
 export default {
-  navigation_portfolio: 'Портфолио',
-  navigation_markets: 'Маркет',
-  navigation_settings: 'Настройки',
+  navigation: {
+    portfolio: 'Портфолио',
+    markets: 'Маркет',
+    settings: 'Настройки',
+  },
+  buttons: {
+    addNewCoin: '+ ДОБАВИТЬ МОНЕТУ',
+  },
 };

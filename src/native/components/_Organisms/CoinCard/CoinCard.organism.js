@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { ListItem, View, Button, Text, Body, Right, Thumbnail } from 'native-base';
 
 import { nFormat } from '../../../../lib/utils';
+import I18n from '../../../../i18n';
 import styles from './CoinCard.styles';
 import { colors, typography } from '../../../styles/index';
 
 const CoinCard = ({
   type,
-  price,
   coinId,
   amount,
   market,
@@ -35,6 +35,11 @@ const CoinCard = ({
     totalPrice: 0,
     totalPriceDisplay: '0',
   };
+
+
+  if (type === 'portfolio') {
+    coinCard.amount = amount || 0;
+  }
 
   if (symbol === 'BTC') {
     coinCard.price = 1.000000;
@@ -92,7 +97,7 @@ const CoinCard = ({
             style={styles.coinCard__footerButton}
             onPress={() => addTransaction(portfolioId)}
           >
-            <Text style={styles.coinCard__footerButtonText}>+ ADD NEW COIN</Text>
+            <Text style={styles.coinCard__footerButtonText}>{I18n.t('buttons.addNewCoin')}</Text>
           </Button>
         </View>
       }
@@ -101,8 +106,7 @@ const CoinCard = ({
 };
 
 CoinCard.propTypes = {
-  type: PropTypes.string.isRequired,
-  price: PropTypes.number,
+  type: PropTypes.oneOf(['portfolio', 'market']).isRequired,
   coinId: PropTypes.string,
   market: PropTypes.shape({}).isRequired,
   amount: PropTypes.number,

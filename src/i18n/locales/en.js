@@ -1,5 +1,10 @@
 export default {
-  navigation_portfolio: 'Portfolio',
-  navigation_markets: 'Markets',
-  navigation_settings: 'Settings',
+  navigation: {
+    portfolio: 'Portfolio',
+    markets: 'Markets',
+    settings: 'Settings',
+  },
+  buttons: {
+    addNewCoin: '+ ADD NEW COIN',
+  },
 };
