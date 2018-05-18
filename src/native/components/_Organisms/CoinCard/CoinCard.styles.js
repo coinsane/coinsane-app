@@ -6,13 +6,23 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  coinCard__listItem: {
+  coinCard_nameBock: {
+    paddingRight: 20,
+  },
+  coinCard__listItem_portfolio: {
     backgroundColor: colors.btnBgBlack,
     borderBottomWidth: 0,
     borderRadius: 4,
     marginLeft: 0,
     paddingLeft: 15,
     marginBottom: 15,
+  },
+  coinCard__listItem_market: {
+    borderColor: colors.btnBgBlack,
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
+    marginLeft: 0,
+    paddingLeft: 15,
   },
   coinCard__errorItem: {
     backgroundColor: 'transparent',
@@ -21,9 +31,16 @@ export default StyleSheet.create({
     paddingLeft: 15,
     marginBottom: 15,
   },
+  coinCard__left: {
+    // flexDirection: 'row',
+    // flexWrap: 'wrap',
+  },
   coinCard__body: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  coinCard__right: {
+    flex: 0.4,
   },
   coinCard__thumbnail: {
     marginTop: 4,
@@ -49,7 +66,6 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontFamily: typography.fontRegular,
   },
-  rightContainer: { flex: 0.5 },
   right__text: {
     fontSize: 14,
     marginBottom: 6,

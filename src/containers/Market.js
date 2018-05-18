@@ -13,7 +13,8 @@ class Market extends Component {
       currencies: PropTypes.shape({}).isRequired,
     }).isRequired,
     markets: PropTypes.shape({
-      list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+      list: PropTypes.arrayOf(PropTypes.string).isRequired,
+      items: PropTypes.shape({}).isRequired,
       cap: PropTypes.shape({}).isRequired,
     }).isRequired,
 
@@ -40,6 +41,7 @@ class Market extends Component {
         updateCurrency={this.props.selectCurrency}
         cap={markets.cap}
         markets={markets.list}
+        coins={markets.items}
       />
     );
   }

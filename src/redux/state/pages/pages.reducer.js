@@ -1,22 +1,22 @@
 import {
-  GET_PAGES_SUCCEED,
+  GET_PAGES_SUCCESS,
   GET_PAGES_ERROR,
 } from '../../actions/action.types';
 
 export const initialState = {
   loading: true,
   error: null,
-  pages: {},
+  items: {},
 };
 
 export default function actionReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_PAGES_SUCCEED: {
+    case GET_PAGES_SUCCESS: {
       return {
         ...state,
         error: null,
         loading: false,
-        pages: action.payload,
+        items: action.payload,
       };
     }
     case GET_PAGES_ERROR: {

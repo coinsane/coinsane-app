@@ -9,7 +9,7 @@ import {
 export function* getPagesSaga() {
   try {
     const response = yield axios.get('/pages');
-    yield put({ type: GET_PAGES_SUCCESS, payload: response.data });
+    yield put({ type: GET_PAGES_SUCCESS, payload: response.data.data });
   } catch (error) {
     yield put({ type: GET_PAGES_ERROR, error });
   }

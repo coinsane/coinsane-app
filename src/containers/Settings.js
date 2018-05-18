@@ -32,7 +32,7 @@ class Settings extends Component {
       <Layout
         drawer={navigation.drawer}
         settings={settings}
-        pages={pages}
+        pages={pages.items}
       />
     );
   }

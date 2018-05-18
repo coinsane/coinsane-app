@@ -108,5 +108,5 @@ export const GET_MARKET_CAP_ERROR = '[markets] GET_MARKET_CAP_ERROR';
 
 // ========= [pages] peace of state action types ========= //
 export const GET_PAGES = '[pages] GET_PAGES';
-export const GET_PAGES_SUCCEED = '[pages] GET_PAGES_SUCCEED';
+export const GET_PAGES_SUCCESS = '[pages] GET_PAGES_SUCCESS';
 export const GET_PAGES_ERROR = '[pages] GET_PAGES_ERROR';

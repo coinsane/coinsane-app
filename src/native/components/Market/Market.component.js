@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, View, Text } from 'native-base';
+import I18n from '../../../i18n';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
@@ -13,7 +14,8 @@ class Market extends Component {
   static propTypes = {
     drawer: PropTypes.shape({}).isRequired,
     currencies: PropTypes.shape({}).isRequired,
-    markets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    markets: PropTypes.arrayOf(PropTypes.string).isRequired,
+    coins: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     cap: PropTypes.shape({}).isRequired,
   };
@@ -24,20 +26,18 @@ class Market extends Component {
       currencies,
       updateCurrency,
       markets,
+      coins,
       cap,
     } = this.props;
 
     const currency = 'USD';
-
-    const getCoinPrice = market => market.prices[currency].price;
-    const getPctChange = market => market.prices[currency].changePctDay;
 
     return (
       <Container>
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Text>Markets</Text>}
+          title={<Text>{I18n.t('title.markets')}</Text>}
           rightIcon="Filter"
           rightAction={() => {}}
         />
@@ -56,8 +56,8 @@ class Market extends Component {
                 return (
                   <CoinCard
                     type="market"
-                    key={market.order}
-                    market={market}
+                    key={market}
+                    market={coins[market]}
                     currency={currencies[currency]}
                     showCoin={() => {}}
                     addTransaction={() => {}}

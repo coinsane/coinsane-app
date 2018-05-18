@@ -51,7 +51,7 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case GET_AVAILABLE_MARKETS_SUCCESS: {
-      const items = { ...state.markets.items };
+      const items = { ...state.items };
       const list = action.payload.map((market) => {
         Object.assign(items, { [`${market._id}`]: market });
         return market._id;
@@ -81,7 +81,7 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case SEARCH_AVAILABLE_MARKETS_SUCCESS: {
-      const items = { ...state.markets.items };
+      const items = { ...state.items };
       const list = action.payload.map((market) => {
         Object.assign(items, { [`${market._id}`]: market });
         return market._id;
