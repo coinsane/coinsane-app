@@ -9,6 +9,7 @@ import SearchBar from '../_Molecules/SearchBar/SearchBar.molecula';
 import { nFormat } from '../../../lib/utils';
 
 import { base } from '../../styles';
+import styles from './Market.styles';
 
 class Market extends Component {
   static propTypes = {
@@ -37,7 +38,7 @@ class Market extends Component {
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Text>{I18n.t('title.markets')}</Text>}
+          title={<Text>{I18n.t('markets.title')}</Text>}
           rightIcon="Filter"
           rightAction={() => {}}
         />
@@ -51,20 +52,23 @@ class Market extends Component {
           />
           <SearchBar />
           <View>
+            <View style={styles.market__header}>
+              <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('coin')}</Text>
+              <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('mcap')}/{I18n.t('vol24')}</Text>
+              <Text style={[styles.market__header_text, styles.market__header_row3]}>{I18n.t('price')}</Text>
+            </View>
             {
-              markets.map(market => {
-                return (
-                  <CoinCard
-                    type="market"
-                    key={market}
-                    market={coins[market]}
-                    currency={currencies[currency]}
-                    showCoin={() => {}}
-                    addTransaction={() => {}}
-                    removeCoin={() => {}}
-                  />
-                )
-              })
+              markets.map(market => (
+                <CoinCard
+                  type="market"
+                  key={market}
+                  market={coins[market]}
+                  currency={currencies[currency]}
+                  showCoin={() => {}}
+                  addTransaction={() => {}}
+                  removeCoin={() => {}}
+                />
+              ))
             }
           </View>
         </Content>

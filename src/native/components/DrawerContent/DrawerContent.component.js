@@ -49,10 +49,12 @@ class DrawerContent extends Component {
                 />
               </Left>
               <Body>
-                <Text style={{
-                  fontSize: 18,
-                  color: item.active ? colors.white : colors.mediumGray
-                }}
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    fontSize: 18,
+                    color: item.active ? colors.white : colors.mediumGray
+                  }}
                 >
                   {item.text}
                 </Text>

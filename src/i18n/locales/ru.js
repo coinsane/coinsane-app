@@ -10,4 +10,8 @@ export default {
   buttons: {
     addNewCoin: '+ ДОБАВИТЬ МОНЕТУ',
   },
+  coin: 'Монета',
+  mcap: 'Кап.',
+  vol24: '24 об.',
+  price: 'Цена',
 };

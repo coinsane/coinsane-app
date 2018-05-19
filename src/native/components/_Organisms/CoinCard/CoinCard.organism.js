@@ -86,10 +86,15 @@ const CoinCard = ({
       button
       onPress={() => showCoin(coinId)}
     >
-      <Body style={styles.coinCard__body}>
-        <Thumbnail small square source={coinCard.icon} style={styles.coinCard__thumbnail} />
+      <Body style={styles.coinCard__body_portfolio}>
+        <Thumbnail
+          small
+          square
+          source={coinCard.icon}
+          style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_portfolio]}
+        />
         <View>
-          <Text style={styles.coinCard__textContainer}>
+          <Text style={styles.coinCard__text}>
             <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
             <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
           </Text>
@@ -103,7 +108,7 @@ const CoinCard = ({
           </Text>
         </View>
       </Body>
-      <Right style={styles.coinCard__right}>
+      <Right style={styles.coinCard__right_portfolio}>
         <Text
           numberOfLines={1}
           style={[
@@ -127,65 +132,71 @@ const CoinCard = ({
 
   const marketCard = () => (
     <ListItem
-      style={styles.coinCard__listItem_market}
       button
+      style={styles.coinCard__listItem_market}
       onPress={() => showCoin(coinId)}
     >
-      <Left
-        style={styles.coinCard__left}
-      >
-        <Thumbnail small square source={coinCard.icon} style={styles.coinCard__thumbnail} />
-        <View>
+      <Text style={styles.coinCard_order}>{coinCard.order}</Text>
+      <Left style={styles.coinCard__left}>
+        <Thumbnail
+          square
+          source={coinCard.icon}
+          style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_market]}
+        />
+        <View style={styles.coinCard__title}>
           <Text
             numberOfLines={1}
-            style={styles.coinCard__textContainer}
+            style={styles.coinCard__text}
           >
-            {coinCard.name}
+            {coinCard.symbol}
           </Text>
           <Text
+            numberOfLines={2}
             style={[
               styles.coinCard__subtext,
               isLoading && typography.textPlaceholder,
             ]}
           >
-            {coinCard.symbol}
+            {coinCard.name}
           </Text>
         </View>
       </Left>
       <Body style={styles.coinCard__body}>
-        <View>
-          <Text
-            style={[
-              styles.coinCard__textContainer,
-              isLoading && typography.textPlaceholder,
-            ]}
-          >
-            {coinCard.marketCap}
-          </Text>
-          <Text
-            style={[
-              styles.coinCard__subtext,
-              isLoading && typography.textPlaceholder,
-            ]}
-          >
-            {coinCard.volume24h}
-          </Text>
-        </View>
+        <Text
+          numberOfLines={1}
+          style={[
+            styles.coinCard__text,
+            isLoading && typography.textPlaceholder,
+          ]}
+        >
+          {coinCard.marketCap}
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={[
+            styles.coinCard__subtext,
+            isLoading && typography.textPlaceholder,
+          ]}
+        >
+          {coinCard.volume24h}
+        </Text>
       </Body>
       <Right style={styles.coinCard__right}>
         <Text
           numberOfLines={1}
           style={[
-            styles.right__text,
-            isLoading && typography.textPlaceholder
+            styles.coinCard__text,
+            isLoading && typography.textPlaceholder,
           ]}
         >
           {coinCard.priceDisplay}
         </Text>
         <Text
+          numberOfLines={1}
           style={[
-            { fontSize: 14, color: changeColor, fontFamily: typography.fontRegular },
-            isLoading && typography.textPlaceholder
+            styles.coinCard__subtext,
+            { color: changeColor },
+            isLoading && typography.textPlaceholder,
           ]}
         >
           {coinCard.changePct}
