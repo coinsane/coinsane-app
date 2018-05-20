@@ -53,9 +53,9 @@ class Market extends Component {
           <SearchBar />
           <View>
             <View style={styles.market__header}>
-              <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('coin')}</Text>
-              <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('mcap')}/{I18n.t('vol24')}</Text>
-              <Text style={[styles.market__header_text, styles.market__header_row3]}>{I18n.t('price')}</Text>
+              <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('markets.coin')}</Text>
+              <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('markets.mcap')}/{I18n.t('markets.vol24')}</Text>
+              <Text style={[styles.market__header_text, styles.market__header_row3]}>{I18n.t('markets.price')}</Text>
             </View>
             {
               markets.map(market => (

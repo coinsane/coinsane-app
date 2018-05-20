@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'native-base';
-import CoinsanePctsText from '../../_Atoms/CoinsanePctsText/CoinsanePctsText.component';
+import CoinsanePctText from '../../_Atoms/CoinsanePctText/CoinsanePctText.atom';
 import CoinsaneSummaryText from '../../_Atoms/CoinsaneSummaryText/CoinsaneSummaryText.component';
 import CoinsaneButton from '../../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import styles from './CoinsaneSummary.styles';
 
 const CoinsaneSummary = ({
-  value, subValue, currency, updateCurrency, buttons,
+  value,
+  subValue,
+  currency,
+  updateCurrency,
+  buttons,
+  leftTitle,
+  leftValue,
+  rightTitle,
+  rightValue,
 }) => (
   <View style={styles.totalContainer}>
     <View style={styles.total__buttons}>
@@ -22,12 +30,33 @@ const CoinsaneSummary = ({
         />
         ))}
     </View>
-    <CoinsaneSummaryText value={value} currency={currency} />
-    {
-      typeof subValue === 'number' ?
-        <CoinsanePctsText value={subValue} /> :
-        <Text style={styles.subValue}>{subValue}</Text>
-    }
+    <View style={styles.total__summaryContainer}>
+      {
+        leftTitle && leftValue &&
+        <View style={styles.total__summaryLeft}>
+          <Text style={styles.total__summaryText}>{leftTitle.toUpperCase()}</Text>
+          <CoinsanePctText style={styles.total__summaryText} size={11} value={leftValue} symbol="" negative />
+        </View>
+      }
+      <View style={styles.total__summaryBody}>
+        <CoinsaneSummaryText
+          value={value}
+          currency={currency}
+        />
+        {
+          typeof subValue === 'number' ?
+            <CoinsanePctText style={styles.subValue} value={subValue} /> :
+            <Text style={styles.subValue}>{subValue}</Text>
+        }
+      </View>
+      {
+        rightTitle && rightValue &&
+        <View style={styles.total__summaryRight}>
+          <Text style={styles.total__summaryText}>{rightTitle.toUpperCase()}</Text>
+          <CoinsanePctText style={styles.total__summaryText} size={11} value={rightValue} symbol="" positive />
+        </View>
+      }
+    </View>
   </View>
 );
 
@@ -40,10 +69,24 @@ CoinsaneSummary.propTypes = {
   currency: PropTypes.string,
   updateCurrency: PropTypes.func.isRequired,
   buttons: PropTypes.arrayOf(PropTypes.string).isRequired,
+  leftTitle: PropTypes.string,
+  leftValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  rightTitle: PropTypes.string,
+  rightValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };
 
 CoinsaneSummary.defaultProps = {
   currency: 'BTC',
+  leftTitle: null,
+  leftValue: null,
+  rightTitle: null,
+  rightValue: null,
 };
 
 export default CoinsaneSummary;

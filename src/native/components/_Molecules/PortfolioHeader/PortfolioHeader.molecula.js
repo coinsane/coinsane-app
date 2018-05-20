@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Body, Text, Icon, Right, View, Button } from 'native-base';
 
+import I18n from '../../../../i18n';
 import Spacer from '../../Spacer/Spacer.component';
 import styles from './PortfolioHeader.styles';
-import { colors } from '../../../styles/index';
-import {typography} from "../../../styles";
+import { colors, typography } from '../../../styles';
 
 const PortfolioHeader = ({
   id,
@@ -63,7 +63,7 @@ const PortfolioHeader = ({
           style={styles.headerBtn}
           onPress={() => addTransaction(id)}
         >
-          <Text style={styles.headerBtn__text}>+ ADD NEW COIN</Text>
+          <Text style={styles.headerBtn__text}>{I18n.t('coins.addButton')}</Text>
         </Button>
       }
     </View>

@@ -10,8 +10,9 @@ export default StyleSheet.create({
   },
   text: {
     color: colors.textGray,
-    fontSize: 14,
     fontFamily: typography.fontRegular,
-    letterSpacing: 0.5,
+  },
+  white: {
+    color: colors.white,
   },
 });

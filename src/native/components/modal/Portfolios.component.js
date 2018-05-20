@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Text, List, ListItem, Button, Footer } from 'native-base';
+import I18n from '../../../i18n';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import Modal from './BaseModal.component';
@@ -17,7 +18,7 @@ const PortfoliosModal = ({
       <Container>
         <CoinsaneHeader
           leftIcon="Back"
-          title={<Text>Choose portfolio</Text>}
+          title={<Text>{I18n.t('portfolios.title')}</Text>}
         />
         <Content padder style={{ backgroundColor: colors.bgGray }}>
 
@@ -31,7 +32,7 @@ const PortfoliosModal = ({
                 Actions.pop();
               }}
             >
-              <Text style={styles.listItem__text}>All portfolios</Text>
+              <Text style={styles.listItem__text}>{I18n.t('portfolios.all')}</Text>
             </ListItem>
             {portfolios.map(portfolio => (
               <ListItem
@@ -59,7 +60,7 @@ const PortfoliosModal = ({
             }}
             style={base.footer__button}
           >
-            <Text style={base.footer__buttonText}>+ ADD NEW PORTFOLIO</Text>
+            <Text style={base.footer__buttonText}>{I18n.t('portfolios.addButton')}</Text>
           </Button>
         </Footer>
       </Container>

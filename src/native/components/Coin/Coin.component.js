@@ -27,7 +27,7 @@ class CoinView extends Component {
     getTransactionsList: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     coinCurrency: PropTypes.string.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currencies: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,

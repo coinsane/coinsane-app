@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, View, Text, Body, Left, Right, Thumbnail } from 'native-base';
+import { ListItem, View, Text, Body, Left, Right, Thumbnail, Button } from 'native-base';
 
+import I18n from '../../../../i18n';
 import { nFormat } from '../../../../lib/utils';
 import styles from './CoinCard.styles';
 import { colors, typography } from '../../../styles/index';
@@ -80,140 +81,152 @@ const CoinCard = ({
 
 
   const portfolioCard = () => (
-    (activePortfolio || !isCollapsed) &&
-    <ListItem
-      style={styles.coinCard__listItem_portfolio}
-      button
-      onPress={() => showCoin(coinId)}
-    >
-      <Body style={styles.coinCard__body_portfolio}>
-        <Thumbnail
-          small
-          square
-          source={coinCard.icon}
-          style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_portfolio]}
-        />
-        <View>
-          <Text style={styles.coinCard__text}>
-            <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
-            <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
+    <View style={styles.coinCard__container}>
+      {
+        (activePortfolio || !isCollapsed) &&
+        <ListItem
+          style={styles.coinCard__listItem_portfolio}
+          button
+          onPress={() => showCoin(coinId)}
+        >
+          <Body style={styles.coinCard__body_portfolio}>
+          <Thumbnail
+            small
+            square
+            source={coinCard.icon}
+            style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_portfolio]}
+          />
+          <View>
+            <Text style={styles.coinCard__text}>
+              <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
+              <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
+            </Text>
+            <Text
+              style={[
+                styles.coinCard__subtext,
+                isLoading && typography.textPlaceholder,
+              ]}
+            >
+              {coinCard.priceDisplay}
+            </Text>
+          </View>
+          </Body>
+          <Right style={styles.coinCard__right_portfolio}>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.right__text,
+                isLoading && typography.textPlaceholder
+              ]}
+            >
+              {coinCard.totalPriceDisplay}
+            </Text>
+            <Text
+              style={[
+                { fontSize: 14, color: changeColor, fontFamily: typography.fontRegular },
+                isLoading && typography.textPlaceholder
+              ]}
+            >
+              {coinCard.changePct}
+            </Text>
+          </Right>
+        </ListItem>
+      }
+      {
+        (portfolioId && !activePortfolio) &&
+        <View style={styles.coinCard__footer}>
+          <Button
+            small
+            bordered
+            full
+            style={styles.coinCard__footerButton}
+            onPress={() => addTransaction(portfolioId)}
+          >
+            <Text style={styles.coinCard__footerButtonText}>{I18n.t('coins.addButton')}</Text>
+          </Button>
+        </View>
+      }
+    </View>
+  );
+
+  const marketCard = () => (
+    <View style={styles.coinCard__container}>
+      <ListItem
+        button
+        style={styles.coinCard__listItem_market}
+        onPress={() => showCoin(coinId)}
+      >
+        <Text style={styles.coinCard_order}>{coinCard.order}</Text>
+        <Left style={styles.coinCard__left}>
+          <Thumbnail
+            square
+            source={coinCard.icon}
+            style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_market]}
+          />
+          <View style={styles.coinCard__title}>
+            <Text
+              numberOfLines={1}
+              style={styles.coinCard__text}
+            >
+              {coinCard.symbol}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={[
+                styles.coinCard__subtext,
+                isLoading && typography.textPlaceholder,
+              ]}
+            >
+              {coinCard.name}
+            </Text>
+          </View>
+        </Left>
+        <Body style={styles.coinCard__body}>
+          <Text
+            numberOfLines={1}
+            style={[
+              styles.coinCard__text,
+              isLoading && typography.textPlaceholder,
+            ]}
+          >
+            {coinCard.marketCap}
           </Text>
           <Text
+            numberOfLines={1}
             style={[
               styles.coinCard__subtext,
+              isLoading && typography.textPlaceholder,
+            ]}
+          >
+            {coinCard.volume24h}
+          </Text>
+        </Body>
+        <Right style={styles.coinCard__right}>
+          <Text
+            numberOfLines={1}
+            style={[
+              styles.coinCard__text,
               isLoading && typography.textPlaceholder,
             ]}
           >
             {coinCard.priceDisplay}
           </Text>
-        </View>
-      </Body>
-      <Right style={styles.coinCard__right_portfolio}>
-        <Text
-          numberOfLines={1}
-          style={[
-            styles.right__text,
-            isLoading && typography.textPlaceholder
-          ]}
-        >
-          {coinCard.totalPriceDisplay}
-        </Text>
-        <Text
-          style={[
-            { fontSize: 14, color: changeColor, fontFamily: typography.fontRegular },
-            isLoading && typography.textPlaceholder
-          ]}
-        >
-          {coinCard.changePct}
-        </Text>
-      </Right>
-    </ListItem>
-  );
-
-  const marketCard = () => (
-    <ListItem
-      button
-      style={styles.coinCard__listItem_market}
-      onPress={() => showCoin(coinId)}
-    >
-      <Text style={styles.coinCard_order}>{coinCard.order}</Text>
-      <Left style={styles.coinCard__left}>
-        <Thumbnail
-          square
-          source={coinCard.icon}
-          style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_market]}
-        />
-        <View style={styles.coinCard__title}>
           <Text
             numberOfLines={1}
-            style={styles.coinCard__text}
-          >
-            {coinCard.symbol}
-          </Text>
-          <Text
-            numberOfLines={2}
             style={[
               styles.coinCard__subtext,
+              { color: changeColor },
               isLoading && typography.textPlaceholder,
             ]}
           >
-            {coinCard.name}
+            {coinCard.changePct}
           </Text>
-        </View>
-      </Left>
-      <Body style={styles.coinCard__body}>
-        <Text
-          numberOfLines={1}
-          style={[
-            styles.coinCard__text,
-            isLoading && typography.textPlaceholder,
-          ]}
-        >
-          {coinCard.marketCap}
-        </Text>
-        <Text
-          numberOfLines={1}
-          style={[
-            styles.coinCard__subtext,
-            isLoading && typography.textPlaceholder,
-          ]}
-        >
-          {coinCard.volume24h}
-        </Text>
-      </Body>
-      <Right style={styles.coinCard__right}>
-        <Text
-          numberOfLines={1}
-          style={[
-            styles.coinCard__text,
-            isLoading && typography.textPlaceholder,
-          ]}
-        >
-          {coinCard.priceDisplay}
-        </Text>
-        <Text
-          numberOfLines={1}
-          style={[
-            styles.coinCard__subtext,
-            { color: changeColor },
-            isLoading && typography.textPlaceholder,
-          ]}
-        >
-          {coinCard.changePct}
-        </Text>
-      </Right>
-    </ListItem>
-  );
-
-  return (
-    <View style={styles.coinCard__container}>
-      {
-        type === 'portfolio' ?
-          portfolioCard() :
-          marketCard()
-      }
+        </Right>
+      </ListItem>
     </View>
   );
+
+  return type === 'portfolio' ? portfolioCard() : marketCard();
 };
 
 CoinCard.propTypes = {

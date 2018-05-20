@@ -9,21 +9,22 @@ export default StyleSheet.create({
     paddingRight: 15,
     borderColor: '#2F2A40',
     borderRightWidth: 1,
-    flex: 1
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   lastItem: {
     borderRightWidth: 0,
   },
   label: {
-    textAlign: 'center',
     color: colors.textGray,
     fontFamily: typography.fontMedium,
-    fontSize: 12,
-    marginBottom: 15
+    fontSize: 11,
+    marginBottom: 6,
   },
   value: {
-    textAlign: 'center',
-    fontSize: 16,
+    fontSize: 11,
     fontFamily: typography.fontRegular,
   },
 });

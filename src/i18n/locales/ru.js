@@ -4,14 +4,19 @@ export default {
     markets: 'Маркет',
     settings: 'Настройки',
   },
-  title: {
-    markets: 'Маркет',
+  markets: {
+    title: 'Markets',
+    coin: 'Монета',
+    mcap: 'Кап.',
+    vol24: '24 об.',
+    price: 'Цена',
   },
-  buttons: {
-    addNewCoin: '+ ДОБАВИТЬ МОНЕТУ',
+  coins: {
+    addButton: '+ ДОБАВИТЬ МОНЕТУ',
   },
-  coin: 'Монета',
-  mcap: 'Кап.',
-  vol24: '24 об.',
-  price: 'Цена',
+  portfolios: {
+    title: 'Выбрать коллекцию',
+    all: 'Все портфолио',
+    addButton: '+ НОВАЯ КОЛЛЕКЦИЯ',
+  },
 };

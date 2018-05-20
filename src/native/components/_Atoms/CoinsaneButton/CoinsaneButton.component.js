@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Text } from 'native-base';
 import styles from './CoinsaneButton.styles';
 
@@ -7,7 +8,7 @@ const CoinsaneButton = ({
   type,
   active,
   uppercase,
-  onPress
+  onPress,
 }) => {
   const displayValue = uppercase ? value.toUpperCase() : value;
   let buttonStyle = [];
@@ -35,7 +36,21 @@ const CoinsaneButton = ({
     >
       <Text style={textStyle}>{displayValue}</Text>
     </Button>
-  )
+  );
+};
+
+CoinsaneButton.propTypes = {
+  value: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['currency', 'period']).isRequired,
+  active: PropTypes.bool,
+  uppercase: PropTypes.bool,
+  onPress: PropTypes.func,
+};
+
+CoinsaneButton.defaultProps = {
+  active: false,
+  uppercase: false,
+  onPress: null,
 };
 
 export default CoinsaneButton;
