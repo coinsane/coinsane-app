@@ -23,10 +23,22 @@ export const setToken = async () => {
   }
 };
 
+
+/*
+* Currency Formatting (prefix or suffix)
+* */
+export const cFormat = (value = 0, symbol = '') => {
+  return symbol.length > 1 ? `${value} ${symbol}` : `${symbol}${value}`;
+};
+
+
+/*
+* Number Formatting
+* */
 export const nFormat = (num = 0, digits = 0) => {
   const si = [
     { value: 1, symbol: '' },
-    { value: 1E3, symbol: 'k' },
+    // { value: 1E3, symbol: 'k' },
     { value: 1E6, symbol: 'M' },
     { value: 1E9, symbol: 'B' },
     { value: 1E12, symbol: 'T' },
@@ -34,11 +46,19 @@ export const nFormat = (num = 0, digits = 0) => {
     { value: 1E18, symbol: 'E' },
   ];
   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  const rx2 = /(\d)(?=(\d{3})+(?!\d))/g;
   let i;
   for (i = si.length - 1; i > 0; i -= 1) {
     if (num >= si[i].value) {
       break;
     }
+  }
+  if (si[i].value < si[1].value) {
+    const numSplit = num.toString().split('.');
+    if (numSplit.length > 1) {
+      return `${numSplit[0].replace(rx2, '$1,')}.${numSplit[1].slice(0, digits)}`;
+    }
+    return (+num).toFixed(digits).replace(rx2, '$1,');
   }
   return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
 };

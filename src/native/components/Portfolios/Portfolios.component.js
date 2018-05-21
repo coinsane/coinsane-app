@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, View, RefreshControl } from 'react-native';
+import { ListView, View } from 'react-native';
 import { Container, Content, Text, Button, Footer, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import SGListView from 'react-native-sglistview';
 
+import I18n from '../../../i18n';
 import Error from '../Error/Error.component';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
@@ -31,27 +32,21 @@ class Portfolios extends Component {
 
     changePct: PropTypes.number.isRequired,
     drawer: PropTypes.shape({}).isRequired,
-    getTotals: PropTypes.func.isRequired,
-    addPortfolio: PropTypes.func.isRequired,
-    removePortfolio: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
     activePortfolio: PropTypes.string,
-    updatePeriod: PropTypes.func.isRequired,
+    collapsedList: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateCollapsed: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
     period: PropTypes.string,
     lastTotal: PropTypes.number.isRequired,
-    settings: PropTypes.shape({}).isRequired,
-    pulldownDistance: PropTypes.number,
   };
 
   static defaultProps = {
     portfoliosError: null,
     activePortfolio: 'all',
     period: null,
-    pulldownDistance: 40,
   };
 
   constructor(props) {
@@ -132,15 +127,11 @@ class Portfolios extends Component {
       portfoliosLoading,
       portfolios,
       drawer,
-      addPortfolio,
-      removePortfolio,
       portfoliosChart,
       changePct,
-      getTotals,
       addTransaction,
       removeCoin,
       activePortfolio,
-      updatePeriod,
       currency,
       currencies,
       period,
@@ -178,7 +169,7 @@ class Portfolios extends Component {
         totals={portfolio.total}
         count={portfolio.count}
         addTransaction={addTransaction}
-        symbol={currency}
+        currency={currencies[currency]}
         changePct={portfolio.changePct}
         amount={portfolio.amount}
         updateCollapsed={updateCollapsed}
@@ -211,7 +202,7 @@ class Portfolios extends Component {
       <Text>
         <Icon name="ios-arrow-down" style={[styles.coins__bodyArrowIcon, { fontSize: 18, color: colors.textGray }]} />
         &nbsp;
-        <Text>{activePortfolio && portfoliosList.length ? portfoliosList[0].title : 'All Portfolios'}</Text>
+        <Text>{activePortfolio && portfoliosList.length ? portfoliosList[0].title : I18n.t('portfolios.all')}</Text>
       </Text>
     );
 

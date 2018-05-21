@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ListItem, View, Text, Body, Left, Right, Thumbnail, Button } from 'native-base';
 
 import I18n from '../../../../i18n';
-import { nFormat } from '../../../../lib/utils';
+import { nFormat, cFormat } from '../../../../lib/utils';
 import styles from './CoinCard.styles';
 import { colors, typography } from '../../../styles/index';
 
@@ -35,6 +35,9 @@ const CoinCard = ({
     return _market.prices ? nFormat(_market.prices[symbol].totalVolume24HTo, 2) : 0;
   };
 
+  const textPlaceholder = isLoading && typography.textPlaceholder;
+
+
   const coinCard = {
     icon: { uri: `https://www.cryptocompare.com${market.imageUrl}` },
     order: market.order,
@@ -56,7 +59,7 @@ const CoinCard = ({
   }
 
   if (symbol === 'BTC' && market.symbol === 'BTC') {
-    coinCard.price = 1.000000;
+    coinCard.price = (1).toFixed(currency.decimal);
     coinCard.changePct = '0%';
   } else {
     coinCard.price = getCoinPrice(market).toFixed(currency.decimal);
@@ -65,19 +68,11 @@ const CoinCard = ({
     coinCard.changePct = getPctChange(market) ? `${(getPctChange(market) > 0 ? '+' : '')}${getPctChange(market).toFixed(2)}%` : '0%';
   }
 
-  coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(currency.decimal);
-
-  const priceSplit = coinCard.price.toString().split('.');
-  coinCard.priceDisplay = priceSplit.length > 1
-    ? `${priceSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${priceSplit[1].slice(0, currency.decimal)} ${symbol}`
-    : `${coinCard.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`;
-
   const changeColor = parseFloat(coinCard.changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
 
-  const totalPriceSplit = coinCard.totalPrice.toString().split('.');
-  coinCard.totalPriceDisplay = totalPriceSplit.length > 1
-    ? `${nFormat(coinCard.totalPrice, currency.decimal)} ${symbol}`
-    : `${coinCard.totalPrice.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`;
+  coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(currency.decimal);
+  coinCard.priceDisplay = cFormat(nFormat(coinCard.price, currency.decimal), currency.symbol);
+  coinCard.totalPriceDisplay = cFormat(nFormat(coinCard.totalPrice, currency.decimal), currency.symbol);
 
 
   const portfolioCard = () => (
@@ -90,41 +85,42 @@ const CoinCard = ({
           onPress={() => showCoin(coinId)}
         >
           <Body style={styles.coinCard__body_portfolio}>
-          <Thumbnail
-            small
-            square
-            source={coinCard.icon}
-            style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_portfolio]}
-          />
-          <View>
-            <Text style={styles.coinCard__text}>
-              <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
-              <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
-            </Text>
-            <Text
-              style={[
-                styles.coinCard__subtext,
-                isLoading && typography.textPlaceholder,
-              ]}
-            >
-              {coinCard.priceDisplay}
-            </Text>
-          </View>
+            <Thumbnail
+              small
+              square
+              source={coinCard.icon}
+              style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_portfolio]}
+            />
+            <View>
+              <Text style={styles.coinCard__text}>
+                <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
+                <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
+              </Text>
+              <Text
+                style={[
+                  styles.coinCard__subtext,
+                  textPlaceholder,
+                ]}
+              >
+                {coinCard.priceDisplay}
+              </Text>
+            </View>
           </Body>
           <Right style={styles.coinCard__right_portfolio}>
             <Text
               numberOfLines={1}
               style={[
-                styles.right__text,
-                isLoading && typography.textPlaceholder
+                styles.coinCard__text,
+                textPlaceholder,
               ]}
             >
               {coinCard.totalPriceDisplay}
             </Text>
             <Text
               style={[
-                { fontSize: 14, color: changeColor, fontFamily: typography.fontRegular },
-                isLoading && typography.textPlaceholder
+                styles.coinCard__subtext,
+                { color: changeColor },
+                textPlaceholder,
               ]}
             >
               {coinCard.changePct}
@@ -174,7 +170,7 @@ const CoinCard = ({
               numberOfLines={2}
               style={[
                 styles.coinCard__subtext,
-                isLoading && typography.textPlaceholder,
+                textPlaceholder,
               ]}
             >
               {coinCard.name}
@@ -186,7 +182,7 @@ const CoinCard = ({
             numberOfLines={1}
             style={[
               styles.coinCard__text,
-              isLoading && typography.textPlaceholder,
+              textPlaceholder,
             ]}
           >
             {coinCard.marketCap}
@@ -195,7 +191,7 @@ const CoinCard = ({
             numberOfLines={1}
             style={[
               styles.coinCard__subtext,
-              isLoading && typography.textPlaceholder,
+              textPlaceholder,
             ]}
           >
             {coinCard.volume24h}
@@ -206,7 +202,7 @@ const CoinCard = ({
             numberOfLines={1}
             style={[
               styles.coinCard__text,
-              isLoading && typography.textPlaceholder,
+              textPlaceholder,
             ]}
           >
             {coinCard.priceDisplay}
@@ -216,7 +212,7 @@ const CoinCard = ({
             style={[
               styles.coinCard__subtext,
               { color: changeColor },
-              isLoading && typography.textPlaceholder,
+              textPlaceholder,
             ]}
           >
             {coinCard.changePct}

@@ -15,8 +15,8 @@ export default {
     addButton: '+ ADD NEW COIN',
   },
   portfolios: {
-    title: 'Choose portfolio',
-    all: 'All portfolios',
+    title: 'Choose Portfolio',
+    all: 'All Portfolios',
     addButton: '+ ADD NEW PORTFOLIO',
   },
 };

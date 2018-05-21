@@ -13,12 +13,6 @@
 - __UI Toolkit/s__
     - [Native Base](https://nativebase.io/) for native mobile
     - [Bootstrap](https://getbootstrap.com/) for web
-- __Simpler mobile app development__ through
-    - [Expo](https://expo.io/)
-- __User authentication__ example through
-    - [Firebase](https://firebase.google.com/)
-- __API/Data example__
-    - Shows how to read/write data from/to an external API (in our case, [Firebase](https://firebase.google.com/))
 - __Code Linting__ with
     - [Airbnb's JS Linting](https://github.com/airbnb/javascript) guidelines
 

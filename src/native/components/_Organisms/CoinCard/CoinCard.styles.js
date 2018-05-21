@@ -86,7 +86,7 @@ export default StyleSheet.create({
   coinCard__text: {
     marginLeft: 0,
     marginRight: 0,
-    marginBottom: 5,
+    marginBottom: 4,
     fontSize: 15,
     fontFamily: typography.fontRegular,
   },
@@ -103,12 +103,11 @@ export default StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
     fontSize: 13,
-    lineHeight: 13,
     color: colors.textGray,
     fontFamily: typography.fontMedium,
   },
   right__text: {
-    fontSize: 16,
+    fontSize: 15,
     marginBottom: 4,
     fontFamily: typography.fontMedium,
   },
