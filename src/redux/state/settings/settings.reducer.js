@@ -1,9 +1,13 @@
-import { GET_SETTINGS_SUCCEED } from '../../actions/action.types';
+import {
+  GET_SETTINGS_SUCCEED,
+  SELECT_CURRENCY_SUCCESS,
+} from '../../actions/action.types';
 
 export const initialState = {
   loading: true,
   error: null,
   currencies: {},
+  currency: 'BTC',
 };
 
 export default function actionReducer(state = initialState, action) {
@@ -14,6 +18,12 @@ export default function actionReducer(state = initialState, action) {
         error: null,
         loading: false,
         currencies: action.payload.currencies,
+      };
+    }
+    case SELECT_CURRENCY_SUCCESS: {
+      return {
+        ...state,
+        currency: action.payload,
       };
     }
     default:

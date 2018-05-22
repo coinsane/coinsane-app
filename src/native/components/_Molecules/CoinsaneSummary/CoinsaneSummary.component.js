@@ -37,13 +37,9 @@ CoinsaneSummary.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
-  currency: PropTypes.string,
+  currency: PropTypes.string.isRequired,
   updateCurrency: PropTypes.func.isRequired,
   buttons: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-CoinsaneSummary.defaultProps = {
-  currency: 'BTC',
 };
 
 export default CoinsaneSummary;
