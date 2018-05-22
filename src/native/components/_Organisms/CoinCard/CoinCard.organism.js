@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, View, Text, Body, Left, Right, Thumbnail } from 'native-base';
+import { ListItem, View, Text, Body, Left, Right, Thumbnail, Button } from 'native-base';
 
-import { nFormat } from '../../../../lib/utils';
+import I18n from '../../../../i18n';
+import { nFormat, cFormat } from '../../../../lib/utils';
 import styles from './CoinCard.styles';
 import { colors, typography } from '../../../styles/index';
 
@@ -34,6 +35,9 @@ const CoinCard = ({
     return _market.prices ? nFormat(_market.prices[symbol].totalVolume24HTo, 2) : 0;
   };
 
+  const textPlaceholder = isLoading && typography.textPlaceholder;
+
+
   const coinCard = {
     icon: { uri: `https://www.cryptocompare.com${market.imageUrl}` },
     order: market.order,
@@ -55,7 +59,7 @@ const CoinCard = ({
   }
 
   if (symbol === 'BTC' && market.symbol === 'BTC') {
-    coinCard.price = 1.000000;
+    coinCard.price = (1).toFixed(currency.decimal);
     coinCard.changePct = '0%';
   } else {
     coinCard.price = getCoinPrice(market).toFixed(currency.decimal);
@@ -64,145 +68,161 @@ const CoinCard = ({
     coinCard.changePct = getPctChange(market) ? `${(getPctChange(market) > 0 ? '+' : '')}${getPctChange(market).toFixed(2)}%` : '0%';
   }
 
-  coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(currency.decimal);
-
-  const priceSplit = coinCard.price.toString().split('.');
-  coinCard.priceDisplay = priceSplit.length > 1
-    ? `${priceSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${priceSplit[1].slice(0, currency.decimal)} ${symbol}`
-    : `${coinCard.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`;
-
   const changeColor = parseFloat(coinCard.changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
 
-  const totalPriceSplit = coinCard.totalPrice.toString().split('.');
-  coinCard.totalPriceDisplay = totalPriceSplit.length > 1
-    ? `${nFormat(coinCard.totalPrice, currency.decimal)} ${symbol}`
-    : `${coinCard.totalPrice.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${symbol}`;
+  coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(currency.decimal);
+  coinCard.priceDisplay = cFormat(nFormat(coinCard.price, currency.decimal), currency.symbol);
+  coinCard.totalPriceDisplay = cFormat(nFormat(coinCard.totalPrice, currency.decimal), currency.symbol);
 
 
   const portfolioCard = () => (
-    (activePortfolio || !isCollapsed) &&
-    <ListItem
-      style={styles.coinCard__listItem_portfolio}
-      button
-      onPress={() => showCoin(coinId)}
-    >
-      <Body style={styles.coinCard__body}>
-        <Thumbnail small square source={coinCard.icon} style={styles.coinCard__thumbnail} />
-        <View>
-          <Text style={styles.coinCard__textContainer}>
-            <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
-            <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
-          </Text>
-          <Text
-            style={[
-              styles.coinCard__subtext,
-              isLoading && typography.textPlaceholder,
-            ]}
+    <View style={styles.coinCard__container}>
+      {
+        (activePortfolio || !isCollapsed) &&
+        <ListItem
+          style={styles.coinCard__listItem_portfolio}
+          button
+          onPress={() => showCoin(coinId)}
+        >
+          <Body style={styles.coinCard__body_portfolio}>
+            <Thumbnail
+              small
+              square
+              source={coinCard.icon}
+              style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_portfolio]}
+            />
+            <View>
+              <Text style={styles.coinCard__text}>
+                <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
+                <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
+              </Text>
+              <Text
+                style={[
+                  styles.coinCard__subtext,
+                  textPlaceholder,
+                ]}
+              >
+                {coinCard.priceDisplay}
+              </Text>
+            </View>
+          </Body>
+          <Right style={styles.coinCard__right_portfolio}>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.coinCard__text,
+                textPlaceholder,
+              ]}
+            >
+              {coinCard.totalPriceDisplay}
+            </Text>
+            <Text
+              style={[
+                styles.coinCard__subtext,
+                { color: changeColor },
+                textPlaceholder,
+              ]}
+            >
+              {coinCard.changePct}
+            </Text>
+          </Right>
+        </ListItem>
+      }
+      {
+        (portfolioId && !activePortfolio) &&
+        <View style={styles.coinCard__footer}>
+          <Button
+            small
+            bordered
+            full
+            style={styles.coinCard__footerButton}
+            onPress={() => addTransaction(portfolioId)}
           >
-            {coinCard.priceDisplay}
-          </Text>
+            <Text style={styles.coinCard__footerButtonText}>{I18n.t('coins.addButton')}</Text>
+          </Button>
         </View>
-      </Body>
-      <Right style={styles.coinCard__right}>
-        <Text
-          numberOfLines={1}
-          style={[
-            styles.right__text,
-            isLoading && typography.textPlaceholder
-          ]}
-        >
-          {coinCard.totalPriceDisplay}
-        </Text>
-        <Text
-          style={[
-            { fontSize: 14, color: changeColor, fontFamily: typography.fontRegular },
-            isLoading && typography.textPlaceholder
-          ]}
-        >
-          {coinCard.changePct}
-        </Text>
-      </Right>
-    </ListItem>
+      }
+    </View>
   );
 
   const marketCard = () => (
-    <ListItem
-      style={styles.coinCard__listItem_market}
-      button
-      onPress={() => showCoin(coinId)}
-    >
-      <Left
-        style={styles.coinCard__left}
+    <View style={styles.coinCard__container}>
+      <ListItem
+        button
+        style={styles.coinCard__listItem_market}
+        onPress={() => showCoin(coinId)}
       >
-        <Thumbnail small square source={coinCard.icon} style={styles.coinCard__thumbnail} />
-        <View>
+        <Text style={styles.coinCard_order}>{coinCard.order}</Text>
+        <Left style={styles.coinCard__left}>
+          <Thumbnail
+            square
+            source={coinCard.icon}
+            style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_market]}
+          />
+          <View style={styles.coinCard__title}>
+            <Text
+              numberOfLines={1}
+              style={styles.coinCard__text}
+            >
+              {coinCard.symbol}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={[
+                styles.coinCard__subtext,
+                textPlaceholder,
+              ]}
+            >
+              {coinCard.name}
+            </Text>
+          </View>
+        </Left>
+        <Body style={styles.coinCard__body}>
           <Text
             numberOfLines={1}
-            style={styles.coinCard__textContainer}
-          >
-            {coinCard.name}
-          </Text>
-          <Text
             style={[
-              styles.coinCard__subtext,
-              isLoading && typography.textPlaceholder,
-            ]}
-          >
-            {coinCard.symbol}
-          </Text>
-        </View>
-      </Left>
-      <Body style={styles.coinCard__body}>
-        <View>
-          <Text
-            style={[
-              styles.coinCard__textContainer,
-              isLoading && typography.textPlaceholder,
+              styles.coinCard__text,
+              textPlaceholder,
             ]}
           >
             {coinCard.marketCap}
           </Text>
           <Text
+            numberOfLines={1}
             style={[
               styles.coinCard__subtext,
-              isLoading && typography.textPlaceholder,
+              textPlaceholder,
             ]}
           >
             {coinCard.volume24h}
           </Text>
-        </View>
-      </Body>
-      <Right style={styles.coinCard__right}>
-        <Text
-          numberOfLines={1}
-          style={[
-            styles.right__text,
-            isLoading && typography.textPlaceholder
-          ]}
-        >
-          {coinCard.priceDisplay}
-        </Text>
-        <Text
-          style={[
-            { fontSize: 14, color: changeColor, fontFamily: typography.fontRegular },
-            isLoading && typography.textPlaceholder
-          ]}
-        >
-          {coinCard.changePct}
-        </Text>
-      </Right>
-    </ListItem>
-  );
-
-  return (
-    <View style={styles.coinCard__container}>
-      {
-        type === 'portfolio' ?
-          portfolioCard() :
-          marketCard()
-      }
+        </Body>
+        <Right style={styles.coinCard__right}>
+          <Text
+            numberOfLines={1}
+            style={[
+              styles.coinCard__text,
+              textPlaceholder,
+            ]}
+          >
+            {coinCard.priceDisplay}
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={[
+              styles.coinCard__subtext,
+              { color: changeColor },
+              textPlaceholder,
+            ]}
+          >
+            {coinCard.changePct}
+          </Text>
+        </Right>
+      </ListItem>
     </View>
   );
+
+  return type === 'portfolio' ? portfolioCard() : marketCard();
 };
 
 CoinCard.propTypes = {

@@ -12,6 +12,7 @@ import SearchBar from '../_Molecules/SearchBar/SearchBar.molecula';
 import { nFormat } from '../../../lib/utils';
 
 import { base } from '../../styles';
+import styles from './Market.styles';
 
 class Market extends Component {
   static propTypes = {
@@ -62,6 +63,11 @@ class Market extends Component {
           updateCurrency={updateCurrency}
         />
         <SearchBar />
+        <View style={styles.market__header}>
+          <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('markets.coin')}</Text>
+          <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('markets.mcap')}/{I18n.t('markets.vol24')}</Text>
+          <Text style={[styles.market__header_text, styles.market__header_row3]}>{I18n.t('markets.price')}</Text>
+        </View>
       </View>
     );
 
@@ -78,7 +84,7 @@ class Market extends Component {
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Text>{I18n.t('title.markets')}</Text>}
+          title={<Text>{I18n.t('markets.title')}</Text>}
           rightIcon="Filter"
           rightAction={() => {}}
         />

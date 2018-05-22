@@ -23,7 +23,7 @@ class CoinTabOverview extends Component {
     coinData: PropTypes.shape({}).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currencies: PropTypes.shape({}).isRequired,
     markets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
@@ -79,11 +79,16 @@ class CoinTabOverview extends Component {
     return (
       <Content style={base.contentContainer}>
         <CoinsaneSummary
-          value={coin.amount * coin.market.prices[currency].price}
+          style={{ flex: 0.6 }}
+          value={coin.market.prices[currency].price}
           currency={currency}
-          buttons={currencies}
+          buttons={Object.keys(currencies)}
           subValue={coin.market.prices[currency].changePctDay}
           updateCurrency={updateCurrency}
+          leftTitle="LOW"
+          leftValue={coin.market.prices[currency].low24H}
+          rightTitle="HIGH"
+          rightValue={coin.market.prices[currency].high24H}
         />
         <Chart
           dataPoints={coinData}

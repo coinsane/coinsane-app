@@ -4297,10 +4297,6 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-instabug-reactnative@^2.11.1:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/instabug-reactnative/-/instabug-reactnative-2.11.1.tgz#8a5a2ba8289b1e92a14d1aff581c5864bca5db17"
-
 internal-ip@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-1.2.0.tgz#ae9fbf93b984878785d50a8de1b356956058cf5c"

@@ -8,7 +8,6 @@ import com.reactNativeQuickActions.AppShortcutsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.apsl.versionnumber.RNVersionNumberPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.instabug.reactlibrary.RNInstabugReactnativePackage;
 import com.wix.autogrowtextinput.AutoGrowTextInputPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.horcrux.svg.SvgPackage;

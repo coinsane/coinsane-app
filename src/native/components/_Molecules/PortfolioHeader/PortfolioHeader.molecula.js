@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Body, Text, Icon, Right, View, Button } from 'native-base';
 
+import { nFormat, cFormat } from '../../../../lib/utils';
+import I18n from '../../../../i18n';
 import Spacer from '../../Spacer/Spacer.component';
 import styles from './PortfolioHeader.styles';
-import { colors } from '../../../styles/index';
-import {typography} from "../../../styles";
+import { colors, typography } from '../../../styles';
 
 const PortfolioHeader = ({
   id,
@@ -15,22 +16,19 @@ const PortfolioHeader = ({
   addTransaction,
   changePct,
   amount,
-  symbol,
+  currency,
   updateCollapsed,
   isCollapsed,
   isLoading,
 }) => {
   if (!show) return <Spacer size={0} />;
 
-  const fixed = symbol === 'BTC' ? 6 : 2;
+  const textPlaceholder = isLoading && typography.textPlaceholder;
 
-  const amountSplit = amount.toString().split('.');
-  let totalDisplay = amountSplit.length > 1
-    ? `${amountSplit[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.${amountSplit[1].slice(0, fixed)} ${symbol}`
-    : `${amount !== 0 ? amount.toFixed(fixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0'} ${symbol}`;
+  const totalDisplay = cFormat(nFormat(amount, currency.decimal), currency.symbol);
 
   const changeColor = changePct > 0 ? colors.primaryGreen : colors.primaryPink;
-  let changePctDisplay = `${changePct}%`;
+  const changePctDisplay = `${changePct}%`;
 
   return (
     <View style={styles.container}>
@@ -46,10 +44,10 @@ const PortfolioHeader = ({
         <Right style={styles.right}>
           {
             !!amount &&
-            <Text style={[styles.right__text, isLoading && typography.textPlaceholder]} numberOfLines={1}>
-              <Text style={[styles.right__text, isLoading && typography.textPlaceholder]}>{totalDisplay}</Text>
+            <Text style={[styles.right__text, textPlaceholder]} numberOfLines={1}>
+              <Text style={[styles.right__text, textPlaceholder]}>{totalDisplay}</Text>
               &nbsp;
-              <Text style={[styles.right__text, { color: changeColor }, isLoading && typography.textPlaceholder]}>{changePctDisplay}</Text>
+              <Text style={[styles.right__text, { color: changeColor }, textPlaceholder]}>{changePctDisplay}</Text>
             </Text>
           }
         </Right>
@@ -63,7 +61,7 @@ const PortfolioHeader = ({
           style={styles.headerBtn}
           onPress={() => addTransaction(id)}
         >
-          <Text style={styles.headerBtn__text}>+ ADD NEW COIN</Text>
+          <Text style={styles.headerBtn__text}>{I18n.t('coins.addButton')}</Text>
         </Button>
       }
     </View>
@@ -79,7 +77,7 @@ PortfolioHeader.propTypes = {
   updateCollapsed: PropTypes.func.isRequired,
   changePct: PropTypes.number,
   amount: PropTypes.number,
-  symbol: PropTypes.string.isRequired,
+  currency: PropTypes.shape({}).isRequired,
   isCollapsed: PropTypes.bool,
   isLoading: PropTypes.bool,
 };

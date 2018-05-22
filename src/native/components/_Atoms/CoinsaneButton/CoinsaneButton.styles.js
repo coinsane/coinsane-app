@@ -1,15 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../../styles';
+import { colors } from '../../../styles';
 
 export default StyleSheet.create({
   currency__buttonText: {
-    fontSize: typography.size12,
+    fontSize: 15,
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
     letterSpacing: 1,
   },
   currency__buttonTextActive: {
-    color: '#fff',
+    color: colors.white,
   },
   period__button: {
     height: 26,
@@ -20,16 +19,15 @@ export default StyleSheet.create({
     borderRadius: 3,
   },
   period__buttonActive: {
-    backgroundColor: '#251F38',
+    backgroundColor: colors.btnBgDark,
   },
   period__buttonText: {
     color: colors.textGray,
-    fontSize: typography.size14,
-    fontFamily: typography.fontMedium,
-    paddingLeft: 12,
-    paddingRight: 12,
+    fontSize: 13,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   period__buttonTextActive: {
-    color: '#fff',
+    color: colors.white,
   },
 });

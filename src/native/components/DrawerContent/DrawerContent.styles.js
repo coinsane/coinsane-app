@@ -11,4 +11,9 @@ export default StyleSheet.create({
     paddingBottom: 30,
     paddingLeft: 10,
   },
+  text: {
+    fontFamily: typography.fontRegular,
+    fontSize: 18,
+    letterSpacing: -0.3,
+  },
 });

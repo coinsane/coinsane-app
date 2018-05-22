@@ -153,7 +153,6 @@ dependencies {
     compile project(':react-native-i18n')
     compile project(':react-native-version-number')
     compile project(':react-native-splash-screen')
-    compile project(':instabug-reactnative')
     compile project(':react-native-autogrow-textinput')
     compile project(':react-native-spinkit')
     compile project(':react-native-svg')

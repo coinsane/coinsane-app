@@ -3,18 +3,14 @@ import PropTypes from 'prop-types';
 import { View, Text } from 'native-base';
 
 import styles from './SummaryInfo.styles';
-import CoinsanePctsText from '../../_Atoms/CoinsanePctsText/CoinsanePctsText.component';
+import CoinsanePctText from '../../_Atoms/CoinsanePctText/CoinsanePctText.atom';
 
 const SummaryInfo = ({
   label, value, symbol, isLast,
 }) => (
   <View style={[styles.container, isLast && styles.lastItem]}>
     <Text style={styles.label}>{label.toUpperCase()}</Text>
-    {
-      symbol === '%' ?
-        <CoinsanePctsText style={styles.value} value={value} /> :
-        <Text style={styles.value} numberOfLines={1}>{value} {symbol}</Text>
-    }
+    <CoinsanePctText style={styles.value} value={value} symbol={symbol} />
   </View>
 );
 

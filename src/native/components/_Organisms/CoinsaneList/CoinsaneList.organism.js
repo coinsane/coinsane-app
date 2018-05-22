@@ -68,10 +68,10 @@ class CoinsaneList extends Component {
                 <List style={styles.ListContainer}>
                   { state[listName].list.map(item => (
                     <SelectorListItem
-                      key={item._id}
+                      key={item}
                       listItemType={listItemType}
-                      item={item}
-                      selectAction={() => selectAction(item)}
+                      item={state[listName].items[item]}
+                      selectAction={() => selectAction(state[listName].items[item])}
                     />
                   )) }
                 </List>

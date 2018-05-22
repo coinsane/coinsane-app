@@ -4,10 +4,19 @@ export default {
     markets: 'Markets',
     settings: 'Settings',
   },
-  title: {
-    markets: 'Markets',
+  markets: {
+    title: 'Markets',
+    coin: 'Coin',
+    mcap: 'M.cap',
+    vol24: '24 Vol',
+    price: 'Price',
   },
-  buttons: {
-    addNewCoin: '+ ADD NEW COIN',
+  coins: {
+    addButton: '+ ADD NEW COIN',
+  },
+  portfolios: {
+    title: 'Choose Portfolio',
+    all: 'All Portfolios',
+    addButton: '+ ADD NEW PORTFOLIO',
   },
 };
