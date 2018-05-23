@@ -1,10 +1,11 @@
-import { GET_SETTINGS } from '../../actions/action.types';
+import {
+  GET_SETTINGS,
+  SELECT_CURRENCY,
+} from '../../actions/action.types';
 
 /**
   * Get User Settings
   */
-export function getSettings() {
-  return {
-    type: GET_SETTINGS,
-  };
-}
+export const getSettings = () => ({ type: GET_SETTINGS });
+
+export const selectCurrency = payload => ({ type: SELECT_CURRENCY, payload });

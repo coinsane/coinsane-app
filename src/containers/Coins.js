@@ -7,7 +7,8 @@ import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePo
 import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
 import { getTransactionsList, addTransaction, getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
-import { getAvailableCurrencies, selectCurrency } from '../redux/state/currencies/currencies.actioncreators';
+import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
+import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
 
 class Coins extends Component {
   static propTypes = {
@@ -52,9 +53,8 @@ class Coins extends Component {
     getAvailableMarkets: PropTypes.func.isRequired,
     getAvailableCurrencies: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
-    settings: PropTypes.shape({}).isRequired,
-    currencies: PropTypes.shape({
-      current: PropTypes.string,
+    settings: PropTypes.shape({
+      currency: PropTypes.string,
     }).isRequired,
   };
 
@@ -62,7 +62,7 @@ class Coins extends Component {
     match: null,
   };
 
-  fetchPortfolios = symbol => this.props.updatePortfolios(symbol || this.props.currencies.current);
+  fetchPortfolios = symbol => this.props.updatePortfolios(symbol || this.props.settings.currency);
 
   addTransaction = (portfolio) => {
     // add portfolioId (passed as object) to process transaction peace of state
@@ -97,7 +97,6 @@ class Coins extends Component {
       navigation,
       match,
       coin,
-      currencies,
       settings,
       markets,
     } = this.props;
@@ -116,7 +115,7 @@ class Coins extends Component {
         portfolios={portfolios.list}
         portfoliosChart={portfolios.chart}
         currency={portfolios.currency}
-        coinCurrency={currencies.current}
+        coinCurrency={settings.currency}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}
         drawer={navigation.drawer}

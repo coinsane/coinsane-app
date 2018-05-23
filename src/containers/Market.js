@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getMarketCap } from '../redux/state/markets/markets.actioncreators';
-import { selectCurrency } from '../redux/state/currencies/currencies.actioncreators';
+import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
 
 class Market extends Component {
   static propTypes = {
@@ -17,13 +17,17 @@ class Market extends Component {
       items: PropTypes.shape({}).isRequired,
       cap: PropTypes.shape({}).isRequired,
     }).isRequired,
-
     selectCurrency: PropTypes.func.isRequired,
     getMarketCap: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
     this.props.getMarketCap();
+  }
+
+  updateCurrency() {
+    this.props.getMarketCap();
+    this.props.selectCurrency();
   }
 
   render = () => {
@@ -38,7 +42,8 @@ class Market extends Component {
       <Layout
         drawer={navigation.drawer}
         currencies={settings.currencies}
-        updateCurrency={this.props.selectCurrency}
+        currency={settings.currency}
+        updateCurrency={this.updateCurrency}
         cap={markets.cap}
         markets={markets.list}
         coins={markets.items}

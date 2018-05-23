@@ -1,6 +1,5 @@
 import {
   GET_AVAILABLE_CURRENCIES_SUCCESS,
-  SELECT_CURRENCY_SUCCESS,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -8,7 +7,6 @@ export const initialState = {
   error: null,
   list: [],
   active: ['BTC', 'USD', 'RUB'],
-  current: 'BTC',
 };
 
 export default function actionReducer(state = initialState, action) {
@@ -19,12 +17,6 @@ export default function actionReducer(state = initialState, action) {
         error: null,
         loading: false,
         list: action.payload,
-      };
-    }
-    case SELECT_CURRENCY_SUCCESS: {
-      return {
-        ...state,
-        current: action.payload,
       };
     }
     default:
