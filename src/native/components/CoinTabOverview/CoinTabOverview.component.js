@@ -81,7 +81,7 @@ class CoinTabOverview extends Component {
         <CoinsaneSummary
           style={{ flex: 0.6 }}
           value={coin.market.prices[currency].price}
-          currency={currency}
+          currency={currencies[currency]}
           buttons={Object.keys(currencies)}
           subValue={coin.market.prices[currency].changePctDay}
           updateCurrency={updateCurrency}

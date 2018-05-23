@@ -45,7 +45,7 @@ class Market extends Component {
         <Content style={base.contentContainer}>
           <CoinsaneSummary
             value={cap.total_market_cap_usd}
-            currency={currency}
+            currency={currencies[currency]}
             buttons={Object.keys(currencies)}
             subValue={`24 Vol: ${nFormat(cap.total_24h_volume_usd, 2)}`}
             updateCurrency={updateCurrency}

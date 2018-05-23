@@ -2,9 +2,83 @@ import { StyleSheet } from 'react-native';
 import { colors, typography } from '../../../styles/index';
 
 export default StyleSheet.create({
-  coinCard__container: {
+  container: {
     paddingLeft: 15,
     paddingRight: 15,
+  },
+  portfolio__item: {
+    backgroundColor: colors.btnBgBlack,
+    borderBottomWidth: 0,
+    borderRadius: 4,
+    marginLeft: 0,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
+    marginBottom: 12,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'space-between',
+  },
+  portfolio__thumbnail: {
+    width: 32,
+    height: 32,
+    marginRight: 10,
+    alignSelf: 'center',
+    borderRadius: 16,
+  },
+  portfolio__body: {
+    flex: 1,
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
+  },
+  portfolio__row: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'space-between',
+  },
+  portfolio__row_text: {
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 2,
+    fontSize: 15,
+    fontFamily: typography.fontRegular,
+  },
+  portfolio__row_textLeft: {
+    flex: 0.5,
+  },
+  portfolio__row_textRight: {
+    flex: 0.5,
+    textAlign: 'right',
+  },
+  portfolio__textSymbol: {
+    fontSize: 15,
+    color: colors.textGray,
+    fontFamily: typography.fontMedium,
+  },
+  portfolio__textAmount: {
+    fontSize: 15,
+    color: colors.white,
+    fontFamily: typography.fontMedium,
+  },
+  portfolio__textFooter: {
+    fontSize: 13,
+    color: colors.textGray,
+    fontFamily: typography.fontMedium,
+  },
+  portfolio__buttonContainer: {
+    marginBottom: 15,
+  },
+  portfolio__button: {
+    borderColor: colors.blackBorder,
+    borderRadius: 5,
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  portfolio__buttonText: {
+    color: colors.textGray,
+    fontFamily: typography.fontRegular,
   },
   coinCard_nameBock: {
     paddingRight: 20,
@@ -16,14 +90,6 @@ export default StyleSheet.create({
     marginTop: 5,
     alignSelf: 'flex-start',
     position: 'absolute',
-  },
-  coinCard__listItem_portfolio: {
-    backgroundColor: colors.btnBgBlack,
-    borderBottomWidth: 0,
-    borderRadius: 4,
-    marginLeft: 0,
-    paddingLeft: 15,
-    marginBottom: 15,
   },
   coinCard__listItem_market: {
     borderColor: colors.btnBgBlack,
@@ -38,10 +104,6 @@ export default StyleSheet.create({
     marginRight: 10,
     alignSelf: 'center',
   },
-  coinCard__thumbnail_portfolio: {
-    width: 36,
-    height: 36,
-  },
   coinCard__thumbnail_market: {
     marginLeft: 15,
     width: 30,
@@ -55,18 +117,18 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   coinCard__left: {
-    flex: 0.36,
+    flex: 0.42,
     flexDirection: 'row',
     flexWrap: 'nowrap',
     marginRight: 10,
   },
   coinCard__body: {
-    flex: 0.26,
+    flex: 0.25,
     flexDirection: 'column',
     flexWrap: 'nowrap',
   },
   coinCard__right: {
-    flex: 0.38,
+    flex: 0.33,
     flexDirection: 'column',
     flexWrap: 'nowrap',
   },
@@ -91,10 +153,12 @@ export default StyleSheet.create({
     fontFamily: typography.fontRegular,
   },
   coinCard__textSymbol: {
+    fontSize: 15,
     color: colors.textGray,
     fontFamily: typography.fontMedium,
   },
   coinCard__textAmount: {
+    fontSize: 15,
     paddingLeft: 4,
     color: colors.white,
     fontFamily: typography.fontMedium,
@@ -110,18 +174,5 @@ export default StyleSheet.create({
     fontSize: 15,
     marginBottom: 4,
     fontFamily: typography.fontMedium,
-  },
-  coinCard__footer: {
-    marginBottom: 15,
-  },
-  coinCard__footerButton: {
-    borderColor: colors.blackBorder,
-    borderRadius: 5,
-    paddingTop: 15,
-    paddingBottom: 15,
-  },
-  coinCard__footerButtonText: {
-    color: colors.textGray,
-    fontWeight: 'normal',
   },
 });

@@ -69,6 +69,7 @@
     "react-native-datepicker": "^1.6.0",
     "react-native-device-info": "^0.13.0",
     "react-native-drawer": "^2.5.0",
+    "react-native-fast-image": "^4.0.14",
     "react-native-gifted-listview": "^0.0.15",
     "react-native-i18n": "^2.0.12",
     "react-native-interactable": "^0.1.10",

@@ -4,6 +4,7 @@ import { colors, typography } from '../../styles';
 export default StyleSheet.create({
   contentContainer: {
     backgroundColor: 'transparent',
+    width: 220,
   },
   listItem: {
     borderBottomWidth: 0,

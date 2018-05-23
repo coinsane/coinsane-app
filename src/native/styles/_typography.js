@@ -54,7 +54,7 @@ export default StyleSheet.create({
   textPlaceholder: {
     backgroundColor: colors.textGray,
     color: colors.textGray,
-    marginTop: 2,
+    marginTop: 4,
     borderRadius: 4,
     fontSize: 10,
     overflow: 'hidden',

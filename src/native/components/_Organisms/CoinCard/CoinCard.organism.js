@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, View, Text, Body, Left, Right, Thumbnail, Button } from 'native-base';
+import FastImage from 'react-native-fast-image';
 
 import I18n from '../../../../i18n';
 import { nFormat, cFormat } from '../../../../lib/utils';
@@ -21,6 +22,7 @@ const CoinCard = ({
   portfolioId,
 }) => {
   const symbol = currency.code;
+  const decimal = currency.decimal > 6 ? 6 : currency.decimal;
 
   const getCoinPrice = (_market) => {
     return _market.prices ? parseFloat(_market.prices[symbol].price) : 0;
@@ -29,10 +31,10 @@ const CoinCard = ({
     return _market.prices ? _market.prices[symbol].changePctDay : 0;
   };
   const getMarketCap = (_market) => {
-    return _market.prices ? nFormat(_market.prices[symbol].marketCap, 2) : 0;
+    return _market.prices ? nFormat(_market.prices[symbol].marketCap, 2, 1) : 0;
   };
   const getVolume24h = (_market) => {
-    return _market.prices ? nFormat(_market.prices[symbol].totalVolume24HTo, 2) : 0;
+    return _market.prices ? nFormat(_market.prices[symbol].totalVolume24HTo, 2, 1) : 0;
   };
 
   const textPlaceholder = isLoading && typography.textPlaceholder;
@@ -58,11 +60,11 @@ const CoinCard = ({
     coinCard.amount = amount || 0;
   }
 
-  if (symbol === 'BTC' && market.symbol === 'BTC') {
-    coinCard.price = (1).toFixed(currency.decimal);
+  if (symbol === market.symbol) {
+    coinCard.price = 1;
     coinCard.changePct = '0%';
   } else {
-    coinCard.price = getCoinPrice(market).toFixed(currency.decimal);
+    coinCard.price = getCoinPrice(market);
     coinCard.marketCap = getMarketCap(market);
     coinCard.volume24h = getVolume24h(market);
     coinCard.changePct = getPctChange(market) ? `${(getPctChange(market) > 0 ? '+' : '')}${getPctChange(market).toFixed(2)}%` : '0%';
@@ -70,75 +72,63 @@ const CoinCard = ({
 
   const changeColor = parseFloat(coinCard.changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
 
-  coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(currency.decimal);
+  coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(decimal);
   coinCard.priceDisplay = cFormat(nFormat(coinCard.price, currency.decimal), currency.symbol);
-  coinCard.totalPriceDisplay = cFormat(nFormat(coinCard.totalPrice, currency.decimal), currency.symbol);
+  coinCard.totalPriceDisplay = cFormat(nFormat(coinCard.totalPrice, decimal), currency.symbol);
 
 
   const portfolioCard = () => (
-    <View style={styles.coinCard__container}>
+    <View style={styles.container}>
       {
         (activePortfolio || !isCollapsed) &&
         <ListItem
-          style={styles.coinCard__listItem_portfolio}
           button
+          style={styles.portfolio__item}
           onPress={() => showCoin(coinId)}
         >
-          <Body style={styles.coinCard__body_portfolio}>
-            <Thumbnail
-              small
-              square
-              source={coinCard.icon}
-              style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_portfolio]}
-            />
-            <View>
-              <Text style={styles.coinCard__text}>
-                <Text style={styles.coinCard__textSymbol}>{coinCard.symbol} </Text>
-                <Text style={styles.coinCard__textAmount}>{coinCard.amount}</Text>
+          <FastImage source={coinCard.icon} style={styles.portfolio__thumbnail} />
+          <View style={styles.portfolio__body}>
+            <View style={styles.portfolio__row}>
+              <Text
+                numberOfLines={1}
+                style={[styles.portfolio__row_text, styles.portfolio__row_textLeft]}
+              >
+                <Text style={styles.portfolio__textSymbol}>{coinCard.symbol}&nbsp;</Text>
+                <Text style={styles.portfolio__textAmount}>{coinCard.amount}</Text>
               </Text>
               <Text
+                numberOfLines={1}
                 style={[
-                  styles.coinCard__subtext,
+                  styles.portfolio__row_text,
+                  styles.portfolio__row_textRight,
                   textPlaceholder,
                 ]}
               >
-                {coinCard.priceDisplay}
+                {coinCard.totalPriceDisplay}
               </Text>
             </View>
-          </Body>
-          <Right style={styles.coinCard__right_portfolio}>
-            <Text
-              numberOfLines={1}
-              style={[
-                styles.coinCard__text,
-                textPlaceholder,
-              ]}
-            >
-              {coinCard.totalPriceDisplay}
-            </Text>
-            <Text
-              style={[
-                styles.coinCard__subtext,
-                { color: changeColor },
-                textPlaceholder,
-              ]}
-            >
-              {coinCard.changePct}
-            </Text>
-          </Right>
+            <View style={styles.portfolio__row}>
+              <Text style={[styles.portfolio__textFooter, textPlaceholder]}>
+                {coinCard.priceDisplay}
+              </Text>
+              <Text style={[styles.portfolio__textFooter, { color: changeColor }, textPlaceholder]}>
+                {coinCard.changePct}
+              </Text>
+            </View>
+          </View>
         </ListItem>
       }
       {
         (portfolioId && !activePortfolio) &&
-        <View style={styles.coinCard__footer}>
+        <View style={styles.portfolio__buttonContainer}>
           <Button
             small
             bordered
             full
-            style={styles.coinCard__footerButton}
+            style={styles.portfolio__button}
             onPress={() => addTransaction(portfolioId)}
           >
-            <Text style={styles.coinCard__footerButtonText}>{I18n.t('coins.addButton')}</Text>
+            <Text style={styles.portfolio__buttonText}>{I18n.t('coins.addButton')}</Text>
           </Button>
         </View>
       }
@@ -146,7 +136,7 @@ const CoinCard = ({
   );
 
   const marketCard = () => (
-    <View style={styles.coinCard__container}>
+    <View style={styles.container}>
       <ListItem
         button
         style={styles.coinCard__listItem_market}

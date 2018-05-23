@@ -26,7 +26,7 @@ const CoinsaneSummary = ({
           value={key}
           uppercase
           onPress={() => updateCurrency(key)}
-          active={currency === key}
+          active={currency.code === key}
         />
         ))}
     </View>
@@ -66,7 +66,7 @@ CoinsaneSummary.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
-  currency: PropTypes.string,
+  currency: PropTypes.shape({}).isRequired,
   updateCurrency: PropTypes.func.isRequired,
   buttons: PropTypes.arrayOf(PropTypes.string).isRequired,
   leftTitle: PropTypes.string,
@@ -82,7 +82,6 @@ CoinsaneSummary.propTypes = {
 };
 
 CoinsaneSummary.defaultProps = {
-  currency: 'BTC',
   leftTitle: null,
   leftValue: null,
   rightTitle: null,

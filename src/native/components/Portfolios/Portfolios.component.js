@@ -238,7 +238,7 @@ class Portfolios extends Component {
               <View>
                 <CoinsaneSummary
                   value={lastTotal}
-                  currency={currency}
+                  currency={currencies[currency]}
                   buttons={Object.keys(currencies)}
                   subValue={changePct}
                   updateCurrency={this.updateCurrency}

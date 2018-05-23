@@ -8,9 +8,8 @@ const CoinsaneSummaryText = ({
   value,
   currency,
 }) => {
-  const fixed = currency === 'BTC' ? 6 : 2;
-  // .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-  const displayValue = currency === 'BTC' ? `${nFormat(parseFloat(value), fixed)}` : `${nFormat(parseFloat(value), fixed)}`;
+  const decimal = currency.decimal > 6 ? 6 : currency.decimal;
+  const displayValue = nFormat(value, decimal);
   return (
     <Text style={styles.text}>{displayValue}</Text>
   );
@@ -18,7 +17,7 @@ const CoinsaneSummaryText = ({
 
 CoinsaneSummaryText.propTypes = {
   value: PropTypes.number.isRequired,
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.shape({}).isRequired,
 };
 
 export default CoinsaneSummaryText;

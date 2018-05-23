@@ -12,15 +12,13 @@ export default StyleSheet.create({
   },
   coins__contentHeader: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     justifyContent: 'space-between',
-    marginLeft: 15,
-    marginRight: 15,
     marginBottom: 20,
   },
   coins__contentHeaderText: {
     color: colors.textGray,
-    fontSize: typography.size14,
+    fontSize: 14,
     fontFamily: typography.fontMedium,
   },
   coins__buttonPeriod: {

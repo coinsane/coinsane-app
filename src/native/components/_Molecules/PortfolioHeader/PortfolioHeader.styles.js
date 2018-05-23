@@ -14,9 +14,12 @@ export default StyleSheet.flatten({
     backgroundColor: 'transparent',
     borderBottomWidth: 0,
     marginBottom: 0,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   body: {
-    flex: 0.6,
+    flex: 0.4,
     flexDirection: 'row',
     flexWrap: 'nowrap',
   },
@@ -24,6 +27,7 @@ export default StyleSheet.flatten({
     marginRight: 8,
     fontSize: 18,
     color: colors.textGray,
+    alignSelf: 'center',
   },
   body__text: {
     marginLeft: 0,
@@ -31,9 +35,10 @@ export default StyleSheet.flatten({
     fontSize: 15,
     fontFamily: typography.fontBold,
     color: colors.textGray,
+    alignSelf: 'center',
   },
   right: {
-    flex: 0.5,
+    flex: 0.6,
   },
   right__text: {
     fontSize: 14,
