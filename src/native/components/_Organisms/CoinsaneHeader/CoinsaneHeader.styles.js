@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../styles';
+import { colors, typography } from '../../../styles';
 
 export default StyleSheet.create({
   header: {
@@ -16,6 +16,11 @@ export default StyleSheet.create({
     flex: 0.7,
   },
   header__title: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header__thumbnail: {
     height: 24,

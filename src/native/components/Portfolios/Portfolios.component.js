@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, View } from 'react-native';
-import { Container, Content, Text, Button, Footer, Icon } from 'native-base';
+import { Container, Content, Text, Button, Footer, Icon, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import SGListView from 'react-native-sglistview';
 
@@ -199,11 +199,11 @@ class Portfolios extends Component {
     const periods = ['1h', '1d', '1w', '1m', '3m', '6m', '1y'];
 
     const HeaderTitle = () => (
-      <Text>
+      <Title>
         <Icon name="ios-arrow-down" style={[styles.coins__bodyArrowIcon, { fontSize: 18, color: colors.textGray }]} />
         &nbsp;
         <Text>{activePortfolio && portfoliosList.length ? portfoliosList[0].title : I18n.t('portfolios.all')}</Text>
-      </Text>
+      </Title>
     );
 
     return (

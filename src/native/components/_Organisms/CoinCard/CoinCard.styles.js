@@ -80,18 +80,7 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontFamily: typography.fontRegular,
   },
-  coinCard_nameBock: {
-    paddingRight: 20,
-  },
-  coinCard_order: {
-    color: colors.textGray,
-    fontFamily: typography.fontRegular,
-    fontSize: 11,
-    marginTop: 5,
-    alignSelf: 'flex-start',
-    position: 'absolute',
-  },
-  coinCard__listItem_market: {
+  market_item: {
     borderColor: colors.btnBgBlack,
     borderTopWidth: 1,
     borderBottomWidth: 0,
@@ -100,79 +89,54 @@ export default StyleSheet.create({
     paddingRight: 0,
     height: 70,
   },
-  coinCard__thumbnail: {
-    marginRight: 10,
+  market__thumbnail: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     alignSelf: 'center',
+    marginLeft: 10,
+    marginRight: 10,
   },
-  coinCard__thumbnail_market: {
-    marginLeft: 15,
-    width: 30,
-    height: 30,
+  market_order: {
+    color: colors.textGray,
+    fontFamily: typography.fontRegular,
+    fontSize: 11,
+    marginTop: 5,
+    alignSelf: 'flex-start',
+    position: 'absolute',
   },
-  coinCard__errorItem: {
-    backgroundColor: 'transparent',
-    borderBottomWidth: 0,
-    marginLeft: 0,
-    paddingLeft: 15,
-    marginBottom: 15,
-  },
-  coinCard__left: {
+  market__left: {
     flex: 0.42,
     flexDirection: 'row',
     flexWrap: 'nowrap',
     marginRight: 10,
   },
-  coinCard__body: {
+  market__body: {
     flex: 0.25,
     flexDirection: 'column',
     flexWrap: 'nowrap',
   },
-  coinCard__right: {
+  market__right: {
     flex: 0.33,
     flexDirection: 'column',
     flexWrap: 'nowrap',
   },
-  coinCard__body_portfolio: {
-    flex: 0.6,
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-  },
-  coinCard__right_portfolio: {
-    flex: 0.4,
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-  },
-  coinCard__title: {
+  market__title: {
     flex: 1,
   },
-  coinCard__text: {
+  market__text: {
     marginLeft: 0,
     marginRight: 0,
     marginBottom: 4,
     fontSize: 15,
     fontFamily: typography.fontRegular,
   },
-  coinCard__textSymbol: {
-    fontSize: 15,
-    color: colors.textGray,
-    fontFamily: typography.fontMedium,
-  },
-  coinCard__textAmount: {
-    fontSize: 15,
-    paddingLeft: 4,
-    color: colors.white,
-    fontFamily: typography.fontMedium,
-  },
-  coinCard__subtext: {
+  market__text_footer: {
     marginLeft: 0,
     marginRight: 0,
     fontSize: 13,
+    lineHeight: 13,
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
-  },
-  right__text: {
-    fontSize: 15,
-    marginBottom: 4,
     fontFamily: typography.fontMedium,
   },
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Content, Text, View } from 'native-base';
+import { Container, Content, Text, View, Title } from 'native-base';
 import Markdown from 'react-native-simple-markdown';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 
@@ -44,7 +44,7 @@ const Page = ({ title, content }) => (
   <Container>
     <CoinsaneHeader
       leftIcon="Close"
-      title={<Text>{title}</Text>}
+      title={<Title>{title}</Title>}
     />
     <Content padder style={base.contentContainer}>
       <Markdown styles={markdownStyles}>{content}</Markdown>

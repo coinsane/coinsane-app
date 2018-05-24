@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Text, Tabs, Tab, TabHeading, Thumbnail } from 'native-base';
+import { Container, Text, Tabs, Tab, TabHeading, View } from 'native-base';
+import FastImage from 'react-native-fast-image';
 
 import ErrorMessages from '../../../constants/errors';
 import Error from '../Error/Error.component';
@@ -117,21 +118,17 @@ class CoinView extends Component {
     );
 
     const HeaderTitle = () => (
-      <Text style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-        <Text>
-          <Thumbnail
-            small
-            square
-            source={icon}
-            style={[styles.coinHeader__thumbnail, { top: 6 }]}
-          />
-          &nbsp;
+      <View
+        style={styles.header__body}
+      >
+        <FastImage source={icon} style={styles.header__thumbnail} />
+        <Text style={styles.header__title}>
+          {coin.market.name}
         </Text>
-        <Text style={{paddingBottom: 10}}>{coin.market.name}</Text>
-        <Text style={[styles.coinHeader__text, typography.small]}>
-          &nbsp;{coin.market.symbol}
+        <Text style={styles.header__title_suffix}>
+          {coin.market.symbol}
         </Text>
-      </Text>
+      </View>
     );
 
     return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import Switch from 'react-native-switch-pro';
-import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View } from 'native-base';
+import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title } from 'native-base';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 
 import styles from './CreatePortfolio.styles';
@@ -50,7 +50,7 @@ class CreatePortfolio extends Component {
       <Container style={base.contentContainer}>
         <CoinsaneHeader
           leftIcon="Back"
-          title={<Text>Add new portfolio</Text>}
+          title={<Title>Add new portfolio</Title>}
         />
         <Content style={styles.content}>
           <Text style={styles.content__text}>{'Basic'.toUpperCase()}</Text>

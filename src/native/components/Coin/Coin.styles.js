@@ -1,20 +1,30 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../styles';
+import { colors, typography } from '../../styles';
 
 export default StyleSheet.create({
   coinHeader: {
     backgroundColor: colors.bgGray,
     borderBottomWidth: 0,
   },
-  coinHeader__body: {
+  header__body: {
+    flex: 1,
+    flexWrap: 'nowrap',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  coinHeader__thumbnail: {
+  header__thumbnail: {
     height: 24,
     width: 24,
+    borderRadius: 12,
   },
-  coinHeader__text: {
+  header__title: {
+    fontFamily: typography.fontRegular,
+    marginLeft: 8,
+    marginRight: 4,
+  },
+  header__title_suffix: {
+    fontFamily: typography.fontMedium,
     color: colors.textGray,
   },
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, View, Text, Body, Left, Right, Thumbnail, Button } from 'native-base';
+import { ListItem, View, Text, Body, Left, Right, Button } from 'native-base';
 import FastImage from 'react-native-fast-image';
 
 import I18n from '../../../../i18n';
@@ -139,27 +139,23 @@ const CoinCard = ({
     <View style={styles.container}>
       <ListItem
         button
-        style={styles.coinCard__listItem_market}
+        style={styles.market_item}
         onPress={() => showCoin(coinId)}
       >
-        <Text style={styles.coinCard_order}>{coinCard.order}</Text>
-        <Left style={styles.coinCard__left}>
-          <Thumbnail
-            square
-            source={coinCard.icon}
-            style={[styles.coinCard__thumbnail, styles.coinCard__thumbnail_market]}
-          />
-          <View style={styles.coinCard__title}>
+        <Text style={styles.market_order}>{coinCard.order}</Text>
+        <Left style={styles.market__left}>
+          <FastImage source={coinCard.icon} style={styles.market__thumbnail} />
+          <View style={styles.market__title}>
             <Text
               numberOfLines={1}
-              style={styles.coinCard__text}
+              style={styles.market__text}
             >
               {coinCard.symbol}
             </Text>
             <Text
               numberOfLines={2}
               style={[
-                styles.coinCard__subtext,
+                styles.market__text_footer,
                 textPlaceholder,
               ]}
             >
@@ -167,11 +163,11 @@ const CoinCard = ({
             </Text>
           </View>
         </Left>
-        <Body style={styles.coinCard__body}>
+        <Body style={styles.market__body}>
           <Text
             numberOfLines={1}
             style={[
-              styles.coinCard__text,
+              styles.market__text,
               textPlaceholder,
             ]}
           >
@@ -180,18 +176,18 @@ const CoinCard = ({
           <Text
             numberOfLines={1}
             style={[
-              styles.coinCard__subtext,
+              styles.market__text_footer,
               textPlaceholder,
             ]}
           >
             {coinCard.volume24h}
           </Text>
         </Body>
-        <Right style={styles.coinCard__right}>
+        <Right style={styles.market__right}>
           <Text
             numberOfLines={1}
             style={[
-              styles.coinCard__text,
+              styles.market__text,
               textPlaceholder,
             ]}
           >
@@ -200,7 +196,7 @@ const CoinCard = ({
           <Text
             numberOfLines={1}
             style={[
-              styles.coinCard__subtext,
+              styles.market__text_footer,
               { color: changeColor },
               textPlaceholder,
             ]}

@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import SwitchSelector from 'react-native-switch-selector';
 import DatePicker from 'react-native-datepicker';
 import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
-import { Right, Body, Container, Content, List, Input, ListItem, Icon, Text, Button, Footer } from 'native-base';
+import { Right, Body, Container, Content, List, Input, ListItem, Icon, Text, Button, Footer, Title } from 'native-base';
 import Modal from '../modal/BaseModal.component';
 import { getPrice, addTransaction, getTransactionsList } from '../../../redux/state/coin/coin.actioncreators';
 import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
@@ -214,7 +214,7 @@ class CreateNewTransaction extends Component {
           <CoinsaneHeader
             leftIcon="Close"
             leftAction={() => this.close()}
-            title={<Text>Add new transaction</Text>}
+            title={<Title>Add new transaction</Title>}
           />
           <Content padder style={{ backgroundColor: colors.bgGray }}>
             <ScrollView keyboardShouldPersistTaps="never">

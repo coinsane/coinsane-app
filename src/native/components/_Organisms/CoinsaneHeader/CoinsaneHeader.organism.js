@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { Body, Header, Left, Button, Title, Right } from 'native-base';
+import { Body, Header, Left, Button, View, Right } from 'native-base';
 import { StatusBar } from 'react-native';
 
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
@@ -32,14 +32,12 @@ const CoinsaneHeader = ({
         </Button>
       }
     </Left>
-    <Body style={styles.header__body}>
-      <Title
-        button
-        style={styles.header__title}
-        onPress={titleAction}
-      >
-        {title}
-      </Title>
+    <Body
+      button
+      style={[styles.header__body, styles.header__title]}
+      onPress={titleAction}
+    >
+      {title}
     </Body>
     <Right style={styles.header__right}>
       {

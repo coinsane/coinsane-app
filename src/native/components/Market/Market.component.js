@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, TouchableOpacity } from 'react-native';
-import { Container, Content, View, Text } from 'native-base';
+import { Container, Content, View, Text, Title } from 'native-base';
 import SGListView from 'react-native-sglistview';
 
 import I18n from '../../../i18n';
@@ -57,7 +57,7 @@ class Market extends Component {
       <View>
         <CoinsaneSummary
           value={cap.total_market_cap_usd}
-          currency={currency}
+          currency={currencies[currency]}
           buttons={Object.keys(currencies)}
           subValue={`24 Vol: ${nFormat(cap.total_24h_volume_usd, 2)}`}
           updateCurrency={updateCurrency}
@@ -84,7 +84,7 @@ class Market extends Component {
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Text>{I18n.t('markets.title')}</Text>}
+          title={<Title>{I18n.t('markets.title')}</Title>}
           rightIcon="Filter"
           rightAction={() => {}}
         />

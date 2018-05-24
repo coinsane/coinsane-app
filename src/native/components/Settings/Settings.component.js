@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
-import { Container, Content, List, ListItem, Text, Label } from 'native-base';
+import { Container, Content, List, ListItem, Text, Label, Title } from 'native-base';
 import ActivityView from 'react-native-activity-view';
 import * as StoreReview from 'react-native-store-review';
 import VersionNumber from 'react-native-version-number';
@@ -93,7 +93,7 @@ class Settings extends Component {
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Text>Settings</Text>}
+          title={<Title>Settings</Title>}
         />
         <Content style={styles.settings__container}>
           <List style={styles.settings_list}>

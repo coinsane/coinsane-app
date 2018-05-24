@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Container, Content, Text, List } from 'native-base';
+import { Container, Content, Title, List } from 'native-base';
 import SearchBar from '../../_Molecules/SearchBar/SearchBar.molecula';
 import Modal from '../../modal/BaseModal.component';
 import { clearMarkets } from '../../../../redux/state/markets/markets.actioncreators';
@@ -58,7 +58,7 @@ class CoinsaneList extends Component {
           <CoinsaneHeader
             leftIcon="Close"
             leftAction={() => this.close()}
-            title={<Text>{title}</Text>}
+            title={<Title>{title}</Title>}
           />
           <Content style={{ backgroundColor: colors.bgGray }}>
             { searchBar && <SearchBar /> }

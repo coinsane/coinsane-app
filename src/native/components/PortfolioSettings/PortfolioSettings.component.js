@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Switch from 'react-native-switch-pro';
-import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View } from 'native-base';
+import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title } from 'native-base';
 import ErrorMessages from '../../../constants/errors';
 import Error from '../Error/Error.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
@@ -98,7 +98,7 @@ class PortfolioSettings extends Component {
       <Container style={base.contentContainer}>
         <CoinsaneHeader
           leftIcon="Back"
-          title={<Text>{portfolio.title}</Text>}
+          title={<Title>{portfolio.title}</Title>}
         />
         <Content style={styles.settings__container}>
           <Text style={styles.container__text}>{'Edit portfolio'.toUpperCase()}</Text>
