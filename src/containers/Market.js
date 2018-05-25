@@ -35,9 +35,9 @@ class Market extends Component {
   };
 
 
-  updateCurrency = () => {
-    this.props.getMarketCap();
-    this.props.selectCurrency();
+  updateCurrency = (currency) => {
+    this.props.getMarketCap(currency);
+    this.props.selectCurrency(currency);
   };
 
   render = () => {

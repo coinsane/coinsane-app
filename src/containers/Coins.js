@@ -35,6 +35,10 @@ class Coins extends Component {
     getMarketCap: PropTypes.func.isRequired,
     markets: PropTypes.shape({}).isRequired,
 
+    auth: PropTypes.shape({
+      token: PropTypes.string,
+    }).isRequired,
+
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
@@ -97,7 +101,9 @@ class Coins extends Component {
     // return this.props.addTransaction(newCoin);
   };
 
-  fetchPortfolios = symbol => this.props.updatePortfolios(symbol || this.props.settings.currency);
+  fetchPortfolios = (symbol) => {
+    if (this.props.auth.token) this.props.updatePortfolios(symbol || this.props.settings.currency)
+  };
 
   render = () => {
     const {
@@ -177,6 +183,7 @@ const mapStateToProps = state => ({
   currencies: state.currencies,
   settings: state.settings,
   markets: state.markets,
+  auth: state.auth,
 });
 
 const mapDispatchToProps = {

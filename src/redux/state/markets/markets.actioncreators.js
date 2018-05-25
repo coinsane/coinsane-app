@@ -9,11 +9,11 @@ import {
 /**
   * Get Market Cap
   */
-export function getMarketCap() {
-  return {
-    type: GET_MARKET_CAP,
-  };
-}
+export const getMarketCap = payload => ({
+  type: GET_MARKET_CAP,
+  payload,
+});
+
 /**
   * Get All Markets
   */

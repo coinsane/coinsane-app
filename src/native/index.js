@@ -19,9 +19,6 @@ import Loading from './components/Loading/Loading.component';
 import Config from '../constants/config';
 import { getToken } from '../redux/state/auth/auth.actioncreators';
 
-
-axios.defaults.baseURL = Config.apiUri;
-
 DeviceEventEmitter.addListener('quickActionShortcut', console.log);
 
 QuickActions.setShortcutItems([
@@ -50,6 +47,7 @@ class Root extends Component {
   };
 
   componentWillMount = () => {
+    axios.defaults.baseURL = Config.apiUri;
     this.props.getToken();
   };
 
@@ -68,6 +66,8 @@ class Root extends Component {
     // do something with the url, in our case navigate(route)
   };
 
+  getSceneStyle = () => ({ backgroundColor: colors.bgPrimary });
+
   render() {
     const { store, persistor, auth } = this.props;
     return (
@@ -75,7 +75,7 @@ class Root extends Component {
       <Provider store={store}>
         <PersistGate loading={<Loading />} persistor={persistor}>
           <StyleProvider style={getTheme(theme)}>
-            <RouterWithRedux getSceneStyle={() => ({ backgroundColor: colors.bgPrimary })}>
+            <RouterWithRedux getSceneStyle={this.getSceneStyle}>
               {Routes}
             </RouterWithRedux>
           </StyleProvider>

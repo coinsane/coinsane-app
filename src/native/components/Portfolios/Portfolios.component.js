@@ -57,7 +57,7 @@ class Portfolios extends Component {
   }
 
   componentDidMount() {
-    this.refreshData();
+    // this.refreshData();
   }
 
   refreshData() {

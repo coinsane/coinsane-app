@@ -58,10 +58,10 @@ class Market extends Component {
     const Header = () => (
       <View>
         <CoinsaneSummary
-          value={cap.total_market_cap_usd}
+          value={cap[`total_market_cap_${currency.toLowerCase()}`] || 0}
           currency={getCurrency}
           buttons={Object.keys(currencies)}
-          subValue={`24 Vol: ${nFormat(cap.total_24h_volume_usd, 2)}`}
+          subValue={`24 Vol: ${nFormat(cap[`total_24h_volume_${currency.toLowerCase()}`] || 0, 2)}`}
           updateCurrency={updateCurrency}
         />
         <SearchBar />
