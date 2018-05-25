@@ -21,8 +21,8 @@ class Settings extends Component {
       currencies: PropTypes.shape({}).isRequired,
     }).isRequired,
     pages: PropTypes.shape({
-      terms: PropTypes.shape({}).isRequired,
-      policy: PropTypes.shape({}).isRequired,
+      terms: PropTypes.shape({}),
+      policy: PropTypes.shape({}),
     }).isRequired,
   };
 

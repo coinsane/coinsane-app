@@ -11,6 +11,7 @@ class Market extends Component {
     navigation: PropTypes.shape({}).isRequired,
     settings: PropTypes.shape({
       currencies: PropTypes.shape({}).isRequired,
+      currency: PropTypes.string.isRequired,
     }).isRequired,
     markets: PropTypes.shape({
       list: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -25,10 +26,19 @@ class Market extends Component {
     this.props.getMarketCap();
   }
 
-  updateCurrency() {
+  getCurrency = () => {
+    const {
+      currencies,
+      currency,
+    } = this.props.settings;
+    return currencies[currency] || {};
+  };
+
+
+  updateCurrency = () => {
     this.props.getMarketCap();
     this.props.selectCurrency();
-  }
+  };
 
   render = () => {
     const {
@@ -44,6 +54,7 @@ class Market extends Component {
         currencies={settings.currencies}
         currency={settings.currency}
         updateCurrency={this.updateCurrency}
+        getCurrency={this.getCurrency()}
         cap={markets.cap}
         markets={markets.list}
         coins={markets.items}

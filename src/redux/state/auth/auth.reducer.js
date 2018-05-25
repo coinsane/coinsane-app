@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import Config from '../../../constants/config';
 import { GET_TOKEN, GET_TOKEN_SUCCEED, GET_TOKEN_ERROR } from '../../actions/action.types';
 
@@ -18,8 +19,7 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case GET_TOKEN_SUCCEED: {
-      axios.defaults.baseURL = Config.apiUri;
-      axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${action.token}`;
+      axios.defaults.headers.common.Authorization = `${Config.appName} token=${action.token}`;
       return {
         ...state,
         loading: false,

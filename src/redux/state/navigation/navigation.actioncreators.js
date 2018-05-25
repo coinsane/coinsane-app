@@ -1,23 +1,20 @@
-import { DRAWER_ACTIONS, SET_ACTIVE_MENU } from '../../actions/action.types';
+import {
+  DRAWER_ACTIONS,
+  SET_ACTIVE_MENU,
+} from '../../actions/action.types';
+
 /**
   * Set drawer
   */
-export function setDrawerActions(open, close) {
-  return dispatch => Promise.resolve()
-    .then(() => dispatch({
-      type: DRAWER_ACTIONS,
-      data: { open, close },
-    }))
-    // .catch(e => console.log(e));
-}
+export const setDrawerActions = payload => ({
+  type: DRAWER_ACTIONS,
+  payload,
+});
+
 /**
   * Set active menu
   */
-export function setActiveMenu(data) {
-  return dispatch => Promise.resolve()
-    .then(() => dispatch({
-      type: SET_ACTIVE_MENU,
-      data
-    }))
-    // .catch(e => console.log(e));
-}
+export const setActiveMenu = data => ({
+  type: SET_ACTIVE_MENU,
+  data,
+});
