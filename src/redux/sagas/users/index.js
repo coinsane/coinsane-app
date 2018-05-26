@@ -10,23 +10,21 @@ import {
   GET_SETTINGS_SUCCEED,
   GET_SETTINGS_ERROR,
   UPDATE_PORTFOLIOS,
+  UPDATE_PORTFOLIO_CHART,
 } from '../../../redux/actions/action.types';
 
 export function* getToken() {
   try {
-    const token = yield select(selectors.getToken);
-    if (token !== null) {
-      yield put({ type: GET_TOKEN_SUCCEED, token });
-      yield put({ type: GET_SETTINGS });
-      const currency = yield select(selectors.getCurrency);
-      yield put({ type: UPDATE_PORTFOLIOS, payload: currency });
-    } else {
-      const response = yield axios.get('/auth/getToken');
-      yield put({ type: GET_TOKEN_SUCCEED, token: response.data.result.token });
-      yield put({ type: GET_SETTINGS });
-      const currency = yield select(selectors.getCurrency);
-      yield put({ type: UPDATE_PORTFOLIOS, payload: currency });
+    let token = yield select(selectors.getToken);
+    if (!token) {
+      const { data: { result: { token: newToken } } } = yield axios.get('/auth/getToken');
+      token = newToken;
     }
+    yield put({ type: GET_TOKEN_SUCCEED, token });
+    yield put({ type: GET_SETTINGS });
+    const currency = yield select(selectors.getCurrency);
+    yield put({ type: UPDATE_PORTFOLIOS, payload: currency });
+    yield put({ type: UPDATE_PORTFOLIO_CHART, payload: { portfolioId: 'all', range: '1d', symbol: currency } });
   } catch (error) {
     yield put({ type: GET_TOKEN_ERROR, error });
   }

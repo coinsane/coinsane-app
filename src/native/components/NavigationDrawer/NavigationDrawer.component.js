@@ -14,6 +14,7 @@ class NavigationDrawer extends Component {
       drawer: PropTypes.shape({}).isRequired,
     }).isRequired,
     setDrawerActions: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
   };
 
   constructor(props) {

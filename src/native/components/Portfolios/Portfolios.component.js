@@ -275,7 +275,7 @@ class Portfolios extends Component {
               onPress={() => addTransaction(activePortfolio)}
               style={base.footer__button}
             >
-              <Text style={base.footer__buttonText}>+ ADD NEW COIN</Text>
+              <Text style={base.footer__buttonText}>{I18n.t('coins.addButton')}</Text>
             </Button>
           </Footer>
         }

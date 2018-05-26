@@ -13,11 +13,12 @@ import getTheme from '../../native-base-theme/components';
 import theme from '../../native-base-theme/variables/commonColor';
 import { colors } from './styles';
 
-import Routes from './routes/index';
+import Routes from './routes';
 import Loading from './components/Loading/Loading.component';
+import AuthProvider from './components/AuthProvider/AuthProvider.component';
+import { getToken } from '../redux/state/auth/auth.actioncreators';
 
 import Config from '../constants/config';
-import { getToken } from '../redux/state/auth/auth.actioncreators';
 
 DeviceEventEmitter.addListener('quickActionShortcut', console.log);
 
@@ -42,14 +43,15 @@ class Root extends Component {
   static propTypes = {
     store: PropTypes.shape({}).isRequired,
     persistor: PropTypes.shape({}).isRequired,
-    auth: PropTypes.shape({}).isRequired,
     getToken: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      token: PropTypes.string,
+    }).isRequired,
   };
 
-  componentWillMount = () => {
+  componentWillMount() {
     axios.defaults.baseURL = Config.apiUri;
-    this.props.getToken();
-  };
+  }
 
   componentDidMount() {
     SplashScreen.hide();
@@ -60,31 +62,31 @@ class Root extends Component {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
+  getSceneStyle = () => ({ backgroundColor: colors.bgPrimary });
+
   handleOpenURL = (event) => {
     console.log(event.url);
     // const route = e.url.replace(/.*?:\/\//g, '');
     // do something with the url, in our case navigate(route)
   };
 
-  getSceneStyle = () => ({ backgroundColor: colors.bgPrimary });
-
   render() {
     const { store, persistor, auth } = this.props;
     return (
-      !auth.token ? <Loading /> :
       <Provider store={store}>
         <PersistGate loading={<Loading />} persistor={persistor}>
           <StyleProvider style={getTheme(theme)}>
-            <RouterWithRedux getSceneStyle={this.getSceneStyle}>
-              {Routes}
-            </RouterWithRedux>
+            <AuthProvider getToken={this.props.getToken} auth={auth}>
+              <RouterWithRedux getSceneStyle={this.getSceneStyle}>
+                {Routes}
+              </RouterWithRedux>
+            </AuthProvider>
           </StyleProvider>
         </PersistGate>
       </Provider>
     );
   }
 }
-
 
 const mapStateToProps = state => ({
   auth: state.auth,

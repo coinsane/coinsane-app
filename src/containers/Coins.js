@@ -81,8 +81,8 @@ class Coins extends Component {
     // show SelectCoin screen
     Actions.selector({
       preLoad: () => {
-        this.props.getAvailableMarkets();
-        this.props.getAvailableCurrencies();
+        this.props.getAvailableMarkets({});
+        this.props.getAvailableCurrencies({});
       },
       clear: () => {
         this.props.clearMarkets();
