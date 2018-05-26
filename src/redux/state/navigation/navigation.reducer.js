@@ -30,7 +30,7 @@ export default function actionReducer(state = initialState, action) {
     case DRAWER_ACTIONS: {
       return {
         ...state,
-        drawer: action.data,
+        drawer: action.payload,
       };
     }
     case SET_ACTIVE_MENU: {

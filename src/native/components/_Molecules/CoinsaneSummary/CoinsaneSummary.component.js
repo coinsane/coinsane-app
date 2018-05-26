@@ -4,6 +4,7 @@ import { View, Text } from 'native-base';
 import CoinsanePctText from '../../_Atoms/CoinsanePctText/CoinsanePctText.atom';
 import CoinsaneSummaryText from '../../_Atoms/CoinsaneSummaryText/CoinsaneSummaryText.component';
 import CoinsaneButton from '../../_Atoms/CoinsaneButton/CoinsaneButton.component';
+import Loading from '../../Loading/Loading.component';
 import styles from './CoinsaneSummary.styles';
 
 const CoinsaneSummary = ({
@@ -16,52 +17,55 @@ const CoinsaneSummary = ({
   leftValue,
   rightTitle,
   rightValue,
-}) => (
-  <View style={styles.totalContainer}>
-    <View style={styles.total__buttons}>
-      {buttons.map(key => (
-        <CoinsaneButton
-          key={key}
-          type="currency"
-          value={key}
-          uppercase
-          onPress={() => updateCurrency(key)}
-          active={currency.code === key}
-        />
+}) => {
+  if (!currency || !currency.code) return <Loading size={30} />;
+  return (
+    <View style={styles.totalContainer}>
+      <View style={styles.total__buttons}>
+        {buttons.map(key => (
+          <CoinsaneButton
+            key={key}
+            type="currency"
+            value={key}
+            uppercase
+            onPress={() => updateCurrency(key)}
+            active={currency.code === key}
+          />
         ))}
-    </View>
-    <View style={styles.total__summaryContainer}>
-      {
-        leftTitle && leftValue &&
-        <View style={styles.total__summaryLeft}>
-          <Text style={styles.total__summaryText}>{leftTitle.toUpperCase()}</Text>
-          <CoinsanePctText style={styles.total__summaryText} size={11} value={leftValue} symbol="" negative />
-        </View>
-      }
-      <View style={styles.total__summaryBody}>
-        <CoinsaneSummaryText
-          value={value}
-          currency={currency}
-        />
+      </View>
+      <View style={styles.total__summaryContainer}>
         {
-          typeof subValue === 'number' ?
-            <CoinsanePctText style={styles.subValue} value={subValue} /> :
-            <Text style={styles.subValue}>{subValue}</Text>
+          leftTitle && leftValue &&
+          <View style={styles.total__summaryLeft}>
+            <Text style={styles.total__summaryText}>{leftTitle.toUpperCase()}</Text>
+            <CoinsanePctText style={styles.total__summaryText} size={11} value={leftValue} symbol="" negative />
+          </View>
+        }
+        <View style={styles.total__summaryBody}>
+          <CoinsaneSummaryText
+            value={value}
+            currency={currency}
+          />
+          {
+            typeof subValue === 'number' ?
+              <CoinsanePctText style={styles.subValue} value={subValue} /> :
+              <Text style={styles.subValue}>{subValue}</Text>
+          }
+        </View>
+        {
+          rightTitle && rightValue &&
+          <View style={styles.total__summaryRight}>
+            <Text style={styles.total__summaryText}>{rightTitle.toUpperCase()}</Text>
+            <CoinsanePctText style={styles.total__summaryText} size={11} value={rightValue} symbol="" positive />
+          </View>
         }
       </View>
-      {
-        rightTitle && rightValue &&
-        <View style={styles.total__summaryRight}>
-          <Text style={styles.total__summaryText}>{rightTitle.toUpperCase()}</Text>
-          <CoinsanePctText style={styles.total__summaryText} size={11} value={rightValue} symbol="" positive />
-        </View>
-      }
     </View>
-  </View>
-);
+  );
+};
 
 CoinsaneSummary.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number,
   subValue: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -86,6 +90,7 @@ CoinsaneSummary.defaultProps = {
   leftValue: null,
   rightTitle: null,
   rightValue: null,
+  value: 0,
 };
 
 export default CoinsaneSummary;

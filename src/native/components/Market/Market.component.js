@@ -21,6 +21,7 @@ class Market extends Component {
     currency: PropTypes.string.isRequired,
     markets: PropTypes.arrayOf(PropTypes.string).isRequired,
     coins: PropTypes.shape({}).isRequired,
+    getCurrency: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
     cap: PropTypes.shape({}).isRequired,
@@ -37,6 +38,7 @@ class Market extends Component {
       drawer,
       currencies,
       currency,
+      getCurrency,
       updateCurrency,
       getAvailableMarkets,
       coins,
@@ -48,7 +50,7 @@ class Market extends Component {
         type="market"
         key={market}
         market={coins[market]}
-        currency={currencies[currency]}
+        currency={getCurrency}
         showCoin={() => {}}
         addTransaction={() => {}}
         removeCoin={() => {}}
@@ -58,10 +60,10 @@ class Market extends Component {
     const Header = () => (
       <View>
         <CoinsaneSummary
-          value={cap.total_market_cap_usd}
-          currency={currencies[currency]}
+          value={cap[`total_market_cap_${currency.toLowerCase()}`] || 0}
+          currency={getCurrency}
           buttons={Object.keys(currencies)}
-          subValue={`24 Vol: ${nFormat(cap.total_24h_volume_usd, 2)}`}
+          subValue={`24 Vol: ${nFormat(cap[`total_24h_volume_${currency.toLowerCase()}`] || 0, 2)}`}
           updateCurrency={updateCurrency}
         />
         <SearchBar />

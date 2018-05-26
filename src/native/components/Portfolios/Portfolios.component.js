@@ -39,6 +39,7 @@ class Portfolios extends Component {
     updateCollapsed: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
+    getCurrency: PropTypes.shape({}).isRequired,
     period: PropTypes.string,
     lastTotal: PropTypes.number.isRequired,
   };
@@ -56,7 +57,7 @@ class Portfolios extends Component {
   }
 
   componentDidMount() {
-    this.refreshData();
+    // this.refreshData();
   }
 
   refreshData() {
@@ -132,8 +133,8 @@ class Portfolios extends Component {
       addTransaction,
       removeCoin,
       activePortfolio,
-      currency,
       currencies,
+      getCurrency,
       period,
       lastTotal,
       updateCollapsed,
@@ -169,7 +170,7 @@ class Portfolios extends Component {
         totals={portfolio.total}
         count={portfolio.count}
         addTransaction={addTransaction}
-        currency={currencies[currency]}
+        currency={getCurrency}
         changePct={portfolio.changePct}
         amount={portfolio.amount}
         updateCollapsed={updateCollapsed}
@@ -185,7 +186,7 @@ class Portfolios extends Component {
         coinId={coin._id}
         amount={coin.amount}
         market={coin.market}
-        currency={currencies[currency]}
+        currency={getCurrency}
         showCoin={showCoin}
         addTransaction={addTransaction}
         removeCoin={removeCoin}
@@ -238,7 +239,7 @@ class Portfolios extends Component {
               <View>
                 <CoinsaneSummary
                   value={lastTotal}
-                  currency={currencies[currency]}
+                  currency={getCurrency}
                   buttons={Object.keys(currencies)}
                   subValue={changePct}
                   updateCurrency={this.updateCurrency}

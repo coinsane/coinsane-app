@@ -1,28 +1,3 @@
-import { AsyncStorage } from 'react-native';
-import axios from 'axios';
-import Config from '../constants/config';
-
-export const setTokenHeader = async (token) => {
-  axios.defaults.baseURL = Config.apiUri;
-  axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${token}`;
-  return true;
-};
-
-export const setToken = async () => {
-  axios.defaults.baseURL = Config.apiUri;
-  const token = await AsyncStorage.getItem('token');
-
-  if (token !== null) {
-    axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${token}`;
-  } else {
-    const response = await axios.get('/auth/getToken');
-    if (response.data && response.data.success) {
-      AsyncStorage.setItem('token', response.data.result.token);
-      axios.defaults.headers.common['Authorization'] = `${Config.appName} token=${response.data.result.token}`;
-    }
-  }
-};
-
 
 /*
 * Currency Formatting (prefix or suffix)

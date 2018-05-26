@@ -1,6 +1,7 @@
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest, put, select } from 'redux-saga/effects';
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
+
+import selectors from '../../selectors';
 import {
   GET_TOKEN,
   GET_TOKEN_SUCCEED,
@@ -8,16 +9,23 @@ import {
   GET_SETTINGS,
   GET_SETTINGS_SUCCEED,
   GET_SETTINGS_ERROR,
+  UPDATE_PORTFOLIOS,
 } from '../../../redux/actions/action.types';
 
 export function* getToken() {
   try {
-    const token = yield AsyncStorage.getItem('token');
+    const token = yield select(selectors.getToken);
     if (token !== null) {
       yield put({ type: GET_TOKEN_SUCCEED, token });
+      yield put({ type: GET_SETTINGS });
+      const currency = yield select(selectors.getCurrency);
+      yield put({ type: UPDATE_PORTFOLIOS, payload: currency });
     } else {
       const response = yield axios.get('/auth/getToken');
       yield put({ type: GET_TOKEN_SUCCEED, token: response.data.result.token });
+      yield put({ type: GET_SETTINGS });
+      const currency = yield select(selectors.getCurrency);
+      yield put({ type: UPDATE_PORTFOLIOS, payload: currency });
     }
   } catch (error) {
     yield put({ type: GET_TOKEN_ERROR, error });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Drawer from 'react-native-drawer';
 
@@ -8,27 +9,32 @@ import { setDrawerActions } from '../../../redux/state/navigation/navigation.act
 import { colors } from '../../styles';
 
 class NavigationDrawer extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      drawer: PropTypes.shape({}).isRequired,
+    }).isRequired,
+    setDrawerActions: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.tweenHandler = this.tweenHandler.bind(this);
   }
 
-  tweenHandler(ratio) {
-    return {
-      main: {
-        transform: [
-          { scale: 1 - ratio / 5.1 },
-        ],
-        left: ratio * 200,
-      },
-    };
-  }
+  tweenHandler = ratio => ({
+    main: {
+      transform: [{ scale: 1 - (ratio / 5.1) }],
+      left: ratio * 200,
+    },
+  });
 
   render() {
     return (
       <Drawer
         ref={(drawer) => {
-          if (!this.props.navigation.drawer.open) this.props.setDrawerActions(drawer.open, drawer.close);
+          if (drawer && Object.getOwnPropertyNames(this.props.navigation.drawer).length === 0) {
+            this.props.setDrawerActions({ open: drawer.open, close: drawer.close });
+          }
         }}
         openDrawerOffset={200}
         content={<DrawerContent />}

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { Body, Header, Left, Button, View, Right } from 'native-base';
-import { StatusBar } from 'react-native';
+import { Body, Header, Left, Button, Right } from 'native-base';
+import { StatusBar, TouchableOpacity } from 'react-native';
 
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
@@ -37,7 +37,9 @@ const CoinsaneHeader = ({
       style={[styles.header__body, styles.header__title]}
       onPress={titleAction}
     >
-      {title}
+      <TouchableOpacity onPress={titleAction}>
+        {title}
+      </TouchableOpacity>
     </Body>
     <Right style={styles.header__right}>
       {

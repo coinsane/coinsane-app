@@ -35,6 +35,10 @@ class Coins extends Component {
     getMarketCap: PropTypes.func.isRequired,
     markets: PropTypes.shape({}).isRequired,
 
+    auth: PropTypes.shape({
+      token: PropTypes.string,
+    }).isRequired,
+
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
@@ -54,6 +58,7 @@ class Coins extends Component {
     getAvailableCurrencies: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
     settings: PropTypes.shape({
+      currencies: PropTypes.shape({}),
       currency: PropTypes.string,
     }).isRequired,
   };
@@ -62,7 +67,13 @@ class Coins extends Component {
     match: null,
   };
 
-  fetchPortfolios = symbol => this.props.updatePortfolios(symbol || this.props.settings.currency);
+  getCurrency = () => {
+    const {
+      currencies,
+      currency,
+    } = this.props.settings;
+    return currencies[currency] || {};
+  };
 
   addTransaction = (portfolio) => {
     // add portfolioId (passed as object) to process transaction peace of state
@@ -88,6 +99,10 @@ class Coins extends Component {
       closeType: 'close',
     });
     // return this.props.addTransaction(newCoin);
+  };
+
+  fetchPortfolios = (symbol) => {
+    if (this.props.auth.token) this.props.updatePortfolios(symbol || this.props.settings.currency)
   };
 
   render = () => {
@@ -137,6 +152,8 @@ class Coins extends Component {
         updatePortfolioPeriod={this.props.updatePortfolioPeriod}
         updatePortfolioCurrency={this.props.updatePortfolioCurrency}
 
+        getCurrency={this.getCurrency()}
+
         getPrice={this.props.getPrice}
         addTransaction={this.addTransaction}
         getTransactionsList={this.props.getTransactionsList}
@@ -166,6 +183,7 @@ const mapStateToProps = state => ({
   currencies: state.currencies,
   settings: state.settings,
   markets: state.markets,
+  auth: state.auth,
 });
 
 const mapDispatchToProps = {

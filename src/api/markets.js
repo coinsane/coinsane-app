@@ -14,7 +14,7 @@ export const fetchAvailableMarkets = ({ limit, offset }) => axios.get('/market',
  * @kind API
  */
 
-export const getMarketCap = () => axios.get('/market/cap');
+export const getMarketCap = convert => axios.get('/market/cap', { params: { convert } });
 
 /**
  * Api for search available markets.
