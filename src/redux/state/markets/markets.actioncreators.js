@@ -17,19 +17,19 @@ export function getMarketCap() {
 /**
   * Get All Markets
   */
-export function getAvailableMarkets() {
+export function getAvailableMarkets({ limit = 10, offset = 0 }) {
   return {
     type: GET_AVAILABLE_MARKETS,
-    payload: { limit: 10 },
+    payload: { limit, offset },
   };
 }
 /**
   * Get All Markets
   */
-export function getAvailableCurrencies() {
+export function getAvailableCurrencies({ limit = 10, offset = 0 }) {
   return {
     type: GET_AVAILABLE_CURRENCIES,
-    payload: { limit: 10 },
+    payload: { limit, offset },
   };
 }
 

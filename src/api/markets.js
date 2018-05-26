@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 /**
- * Api for get avaliable markets.
+ * Api for get available markets.
  * @kind API
  * @param limit: Number - limit result array
+ * @param offset: Number - offset result array
  */
 
-export const fetchAvailableMarkets = limit => axios.get('/market', { params: { limit } });
+export const fetchAvailableMarkets = ({ limit, offset }) => axios.get('/market', { params: { limit, offset } });
 
 /**
  * Api for get market cap.
@@ -16,9 +17,9 @@ export const fetchAvailableMarkets = limit => axios.get('/market', { params: { l
 export const getMarketCap = () => axios.get('/market/cap');
 
 /**
- * Api for search avaliable markets.
+ * Api for search available markets.
  * @kind API
- * @param term: String - search string input
+ * @param q: String - search string input
  * @param type: String - can be market, currency or null for both
  */
 

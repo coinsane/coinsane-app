@@ -22,6 +22,7 @@ class Market extends Component {
     markets: PropTypes.arrayOf(PropTypes.string).isRequired,
     coins: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
+    getAvailableMarkets: PropTypes.func.isRequired,
     cap: PropTypes.shape({}).isRequired,
   };
 
@@ -37,6 +38,7 @@ class Market extends Component {
       currencies,
       currency,
       updateCurrency,
+      getAvailableMarkets,
       coins,
       cap,
     } = this.props;
@@ -73,7 +75,11 @@ class Market extends Component {
 
     const Footer = () => (
       <View>
-        <TouchableOpacity onPress={() => console.log('load more')}>
+        <TouchableOpacity
+          onPress={() => {
+            getAvailableMarkets({ limit: 10, offset: 10 });
+          }}
+        >
           <Text>Load More</Text>
         </TouchableOpacity>
       </View>
