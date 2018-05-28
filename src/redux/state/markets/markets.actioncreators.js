@@ -17,31 +17,26 @@ export const getMarketCap = payload => ({
 /**
   * Get All Markets
   */
-export function getAvailableMarkets({ limit = 10, offset = 0 }) {
-  return {
-    type: GET_AVAILABLE_MARKETS,
-    payload: { limit, offset },
-  };
-}
+export const getAvailableMarkets = ({ limit = 10, skip = 0, refreshing = false }) => ({
+  type: GET_AVAILABLE_MARKETS,
+  payload: { limit, skip, refreshing },
+});
+
 /**
   * Get All Markets
   */
-export function getAvailableCurrencies({ limit = 10, offset = 0 }) {
-  return {
-    type: GET_AVAILABLE_CURRENCIES,
-    payload: { limit, offset },
-  };
-}
+export const getAvailableCurrencies = ({ limit = 10, skip = 0, refreshing = false }) => ({
+  type: GET_AVAILABLE_CURRENCIES,
+  payload: { limit, skip, refreshing },
+});
 
 /**
   * Search for market
   */
-export function changeSearchTerm(term) {
-  return {
-    type: SEARCH_AVAILABLE_MARKETS,
-    payload: term,
-  };
-}
+export const changeSearchTerm = ({ q, limit = 10, skip = 0, refreshing = false }) => ({
+  type: SEARCH_AVAILABLE_MARKETS,
+  payload: { q, limit, skip, refreshing },
+});
 
 /**
   * Clear markets result

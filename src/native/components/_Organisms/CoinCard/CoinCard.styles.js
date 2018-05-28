@@ -5,6 +5,7 @@ export default StyleSheet.create({
   container: {
     paddingLeft: 15,
     paddingRight: 15,
+    flex: 1,
   },
   portfolio__item: {
     backgroundColor: colors.btnBgBlack,
@@ -81,13 +82,10 @@ export default StyleSheet.create({
     fontFamily: typography.fontRegular,
   },
   market_item: {
-    borderColor: colors.btnBgBlack,
-    borderTopWidth: 1,
-    borderBottomWidth: 0,
     marginLeft: 0,
     paddingLeft: 0,
     paddingRight: 0,
-    height: 70,
+    height: 64,
   },
   market__thumbnail: {
     width: 26,

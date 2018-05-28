@@ -19,4 +19,10 @@ export default {
     all: 'Все портфолио',
     addButton: '+ НОВАЯ КОЛЛЕКЦИЯ',
   },
+  placeholder: {
+    search: 'Поиск',
+  },
+  empty: {
+    search: 'Ничего не найдено',
+  },
 };

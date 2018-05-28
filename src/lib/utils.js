@@ -10,10 +10,10 @@ export const cFormat = (value = 0, symbol = '') => {
 /*
 * Number Formatting
 * */
-export const nFormat = (num = 0, digits = 0, startFrom = 1) => {
+export const nFormat = (num = 0, digits = 0, startFrom = 2) => {
   const si = [
     { value: 0, symbol: '' },
-    // { value: 1E3, symbol: 'k' },
+    { value: 1E3, symbol: 'k' },
     { value: 1E6, symbol: 'M' },
     { value: 1E9, symbol: 'B' },
     { value: 1E12, symbol: 'T' },

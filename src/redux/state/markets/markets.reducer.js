@@ -13,10 +13,14 @@ import {
 
 export const initialState = {
   loading: true,
+  refreshing: false,
   error: null,
   list: [],
   cap: {},
+  searchTerm: '',
+  count: 0,
   items: {},
+  cache: {},
 };
 
 export default function actionReducer(state = initialState, action) {
@@ -48,20 +52,38 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: true,
+        refreshing: action.payload.refreshing,
       };
     }
     case GET_AVAILABLE_MARKETS_SUCCESS: {
       const items = { ...state.items };
-      const list = action.payload.map((market) => {
-        Object.assign(items, { [`${market._id}`]: market });
+      const listPayload = action.payload.list.map((market) => {
+        if (action.payload.cached) return market;
+        Object.assign(items, { [market._id]: market });
         return market._id;
       });
+      const list = [
+        ...(action.payload.skip ? state.list : []),
+        ...listPayload,
+      ];
+      const cache = { ...state.cache };
+      const searchTerm = action.payload.q ? action.payload.q.toLowerCase() : '';
+      const q = searchTerm ? `:${searchTerm}` : '';
+      if (!action.payload.cached) {
+        const cacheKey = `${action.payload.skip}${q}`;
+        cache[cacheKey] = listPayload;
+      }
+      const count = action.payload.count ? action.payload.count : null;
       return {
         ...state,
         error: null,
         loading: false,
+        refreshing: false,
+        searchTerm,
         list,
         items,
+        cache,
+        count,
       };
     }
     case GET_AVAILABLE_MARKETS_ERROR: {
@@ -69,21 +91,23 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         error: true,
         loading: false,
+        refreshing: false,
         list: [],
       };
     }
     case SEARCH_AVAILABLE_MARKETS: {
+      const list = action.payload.skip ? state.list : [];
       return {
         ...state,
         error: null,
         loading: true,
-        list: [],
+        list,
       };
     }
     case SEARCH_AVAILABLE_MARKETS_SUCCESS: {
       const items = { ...state.items };
-      const list = action.payload.map((market) => {
-        Object.assign(items, { [`${market._id}`]: market });
+      const list = action.payload.list.map((market) => {
+        Object.assign(items, { [market._id]: market });
         return market._id;
       });
       return {

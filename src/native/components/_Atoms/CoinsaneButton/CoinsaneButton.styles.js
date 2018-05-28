@@ -3,7 +3,7 @@ import { colors } from '../../../styles';
 
 export default StyleSheet.create({
   currency__buttonText: {
-    fontSize: 15,
+    fontSize: 13,
     color: colors.textGray,
     letterSpacing: 1,
   },

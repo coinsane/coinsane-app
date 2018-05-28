@@ -11,7 +11,7 @@ const CoinsaneSummaryText = ({
   const decimal = currency.decimal > 6 ? 6 : currency.decimal;
   const displayValue = nFormat(value, decimal);
   return (
-    <Text style={styles.text}>{displayValue}</Text>
+    <Text numberOfLines={1} style={styles.text}>{displayValue}</Text>
   );
 };
 

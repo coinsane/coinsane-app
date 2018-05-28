@@ -1,2 +1,2 @@
-// Get entire transaction object
+// Get currency symbol
 export const getCurrency = state => state.settings.currency;

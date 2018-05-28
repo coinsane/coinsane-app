@@ -4,7 +4,6 @@ import { typography, colors } from '../../../styles';
 export default StyleSheet.create({
   totalContainer: {
     flex: 1,
-    marginTop: 10,
     marginBottom: 10,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -66,6 +65,7 @@ export default StyleSheet.create({
   },
   subValue: {
     color: colors.textGray,
+    fontFamily: typography.fontRegular,
     fontSize: 14,
     letterSpacing: 0.5,
   },

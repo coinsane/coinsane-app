@@ -11,6 +11,9 @@ export default StyleSheet.create({
     marginLeft: 15,
   },
   input: {
-    fontSize: 14,
+    height: 40,
+    fontSize: 13,
+    lineHeight: 13,
+    top: 0,
   },
 });

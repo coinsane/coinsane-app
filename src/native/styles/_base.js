@@ -6,8 +6,10 @@ export default StyleSheet.create({
   white: { color: colors.white },
   textCenter: { textAlign: 'center' },
   headerContainer: { borderBottomWidth: 0 },
-  contentContainer: { backgroundColor: colors.bgGray },
-  //footer with btn
+  contentContainer: {
+    flex: 1,
+    backgroundColor: colors.bgGray,
+  },
   footer: {
     backgroundColor: colors.inputBg,
     borderTopWidth: 0,

@@ -6,11 +6,13 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    paddingLeft: 15,
-    paddingRight: 15,
+    marginLeft: 15,
+    marginRight: 15,
     paddingBottom: 20,
     paddingTop: 20,
     height: 30,
+    borderBottomColor: colors.btnBgBlack,
+    borderBottomWidth: 1,
   },
   market__header_text: {
     color: colors.textGray,
@@ -28,5 +30,11 @@ export default StyleSheet.create({
   market__header_row3: {
     flex: 0.33,
     textAlign: 'right',
+  },
+  separator: {
+    height: 1,
+    backgroundColor: colors.btnBgBlack,
+    marginLeft: 15,
+    marginRight: 15,
   },
 });

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, TouchableOpacity } from 'react-native';
-import { Container, Content, View, Text, Title } from 'native-base';
-import SGListView from 'react-native-sglistview';
+import { FlatList } from 'react-native';
+import { Container, View, Text, Title, List } from 'native-base';
 
 import I18n from '../../../i18n';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
 import SearchBar from '../_Molecules/SearchBar/SearchBar.molecula';
+import Loading from '../Loading/Loading.component';
+import Empty from '../Empty/Empty.component';
+
 import { nFormat } from '../../../lib/utils';
 
 import { base } from '../../styles';
@@ -19,51 +21,73 @@ class Market extends Component {
     drawer: PropTypes.shape({}).isRequired,
     currencies: PropTypes.shape({}).isRequired,
     currency: PropTypes.string.isRequired,
-    markets: PropTypes.arrayOf(PropTypes.string).isRequired,
-    coins: PropTypes.shape({}).isRequired,
+    markets: PropTypes.shape({
+      loading: PropTypes.bool,
+      cap: PropTypes.shape({}),
+      list: PropTypes.arrayOf(PropTypes.string),
+      items: PropTypes.shape({}),
+    }).isRequired,
     getCurrency: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
-    cap: PropTypes.shape({}).isRequired,
+    changeSearchTerm: PropTypes.func.isRequired,
   };
 
-  getDataSource() {
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1._id !== r2._id });
-    const markets = this.props.markets.length > 0;
-    return markets ? ds.cloneWithRows(this.props.markets) : ds;
+  componentDidMount() {
+    const {
+      getAvailableMarkets,
+    } = this.props;
+    getAvailableMarkets({});
   }
 
-  render() {
+  getData = () => {
     const {
-      drawer,
+      markets,
+    } = this.props;
+    return markets.list;
+  };
+
+  handleRefresh = () => {
+    const {
+      markets,
+      getAvailableMarkets,
+    } = this.props;
+    if (!markets.refreshing) getAvailableMarkets({ refreshing: true });
+  };
+
+  handleLoadMore = () => {
+    const {
+      markets,
+      changeSearchTerm,
+      getAvailableMarkets,
+    } = this.props;
+    if (!markets.loading) {
+      if (markets.searchTerm) {
+        changeSearchTerm({
+          skip: markets.list.length,
+          q: markets.searchTerm,
+        });
+      } else {
+        getAvailableMarkets({ skip: markets.list.length });
+      }
+    }
+  };
+
+  renderHeader = () => {
+    const {
       currencies,
       currency,
       getCurrency,
       updateCurrency,
-      getAvailableMarkets,
-      coins,
-      cap,
+      markets,
     } = this.props;
-
-    const renderRow = market => (
-      <CoinCard
-        type="market"
-        key={market}
-        market={coins[market]}
-        currency={getCurrency}
-        showCoin={() => {}}
-        addTransaction={() => {}}
-        removeCoin={() => {}}
-      />
-    );
-
-    const Header = () => (
+    return (
       <View>
         <CoinsaneSummary
-          value={cap[`total_market_cap_${currency.toLowerCase()}`] || 0}
+          value={markets.cap[`total_market_cap_${currency.toLowerCase()}`] || 0}
           currency={getCurrency}
           buttons={Object.keys(currencies)}
-          subValue={`24 Vol: ${nFormat(cap[`total_24h_volume_${currency.toLowerCase()}`] || 0, 2)}`}
+          subValue={`24 Vol: ${nFormat(markets.cap[`total_24h_volume_${currency.toLowerCase()}`] || 0, 2)}`}
           updateCurrency={updateCurrency}
         />
         <SearchBar />
@@ -74,18 +98,32 @@ class Market extends Component {
         </View>
       </View>
     );
+  };
 
-    const Footer = () => (
-      <View>
-        <TouchableOpacity
-          onPress={() => {
-            getAvailableMarkets({ limit: 10, offset: 10 });
-          }}
-        >
-          <Text>Load More</Text>
-        </TouchableOpacity>
-      </View>
-    );
+  renderFooter = () => {
+    const {
+      markets,
+    } = this.props;
+    // if (!markets.loading) return null;
+    return <Loading size={25} />;
+  };
+
+  renderEmpty = () => {
+    const {
+      markets,
+    } = this.props;
+    if (markets.loading) return null;
+    return <Empty description={I18n.t('empty.search')} />;
+  };
+
+  renderSeparator = () => <View style={styles.separator} />;
+
+  render() {
+    const {
+      drawer,
+      getCurrency,
+      markets,
+    } = this.props;
 
     return (
       <Container>
@@ -96,19 +134,32 @@ class Market extends Component {
           rightIcon="Filter"
           rightAction={() => {}}
         />
-        <Content style={base.contentContainer}>
-          <SGListView
-            dataSource={this.getDataSource()}
-            renderRow={renderRow}
-            initialListSize={10}
-            stickyHeaderIndices={[]}
-            onEndReachedThreshold={1}
-            scrollRenderAheadDistance={1}
-            pageSize={1}
-            renderHeader={() => <Header />}
-            renderFooter={() => <Footer />}
+        <List style={base.contentContainer}>
+          <FlatList
+            data={this.getData()}
+            renderItem={({ item, index }) => (
+              <CoinCard
+                type="market"
+                order={index + 1}
+                market={markets.items[item]}
+                currency={getCurrency}
+                showCoin={() => {}}
+                addTransaction={() => {}}
+                removeCoin={() => {}}
+              />
+            )}
+            keyExtractor={item => item}
+            ItemSeparatorComponent={this.renderSeparator}
+            ListEmptyComponent={this.renderEmpty}
+            ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
+            onEndReached={this.handleLoadMore}
+            onEndReachedThreshold={0}
+            onRefresh={this.handleRefresh}
+            refreshing={markets.refreshing}
+            initialNumToRender={10}
           />
-        </Content>
+        </List>
       </Container>
     );
   }

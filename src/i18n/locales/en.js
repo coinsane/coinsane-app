@@ -19,4 +19,10 @@ export default {
     all: 'All Portfolios',
     addButton: '+ ADD NEW PORTFOLIO',
   },
+  placeholder: {
+    search: 'Search',
+  },
+  empty: {
+    search: 'Sorry. Nothing found',
+  },
 };

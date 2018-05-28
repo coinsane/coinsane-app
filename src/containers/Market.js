@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
+import { getAvailableMarkets, changeSearchTerm, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
 import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
 
 class Market extends Component {
@@ -21,11 +21,12 @@ class Market extends Component {
     selectCurrency: PropTypes.func.isRequired,
     getMarketCap: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
+    changeSearchTerm: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
     this.props.getMarketCap();
-    this.props.getAvailableMarkets({ limit: 10, offset: 0 });
+    // this.props.getAvailableMarkets({});
   }
 
   getCurrency = () => {
@@ -57,10 +58,9 @@ class Market extends Component {
         currency={settings.currency}
         updateCurrency={this.updateCurrency}
         getAvailableMarkets={this.props.getAvailableMarkets}
+        changeSearchTerm={this.props.changeSearchTerm}
         getCurrency={this.getCurrency()}
-        cap={markets.cap}
-        markets={markets.list}
-        coins={markets.items}
+        markets={markets}
       />
     );
   }
@@ -75,6 +75,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getMarketCap,
   getAvailableMarkets,
+  changeSearchTerm,
   clearMarkets,
   selectCurrency,
 };

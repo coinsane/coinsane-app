@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Item, Input } from 'native-base';
 
+import I18n from '../../../../i18n';
 import {
   changeSearchTerm,
   getAvailableMarkets,
@@ -16,6 +17,11 @@ class SearchBar extends Component {
   static propTypes = {
     changeSearchTerm: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+  };
+
+  static defaultProps = {
+    placeholder: I18n.t('placeholder.search'),
   };
 
   constructor(props) {
@@ -23,21 +29,22 @@ class SearchBar extends Component {
     this.onChangeText = this.onChangeText.bind(this);
   }
 
-  onChangeText(value) {
-    return value && value.length > 1 ?
-      this.props.changeSearchTerm(value) :
-      this.props.getAvailableMarkets();
+  onChangeText(q) {
+    return q && q.length > 1 ?
+      this.props.changeSearchTerm({ q }) :
+      this.props.getAvailableMarkets({});
   }
 
   render() {
+    const { placeholder } = this.props;
     return (
       <Item style={styles.search}>
-        <CoinsaneIcon name="Search" width={22} height={22} fill={colors.textGray} />
+        <CoinsaneIcon name="Search" width={20} height={20} fill={colors.textGray} />
         <Input
-          autoFocus
+          // autoFocus
           autoCorrect={false}
           clearTextOnFocus
-          placeholder="Search"
+          placeholder={placeholder}
           placeholderTextColor={colors.textGray}
           style={styles.input}
           onChangeText={this.onChangeText}

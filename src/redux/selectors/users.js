@@ -1,2 +1,2 @@
-// Get entire transaction object
+// Get auth token
 export const getToken = state => state.auth.token;

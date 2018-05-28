@@ -1,14 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import Spinner from 'react-native-spinkit';
 
 import styles from './Loading.styles';
 import { colors } from '../../styles';
 
-const About = () => (
-  <View style={styles.loadingContainer}>
-    <Spinner size={50} type="ThreeBounce" color={colors.white} />
+const Loading = ({ size }) => (
+  <View style={styles.container}>
+    <Spinner size={size} type="ThreeBounce" color={colors.white} />
   </View>
 );
 
-export default About;
+Loading.propTypes = {
+  size: PropTypes.number,
+};
+
+Loading.defaultProps = {
+  size: 50,
+};
+
+export default Loading;
