@@ -8,7 +8,7 @@ import DefaultProps from '../constants/navigation';
 import NavigationDrawer from '../components/NavigationDrawer/NavigationDrawer.component';
 
 import CoinsContainer from '../../containers/Coins';
-import CoinViewComponent from '../components/Coin/Coin.component';
+import CoinComponent from '../components/Coin/Coin.component';
 
 import PortfoliosContainer from '../../containers/Portfolios';
 import PortfoliosComponent from '../components/Portfolios/Portfolios.component';
@@ -104,7 +104,7 @@ const Index = (
         key="coin"
         {...DefaultProps.navbarProps}
         component={CoinsContainer}
-        Layout={CoinViewComponent}
+        Layout={CoinComponent}
       />
     </Overlay>
     <Scene

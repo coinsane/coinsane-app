@@ -11,7 +11,7 @@ import { colors, typography } from '../../../styles/index';
 class CoinCard extends PureComponent {
   static propTypes = {
     type: PropTypes.oneOf(['portfolio', 'market']).isRequired,
-    coinId: PropTypes.string,
+    id: PropTypes.string,
     market: PropTypes.shape({}).isRequired,
     amount: PropTypes.number,
     order: PropTypes.number,
@@ -33,7 +33,7 @@ class CoinCard extends PureComponent {
   };
 
   static defaultProps = {
-    coinId: null,
+    id: null,
     amount: null,
     activePortfolio: 'all',
     isCollapsed: false,
@@ -45,7 +45,7 @@ class CoinCard extends PureComponent {
   render() {
     const {
       type,
-      coinId,
+      id,
       order,
       amount,
       market,
@@ -121,7 +121,7 @@ class CoinCard extends PureComponent {
           <ListItem
             button
             style={styles.portfolio__item}
-            onPress={() => showCoin(coinId)}
+            onPress={() => showCoin({ market, id })}
           >
             <FastImage source={coinCard.icon} style={styles.portfolio__thumbnail} />
             <View style={styles.portfolio__body}>
@@ -177,7 +177,7 @@ class CoinCard extends PureComponent {
         <ListItem
           button
           style={styles.market_item}
-          onPress={() => showCoin(coinId)}
+          onPress={() => showCoin({ market, id })}
         >
           <Text style={styles.market_order}>{coinCard.order}</Text>
           <Left style={styles.market__left}>
@@ -201,24 +201,24 @@ class CoinCard extends PureComponent {
             </View>
           </Left>
           <Body style={styles.market__body}>
-          <Text
-            numberOfLines={1}
-            style={[
-              styles.market__text,
-              textPlaceholder,
-            ]}
-          >
-            {coinCard.marketCap}
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={[
-              styles.market__text_footer,
-              textPlaceholder,
-            ]}
-          >
-            {coinCard.volume24h}
-          </Text>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.market__text,
+                textPlaceholder,
+              ]}
+            >
+              {coinCard.marketCap}
+            </Text>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.market__text_footer,
+                textPlaceholder,
+              ]}
+            >
+              {coinCard.volume24h}
+            </Text>
           </Body>
           <Right style={styles.market__right}>
             <Text

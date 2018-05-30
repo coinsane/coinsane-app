@@ -19,29 +19,30 @@ import { base } from '../../styles';
 class CoinTabOverview extends Component {
   static propTypes = {
     error: PropTypes.string,
-    coin: PropTypes.shape({}).isRequired,
+    market: PropTypes.shape({}).isRequired,
     coinData: PropTypes.shape({}).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
-    markets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    exchanges: PropTypes.arrayOf(PropTypes.shape({})),
     updateCurrency: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     error: null,
+    exchanges: [],
   };
 
   render() {
     const {
       error,
-      coin,
+      market,
       coinData,
       getCoinHisto,
       currency,
       currencies,
-      markets,
+      exchanges,
       updateCurrency,
       period,
     } = this.props;
@@ -53,42 +54,39 @@ class CoinTabOverview extends Component {
     const summaryList = [
       {
         label: 'Market Cap',
-        value: nFormat(coin.market.prices[currency].marketCap, 2),
+        value: nFormat(market.prices[currency].marketCap, 2),
       },
       {
         label: 'Vol (24h)',
-        value: nFormat(coin.market.prices[currency].totalVolume24HTo, 2),
+        value: nFormat(market.prices[currency].totalVolume24HTo, 2),
       },
       {
         label: 'Supply',
-        value: nFormat(coin.market.prices[currency].supply, 2),
+        value: nFormat(market.prices[currency].supply, 2),
       },
     ];
 
-    const marketsList = markets ?
-      markets.map((market) => {
-        return {
-          source: market.market,
-          pair: `${coin.market.symbol}/${currency}`,
-          volume: nFormat(market.volume, 2),
-          price: nFormat(parseFloat(market.price), 2),
-          changePct: 0,
-        };
-      }) : [];
+    const exchangesList = exchanges.map(exchange => ({
+      source: exchange.market,
+      pair: `${exchange.symbol}/${currency}`,
+      volume: nFormat(exchange.volume, 2),
+      price: nFormat(parseFloat(exchange.price), 2),
+      changePct: 0,
+    }));
 
     return (
       <Content style={base.contentContainer}>
         <CoinsaneSummary
           style={{ flex: 0.6 }}
-          value={coin.market.prices[currency].price}
+          value={market.prices[currency].price}
           currency={currencies[currency]}
           buttons={Object.keys(currencies)}
-          subValue={coin.market.prices[currency].changePctDay}
+          subValue={market.prices[currency].changePctDay}
           updateCurrency={updateCurrency}
           leftTitle="LOW"
-          leftValue={coin.market.prices[currency].low24H}
+          leftValue={market.prices[currency].low24H}
           rightTitle="HIGH"
-          rightValue={coin.market.prices[currency].high24H}
+          rightValue={market.prices[currency].high24H}
         />
         <Chart
           data={coinData}
@@ -101,7 +99,7 @@ class CoinTabOverview extends Component {
               type="period"
               value={key}
               uppercase
-              onPress={() => getCoinHisto({ fsym: coin.market.symbol, tsym: currency, range: key })}
+              onPress={() => getCoinHisto({ fsym: market.symbol, tsym: currency, range: key })}
               active={period === key}
             />
           )) }
@@ -113,7 +111,7 @@ class CoinTabOverview extends Component {
         <Spacer size={20} />
         <TabHeader title="Markets" />
         <MarketInfoCell
-          list={marketsList}
+          list={exchangesList}
         />
         <Spacer size={20} />
         {/* <TabHeader title="News" />

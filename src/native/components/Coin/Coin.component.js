@@ -10,17 +10,19 @@ import CoinTabTransactions from '../CoinTabTransactions/CoinTabTransactions.comp
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 
 import styles from './Coin.styles';
-import { colors, typography } from '../../styles';
+import { colors } from '../../styles';
 
-class CoinView extends Component {
+class Coin extends Component {
   static propTypes = {
     error: PropTypes.string,
-    coinId: PropTypes.string.isRequired,
-    portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    id: PropTypes.string,
+    coin: PropTypes.shape({}),
+    market: PropTypes.shape({}).isRequired,
+    exchanges: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
     transactionsLoading: PropTypes.bool.isRequired,
     transactionsError: PropTypes.string,
-    markets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    markets: PropTypes.shape({}).isRequired,
     coinData: PropTypes.shape({}).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
@@ -35,14 +37,16 @@ class CoinView extends Component {
 
   static defaultProps = {
     error: null,
+    id: null,
+    coin: null,
     transactionsList: [{}],
     transactionsError: null,
   };
 
   componentDidMount() {
     const {
-      portfolios,
-      coinId,
+      id,
+      market,
       symbol,
       getCoinHisto,
       getCoinMarkets,
@@ -50,32 +54,25 @@ class CoinView extends Component {
       period,
     } = this.props;
 
-    let coin = null;
-    if (coinId && portfolios) {
-      for (let i = 0; i < portfolios.length; i += 1) {
-        const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item._id === coinId);
-        if (coin) break;
-      }
-    }
-
     let tempCurrency = symbol;
 
-    if (coin.market.symbol === symbol) {
+    if (market.symbol === symbol) {
       // update currency
       tempCurrency = 'USD';
     }
 
-    getCoinHisto({ fsym: coin.market.symbol, tsym: tempCurrency, range: period });
-    getCoinMarkets({ fsym: coin.market.symbol, tsym: symbol });
-    getTransactionsList(coinId);
+    getCoinHisto({ fsym: market.symbol, tsym: tempCurrency, range: period });
+    getCoinMarkets({ fsym: market.symbol, tsym: symbol });
+    getTransactionsList(id);
   }
 
   render() {
     const {
       error,
-      portfolios,
-      coinId,
+      id,
+      coin,
+      market,
+      exchanges,
       coinData,
       addTransaction,
       transactionsList,
@@ -93,20 +90,8 @@ class CoinView extends Component {
     // Error
     if (error) return <Error content={error} />;
 
-    // Get this Coin from all portfolios
-    let coin = null;
-    if (coinId && portfolios) {
-      for (let i = 0; i < portfolios.length; i++) {
-        const portfolio = portfolios[i];
-        coin = portfolio.coins.find(item => item._id === coinId);
-        if (coin) break;
-      }
-    }
 
-    // Coin not found
-    if (!coin) return <Error content={ErrorMessages.coin404} />;
-
-    const icon = { uri: `https://www.cryptocompare.com${coin.market.imageUrl}` };
+    const icon = { uri: `https://www.cryptocompare.com${market.imageUrl}` };
 
     const tabHeading = title => (
       <TabHeading style={{ backgroundColor: colors.bgGray }}>
@@ -120,10 +105,10 @@ class CoinView extends Component {
       >
         <FastImage source={icon} style={styles.header__thumbnail} />
         <Text style={styles.header__title}>
-          {coin.market.name}
+          {market.name}
         </Text>
         <Text style={styles.header__title_suffix}>
-          {coin.market.symbol}
+          {market.symbol}
         </Text>
       </View>
     );
@@ -138,9 +123,8 @@ class CoinView extends Component {
           <Tab heading={tabHeading('Overview')}>
             <CoinTabOverview
               error={error}
-              portfolios={portfolios}
-              coin={coin}
-              coinId={coinId}
+              market={market}
+              coinId={id}
               coinData={coinData}
               getCoinHisto={getCoinHisto}
               currency={symbol}
@@ -148,14 +132,15 @@ class CoinView extends Component {
               updateCurrency={updateCurrency}
               period={period}
               getCoinMarkets={getCoinMarkets}
-              markets={markets}
+              exchanges={exchanges}
             />
           </Tab>
           <Tab heading={tabHeading('Transactions')}>
             <CoinTabTransactions
               error={error}
               coin={coin}
-              coinId={coinId}
+              market={market}
+              coinId={id}
               selectedCurrency={symbol}
               getPrice={getPrice}
               addTransaction={addTransaction}
@@ -170,4 +155,4 @@ class CoinView extends Component {
   }
 }
 
-export default CoinView;
+export default Coin;

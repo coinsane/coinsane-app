@@ -27,5 +27,6 @@ export default {
   empty: {
     search: 'Sorry. Nothing found',
     portfolios: 'You don\'t have any portfolios yet. Let\'s create one?',
+    transactions: 'Transactions list is empty. Add one?',
   },
 };

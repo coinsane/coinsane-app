@@ -24,6 +24,7 @@ export const COIN_MARKETS_UPDATE_ERROR = '[coins] COIN_MARKETS_UPDATE_ERROR';
 
 
 // ========= [coins] peace of state action types ========= //
+export const UPDATE_COINS_CACHE = '[coins] UPDATE_COINS_CACHE';
 export const GET_AVAILABLE_MARKETS = '[api] GET_AVAILABLE_MARKETS';
 export const GET_AVAILABLE_MARKETS_SUCCESS = '[coins] GET_AVAILABLE_MARKETS_SUCCESS';
 export const GET_AVAILABLE_MARKETS_ERROR = '[coins] GET_AVAILABLE_MARKETS_ERROR';

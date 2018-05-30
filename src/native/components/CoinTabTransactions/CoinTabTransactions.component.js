@@ -9,19 +9,29 @@ import { base } from '../../styles';
 import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
 import TransactionItem from '../_Molecules/TransactionItem/TransactionItem.molecula';
 import Loading from '../Loading/Loading.component';
+import Empty from '../Empty/Empty.component';
 import { nFormat } from '../../../lib/utils';
+import I18n from '../../../i18n';
 
 class CoinTabTransactions extends Component {
   static propTypes = {
-    coin: PropTypes.shape({}).isRequired,
+    coin: PropTypes.shape({}),
+    market: PropTypes.shape({}).isRequired,
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     selectedCurrency: PropTypes.string.isRequired,
     transactionsLoading: PropTypes.bool.isRequired,
   };
 
+  static defaultProps = {
+    coin: null,
+  };
+
   getSummaryList = () => {
     const {
-      coin, transactionsList, selectedCurrency,
+      coin,
+      market,
+      transactionsList,
+      selectedCurrency,
     } = this.props;
 
     const summaryList = [
@@ -41,7 +51,7 @@ class CoinTabTransactions extends Component {
     ];
 
     if (transactionsList.length && transactionsList[0].amount) {
-      const coinPrice = coin.amount * coin.market.prices[selectedCurrency].price;
+      const coinPrice = coin ? coin.amount * market.prices[selectedCurrency].price : 0;
 
       transactionsList.forEach(({ amount, total, histo, buy }, i) => {
         const itemTotal = histo[selectedCurrency] * total;
@@ -83,23 +93,24 @@ class CoinTabTransactions extends Component {
           <Spacer size={20} />
           <View>
             {
-              transactionsLoading ?
-                <Loading /> :
-                transactionsList.length && transactionsList[0].amount ?
-                  transactionsList.map(({
-                                          _id, date, category, amount, total, currency, buy,
-                                        }) => (
-                                          <TransactionItem
-                                            key={_id}
-                                            date={date}
-                                            category={category ? category.title : ''}
-                                            amount={amount}
-                                            total={total}
-                                            currency={currency ? currency.symbol : ''}
-                                            buy={buy}
-                                          />
-                  )) :
-                  <Spacer size={20} />
+              !coin ? <Empty description={I18n.t('empty.transactions')} /> :
+                transactionsLoading ?
+                  <Loading /> :
+                  transactionsList.length && transactionsList[0].amount ?
+                    transactionsList.map(({
+                      _id, date, category, amount, total, currency, buy,
+                    }) => (
+                      <TransactionItem
+                        key={_id}
+                        date={date}
+                        category={category ? category.title : ''}
+                        amount={amount}
+                        total={total}
+                        currency={currency ? currency.symbol : ''}
+                        buy={buy}
+                      />
+                    )) :
+                    <Spacer size={20} />
             }
           </View>
         </Content>
@@ -109,7 +120,7 @@ class CoinTabTransactions extends Component {
             full
             bordered
             onPress={() => Actions.createNewTransaction({
-              coinItem: coin.market,
+              coinItem: coin,
               portfolioId: coin.portfolioId,
             })}
             style={base.footer__button}

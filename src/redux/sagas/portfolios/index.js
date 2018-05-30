@@ -15,6 +15,7 @@ import {
   TOTALS_REPLACE_SUCCESS,
   SELECT_CURRENCY_SUCCESS,
   UPDATE_MARKETS_CACHE,
+  UPDATE_COINS_CACHE,
 } from '../../../redux/actions/action.types';
 
 /**
@@ -30,6 +31,7 @@ export function* updatePortfoliosSaga(action) {
     }
     const response = yield call(api.portfolios.fetchPortfolios, symbol);
     const { portfolios } = response.data.response;
+    const markets = {};
     const items = {};
     const sections = portfolios.map((section) => {
       const { coins, ...rest } = section;
@@ -37,13 +39,18 @@ export function* updatePortfoliosSaga(action) {
         ...rest,
         data: coins.map((item) => {
           const { _id, amount, market } = item;
-          if (!items[market._id]) items[market._id] = market;
+          items[_id] = { _id, amount, market: market._id };
+          if (!markets[market._id]) markets[market._id] = market;
           return { _id, amount, market: market._id };
         }),
       };
     });
     yield put({
       type: UPDATE_MARKETS_CACHE,
+      payload: markets,
+    });
+    yield put({
+      type: UPDATE_COINS_CACHE,
       payload: items,
     });
     yield put({

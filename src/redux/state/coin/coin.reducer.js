@@ -5,12 +5,14 @@ import {
   GET_AVAILABLE_TRANSACTIONS,
   GET_AVAILABLE_TRANSACTIONS_SUCCESS,
   GET_AVAILABLE_TRANSACTIONS_ERROR,
+  UPDATE_COINS_CACHE,
 } from '../../actions/action.types';
 
 export const initialState = {
   loading: true,
   error: null,
   list: {},
+  items: {},
   transactions: [],
   transactionsLoading: true,
   transactionsError: null,
@@ -21,6 +23,12 @@ export const initialState = {
 
 export default function actionReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_COINS_CACHE: {
+      return {
+        ...state,
+        items: { ...state.items, ...action.payload },
+      };
+    }
     case COIN_HISTO_UPDATE_SUCCESS: {
       return {
         ...state,

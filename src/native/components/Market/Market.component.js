@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList } from 'react-native';
 import { Container, View, Text, Title, List } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 import I18n from '../../../i18n';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
@@ -121,6 +122,10 @@ class Market extends Component {
 
   renderSeparator = () => <View style={styles.separator} />;
 
+  showCoin = ({ market }) => {
+    Actions.coin({ match: { params: { market } } });
+  };
+
   render() {
     const {
       drawer,
@@ -146,7 +151,7 @@ class Market extends Component {
                 order={index + 1}
                 market={markets.items[item]}
                 currency={currency}
-                showCoin={() => {}}
+                showCoin={this.showCoin}
                 addCoin={() => {}}
                 removeCoin={() => {}}
               />

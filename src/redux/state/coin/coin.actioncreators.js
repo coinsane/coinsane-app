@@ -9,7 +9,6 @@ import {
   COIN_MARKETS_UPDATE,
 } from '../../actions/action.types';
 
-
 /**
   * Get course for particular pair and date
   */
@@ -49,9 +48,9 @@ export function getTransactionsList(coinId) {
   };
 }
 
-// /**
-//   * Add Coin
-//   */
+/**
+  * Add Coin
+  */
 
 export function getCoinHisto(payload) {
   return { type: COIN_HISTO_UPDATE, payload };

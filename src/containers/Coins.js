@@ -18,7 +18,9 @@ class Coins extends Component {
       error: PropTypes.string,
       list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     }).isRequired,
-    coin: PropTypes.shape({}).isRequired,
+    coin: PropTypes.shape({
+      items: PropTypes.shape({}),
+    }).isRequired,
     navigation: PropTypes.shape({
       drawer: PropTypes.shape({}),
     }).isRequired,
@@ -75,6 +77,15 @@ class Coins extends Component {
     return currencies[currency] || {};
   };
 
+  getCoin = () => {
+    const {
+      match,
+      coin,
+    } = this.props;
+    const id = (match && match.params && match.params.id) ? match.params.id : null;
+    return id ? coin.items[id] : null;
+  };
+
   addTransaction = (portfolio) => {
     // add portfolioId (passed as object) to process transaction peace of state
     this.props.updateProcessTransaction({ portfolio });
@@ -115,22 +126,18 @@ class Coins extends Component {
       settings,
       markets,
     } = this.props;
-    const coinId = (match && match.params && match.params.coinId) ? match.params.coinId : null;
+    const id = (match && match.params && match.params.id) ? match.params.id : null;
+    const market = (match && match.params && match.params.market) ? match.params.market : null;
     const portfolioId = match && match.params && match.params.portfolioId
       ? match.params.portfolioId :
       null;
 
     return (
       <Layout
-        coinId={coinId}
+        id={id}
+        market={market}
         portfolioId={portfolioId}
 
-        portfolios={portfolios}
-
-        portfoliosError={portfolios.error}
-        portfoliosLoading={portfolios.loading}
-        portfoliosList={portfolios.list}
-        portfoliosChart={portfolios.chart}
         symbol={settings.currency}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}
@@ -147,6 +154,7 @@ class Coins extends Component {
         getTotals={this.props.getTotals}
         activePortfolio={portfolios.selected}
         coinData={coin.list}
+        coins={coin.items}
 
         fetchPortfolios={this.fetchPortfolios}
         updatePortfolioChart={this.props.updatePortfolioChart}
@@ -154,6 +162,7 @@ class Coins extends Component {
         updatePortfolioCurrency={this.props.updatePortfolioCurrency}
 
         currency={this.getCurrency()}
+        coin={this.getCoin()}
 
         getPrice={this.props.getPrice}
         addTransaction={this.addTransaction}
@@ -169,9 +178,9 @@ class Coins extends Component {
         getCoinMarkets={this.props.getCoinMarkets}
         updateCollapsed={this.props.updateCollapsed}
         collapsedList={portfolios.collapsed}
-        markets={coin.markets}
+        exchanges={coin.markets}
         settings={settings}
-        marketsList={markets}
+        markets={markets}
         periods={settings.periods}
       />
     );

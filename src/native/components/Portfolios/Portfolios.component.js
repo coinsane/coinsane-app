@@ -93,8 +93,8 @@ class Portfolios extends Component {
     updatePortfolioCurrency({ symbol, period, portfolio });
   };
 
-  showCoin = (coinId) => {
-    Actions.coin({ match: { params: { coinId } } });
+  showCoin = ({ market, id }) => {
+    Actions.coin({ match: { params: { market, id } } });
   };
 
   editPortfolio = (portfolioId) => {
@@ -192,7 +192,7 @@ class Portfolios extends Component {
       <CoinCard
         type="portfolio"
         key={_id}
-        coinId={_id}
+        id={_id}
         amount={amount}
         market={markets.items[market]}
         currency={currency}
