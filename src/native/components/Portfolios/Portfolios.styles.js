@@ -3,18 +3,21 @@ import { colors, typography } from '../../styles';
 
 export default StyleSheet.create({
   coinsHeader: { borderBottomWidth: 0 },
-  coins__bodyArrowIcon: {
+  header__arrow: {
+    fontSize: 18,
     transform: [
       { rotate: '270deg' },
       { translateX: -3 },
       { translateY: -5 },
     ],
   },
-  coins__contentHeader: {
+  range: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     marginBottom: 20,
+    marginLeft: 7,
+    marginRight: 7,
   },
   coins__contentHeaderText: {
     color: colors.textGray,

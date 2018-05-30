@@ -7,6 +7,7 @@ import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism
 
 import styles from './CreatePortfolio.styles';
 import { base } from '../../styles';
+import I18n from "../../../i18n";
 
 class CreatePortfolio extends Component {
   static propTypes = {
@@ -46,12 +47,12 @@ class CreatePortfolio extends Component {
 
   render() {
     return (
-      <Container style={base.contentContainer}>
+      <Container>
         <CoinsaneHeader
           leftIcon="Back"
           title={<Title>Add new portfolio</Title>}
         />
-        <Content style={styles.content}>
+        <Content padder style={base.contentContainer}>
           <Text style={styles.content__text}>{'Basic'.toUpperCase()}</Text>
           <Form>
             <Item stackedLabel style={base.form__titleContainer}>
@@ -84,12 +85,12 @@ class CreatePortfolio extends Component {
         <Footer style={base.footer}>
           <Button
             small
-            full
             bordered
+            full
             onPress={() => this.handleSubmit()}
             style={base.footer__button}
           >
-            <Text style={base.footer__buttonText}>ADD</Text>
+            <Text style={base.footer__buttonText}>{I18n.t('portfolios.createButton')}</Text>
           </Button>
         </Footer>
       </Container>

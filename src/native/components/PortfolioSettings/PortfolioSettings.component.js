@@ -7,6 +7,7 @@ import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, Vie
 import ErrorMessages from '../../../constants/errors';
 import Error from '../Error/Error.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import I18n from '../../../i18n';
 
 import styles from './PortfolioSettings.styles';
 import { base } from '../../styles';
@@ -95,12 +96,12 @@ class PortfolioSettings extends Component {
     if (!portfolio) return <Error content={ErrorMessages.portfolio404} />;
 
     return (
-      <Container style={base.contentContainer}>
+      <Container>
         <CoinsaneHeader
           leftIcon="Back"
           title={<Title>{portfolio.title}</Title>}
         />
-        <Content style={styles.settings__container}>
+        <Content padder style={base.contentContainer}>
           <Text style={styles.container__text}>{'Edit portfolio'.toUpperCase()}</Text>
           <Form>
             <Item stackedLabel style={base.form__titleContainer}>
@@ -135,11 +136,12 @@ class PortfolioSettings extends Component {
         <Footer style={base.footer}>
           <Button
             small
+            bordered
             full
             onPress={() => this.handleSubmit()}
-            style={styles.footer__button}
+            style={base.footer__button}
           >
-            <Text style={base.footer__buttonText}>SAVE</Text>
+            <Text style={base.footer__buttonText}>{I18n.t('portfolios.saveButton')}</Text>
           </Button>
         </Footer>
       </Container>

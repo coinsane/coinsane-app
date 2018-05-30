@@ -7,12 +7,7 @@ export const fetchTotals = data => new Promise(async (resolve, reject) => {
   return resolve(response.data.response);
 });
 
-export const fetchPortfolios = symbol => new Promise(async (resolve, reject) => {
-  const response = await axios.get('/portfolios', { params: { symbol } });
-  if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
-  return resolve(response.data.response.portfolios);
-});
-
+export const fetchPortfolios = symbol => axios.get('/portfolios', { params: { symbol } });
 
 export const setPortfolio = (data = {}) => new Promise(async (resolve, reject) => {
   const response = await axios.post('/portfolios', data);

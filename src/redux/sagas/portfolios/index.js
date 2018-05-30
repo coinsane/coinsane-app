@@ -1,11 +1,11 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call, select } from 'redux-saga/effects';
 import api from '../../../api';
+import selectors from '../../selectors';
 import {
   UPDATE_PORTFOLIOS,
   UPDATE_PORTFOLIOS_SUCCESS,
   UPDATE_PORTFOLIOS_ERROR,
   UPDATE_PORTFOLIO_CHART,
-  UPDATE_PORTFOLIO_CHART_SUCCESS,
   UPDATE_PORTFOLIO_CHART_ERROR,
   UPDATE_PORTFOLIO_CURRENCY,
   UPDATE_PORTFOLIO_CURRENCY_ERROR,
@@ -14,17 +14,42 @@ import {
   UPDATE_PORTFOLIO_PERIOD_ERROR,
   TOTALS_REPLACE_SUCCESS,
   SELECT_CURRENCY_SUCCESS,
+  UPDATE_MARKETS_CACHE,
 } from '../../../redux/actions/action.types';
 
 /**
  * Fetch Markets side effect.
  * @kind SideEffect
- * @param payload { fsym, tsym, range }
+ * @param action { payload }
  */
 export function* updatePortfoliosSaga(action) {
   try {
-    const response = yield call(api.portfolios.fetchPortfolios, action.payload);
-    yield put({ type: UPDATE_PORTFOLIOS_SUCCESS, payload: response });
+    let { symbol } = action.payload;
+    if (!symbol) {
+      symbol = yield select(selectors.getSymbol);
+    }
+    const response = yield call(api.portfolios.fetchPortfolios, symbol);
+    const { portfolios } = response.data.response;
+    const items = {};
+    const sections = portfolios.map((section) => {
+      const { coins, ...rest } = section;
+      return {
+        ...rest,
+        data: coins.map((item) => {
+          const { _id, amount, market } = item;
+          if (!items[market._id]) items[market._id] = market;
+          return { _id, amount, market: market._id };
+        }),
+      };
+    });
+    yield put({
+      type: UPDATE_MARKETS_CACHE,
+      payload: items,
+    });
+    yield put({
+      type: UPDATE_PORTFOLIOS_SUCCESS,
+      payload: sections,
+    });
   } catch (error) {
     yield put({ type: UPDATE_PORTFOLIOS_ERROR, payload: error });
   }
@@ -32,10 +57,10 @@ export function* updatePortfoliosSaga(action) {
 
 export function* updatePortfolioChartSaga(action) {
   try {
-    const { period, symbol, portfolio: portfolioId } = action.payload;
+    const { period: range, symbol, portfolio: portfolioId } = action.payload;
     const response = yield call(api.portfolios.fetchTotals, {
       portfolioId,
-      range: period,
+      range,
       symbol,
     });
     const { totals, lastTotal, changePct } = response;
@@ -70,7 +95,7 @@ export function* updatePortfolioCurrencySaga(action) {
         changePct,
       },
     });
-    yield put({ type: UPDATE_PORTFOLIOS, payload: symbol });
+    yield put({ type: UPDATE_PORTFOLIOS, payload: { symbol } });
     yield put({ type: SELECT_CURRENCY_SUCCESS, payload: symbol });
   } catch (error) {
     yield put({ type: UPDATE_PORTFOLIO_CURRENCY_ERROR, error });

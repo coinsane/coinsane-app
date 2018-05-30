@@ -1,2 +1,2 @@
 // Get currency symbol
-export const getCurrency = state => state.settings.currency;
+export const getSymbol = state => state.settings.currency;

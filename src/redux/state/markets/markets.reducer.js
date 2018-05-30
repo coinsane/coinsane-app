@@ -9,6 +9,7 @@ import {
   GET_MARKET_CAP,
   GET_MARKET_CAP_SUCCESS,
   GET_MARKET_CAP_ERROR,
+  UPDATE_MARKETS_CACHE,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -96,6 +97,12 @@ export default function actionReducer(state = initialState, action) {
         items,
         cache,
         count,
+      };
+    }
+    case UPDATE_MARKETS_CACHE: {
+      return {
+        ...state,
+        items: { ...state.items, ...action.payload },
       };
     }
     case GET_AVAILABLE_MARKETS_ERROR: {

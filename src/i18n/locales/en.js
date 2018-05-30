@@ -18,11 +18,14 @@ export default {
     title: 'Choose Portfolio',
     all: 'All Portfolios',
     addButton: '+ ADD NEW PORTFOLIO',
+    saveButton: 'SAVE',
+    createButton: 'ADD',
   },
   placeholder: {
     search: 'Search',
   },
   empty: {
     search: 'Sorry. Nothing found',
+    portfolios: 'You don\'t have any portfolios yet. Let\'s create one?',
   },
 };

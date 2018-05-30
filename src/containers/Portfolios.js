@@ -18,6 +18,7 @@ class Portfolios extends Component {
       error: PropTypes.string,
       list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     }).isRequired,
+    markets: PropTypes.shape({}).isRequired,
     navigation: PropTypes.shape({
       drawer: PropTypes.shape({}),
     }).isRequired,
@@ -90,8 +91,10 @@ class Portfolios extends Component {
     });
   };
 
-  fetchPortfolios = (symbol) => {
-    if (this.props.auth.token) this.props.updatePortfolios(symbol || this.props.settings.currency)
+  fetchPortfolios = ({ symbol, refreshing }) => {
+    if (this.props.auth.token) {
+      this.props.updatePortfolios({ symbol, refreshing });
+    }
   };
 
   render = () => {
@@ -101,6 +104,7 @@ class Portfolios extends Component {
       navigation,
       match,
       settings,
+      markets,
     } = this.props;
 
     const id = match.params && match.params.portfolioId ? match.params.portfolioId : null;
@@ -113,6 +117,7 @@ class Portfolios extends Component {
         list={portfolios.list}
         error={portfolios.error}
         loading={portfolios.loading}
+        refreshing={portfolios.refreshing}
         chart={portfolios.chart}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}
@@ -141,6 +146,8 @@ class Portfolios extends Component {
 
         updateCurrency={this.props.selectCurrency}
         updatePeriod={this.props.updatePeriod}
+
+        markets={markets}
       />
     );
   }
@@ -149,6 +156,7 @@ class Portfolios extends Component {
 const mapStateToProps = state => ({
   navigation: state.navigation,
   portfolios: state.portfolios,
+  markets: state.markets,
   settings: state.settings,
   auth: state.auth,
 });

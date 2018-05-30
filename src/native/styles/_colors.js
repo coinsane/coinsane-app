@@ -12,4 +12,6 @@ export default {
   mediumGray: '#7C778C',
   textGray: '#8D8A96',
   white: '#fff',
+  gradientFrom: 'rgba(27,21,45,1)',
+  gradientTo: 'rgba(27,21,45,0)',
 };

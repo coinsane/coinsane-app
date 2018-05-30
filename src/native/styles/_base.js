@@ -11,21 +11,37 @@ export default StyleSheet.create({
     backgroundColor: colors.bgGray,
   },
   footer: {
-    backgroundColor: colors.inputBg,
+    backgroundColor: colors.bgGray,
     borderTopWidth: 0,
-    height: 45,
-    marginTop: 15
+    height: 50,
   },
   footer__button: {
     flex: 1,
-    height: 45,
+    marginTop: 0,
     borderTopWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,
-    borderBottomWidth: 0
+    borderBottomWidth: 0,
+    height: 50,
+    backgroundColor: colors.inputBg,
   },
   footer__buttonText: {
     color: colors.white,
+    fontFamily: typography.fontMedium,
+  },
+  footer__button_bordered: {
+    flex: 1,
+    marginTop: 0,
+    marginBottom: 10,
+    marginLeft: 15,
+    marginRight: 15,
+    height: 40,
+    backgroundColor: colors.bgGray,
+    borderColor: colors.btnBgBlack,
+    borderRadius: 5,
+  },
+  footer__buttonText_bordered: {
+    color: colors.textGray,
     fontFamily: typography.fontMedium,
   },
   // List item shared input field with label
@@ -70,5 +86,13 @@ export default StyleSheet.create({
     fontSize: typography.size17,
     letterSpacing: -0.25,
     fontFamily: typography.fontRegular,
+  },
+  gradientBottom: {
+    flex: 1,
+    position: 'absolute',
+    height: 30,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });

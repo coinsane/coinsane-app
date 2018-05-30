@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, View } from 'react-native';
+import { SectionList, View } from 'react-native';
 import { Container, List, Text, Button, Footer, Icon, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import SGListView from 'react-native-sglistview';
+import LinearGradient from 'react-native-linear-gradient';
 
 import I18n from '../../../i18n';
 import Error from '../Error/Error.component';
@@ -14,6 +14,7 @@ import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import Chart from '../_Organisms/Chart/Chart.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
+import Empty from '../Empty/Empty.component';
 
 import styles from './Portfolios.styles';
 import { colors, base } from '../../styles';
@@ -23,8 +24,10 @@ class Portfolios extends Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
+    refreshing: PropTypes.bool,
     list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     chart: PropTypes.shape({}).isRequired,
+    markets: PropTypes.shape({}).isRequired,
 
     fetchPortfolios: PropTypes.func.isRequired,
     updatePortfolioChart: PropTypes.func.isRequired,
@@ -43,36 +46,34 @@ class Portfolios extends Component {
     symbol: PropTypes.string.isRequired,
     currency: PropTypes.shape({}).isRequired,
     period: PropTypes.string,
-    lastTotal: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
     error: null,
     activePortfolio: 'all',
     period: null,
+    refreshing: false,
   };
 
   constructor(props) {
     super(props);
     this.updateCurrency = this.updateCurrency.bind(this);
-    this.refreshData = this.refreshData.bind(this);
   }
 
-  componentDidMount() {
-    // this.refreshData();
-  }
-
-  refreshData() {
+  handleRefresh = () => {
     const {
+      refreshing,
       activePortfolio,
       period,
       symbol,
       updatePortfolioChart,
       fetchPortfolios,
     } = this.props;
-    fetchPortfolios(symbol);
-    updatePortfolioChart({ symbol, period, portfolio: activePortfolio });
-  }
+    if (!refreshing) {
+      fetchPortfolios({ symbol, refreshing });
+      updatePortfolioChart({ symbol, period, portfolio: activePortfolio });
+    }
+  };
 
   updatePeriod(period) {
     const {
@@ -92,41 +93,34 @@ class Portfolios extends Component {
     updatePortfolioCurrency({ symbol, period, portfolio });
   };
 
-  formatData = (portfolios) => {
-    const dataBlob = {};
-    const sectionIds = [];
-    const rowIds = [];
+  showCoin = (coinId) => {
+    Actions.coin({ match: { params: { coinId } } });
+  };
 
-    portfolios.forEach((portfolio) => {
-      const {
-        _id, title, total, inTotal, changePct, amount,
-      } = portfolio;
-      sectionIds.push(_id);
+  editPortfolio = (portfolioId) => {
+    Actions.portfolioSettings({ match: { params: { portfolioId } } });
+  };
 
-      const coins = portfolio.coins || [];
-      dataBlob[_id] = {
-        _id, title, total, inTotal, count: coins.length, changePct, amount,
-      };
 
-      rowIds.push([]);
+  portfoliosList = () => {
+    const { list, activePortfolio } = this.props;
+    return activePortfolio ? list.filter(item => item._id === activePortfolio) : list;
+  };
 
-      coins.forEach((coin, index) => {
-        const rowId = `${_id}:${index}`;
-        rowIds[rowIds.length - 1].push(rowId);
-        coin.portfolioId = _id;
-        if (coins.length - 1 === index) coin.last = _id;
-        dataBlob[rowId] = coin;
-      });
+  portfolioTotal = () => {
+    const { activePortfolio } = this.props;
+    let lastTotal = 0;
+    const portfolios = this.portfoliosList();
+    portfolios.forEach(({ amount, inTotal }) => {
+      if (activePortfolio || inTotal) lastTotal += amount;
     });
-
-    return { dataBlob, sectionIds, rowIds };
+    return lastTotal;
   };
 
   renderHeader = () => {
     const {
       currencies,
       currency,
-      lastTotal,
       changePct,
       chart,
       period,
@@ -134,10 +128,11 @@ class Portfolios extends Component {
       loading,
       error,
     } = this.props;
+
     return (
       <View>
         <CoinsaneSummary
-          value={nFormat(lastTotal, currency.decimal)}
+          value={nFormat(this.portfolioTotal(), currency.decimal)}
           currency={currency}
           buttons={Object.keys(currencies)}
           subValue={changePct}
@@ -150,7 +145,7 @@ class Portfolios extends Component {
           currency={currency}
           loading={loading}
         />
-        <View style={styles.coins__contentHeader}>
+        <View style={styles.range}>
           { periods.map(key => (
             <CoinsaneButton
               key={key}
@@ -166,83 +161,102 @@ class Portfolios extends Component {
     );
   };
 
-  render() {
+  renderFooter = () => <Spacer size={20} />;
+
+  renderEmpty = () => {
+    const { loading } = this.props;
+    if (loading) return null;
+    return <Empty description={I18n.t('empty.portfolios')} />;
+  };
+
+  renderItem = ({
+    item: {
+      _id,
+      amount,
+      market,
+    },
+    index,
+    section,
+  }) => {
     const {
-      error,
-      loading,
-      list,
-      drawer,
+      markets,
       addCoin,
-      removeCoin,
-      activePortfolio,
       currency,
-      updateCollapsed,
+      activePortfolio,
       collapsedList,
+      removeCoin,
+      loading,
     } = this.props;
-
-    // // Error
-    if (error) return <Error content={error} />;
-
-    const showCoin = coinId => Actions.coin({ match: { params: { coinId } } });
-    const editPortfolio = item => Actions.portfolioSettings({ match: { params: { portfolioId: String(item) } } });
-
-    const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
-    const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
-
-    const portfoliosArray = activePortfolio ? list.filter(portfolio => portfolio._id === activePortfolio) : list;
-
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1._id !== r2._id,
-      sectionHeaderHasChanged: (s1, s2) => s1._id !== s2._id,
-      getSectionData,
-      getRowData,
-    });
-
-    const { dataBlob, sectionIds, rowIds } = this.formatData(portfoliosArray);
-    this.dataSource = ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds);
-
-    const _renderSectionHeader = portfolio => (
-      <PortfolioHeader
-        show={!activePortfolio}
-        id={portfolio._id}
-        title={portfolio.title}
-        totals={portfolio.total}
-        count={portfolio.count}
-        addCoin={addCoin}
-        currency={currency}
-        changePct={portfolio.changePct}
-        amount={portfolio.amount}
-        updateCollapsed={updateCollapsed}
-        isCollapsed={collapsedList.indexOf(portfolio._id) !== -1}
-        isLoading={loading}
-      />
-    );
-
-    const _renderRow = coin => (
+    const last = section.data.length - 1 === index ? section._id : null;
+    return (
       <CoinCard
         type="portfolio"
-        key={coin._id}
-        coinId={coin._id}
-        amount={coin.amount}
-        market={coin.market}
+        key={_id}
+        coinId={_id}
+        amount={amount}
+        market={markets.items[market]}
         currency={currency}
-        showCoin={showCoin}
+        showCoin={this.showCoin}
         addCoin={addCoin}
         removeCoin={removeCoin}
         activePortfolio={activePortfolio}
-        isCollapsed={collapsedList.indexOf(coin.portfolioId) !== -1}
+        isCollapsed={collapsedList.indexOf(section._id) !== -1}
         isLoading={loading}
-        portfolioId={coin.last}
+        portfolioId={last}
       />
     );
+  };
 
-    const HeaderTitle = () => (
-      <Title>
-        <Icon name="ios-arrow-down" style={[styles.coins__bodyArrowIcon, { fontSize: 18, color: colors.textGray }]} />
-        &nbsp;
-        <Text>{activePortfolio && portfoliosArray.length ? portfoliosArray[0].title : I18n.t('portfolios.all')}</Text>
-      </Title>
+  renderSectionHeader = ({ section }) => {
+    const {
+      activePortfolio,
+      addCoin,
+      currency,
+      collapsedList,
+      updateCollapsed,
+      loading,
+    } = this.props;
+    return (
+      <PortfolioHeader
+        show={!activePortfolio}
+        id={section._id}
+        title={section.title}
+        totals={section.total}
+        count={section.data.length}
+        addCoin={addCoin}
+        currency={currency}
+        changePct={section.changePct}
+        amount={section.amount}
+        updateCollapsed={updateCollapsed}
+        isCollapsed={collapsedList.indexOf(section._id) !== -1}
+        isLoading={loading}
+      />
     );
+  };
+
+  render() {
+    const {
+      error,
+      refreshing,
+      drawer,
+      addCoin,
+      activePortfolio,
+    } = this.props;
+
+    if (error) return <Error content={error} />;
+
+    const portfolios = this.portfoliosList();
+
+    const HeaderTitle = () => {
+      const title = activePortfolio && portfolios.length ? portfolios[0].title : I18n.t('portfolios.all');
+      return (
+        <Title>
+          <Icon name="ios-arrow-down" style={[styles.header__arrow, { color: colors.textGray }]} />
+          &nbsp;
+          <Text>{title}</Text>
+        </Title>
+      );
+    };
 
     return (
       <Container>
@@ -252,30 +266,27 @@ class Portfolios extends Component {
           title={<HeaderTitle />}
           titleAction={() => Actions.portfolioSelect()}
           rightIcon="Edit"
-          rightAction={() => editPortfolio(activePortfolio)}
+          rightAction={() => this.editPortfolio(activePortfolio)}
           rightActive={!!activePortfolio}
         />
         <List style={base.contentContainer}>
-          <SGListView
-            dataSource={this.dataSource}
-            renderRow={_renderRow}
-            enableEmptySections
-            // refreshControl={
-            //   <RefreshControl
-            //     progressViewOffset={40}
-            //     refreshing={this.state.refreshing}
-            //     onRefresh={this.refreshData}
-            //   />
-            // }
-            initialListSize={10}
-            stickyHeaderIndices={[]}
-            onEndReachedThreshold={1}
-            scrollRenderAheadDistance={1}
-            pageSize={1}
-            renderHeader={this.renderHeader}
-            renderFooter={() => <Spacer size={40} />}
-            renderSectionHeader={_renderSectionHeader}
+          <SectionList
+            sections={portfolios}
+            renderItem={this.renderItem}
+            renderSectionHeader={this.renderSectionHeader}
+            keyExtractor={coin => coin._id}
+            ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
+            ListEmptyComponent={this.renderEmpty}
+            onRefresh={this.handleRefresh}
+            refreshing={refreshing}
           />
+          {
+            activePortfolio && <LinearGradient
+              colors={[colors.gradientTo, colors.gradientFrom]}
+              style={base.gradientBottom}
+            />
+          }
         </List>
         {
           activePortfolio &&
@@ -285,9 +296,9 @@ class Portfolios extends Component {
               bordered
               full
               onPress={() => addCoin(activePortfolio)}
-              style={base.footer__button}
+              style={base.footer__button_bordered}
             >
-              <Text style={base.footer__buttonText}>{I18n.t('coins.addButton')}</Text>
+              <Text style={base.footer__buttonText_bordered}>{I18n.t('coins.addButton')}</Text>
             </Button>
           </Footer>
         }

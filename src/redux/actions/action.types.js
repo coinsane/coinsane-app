@@ -104,6 +104,7 @@ export const GET_SETTINGS_ERROR = '[settings] GET_SETTINGS_ERROR';
 export const GET_MARKET_CAP = '[markets] GET_MARKET_CAP';
 export const GET_MARKET_CAP_SUCCESS = '[markets] GET_MARKET_CAP_SUCCESS';
 export const GET_MARKET_CAP_ERROR = '[markets] GET_MARKET_CAP_ERROR';
+export const UPDATE_MARKETS_CACHE = '[markets] UPDATE_MARKETS_CACHE';
 
 
 // ========= [pages] peace of state action types ========= //

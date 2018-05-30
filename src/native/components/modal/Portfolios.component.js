@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Text, List, ListItem, Button, Footer, Title } from 'native-base';
 import I18n from '../../../i18n';
-import Spacer from '../Spacer/Spacer.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import Modal from './BaseModal.component';
 import styles from './Portfolios.styles';
-import { colors, base } from '../../styles';
+import { base } from '../../styles';
 
 const PortfoliosModal = ({
   list,
@@ -20,9 +19,7 @@ const PortfoliosModal = ({
           leftIcon="Back"
           title={<Title>{I18n.t('portfolios.title')}</Title>}
         />
-        <Content padder style={{ backgroundColor: colors.bgGray }}>
-
-          <Spacer size={30} />
+        <Content style={base.contentContainer}>
           <List>
             <ListItem
               button

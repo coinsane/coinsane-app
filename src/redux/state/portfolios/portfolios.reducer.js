@@ -21,6 +21,7 @@ import {
 export const initialState = {
   loading: true,
   error: null,
+  refreshing: false,
   list: [],
   selected: null,
   chart: {},
@@ -39,6 +40,7 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: true,
+        refreshing: action.payload.refreshing,
       };
     }
     case UPDATE_PORTFOLIOS_SUCCESS: {
@@ -47,6 +49,7 @@ export default function actionReducer(state = initialState, action) {
         error: null,
         loading: false,
         list: action.payload,
+        refreshing: false,
       };
     }
     case UPDATE_PORTFOLIOS_ERROR: {
@@ -55,6 +58,7 @@ export default function actionReducer(state = initialState, action) {
         error: action.payload,
         loading: false,
         list: [],
+        refreshing: false,
       };
     }
     case PORTFOLIO_ADDED: {

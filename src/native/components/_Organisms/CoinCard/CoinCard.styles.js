@@ -72,6 +72,7 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   portfolio__button: {
+    borderWidth: 1,
     borderColor: colors.blackBorder,
     borderRadius: 5,
     paddingTop: 0,

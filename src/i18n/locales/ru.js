@@ -18,11 +18,14 @@ export default {
     title: 'Выбрать коллекцию',
     all: 'Все портфолио',
     addButton: '+ НОВАЯ КОЛЛЕКЦИЯ',
+    saveButton: 'СОХРАНИТЬ',
+    createButton: 'ДОБАВИТЬ',
   },
   placeholder: {
     search: 'Поиск',
   },
   empty: {
     search: 'Ничего не найдено',
+    portfolios: 'Список коллекций пуст. Добавьте хотя бы одну',
   },
 };

@@ -22,9 +22,9 @@ export function* getToken() {
     }
     yield put({ type: GET_TOKEN_SUCCEED, token });
     yield put({ type: GET_SETTINGS });
-    const currency = yield select(selectors.getCurrency);
-    yield put({ type: UPDATE_PORTFOLIOS, payload: currency });
-    yield put({ type: UPDATE_PORTFOLIO_CHART, payload: { portfolioId: 'all', range: '1d', symbol: currency } });
+    const symbol = yield select(selectors.getSymbol);
+    yield put({ type: UPDATE_PORTFOLIOS, payload: { symbol } });
+    yield put({ type: UPDATE_PORTFOLIO_CHART, payload: { portfolioId: 'all', range: '1d', symbol } });
   } catch (error) {
     yield put({ type: GET_TOKEN_ERROR, error });
   }
