@@ -27,13 +27,15 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.onChangeText = this.onChangeText.bind(this);
+    this.onFocus = this.onFocus.bind(this);
   }
 
-  onChangeText(q) {
-    return q && q.length > 1 ?
-      this.props.changeSearchTerm({ q }) :
-      this.props.getAvailableMarkets({});
-  }
+  onFocus = () => this.props.getAvailableMarkets({});
+
+  onChangeText = (q = '') => {
+    if (q.length > 1) this.props.changeSearchTerm({ q });
+    else this.props.getAvailableMarkets({});
+  };
 
   render() {
     const { placeholder } = this.props;
@@ -41,12 +43,12 @@ class SearchBar extends Component {
       <Item style={styles.search}>
         <CoinsaneIcon name="Search" width={20} height={20} fill={colors.textGray} />
         <Input
-          // autoFocus
           autoCorrect={false}
           clearTextOnFocus
           placeholder={placeholder}
           placeholderTextColor={colors.textGray}
           style={styles.input}
+          onFocus={this.onFocus}
           onChangeText={this.onChangeText}
         />
       </Item>

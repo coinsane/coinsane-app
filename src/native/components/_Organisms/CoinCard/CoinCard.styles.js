@@ -74,8 +74,8 @@ export default StyleSheet.create({
   portfolio__button: {
     borderColor: colors.blackBorder,
     borderRadius: 5,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   portfolio__buttonText: {
     color: colors.textGray,

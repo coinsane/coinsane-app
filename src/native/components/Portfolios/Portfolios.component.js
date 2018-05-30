@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, View } from 'react-native';
-import { Container, Content, Text, Button, Footer, Icon, Title } from 'native-base';
+import { Container, List, Text, Button, Footer, Icon, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import SGListView from 'react-native-sglistview';
 
@@ -17,13 +17,14 @@ import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 
 import styles from './Portfolios.styles';
 import { colors, base } from '../../styles';
+import { nFormat } from '../../../lib/utils';
 
 class Portfolios extends Component {
   static propTypes = {
-    portfoliosError: PropTypes.string,
-    portfoliosLoading: PropTypes.bool.isRequired,
-    portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    portfoliosChart: PropTypes.shape({}).isRequired,
+    error: PropTypes.string,
+    loading: PropTypes.bool.isRequired,
+    list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    chart: PropTypes.shape({}).isRequired,
 
     fetchPortfolios: PropTypes.func.isRequired,
     updatePortfolioChart: PropTypes.func.isRequired,
@@ -32,20 +33,21 @@ class Portfolios extends Component {
 
     changePct: PropTypes.number.isRequired,
     drawer: PropTypes.shape({}).isRequired,
-    addTransaction: PropTypes.func.isRequired,
+    addCoin: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
     activePortfolio: PropTypes.string,
     collapsedList: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateCollapsed: PropTypes.func.isRequired,
-    currency: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
-    getCurrency: PropTypes.shape({}).isRequired,
+    periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+    symbol: PropTypes.string.isRequired,
+    currency: PropTypes.shape({}).isRequired,
     period: PropTypes.string,
     lastTotal: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
-    portfoliosError: null,
+    error: null,
     activePortfolio: 'all',
     period: null,
   };
@@ -64,35 +66,33 @@ class Portfolios extends Component {
     const {
       activePortfolio,
       period,
-      currency,
+      symbol,
       updatePortfolioChart,
       fetchPortfolios,
     } = this.props;
-    fetchPortfolios(currency);
-    updatePortfolioChart({ currency, period, portfolio: activePortfolio });
+    fetchPortfolios(symbol);
+    updatePortfolioChart({ symbol, period, portfolio: activePortfolio });
   }
 
   updatePeriod(period) {
     const {
       activePortfolio,
-      currency,
+      symbol,
       updatePortfolioPeriod,
     } = this.props;
-    updatePortfolioPeriod({ period, currency, portfolio: activePortfolio });
-    // saga: actions: update period, update chart
+    updatePortfolioPeriod({ period, symbol, portfolio: activePortfolio });
   }
 
-  updateCurrency(currency) {
+  updateCurrency = (symbol) => {
     const {
-      activePortfolio,
+      activePortfolio: portfolio,
       period,
       updatePortfolioCurrency,
     } = this.props;
-    updatePortfolioCurrency({ currency, period, portfolio: activePortfolio });
-    // saga: actions: update currency, update totals, update chart
-  }
+    updatePortfolioCurrency({ symbol, period, portfolio });
+  };
 
-  formatData(portfolios) {
+  formatData = (portfolios) => {
     const dataBlob = {};
     const sectionIds = [];
     const rowIds = [];
@@ -120,29 +120,68 @@ class Portfolios extends Component {
     });
 
     return { dataBlob, sectionIds, rowIds };
-  }
+  };
+
+  renderHeader = () => {
+    const {
+      currencies,
+      currency,
+      lastTotal,
+      changePct,
+      chart,
+      period,
+      periods,
+      loading,
+      error,
+    } = this.props;
+    return (
+      <View>
+        <CoinsaneSummary
+          value={nFormat(lastTotal, currency.decimal)}
+          currency={currency}
+          buttons={Object.keys(currencies)}
+          subValue={changePct}
+          updateCurrency={this.updateCurrency}
+          loading={loading}
+          error={error}
+        />
+        <Chart
+          data={chart}
+          currency={currency}
+          loading={loading}
+        />
+        <View style={styles.coins__contentHeader}>
+          { periods.map(key => (
+            <CoinsaneButton
+              key={key}
+              type="period"
+              value={key}
+              uppercase
+              onPress={() => this.updatePeriod(key)}
+              active={period === key}
+            />
+          )) }
+        </View>
+      </View>
+    );
+  };
 
   render() {
     const {
-      portfoliosError,
-      portfoliosLoading,
-      portfolios,
+      error,
+      loading,
+      list,
       drawer,
-      portfoliosChart,
-      changePct,
-      addTransaction,
+      addCoin,
       removeCoin,
       activePortfolio,
-      currencies,
-      getCurrency,
-      period,
-      lastTotal,
+      currency,
       updateCollapsed,
       collapsedList,
     } = this.props;
 
     // // Error
-    if (portfoliosError) return <Error content={portfoliosError} />;
+    if (error) return <Error content={error} />;
 
     const showCoin = coinId => Actions.coin({ match: { params: { coinId } } });
     const editPortfolio = item => Actions.portfolioSettings({ match: { params: { portfolioId: String(item) } } });
@@ -150,7 +189,7 @@ class Portfolios extends Component {
     const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
     const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
 
-    const portfoliosList = activePortfolio ? portfolios.filter(portfolio => portfolio._id === activePortfolio) : portfolios;
+    const portfoliosArray = activePortfolio ? list.filter(portfolio => portfolio._id === activePortfolio) : list;
 
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1._id !== r2._id,
@@ -159,7 +198,7 @@ class Portfolios extends Component {
       getRowData,
     });
 
-    const { dataBlob, sectionIds, rowIds } = this.formatData(portfoliosList);
+    const { dataBlob, sectionIds, rowIds } = this.formatData(portfoliosArray);
     this.dataSource = ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds);
 
     const _renderSectionHeader = portfolio => (
@@ -169,13 +208,13 @@ class Portfolios extends Component {
         title={portfolio.title}
         totals={portfolio.total}
         count={portfolio.count}
-        addTransaction={addTransaction}
-        currency={getCurrency}
+        addCoin={addCoin}
+        currency={currency}
         changePct={portfolio.changePct}
         amount={portfolio.amount}
         updateCollapsed={updateCollapsed}
         isCollapsed={collapsedList.indexOf(portfolio._id) !== -1}
-        isLoading={portfoliosLoading}
+        isLoading={loading}
       />
     );
 
@@ -186,29 +225,27 @@ class Portfolios extends Component {
         coinId={coin._id}
         amount={coin.amount}
         market={coin.market}
-        currency={getCurrency}
+        currency={currency}
         showCoin={showCoin}
-        addTransaction={addTransaction}
+        addCoin={addCoin}
         removeCoin={removeCoin}
         activePortfolio={activePortfolio}
         isCollapsed={collapsedList.indexOf(coin.portfolioId) !== -1}
-        isLoading={portfoliosLoading}
+        isLoading={loading}
         portfolioId={coin.last}
       />
     );
-
-    const periods = ['1h', '1d', '1w', '1m', '3m', '6m', '1y'];
 
     const HeaderTitle = () => (
       <Title>
         <Icon name="ios-arrow-down" style={[styles.coins__bodyArrowIcon, { fontSize: 18, color: colors.textGray }]} />
         &nbsp;
-        <Text>{activePortfolio && portfoliosList.length ? portfoliosList[0].title : I18n.t('portfolios.all')}</Text>
+        <Text>{activePortfolio && portfoliosArray.length ? portfoliosArray[0].title : I18n.t('portfolios.all')}</Text>
       </Title>
     );
 
     return (
-      <Container style={base.contentContainer}>
+      <Container>
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
@@ -218,7 +255,7 @@ class Portfolios extends Component {
           rightAction={() => editPortfolio(activePortfolio)}
           rightActive={!!activePortfolio}
         />
-        <Content style={{ shadowOpacity: 0, elevation: 0 }}>
+        <List style={base.contentContainer}>
           <SGListView
             dataSource={this.dataSource}
             renderRow={_renderRow}
@@ -235,36 +272,11 @@ class Portfolios extends Component {
             onEndReachedThreshold={1}
             scrollRenderAheadDistance={1}
             pageSize={1}
-            renderHeader={() => (
-              <View>
-                <CoinsaneSummary
-                  value={lastTotal}
-                  currency={getCurrency}
-                  buttons={Object.keys(currencies)}
-                  subValue={changePct}
-                  updateCurrency={this.updateCurrency}
-                />
-                <Chart
-                  dataPoints={portfoliosChart}
-                />
-                <View style={styles.coins__contentHeader}>
-                  { periods.map(key => (
-                    <CoinsaneButton
-                      key={key}
-                      type="period"
-                      value={key}
-                      uppercase
-                      onPress={() => this.updatePeriod(key)}
-                      active={period === key}
-                    />
-                  )) }
-                </View>
-              </View>
-            )}
+            renderHeader={this.renderHeader}
             renderFooter={() => <Spacer size={40} />}
             renderSectionHeader={_renderSectionHeader}
           />
-        </Content>
+        </List>
         {
           activePortfolio &&
           <Footer style={base.footer}>
@@ -272,7 +284,7 @@ class Portfolios extends Component {
               small
               bordered
               full
-              onPress={() => addTransaction(activePortfolio)}
+              onPress={() => addCoin(activePortfolio)}
               style={base.footer__button}
             >
               <Text style={base.footer__buttonText}>{I18n.t('coins.addButton')}</Text>

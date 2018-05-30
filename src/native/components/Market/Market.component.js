@@ -20,14 +20,14 @@ class Market extends Component {
   static propTypes = {
     drawer: PropTypes.shape({}).isRequired,
     currencies: PropTypes.shape({}).isRequired,
-    currency: PropTypes.string.isRequired,
+    symbol: PropTypes.string.isRequired,
+    currency: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({
       loading: PropTypes.bool,
       cap: PropTypes.shape({}),
       list: PropTypes.arrayOf(PropTypes.string),
       items: PropTypes.shape({}),
     }).isRequired,
-    getCurrency: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
@@ -76,19 +76,22 @@ class Market extends Component {
   renderHeader = () => {
     const {
       currencies,
+      symbol,
       currency,
-      getCurrency,
       updateCurrency,
       markets,
     } = this.props;
+    const { total = 0, volume = 0 } = markets.cap[symbol] || {};
     return (
       <View>
         <CoinsaneSummary
-          value={markets.cap[`total_market_cap_${currency.toLowerCase()}`] || 0}
-          currency={getCurrency}
+          value={nFormat(total, 2)}
+          currency={currency}
           buttons={Object.keys(currencies)}
-          subValue={`24 Vol: ${nFormat(markets.cap[`total_24h_volume_${currency.toLowerCase()}`] || 0, 2)}`}
+          subValue={`${I18n.t('markets.vol24')}: ${nFormat(volume, 2)}`}
           updateCurrency={updateCurrency}
+          loading={markets.cap.loading}
+          error={markets.cap.error}
         />
         <SearchBar />
         <View style={styles.market__header}>
@@ -101,9 +104,9 @@ class Market extends Component {
   };
 
   renderFooter = () => {
-    const {
-      markets,
-    } = this.props;
+    // const {
+    //   markets,
+    // } = this.props;
     // if (!markets.loading) return null;
     return <Loading size={25} />;
   };
@@ -121,7 +124,7 @@ class Market extends Component {
   render() {
     const {
       drawer,
-      getCurrency,
+      currency,
       markets,
     } = this.props;
 
@@ -142,9 +145,9 @@ class Market extends Component {
                 type="market"
                 order={index + 1}
                 market={markets.items[item]}
-                currency={getCurrency}
+                currency={currency}
                 showCoin={() => {}}
-                addTransaction={() => {}}
+                addCoin={() => {}}
                 removeCoin={() => {}}
               />
             )}
@@ -157,7 +160,7 @@ class Market extends Component {
             onEndReachedThreshold={0}
             onRefresh={this.handleRefresh}
             refreshing={markets.refreshing}
-            initialNumToRender={10}
+            extraData={markets}
           />
         </List>
       </Container>

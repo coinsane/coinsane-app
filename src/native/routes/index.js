@@ -8,10 +8,10 @@ import DefaultProps from '../constants/navigation';
 import NavigationDrawer from '../components/NavigationDrawer/NavigationDrawer.component';
 
 import CoinsContainer from '../../containers/Coins';
-import CoinsComponent from '../components/Portfolios/Portfolios.component';
 import CoinViewComponent from '../components/Coin/Coin.component';
 
 import PortfoliosContainer from '../../containers/Portfolios';
+import PortfoliosComponent from '../components/Portfolios/Portfolios.component';
 import PortfoliosModal from '../components/modal/Portfolios.component';
 
 import CoinsaneList from '../components/_Organisms/CoinsaneList/CoinsaneList.organism';
@@ -56,18 +56,18 @@ const Index = (
             {...DefaultProps.navbarProps}
           >
             <Scene
-              key="coins"
-              component={CoinsContainer}
-              Layout={CoinsComponent}
+              key="portfolios"
+              component={PortfoliosContainer}
+              Layout={PortfoliosComponent}
             />
             <Scene
               key="portfolioSettings"
-              component={CoinsContainer}
+              component={PortfoliosContainer}
               Layout={PortfolioSettingsComponent}
             />
             <Scene
               key="createPortfolio"
-              component={CoinsContainer}
+              component={PortfoliosContainer}
               Layout={CreatePortfolioComponent}
             />
           </Stack>

@@ -2,22 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'native-base';
 import styles from './CoinsaneSummaryText.styles';
-import { nFormat } from '../../../../lib/utils';
 
-const CoinsaneSummaryText = ({
-  value,
-  currency,
-}) => {
-  const decimal = currency.decimal > 6 ? 6 : currency.decimal;
-  const displayValue = nFormat(value, decimal);
-  return (
-    <Text numberOfLines={1} style={styles.text}>{displayValue}</Text>
-  );
-};
+const CoinsaneSummaryText = ({ value }) => <Text numberOfLines={1} style={styles.text}>{value}</Text>;
 
 CoinsaneSummaryText.propTypes = {
-  value: PropTypes.number.isRequired,
-  currency: PropTypes.shape({}).isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
 };
 
 export default CoinsaneSummaryText;

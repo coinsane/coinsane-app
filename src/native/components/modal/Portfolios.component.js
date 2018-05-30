@@ -10,7 +10,7 @@ import styles from './Portfolios.styles';
 import { colors, base } from '../../styles';
 
 const PortfoliosModal = ({
-  portfolios,
+  list,
   selectPortfolio,
 }) => {
   return (
@@ -34,7 +34,7 @@ const PortfoliosModal = ({
             >
               <Text style={styles.listItem__text}>{I18n.t('portfolios.all')}</Text>
             </ListItem>
-            {portfolios.map(portfolio => (
+            {list.map(portfolio => (
               <ListItem
                 key={portfolio._id}
                 button
@@ -69,8 +69,8 @@ const PortfoliosModal = ({
 };
 
 PortfoliosModal.propTypes = {
+  list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selectPortfolio: PropTypes.func.isRequired,
-  portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 PortfoliosModal.defaultProps = {

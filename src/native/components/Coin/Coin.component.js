@@ -26,8 +26,7 @@ class CoinView extends Component {
     addTransaction: PropTypes.func.isRequired,
     getCoinMarkets: PropTypes.func.isRequired,
     getTransactionsList: PropTypes.func.isRequired,
-    currency: PropTypes.string.isRequired,
-    coinCurrency: PropTypes.string.isRequired,
+    symbol: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
@@ -44,8 +43,7 @@ class CoinView extends Component {
     const {
       portfolios,
       coinId,
-      currency,
-      coinCurrency,
+      symbol,
       getCoinHisto,
       getCoinMarkets,
       getTransactionsList,
@@ -61,15 +59,15 @@ class CoinView extends Component {
       }
     }
 
-    let tempCurrency = coinCurrency;
+    let tempCurrency = symbol;
 
-    if (coin.market.symbol === coinCurrency) {
+    if (coin.market.symbol === symbol) {
       // update currency
       tempCurrency = 'USD';
     }
 
     getCoinHisto({ fsym: coin.market.symbol, tsym: tempCurrency, range: period });
-    getCoinMarkets({ fsym: coin.market.symbol, tsym: coinCurrency });
+    getCoinMarkets({ fsym: coin.market.symbol, tsym: symbol });
     getTransactionsList(coinId);
   }
 
@@ -84,8 +82,7 @@ class CoinView extends Component {
       transactionsLoading,
       transactionsError,
       getCoinHisto,
-      currency,
-      coinCurrency,
+      symbol,
       currencies,
       updateCurrency,
       getPrice,
@@ -146,7 +143,7 @@ class CoinView extends Component {
               coinId={coinId}
               coinData={coinData}
               getCoinHisto={getCoinHisto}
-              currency={coinCurrency}
+              currency={symbol}
               currencies={currencies}
               updateCurrency={updateCurrency}
               period={period}
@@ -159,7 +156,7 @@ class CoinView extends Component {
               error={error}
               coin={coin}
               coinId={coinId}
-              selectedCurrency={currency}
+              selectedCurrency={symbol}
               getPrice={getPrice}
               addTransaction={addTransaction}
               transactionsList={transactionsList}

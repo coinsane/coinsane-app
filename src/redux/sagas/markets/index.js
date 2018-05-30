@@ -23,7 +23,7 @@ export function* fetchAvailableMarkets(action) {
     const q = action.payload.q ? `:${action.payload.q.toLowerCase()}` : '';
     const cacheKey = `${action.payload.skip}${q}`;
     if (cache[cacheKey] && cache[cacheKey].length) {
-      yield delay(100);
+      yield delay(10);
       yield put({
         type: GET_AVAILABLE_MARKETS_SUCCESS,
         payload: {
@@ -60,7 +60,10 @@ export function* fetchAvailableMarkets(action) {
 export function* getMarketCap(action) {
   try {
     const response = yield call(api.markets.getMarketCap, action.payload);
-    yield put({ type: GET_MARKET_CAP_SUCCESS, payload: response.data.data });
+    yield put({
+      type: GET_MARKET_CAP_SUCCESS,
+      payload: { [action.payload]: response.data.data },
+    });
   } catch (error) {
     yield put({ type: GET_MARKET_CAP_ERROR, payload: error });
   }

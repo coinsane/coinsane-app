@@ -14,11 +14,11 @@ import { base } from '../../styles';
 class PortfolioSettings extends Component {
   static propTypes = {
     error: PropTypes.string,
-    portfolioId: PropTypes.string.isRequired,
-    portfolios: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    editPortfolio: PropTypes.func,
-    selectPortfolio: PropTypes.func,
-    removePortfolio: PropTypes.func,
+    id: PropTypes.string.isRequired,
+    list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    editPortfolio: PropTypes.func.isRequired,
+    selectPortfolio: PropTypes.func.isRequired,
+    removePortfolio: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -35,8 +35,8 @@ class PortfolioSettings extends Component {
   }
 
   getPortfolio = () => {
-    const { portfolios, portfolioId } = this.props;
-    return portfolioId && portfolios ? portfolios.find(item => item._id === portfolioId) : null;
+    const { list, id } = this.props;
+    return id && list ? list.find(item => item._id === id) : null;
   };
 
   handleChange = (name, val) => {
@@ -80,7 +80,7 @@ class PortfolioSettings extends Component {
     const {
       error,
       portfolios,
-      portfolioId,
+      id,
       editPortfolio,
       removePortfolio
     } = this.props;

@@ -1,116 +1,109 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'native-base';
-import { LinearGradient, Stop, G, Line } from 'react-native-svg';
+import { LinearGradient, Stop, G, Line, Defs } from 'react-native-svg';
 import * as shape from 'd3-shape';
 import { AreaChart } from 'react-native-svg-charts';
 
 import YAxis from './YAxis.component';
 
-import CoinsaneAmount from '../../_Atoms/CoinsaneAmount/CoinsaneAmount.component';
+import Loading from '../../Loading/Loading.component';
+import { nFormat } from '../../../../lib/utils';
 
 import { colors } from '../../../styles';
 import styles from './Chart.styles';
 
-const contentInset = { top: 20, bottom: 20 };
+class Chart extends Component {
+  static propTypes = {
+    data: PropTypes.shape({}).isRequired,
+    currency: PropTypes.shape({}).isRequired,
+    loading: PropTypes.bool,
+  };
 
-function maxAvgMin(arr) {
-  let max = arr[0];
-  let min = arr[0];
-  let sum = arr[0];
-  for (let i = 1; i < arr.length; i += 1) {
-    if (arr[i] > max) {
-      max = arr[i];
-    }
-    if (arr[i] < min) {
-      min = arr[i];
-    }
-    sum += arr[i];
+  static defaultProps = {
+    loading: false,
+  };
+
+  render() {
+    const {
+      data,
+      loading,
+      currency,
+    } = this.props;
+
+    const chartInset = {
+      top: 2,
+      bottom: 2,
+      left: -1,
+      right: -1,
+    };
+
+    const axisInset = {
+      top: 8,
+      bottom: 6,
+      left: 0,
+      right: 0,
+    };
+
+    const dataPoints = data && Object.keys(data).length ?
+      Object.keys(data).map((time) => {
+        if (typeof data[time] === 'number') return data[time];
+        return data[time].avg;
+      }) : [];
+
+    const dataColor = dataPoints[0] > dataPoints[dataPoints.length - 1] ?
+      colors.primaryPink : colors.primaryGreen;
+
+    const CustomGrid = () => (
+      <G>
+        <Line x1="0%" x2="100%" y1={1} y2={1} stroke={colors.blackBorder} />
+        <Line x1="0%" x2="100%" y1={76} y2={76} stroke={colors.blackBorder} />
+        <Line x1="0%" x2="100%" y1={139} y2={139} stroke={colors.blackBorder} />
+      </G>
+    );
+
+    const Gradient = ({ index }) => (
+      <Defs key={index}>
+        <LinearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <Stop offset="0%" stopColor={dataColor} stopOpacity={0.3} />
+          <Stop offset="100%" stopColor={dataColor} stopOpacity={0} />
+        </LinearGradient>
+      </Defs>
+    );
+
+    return (
+      <View style={styles.container}>
+        <YAxis
+          style={styles.axis}
+          data={dataPoints}
+          contentInset={axisInset}
+          svg={{
+            fill: colors.textGray,
+            fontSize: 10,
+          }}
+          formatLabel={value => nFormat(value, currency.decimal)}
+        />
+        {
+          loading ?
+            <Loading style={styles.loading} size={25} /> :
+            <AreaChart
+              // animate
+              style={{ flex: 1 }}
+              data={dataPoints}
+              svg={{
+                stroke: dataColor,
+                fill: 'url(#gradient)',
+              }}
+              contentInset={chartInset}
+              curve={shape.curveLinear}
+            >
+              <Gradient />
+              <CustomGrid belowChart />
+            </AreaChart>
+        }
+      </View>
+    );
   }
-  return [max, sum / arr.length, min];
 }
-
-const CustomGrid = ({ y, ticks }) => {
-  if (ticks.length === 1) ticks.unshift(0);
-  return (
-    <G>
-      {
-        maxAvgMin(ticks).map(tick => (
-          <Line
-            key={tick}
-            x1="0%"
-            x2="100%"
-            y1={y(tick)}
-            y2={y(tick)}
-            stroke={colors.blackBorder}
-          />
-        ))
-      }
-    </G>
-  );
-};
-
-CustomGrid.propTypes = {
-  y: PropTypes.func.isRequired,
-  ticks: PropTypes.arrayOf(PropTypes.number).isRequired,
-};
-
-
-const formatLabel = value => <CoinsaneAmount value={value} currency="BTC" />;
-
-const Chart = ({ dataPoints }) => {
-  const dataArray = dataPoints && Object.keys(dataPoints).length ?
-    Object.keys(dataPoints).map((time) => {
-      if (typeof dataPoints[time] === 'number') return dataPoints[time];
-      return dataPoints[time].avg;
-    }) : [];
-  const dataColor = dataArray[0] > dataArray[dataArray.length - 1] ?
-    colors.primaryPink : colors.primaryGreen;
-
-  return (
-    <View style={styles.chartContainer}>
-      <YAxis
-        style={styles.axis}
-        dataPoints={dataArray}
-        numberOfTicks={3}
-        contentInset={contentInset}
-        labelStyle={{ color: colors.textGray }}
-        formatLabel={formatLabel}
-      />
-      <AreaChart
-        style={{ flex: 1 }}
-        dataPoints={dataArray}
-        svg={{ stroke: dataColor }}
-        contentInset={contentInset}
-        curve={shape.curveLinear}
-        renderGradient={({ id }) => (
-          <LinearGradient
-            id={id}
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <Stop
-              offset="0%"
-              stopColor={dataColor}
-              stopOpacity={0.2}
-            />
-            <Stop
-              offset="100%"
-              stopColor={dataColor}
-              stopOpacity={0}
-            />
-          </LinearGradient>
-        )}
-        renderGrid={CustomGrid}
-      />
-    </View>
-  );
-};
-
-Chart.propTypes = {
-  dataPoints: PropTypes.shape({}).isRequired,
-};
 
 export default Chart;

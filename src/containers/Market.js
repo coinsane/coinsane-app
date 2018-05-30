@@ -25,7 +25,10 @@ class Market extends Component {
   };
 
   componentWillMount() {
-    this.props.getMarketCap();
+    const {
+      currency,
+    } = this.props.settings;
+    this.props.getMarketCap(currency);
     // this.props.getAvailableMarkets({});
   }
 
@@ -38,9 +41,14 @@ class Market extends Component {
   };
 
 
-  updateCurrency = (currency) => {
-    this.props.getMarketCap(currency);
-    this.props.selectCurrency(currency);
+  updateCurrency = (key) => {
+    const {
+      currency,
+    } = this.props.settings;
+    if (currency !== key) {
+      this.props.selectCurrency(key);
+      this.props.getMarketCap(key);
+    }
   };
 
   render = () => {
@@ -55,11 +63,11 @@ class Market extends Component {
       <Layout
         drawer={navigation.drawer}
         currencies={settings.currencies}
-        currency={settings.currency}
+        symbol={settings.currency}
         updateCurrency={this.updateCurrency}
         getAvailableMarkets={this.props.getAvailableMarkets}
         changeSearchTerm={this.props.changeSearchTerm}
-        getCurrency={this.getCurrency()}
+        currency={this.getCurrency()}
         markets={markets}
       />
     );

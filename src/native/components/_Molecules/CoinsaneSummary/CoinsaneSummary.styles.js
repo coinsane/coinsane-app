@@ -22,11 +22,15 @@ export default StyleSheet.create({
   total__buttonTextActive: {
     color: colors.white,
   },
+  loading: {
+    height: 70,
+  },
   total__summaryContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    height: 70,
   },
   total__summaryLeft: {
     flex: 0.2,

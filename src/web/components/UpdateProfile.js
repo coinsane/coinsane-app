@@ -1,4 +1,4 @@
-authimport React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Row,

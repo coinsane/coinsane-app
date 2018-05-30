@@ -13,7 +13,7 @@ const PortfolioHeader = ({
   show,
   title,
   count,
-  addTransaction,
+  addCoin,
   changePct,
   amount,
   currency,
@@ -47,7 +47,15 @@ const PortfolioHeader = ({
             <Text style={[styles.right__text, textPlaceholder]} numberOfLines={1}>
               <Text style={[styles.right__text, textPlaceholder]}>{totalDisplay}</Text>
               &nbsp;
-              <Text style={[styles.right__text, { color: changeColor }, textPlaceholder]}>{changePctDisplay}</Text>
+              <Text
+                style={[
+                  styles.right__text,
+                  { color: changeColor },
+                  textPlaceholder,
+                ]}
+              >
+                {changePctDisplay}
+              </Text>
             </Text>
           }
         </Right>
@@ -59,7 +67,7 @@ const PortfolioHeader = ({
           bordered
           full
           style={styles.headerBtn}
-          onPress={() => addTransaction(id)}
+          onPress={() => addCoin(id)}
         >
           <Text style={styles.headerBtn__text}>{I18n.t('coins.addButton')}</Text>
         </Button>
@@ -73,7 +81,7 @@ PortfolioHeader.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
-  addTransaction: PropTypes.func.isRequired,
+  addCoin: PropTypes.func.isRequired,
   updateCollapsed: PropTypes.func.isRequired,
   changePct: PropTypes.number,
   amount: PropTypes.number,

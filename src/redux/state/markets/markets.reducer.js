@@ -13,10 +13,13 @@ import {
 
 export const initialState = {
   loading: true,
-  refreshing: false,
   error: null,
+  refreshing: false,
   list: [],
-  cap: {},
+  cap: {
+    loading: true,
+    error: null,
+  },
   searchTerm: '',
   count: 0,
   items: {},
@@ -28,31 +31,40 @@ export default function actionReducer(state = initialState, action) {
     case GET_MARKET_CAP: {
       return {
         ...state,
-        error: null,
-        loading: true,
+        cap: {
+          ...state.cap,
+          error: null,
+          loading: true,
+        },
       };
     }
     case GET_MARKET_CAP_SUCCESS: {
       return {
         ...state,
-        error: null,
-        loading: false,
-        cap: action.payload,
+        cap: {
+          ...state.cap,
+          ...action.payload,
+          error: null,
+          loading: false,
+        },
       };
     }
     case GET_MARKET_CAP_ERROR: {
       return {
         ...state,
-        error: true,
-        loading: false,
+        cap: {
+          ...state.cap,
+          error: true,
+          loading: false,
+        },
       };
     }
     case GET_AVAILABLE_MARKETS: {
       return {
         ...state,
+        refreshing: action.payload.refreshing,
         error: null,
         loading: true,
-        refreshing: action.payload.refreshing,
       };
     }
     case GET_AVAILABLE_MARKETS_SUCCESS: {

@@ -15,7 +15,7 @@ class CoinCard extends PureComponent {
     market: PropTypes.shape({}).isRequired,
     amount: PropTypes.number,
     order: PropTypes.number,
-    addTransaction: PropTypes.func.isRequired,
+    addCoin: PropTypes.func.isRequired,
     showCoin: PropTypes.func.isRequired,
     currency: PropTypes.shape({
       id: PropTypes.string,
@@ -49,7 +49,7 @@ class CoinCard extends PureComponent {
       order,
       amount,
       market,
-      addTransaction,
+      addCoin,
       showCoin,
       currency,
       activePortfolio,
@@ -163,7 +163,7 @@ class CoinCard extends PureComponent {
               bordered
               full
               style={styles.portfolio__button}
-              onPress={() => addTransaction(portfolioId)}
+              onPress={() => addCoin(portfolioId)}
             >
               <Text style={styles.portfolio__buttonText}>{I18n.t('coins.addButton')}</Text>
             </Button>

@@ -10,19 +10,19 @@ import { base } from '../../styles';
 
 class CreatePortfolio extends Component {
   static propTypes = {
-    portfolios: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    addPortfolio: PropTypes.func,
-    selectPortfolio: PropTypes.func,
-  }
+    list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    addPortfolio: PropTypes.func.isRequired,
+    selectPortfolio: PropTypes.func.isRequired,
+  };
 
   static defaultProps = {
-  }
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      inTotal: true
+      inTotal: true,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,10 +33,10 @@ class CreatePortfolio extends Component {
       ...this.state,
       [name]: val,
     });
-  }
+  };
 
   handleSubmit = () => {
-    const { addPortfolio, selectPortfolio, portfolios } = this.props;
+    const { addPortfolio, selectPortfolio, list } = this.props;
     addPortfolio(this.state)
       .then(action => selectPortfolio(action.data._id))
       .then(Actions.pop)
@@ -45,7 +45,6 @@ class CreatePortfolio extends Component {
 
 
   render() {
-
     return (
       <Container style={base.contentContainer}>
         <CoinsaneHeader
@@ -65,8 +64,8 @@ class CreatePortfolio extends Component {
               />
             </Item>
             <View style={{paddingBottom: 24, paddingTop: 24, borderBottomColor: '#2F2A40', borderBottomWidth: 1, flexDirection: 'row'}}>
-              <Text style={{flex: .8, color: '#fff', fontFamily: 'Lato-Regular', fontSize: 17}}>Calculate amount on total</Text>
-              <View style={{flex: .2}}>
+              <Text style={{flex: 0.8, color: '#fff', fontFamily: 'Lato-Regular', fontSize: 17}}>Calculate amount on total</Text>
+              <View style={{flex: 0.2}}>
                 <Switch
                   onSyncPress={() => this.handleChange('inTotal', !this.state.inTotal)}
                   defaultValue={this.state.inTotal}
@@ -95,7 +94,6 @@ class CreatePortfolio extends Component {
         </Footer>
       </Container>
     );
-
   }
 }
 

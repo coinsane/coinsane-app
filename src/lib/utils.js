@@ -10,7 +10,7 @@ export const cFormat = (value = 0, symbol = '') => {
 /*
 * Number Formatting
 * */
-export const nFormat = (num = 0, digits = 0, startFrom = 2) => {
+export const nFormat = (num = 0, decimal = 0, startFrom = 2) => {
   const si = [
     { value: 0, symbol: '' },
     { value: 1E3, symbol: 'k' },
@@ -31,9 +31,9 @@ export const nFormat = (num = 0, digits = 0, startFrom = 2) => {
   if (si[i].value < si[startFrom].value) {
     const numSplit = num.toString().split('.');
     if (numSplit.length === 1) return `${numSplit[0].replace(rx2, '$1,')}`;
-    return `${numSplit[0].replace(rx2, '$1,')}.${numSplit[1].slice(0, digits)}`;
+    return `${numSplit[0].replace(rx2, '$1,')}.${numSplit[1].slice(0, decimal)}`;
   }
-  return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
+  return (num / si[i].value).toFixed(decimal).replace(rx, '$1') + si[i].symbol;
 };
 
 

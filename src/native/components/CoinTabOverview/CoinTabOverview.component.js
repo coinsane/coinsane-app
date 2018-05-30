@@ -91,7 +91,8 @@ class CoinTabOverview extends Component {
           rightValue={coin.market.prices[currency].high24H}
         />
         <Chart
-          dataPoints={coinData}
+          data={coinData}
+          currency={currencies[currency]}
         />
         <View style={styles.cointab__graphButtonsContainer}>
           { periods.map(key => (

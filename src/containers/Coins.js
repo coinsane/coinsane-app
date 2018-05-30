@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, setPortfoliosError, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
+import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
 import { getTransactionsList, addTransaction, getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
@@ -47,7 +47,6 @@ class Coins extends Component {
     updatePortfolio: PropTypes.func.isRequired,
     selectPortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
-    setPortfoliosError: PropTypes.func.isRequired,
     getCoinHisto: PropTypes.func.isRequired,
     getCoinMarkets: PropTypes.func.isRequired,
     setCoinData: PropTypes.func.isRequired,
@@ -60,6 +59,7 @@ class Coins extends Component {
     settings: PropTypes.shape({
       currencies: PropTypes.shape({}),
       currency: PropTypes.string,
+      periods: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
   };
 
@@ -125,12 +125,13 @@ class Coins extends Component {
         coinId={coinId}
         portfolioId={portfolioId}
 
+        portfolios={portfolios}
+
         portfoliosError={portfolios.error}
         portfoliosLoading={portfolios.loading}
-        portfolios={portfolios.list}
+        portfoliosList={portfolios.list}
         portfoliosChart={portfolios.chart}
-        currency={portfolios.currency}
-        coinCurrency={settings.currency}
+        symbol={settings.currency}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}
         drawer={navigation.drawer}
@@ -152,7 +153,7 @@ class Coins extends Component {
         updatePortfolioPeriod={this.props.updatePortfolioPeriod}
         updatePortfolioCurrency={this.props.updatePortfolioCurrency}
 
-        getCurrency={this.getCurrency()}
+        currency={this.getCurrency()}
 
         getPrice={this.props.getPrice}
         addTransaction={this.addTransaction}
@@ -171,6 +172,7 @@ class Coins extends Component {
         markets={coin.markets}
         settings={settings}
         marketsList={markets}
+        periods={settings.periods}
       />
     );
   }
@@ -203,7 +205,6 @@ const mapDispatchToProps = {
   removeCoin,
   getCoinHisto,
   getCoinMarkets,
-  setPortfoliosError,
   setCoinsError,
   setCoinData,
   selectCurrency,

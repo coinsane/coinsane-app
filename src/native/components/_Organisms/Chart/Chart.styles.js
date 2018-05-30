@@ -1,17 +1,19 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  chartContainer: {
-    height: 170,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: 10,
-    position: 'relative',
+  container: {
+    height: 140,
+    marginBottom: 20,
+    flex: 1,
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
+    justifyContent: 'flex-start',
   },
   axis: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: 5,
+    left: 0,
+    right: 0,
   },
 });
