@@ -6,6 +6,9 @@ export default StyleSheet.create({
   white: { color: colors.white },
   textCenter: { textAlign: 'center' },
   headerContainer: { borderBottomWidth: 0 },
+  contentBackground: {
+    backgroundColor: colors.bgGray,
+  },
   contentContainer: {
     flex: 1,
     backgroundColor: colors.bgGray,

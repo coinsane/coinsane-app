@@ -6,6 +6,8 @@ import {
   GET_AVAILABLE_TRANSACTIONS_SUCCESS,
   GET_AVAILABLE_TRANSACTIONS_ERROR,
   UPDATE_COINS_CACHE,
+  UPDATE_COINS_PERIOD,
+  UPDATE_COIN_TRANSACTIONS, UPDATE_TRANSACTIONS_ITEMS,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -19,10 +21,28 @@ export const initialState = {
   markets: [],
   marketsLoading: true,
   marketsError: null,
+  period: '1d',
 };
 
 export default function actionReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_COIN_TRANSACTIONS: {
+      const { coinId, transactions } = action.payload;
+      const items = { ...state.items };
+      if (items[coinId]) {
+        items[coinId].transactions = transactions.map(transaction => transaction._id);
+      }
+      return {
+        ...state,
+        items,
+      };
+    }
+    case UPDATE_COINS_PERIOD: {
+      return {
+        ...state,
+        period: action.payload,
+      };
+    }
     case UPDATE_COINS_CACHE: {
       return {
         ...state,
@@ -34,7 +54,7 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: false,
-        list: action.payload.data,
+        list: action.payload,
       };
     }
     case GET_AVAILABLE_TRANSACTIONS: {
@@ -44,14 +64,14 @@ export default function actionReducer(state = initialState, action) {
         transactionsLoading: true,
       };
     }
-    case GET_AVAILABLE_TRANSACTIONS_SUCCESS: {
-      return {
-        ...state,
-        transactionsError: null,
-        transactionsLoading: false,
-        transactions: action.payload,
-      };
-    }
+    // case GET_AVAILABLE_TRANSACTIONS_SUCCESS: {
+    //   return {
+    //     ...state,
+    //     transactionsError: null,
+    //     transactionsLoading: false,
+    //     transactions: action.payload,
+    //   };
+    // }
     case GET_AVAILABLE_TRANSACTIONS_ERROR: {
       return {
         ...state,

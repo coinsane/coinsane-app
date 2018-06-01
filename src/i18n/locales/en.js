@@ -10,9 +10,14 @@ export default {
     mcap: 'M.cap',
     vol24: '24 Vol',
     price: 'Price',
+    supply: 'Supply',
   },
   coins: {
     addButton: '+ ADD NEW COIN',
+    low: 'LOW',
+    high: 'HIGH',
+    exchanges: 'Markets',
+    news: 'News',
   },
   portfolios: {
     title: 'Choose Portfolio',
@@ -20,6 +25,15 @@ export default {
     addButton: '+ ADD NEW PORTFOLIO',
     saveButton: 'SAVE',
     createButton: 'ADD',
+  },
+  transactions: {
+    addButton: '+ ADD NEW TRANSACTION',
+    coins: 'My coins',
+    total: 'Total',
+    profit: 'Profit',
+  },
+  categories: {
+    empty: 'No category',
   },
   placeholder: {
     search: 'Search',

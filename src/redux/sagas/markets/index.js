@@ -1,5 +1,6 @@
 import { delay } from 'redux-saga';
 import { takeLatest, put, call, select } from 'redux-saga/effects';
+import selectors from '../../selectors';
 import api from '../../../api';
 import {
   GET_AVAILABLE_MARKETS,
@@ -10,7 +11,6 @@ import {
   GET_MARKET_CAP_SUCCESS,
   GET_MARKET_CAP_ERROR,
 } from '../../../redux/actions/action.types';
-import selectors from '../../selectors';
 
 /**
  * Fetch Markets side effect.

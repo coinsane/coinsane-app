@@ -12,14 +12,38 @@ import {
   GET_AVAILABLE_TRANSACTIONS,
   GET_AVAILABLE_TRANSACTIONS_SUCCESS,
   UPDATE_PORTFOLIOS,
+  UPDATE_COIN_TRANSACTIONS,
+  UPDATE_TRANSACTIONS_ITEMS,
+  GET_TRANSACTIONS_SUCCESS,
 } from '../../actions/action.types';
+
+
+/**
+ * action.payload: { coinId, refreshing }
+ */
+export function* getTransactionsList(action) {
+  const { coinId } = action.payload;
+  if (coinId) {
+    const response = yield call(api.coins.getTransactions, { coinId });
+    const { transactions } = response.data.response;
+    yield put({
+      type: UPDATE_TRANSACTIONS_ITEMS,
+      payload: { transactions },
+    });
+    yield put({
+      type: UPDATE_COIN_TRANSACTIONS,
+      payload: { coinId, transactions },
+    });
+    yield put({ type: GET_TRANSACTIONS_SUCCESS });
+  }
+}
 
 /**
  * action.payload: {  }
  */
 export function* addTransaction(action) {
   const response = yield call(api.coins.addTransaction, action.payload);
-  const transactions = response.data.response.coin.transactions;
+  const { transactions } = response.data.response.coin;
   yield put({
     type: GET_AVAILABLE_TRANSACTIONS_SUCCESS,
     payload: transactions,
@@ -50,21 +74,6 @@ export function* updateTransaction(action) {
     yield put({
       type: RECALCULATE,
       payload: 'price',
-    });
-  }
-}
-
-/**
- * action.payload: {  }
- */
-export function* getTransactionsList(action) {
-  if (action.payload.coinId) {
-    const response = yield call(api.coins.getTransactionsList, {
-      coinId: action.payload.coinId,
-    });
-    yield put({
-      type: GET_AVAILABLE_TRANSACTIONS_SUCCESS,
-      payload: response.data.response.transactions,
     });
   }
 }

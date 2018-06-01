@@ -1,131 +1,212 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, Content, Container, Footer, Button, View } from 'native-base';
+import { SectionList } from 'react-native';
+import { Text, Container, Footer, Button, View, List } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import Spacer from '../Spacer/Spacer.component';
+import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment';
 
-import { base } from '../../styles';
+import { base, colors } from '../../styles';
 
 import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
 import TransactionItem from '../_Molecules/TransactionItem/TransactionItem.molecula';
-import Loading from '../Loading/Loading.component';
+import SectionHeader from '../_Molecules/SectionHeader/SectionHeader.molecula';
 import Empty from '../Empty/Empty.component';
-import { nFormat } from '../../../lib/utils';
+import Loading from '../Loading/Loading.component';
+import { nFormat, cFormat } from '../../../lib/utils';
 import I18n from '../../../i18n';
+import styles from './CoinTabTransactions.styles';
 
 class CoinTabTransactions extends Component {
   static propTypes = {
+    coinId: PropTypes.string,
     coin: PropTypes.shape({}),
+    currency: PropTypes.shape({}).isRequired,
     market: PropTypes.shape({}).isRequired,
-    transactionsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    transactions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     selectedCurrency: PropTypes.string.isRequired,
     transactionsLoading: PropTypes.bool.isRequired,
+    transactionsRefreshing: PropTypes.bool.isRequired,
+    getTransactions: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    coinId: null,
     coin: null,
   };
+
+  componentWillMount() {
+    const {
+      coinId,
+      getTransactions,
+    } = this.props;
+
+    if (coinId) getTransactions({ coinId });
+  }
 
   getSummaryList = () => {
     const {
       coin,
       market,
-      transactionsList,
+      currency,
+      transactions,
       selectedCurrency,
     } = this.props;
 
     const summaryList = [
       {
-        label: 'Coins',
-        value: 0,
+        label: I18n.t('transactions.coins'),
+        value: '-',
       },
       {
-        label: `Total, ${selectedCurrency}`,
-        value: 0,
+        label: I18n.t('transactions.total'),
+        value: '-',
       },
       {
-        label: 'Profit',
-        value: 0,
-        symbol: '%',
+        label: I18n.t('transactions.profit'),
+        value: '-',
+        symbol: '',
       },
     ];
 
-    if (transactionsList.length && transactionsList[0].amount) {
-      const coinPrice = coin ? coin.amount * market.prices[selectedCurrency].price : 0;
+    if (!coin || !transactions.length || !transactions[0].amount) return summaryList;
 
-      transactionsList.forEach(({ amount, total, histo, buy }, i) => {
-        const itemTotal = histo[selectedCurrency] * total;
+    const coinPrice = coin.amount * market.prices[selectedCurrency].price;
 
-        if (buy) {
-          summaryList[0].value += amount;
-          summaryList[1].value += itemTotal;
-        } else {
-          summaryList[0].value -= amount;
-          summaryList[1].value -= itemTotal;
-        }
+    summaryList[0].value = 0;
+    summaryList[1].value = 0;
+    summaryList[2].value = 0;
 
-        summaryList[2].value = (coinPrice / summaryList[1].value) * 100;
-        summaryList[2].value = parseFloat(summaryList[2].value - 100);
+    transactions.forEach((transaction, i) => {
+      const {
+        amount,
+        total,
+        histo,
+        buy,
+      } = transaction;
+      const itemTotal = histo[selectedCurrency] * total;
 
-        if (transactionsList.length - 1 === i) {
-          summaryList[1].value = nFormat(coinPrice, 2);
-        }
-      });
-    }
+      if (buy) {
+        summaryList[0].value += amount;
+        summaryList[1].value += itemTotal;
+      } else {
+        summaryList[0].value -= amount;
+        summaryList[1].value -= itemTotal;
+      }
+
+      summaryList[2].value = (coinPrice / summaryList[1].value) * 100;
+      summaryList[2].value = parseFloat(summaryList[2].value - 100);
+      summaryList[2].symbol = '%';
+
+      if (transactions.length - 1 === i) {
+        summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
+      }
+    });
 
     return summaryList;
   };
 
+  handleRefresh = () => {
+    const {
+      coinId,
+      getTransactions,
+    } = this.props;
+    if (coinId) getTransactions({ coinId, refreshing: true });
+  };
+
+  transactionsByDays = (transactions) => {
+    const days = {};
+    transactions.forEach((transaction) => {
+      const day = moment(transaction.date).format('YYYY-MM-DD');
+      if (!days[day]) {
+        days[day] = [transaction];
+      } else {
+        days[day].push(transaction);
+      }
+    });
+    return Object.keys(days).map(day => ({
+      title: day,
+      data: days[day],
+    }));
+  };
+
+  renderItem = ({ item }) => {
+    const {
+      _id,
+      date,
+      category,
+      amount,
+      total,
+      currency,
+      buy,
+    } = item;
+    return (
+      <TransactionItem
+        key={_id}
+        date={date}
+        category={category ? category.title : ''}
+        amount={amount}
+        total={total}
+        currency={currency ? currency.symbol : ''}
+        buy={buy}
+      />
+    );
+  };
+
+  renderSectionHeader = ({ section }) => <SectionHeader title={moment(section.title, 'YYYY-MM-DD').format('LL')} />;
+
+  renderSeparator = () => <View style={styles.separator} />;
+
+  renderEmpty = () => {
+    const {
+      transactionsLoading,
+    } = this.props;
+    if (transactionsLoading) return <Loading size={25} />;
+    return <Empty description={I18n.t('empty.transactions')} />;
+  };
+
   render() {
     const {
-      coin, transactionsList, transactionsLoading,
+      coin,
+      transactions,
+      transactionsRefreshing,
     } = this.props;
 
-    if (transactionsList.length) transactionsList.reverse();
+    const sections = this.transactionsByDays(transactions);
 
     return (
-      <Container style={base.contentContainer}>
-        <Content>
+      <Container>
+        <View style={base.contentBackground}>
           <SummaryCell
             summaryList={this.getSummaryList()}
-            background
+            borderBottom
           />
-          <Spacer size={20} />
-          <View>
-            {
-              !coin ? <Empty description={I18n.t('empty.transactions')} /> :
-                transactionsLoading ?
-                  <Loading /> :
-                  transactionsList.length && transactionsList[0].amount ?
-                    transactionsList.map(({
-                      _id, date, category, amount, total, currency, buy,
-                    }) => (
-                      <TransactionItem
-                        key={_id}
-                        date={date}
-                        category={category ? category.title : ''}
-                        amount={amount}
-                        total={total}
-                        currency={currency ? currency.symbol : ''}
-                        buy={buy}
-                      />
-                    )) :
-                    <Spacer size={20} />
-            }
-          </View>
-        </Content>
+        </View>
+        <List style={base.contentContainer}>
+          <SectionList
+            sections={sections}
+            renderItem={this.renderItem}
+            renderSectionHeader={this.renderSectionHeader}
+            keyExtractor={(day, index) => `${day.title}-${index}`}
+            ItemSeparatorComponent={this.renderSeparator}
+            ListEmptyComponent={this.renderEmpty}
+            onRefresh={this.handleRefresh}
+            refreshing={transactionsRefreshing}
+          />
+          <LinearGradient
+            colors={[colors.gradientTo, colors.gradientFrom]}
+            style={base.gradientBottom}
+          />
+        </List>
         <Footer style={base.footer}>
           <Button
             small
             full
             bordered
-            onPress={() => Actions.createNewTransaction({
-              coinItem: coin,
-              portfolioId: coin.portfolioId,
-            })}
-            style={base.footer__button}
+            onPress={() => Actions.createNewTransaction({ coinItem: coin })}
+            style={base.footer__button_bordered}
           >
-            <Text style={base.footer__buttonText}>+ ADD NEW TRANSACTION</Text>
+            <Text style={base.footer__buttonText_bordered}>{I18n.t('transactions.addButton')}</Text>
           </Button>
         </Footer>
       </Container>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Container, Text, Tabs, Tab, TabHeading, View } from 'native-base';
 import FastImage from 'react-native-fast-image';
 
-import ErrorMessages from '../../../constants/errors';
 import Error from '../Error/Error.component';
 import CoinTabOverview from '../CoinTabOverview/CoinTabOverview.component';
 import CoinTabTransactions from '../CoinTabTransactions/CoinTabTransactions.component';
@@ -17,22 +16,26 @@ class Coin extends Component {
     error: PropTypes.string,
     id: PropTypes.string,
     coin: PropTypes.shape({}),
+    currency: PropTypes.shape({}).isRequired,
     market: PropTypes.shape({}).isRequired,
+    transactions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     exchanges: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
     transactionsLoading: PropTypes.bool.isRequired,
+    transactionsRefreshing: PropTypes.bool.isRequired,
     transactionsError: PropTypes.string,
-    markets: PropTypes.shape({}).isRequired,
     coinData: PropTypes.shape({}).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
     getCoinMarkets: PropTypes.func.isRequired,
-    getTransactionsList: PropTypes.func.isRequired,
+    getTransactions: PropTypes.func.isRequired,
     symbol: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
+    updateCoinsPeriod: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
+    periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
@@ -43,27 +46,25 @@ class Coin extends Component {
     transactionsError: null,
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const {
-      id,
       market,
-      symbol,
       getCoinHisto,
-      getCoinMarkets,
-      getTransactionsList,
+      updateCurrency,
+      currencies,
+      symbol,
       period,
     } = this.props;
 
-    let tempCurrency = symbol;
+    const fsym = market.symbol;
+    let tsym = symbol;
 
     if (market.symbol === symbol) {
-      // update currency
-      tempCurrency = 'USD';
+      tsym = Object.keys(currencies).filter(key => key !== market.symbol)[0];
+      updateCurrency(tsym);
     }
 
-    getCoinHisto({ fsym: market.symbol, tsym: tempCurrency, range: period });
-    getCoinMarkets({ fsym: market.symbol, tsym: symbol });
-    getTransactionsList(id);
+    getCoinHisto({ market: market._id, fsym, tsym, range: period });
   }
 
   render() {
@@ -75,21 +76,26 @@ class Coin extends Component {
       exchanges,
       coinData,
       addTransaction,
+      transactions,
       transactionsList,
       transactionsLoading,
+      transactionsRefreshing,
       transactionsError,
       getCoinHisto,
       symbol,
       currencies,
       updateCurrency,
       getPrice,
-      markets,
+      currency,
       getCoinMarkets,
       period,
+      getTransactions,
+      periods,
+      updateCoinsPeriod,
+      chart,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
-
 
     const icon = { uri: `https://www.cryptocompare.com${market.imageUrl}` };
 
@@ -100,16 +106,10 @@ class Coin extends Component {
     );
 
     const HeaderTitle = () => (
-      <View
-        style={styles.header__body}
-      >
+      <View style={styles.header__body}>
         <FastImage source={icon} style={styles.header__thumbnail} />
-        <Text style={styles.header__title}>
-          {market.name}
-        </Text>
-        <Text style={styles.header__title_suffix}>
-          {market.symbol}
-        </Text>
+        <Text style={styles.header__title}>{market.name}</Text>
+        <Text style={styles.header__title_suffix}>{market.symbol}</Text>
       </View>
     );
 
@@ -125,28 +125,35 @@ class Coin extends Component {
               error={error}
               market={market}
               coinId={id}
-              coinData={coinData}
+              chart={chart}
               getCoinHisto={getCoinHisto}
-              currency={symbol}
+              currency={currency}
+              symbol={symbol}
               currencies={currencies}
               updateCurrency={updateCurrency}
               period={period}
               getCoinMarkets={getCoinMarkets}
+              updateCoinsPeriod={updateCoinsPeriod}
               exchanges={exchanges}
+              periods={periods}
             />
           </Tab>
           <Tab heading={tabHeading('Transactions')}>
             <CoinTabTransactions
               error={error}
               coin={coin}
+              currency={currency}
+              symbol={symbol}
               market={market}
               coinId={id}
               selectedCurrency={symbol}
               getPrice={getPrice}
               addTransaction={addTransaction}
-              transactionsList={transactionsList}
+              transactions={transactions}
               transactionsLoading={transactionsLoading}
+              transactionsRefreshing={transactionsRefreshing}
               transactionsError={transactionsError}
+              getTransactions={getTransactions}
             />
           </Tab>
         </Tabs>

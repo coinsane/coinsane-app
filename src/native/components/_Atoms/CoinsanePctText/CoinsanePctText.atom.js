@@ -23,7 +23,7 @@ const CoinsanePctText = ({
   if (negative) {
     color = styles.negative;
   }
-  return <Text numberOfLines={1} style={[styles.text, styles.white, color, { fontSize: size }]}>{value} {symbol}</Text>;
+  return <Text numberOfLines={1} style={[styles.text, styles.white, color, { fontSize: size }]}>{value}</Text>;
 };
 
 CoinsanePctText.propTypes = {

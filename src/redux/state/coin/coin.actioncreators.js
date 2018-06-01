@@ -7,6 +7,7 @@ import {
   COINS_ERROR,
   GET_AVAILABLE_TRANSACTIONS,
   COIN_MARKETS_UPDATE,
+  UPDATE_COINS_PERIOD,
 } from '../../actions/action.types';
 
 /**
@@ -35,6 +36,13 @@ export function getCoinMarkets({ fsym, tsym }) {
     },
   };
 }
+/**
+  * Update period for coins chart
+  */
+export const updateCoinsPeriod = payload => ({
+  type: UPDATE_COINS_PERIOD,
+  payload,
+});
 
 /**
   * Get user transactions for particular coin

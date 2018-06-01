@@ -5,37 +5,35 @@ export default StyleSheet.create({
   container: {
     marginLeft: 15,
     marginRight: 15,
-    borderColor: '#2C263F',
-    borderBottomWidth: 1,
-  },
-  header: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
-    marginBottom: 5,
+    height: 60,
   },
   body: {
-    flex: 1,
+    flex: 0.6,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  right: {
+    flex: 0.4,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  category: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginBottom: 5,
   },
-  footer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
+  amount: {
+    fontSize: 20,
+    fontFamily: typography.fontBold,
+    letterSpacing: -0.35,
   },
   text: {
     fontSize: 12,
     fontFamily: typography.fontRegular,
     color: colors.textGray,
   },
-  amount: {
-    fontSize: 20,
-    fontFamily: typography.fontBold,
-    letterSpacing: -.35,
-    marginTop: 3,
-  }
 });

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors } from '../../../styles';
+import { colors } from '../../../styles';
 
 export default StyleSheet.create({
   container: {
@@ -10,6 +10,10 @@ export default StyleSheet.create({
     paddingRight: 15,
   },
   background: {
-    backgroundColor: '#2C263F'
-  }
+    backgroundColor: colors.btnBgBlack,
+  },
+  borderBottom: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.blackBorder,
+  },
 });

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const getTransactions = ({ coinId }) => axios.get('/transactions', { params: { coinId } });
+
 export const addTransaction = async (transaction) => {
   try {
     return await axios.post('/coins', transaction);
@@ -9,14 +11,6 @@ export const addTransaction = async (transaction) => {
 };
 
 export const getPrice = ({ fsym, tsyms }) => axios.get('/price', { params: { fsym, tsyms } });
-
-export const getTransactionsList = async ({ coinId }) => {
-  try {
-    return await axios.get(`/transactions?coinId=${coinId}`);
-  } catch (e) {
-    return;
-  }
-};
 
 export const getCoinHisto = async ({ fsym, tsym, range }) => {
   try {

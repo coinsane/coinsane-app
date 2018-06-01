@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   GET_AVAILABLE_MARKETS,
   GET_AVAILABLE_MARKETS_SUCCESS,
@@ -10,6 +11,7 @@ import {
   GET_MARKET_CAP_SUCCESS,
   GET_MARKET_CAP_ERROR,
   UPDATE_MARKETS_CACHE,
+  MARKET_CHART_UPDATE,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -103,6 +105,29 @@ export default function actionReducer(state = initialState, action) {
       return {
         ...state,
         items: { ...state.items, ...action.payload },
+      };
+    }
+    case MARKET_CHART_UPDATE: {
+      const { market, range, symbol, data } = action.payload;
+      const items = { ...state.items };
+      if (items[market]) {
+        if (!items[market].chart) items[market].chart = {};
+        const dataArr = Object.keys(data).map(key => data[key]);
+        const first = dataArr[0];
+        const last = dataArr[dataArr.length - 1];
+        const subtract = _.subtract(first, last);
+        const divide = _.divide(subtract, first);
+        const pct = _.multiply(divide, -100);
+        items[market].chart[`${range}:${symbol}`] = {
+          data,
+          high: _.max(dataArr),
+          low: _.min(dataArr),
+          pct,
+        };
+      }
+      return {
+        ...state,
+        items,
       };
     }
     case GET_AVAILABLE_MARKETS_ERROR: {

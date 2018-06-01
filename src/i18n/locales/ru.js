@@ -10,9 +10,14 @@ export default {
     mcap: 'Кап.',
     vol24: '24 об.',
     price: 'Цена',
+    supply: 'Выпущено',
   },
   coins: {
     addButton: '+ ДОБАВИТЬ МОНЕТУ',
+    low: 'МИН',
+    high: 'МАКС',
+    exchanges: 'Обмен',
+    news: 'Лента',
   },
   portfolios: {
     title: 'Выбрать коллекцию',
@@ -20,6 +25,15 @@ export default {
     addButton: '+ НОВАЯ КОЛЛЕКЦИЯ',
     saveButton: 'СОХРАНИТЬ',
     createButton: 'ДОБАВИТЬ',
+  },
+  transactions: {
+    addButton: '+ НОВАЯ ТРАНЗАКЦИЯ',
+    coins: 'Мои монеты',
+    total: 'Сумма',
+    profit: 'Доходность',
+  },
+  categories: {
+    empty: 'Без категории',
   },
   placeholder: {
     search: 'Поиск',

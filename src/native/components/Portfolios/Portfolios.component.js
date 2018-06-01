@@ -241,6 +241,7 @@ class Portfolios extends Component {
       drawer,
       addCoin,
       activePortfolio,
+      symbol,
     } = this.props;
 
     if (error) return <Error content={error} />;
@@ -280,6 +281,7 @@ class Portfolios extends Component {
             ListEmptyComponent={this.renderEmpty}
             onRefresh={this.handleRefresh}
             refreshing={refreshing}
+            extraData={symbol}
           />
           {
             activePortfolio && <LinearGradient

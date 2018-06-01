@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import get from 'lodash/get';
 
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
-import { getTransactionsList, addTransaction, getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets } from '../redux/state/coin/coin.actioncreators';
+import { addTransaction, getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
+import { getTransactions } from '../redux/state/transactions/transactions.actioncreators';
 
 class Coins extends Component {
   static propTypes = {
@@ -20,6 +22,12 @@ class Coins extends Component {
     }).isRequired,
     coin: PropTypes.shape({
       items: PropTypes.shape({}),
+      period: PropTypes.string,
+    }).isRequired,
+    transactions: PropTypes.shape({
+      items: PropTypes.shape({}),
+      loading: PropTypes.bool,
+      refreshing: PropTypes.bool,
     }).isRequired,
     navigation: PropTypes.shape({
       drawer: PropTypes.shape({}),
@@ -35,7 +43,9 @@ class Coins extends Component {
 
     clearMarkets: PropTypes.func.isRequired,
     getMarketCap: PropTypes.func.isRequired,
-    markets: PropTypes.shape({}).isRequired,
+    markets: PropTypes.shape({
+      chart: PropTypes.shape({}),
+    }).isRequired,
 
     auth: PropTypes.shape({
       token: PropTypes.string,
@@ -44,7 +54,7 @@ class Coins extends Component {
     getTotals: PropTypes.func.isRequired,
     addPortfolio: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
-    getTransactionsList: PropTypes.func.isRequired,
+    getTransactions: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
     updatePortfolio: PropTypes.func.isRequired,
     selectPortfolio: PropTypes.func.isRequired,
@@ -58,6 +68,7 @@ class Coins extends Component {
     getAvailableMarkets: PropTypes.func.isRequired,
     getAvailableCurrencies: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
+    updateCoinsPeriod: PropTypes.func.isRequired,
     settings: PropTypes.shape({
       currencies: PropTypes.shape({}),
       currency: PropTypes.string,
@@ -84,6 +95,24 @@ class Coins extends Component {
     } = this.props;
     const id = (match && match.params && match.params.id) ? match.params.id : null;
     return id ? coin.items[id] : null;
+  };
+
+  getTransactions = () => {
+    const { items } = this.props.transactions;
+    const coin = this.getCoin();
+    const transactions = coin ? coin.transactions : null;
+    return transactions ? transactions.map(id => items[id]).reverse() : [];
+  };
+
+  getChart = () => {
+    const { match, coin, settings } = this.props;
+    const market = get(match, 'params.market', {});
+    return get(market, `chart[${coin.period}:${settings.currency}]`, {
+      data: {},
+      low: 0,
+      high: 0,
+      pct: 0,
+    });
   };
 
   addTransaction = (portfolio) => {
@@ -125,6 +154,7 @@ class Coins extends Component {
       coin,
       settings,
       markets,
+      transactions,
     } = this.props;
     const id = (match && match.params && match.params.id) ? match.params.id : null;
     const market = (match && match.params && match.params.market) ? match.params.market : null;
@@ -150,7 +180,6 @@ class Coins extends Component {
         updateCurrency={this.props.selectCurrency}
         updatePeriod={this.props.updatePeriod}
         currencies={settings.currencies}
-        period={portfolios.period}
         getTotals={this.props.getTotals}
         activePortfolio={portfolios.selected}
         coinData={coin.list}
@@ -163,14 +192,16 @@ class Coins extends Component {
 
         currency={this.getCurrency()}
         coin={this.getCoin()}
+        transactions={this.getTransactions()}
+        chart={this.getChart()}
 
         getPrice={this.props.getPrice}
         addTransaction={this.addTransaction}
-        getTransactionsList={this.props.getTransactionsList}
+        getTransactions={this.props.getTransactions}
 
-        transactionsList={coin.transactions}
-        transactionsLoading={coin.transactionsLoading}
-        transactionsError={coin.transactionsError}
+        transactionsLoading={transactions.loading}
+        transactionsRefreshing={transactions.refreshing}
+        transactionsError={transactions.error}
 
         getMarketCap={this.props.getMarketCap}
         removeCoin={this.props.removeCoin}
@@ -182,6 +213,8 @@ class Coins extends Component {
         settings={settings}
         markets={markets}
         periods={settings.periods}
+        period={coin.period}
+        updateCoinsPeriod={this.props.updateCoinsPeriod}
       />
     );
   }
@@ -194,6 +227,7 @@ const mapStateToProps = state => ({
   currencies: state.currencies,
   settings: state.settings,
   markets: state.markets,
+  transactions: state.transactions,
   auth: state.auth,
 });
 
@@ -206,7 +240,7 @@ const mapDispatchToProps = {
   getTotals,
   addTransaction,
   getPrice,
-  getTransactionsList,
+  getTransactions,
   removePortfolio,
   updatePortfolio,
   selectPortfolio,
@@ -224,6 +258,7 @@ const mapDispatchToProps = {
   updateCollapsed,
   clearMarkets,
   getMarketCap,
+  updateCoinsPeriod,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Coins);

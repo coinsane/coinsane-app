@@ -1,20 +1,36 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call, select } from 'redux-saga/effects';
+import selectors from '../../selectors';
 import api from '../../../api';
 import {
   COIN_HISTO_UPDATE,
-  COIN_HISTO_UPDATE_SUCCESS,
   COIN_MARKETS_UPDATE,
   COIN_MARKETS_UPDATE_SUCCESS,
+  MARKET_CHART_UPDATE,
 } from '../../../redux/actions/action.types';
 
 /**
  * Fetch Markets side effect.
  * @kind SideEffect
- * @param payload { fsym, tsym, range }
+ * @param action.payload { market, fsym, tsym, range }
  */
 export function* coinHistoUpdate(action) {
-  const response = yield call(api.coins.getCoinHisto, action.payload);
-  yield put({ type: COIN_HISTO_UPDATE_SUCCESS, payload: response.data });
+  const {
+    market,
+    fsym,
+    tsym,
+    range,
+  } = action.payload;
+  const symbol = yield select(selectors.getSymbol);
+  const response = yield call(api.coins.getCoinHisto, { fsym, tsym, range });
+  yield put({
+    type: MARKET_CHART_UPDATE,
+    payload: {
+      market,
+      range,
+      symbol,
+      data: response.data.data,
+    },
+  });
 }
 
 

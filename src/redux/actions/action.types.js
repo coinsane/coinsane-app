@@ -21,6 +21,7 @@ export const SET_COIN_DATA = '[coins] SET_COIN_DATA';
 export const COIN_MARKETS_UPDATE = '[coins] COIN_MARKETS_UPDATE';
 export const COIN_MARKETS_UPDATE_SUCCESS = '[coins] COIN_MARKETS_UPDATE_SUCCESS';
 export const COIN_MARKETS_UPDATE_ERROR = '[coins] COIN_MARKETS_UPDATE_ERROR';
+export const UPDATE_COINS_PERIOD = '[coins] UPDATE_COINS_PERIOD';
 
 
 // ========= [coins] peace of state action types ========= //
@@ -32,6 +33,7 @@ export const SEARCH_AVAILABLE_MARKETS = '[api] SEARCH_AVAILABLE_MARKETS';
 export const SEARCH_AVAILABLE_MARKETS_SUCCESS = '[api] SEARCH_AVAILABLE_MARKETS_SUCCESS';
 export const SEARCH_AVAILABLE_MARKETS_ERROR = '[api] SEARCH_AVAILABLE_MARKETS_ERROR';
 export const CLEAR_MARKETS = '[coins] CLEAR_MARKETS';
+export const UPDATE_COIN_TRANSACTIONS = '[coins] UPDATE_COIN_TRANSACTIONS';
 
 
 // ========= [currencies] peace of state action types ========= //
@@ -106,9 +108,17 @@ export const GET_MARKET_CAP = '[markets] GET_MARKET_CAP';
 export const GET_MARKET_CAP_SUCCESS = '[markets] GET_MARKET_CAP_SUCCESS';
 export const GET_MARKET_CAP_ERROR = '[markets] GET_MARKET_CAP_ERROR';
 export const UPDATE_MARKETS_CACHE = '[markets] UPDATE_MARKETS_CACHE';
+export const MARKET_CHART_UPDATE = '[markets] MARKET_CHART_UPDATE';
 
 
 // ========= [pages] peace of state action types ========= //
 export const GET_PAGES = '[pages] GET_PAGES';
 export const GET_PAGES_SUCCESS = '[pages] GET_PAGES_SUCCESS';
 export const GET_PAGES_ERROR = '[pages] GET_PAGES_ERROR';
+
+// ========= [transactions] peace of state action types ========= //
+export const TRANSACTIONS_ADD = '[transactions] TRANSACTIONS_ADD';
+export const TRANSACTIONS_ADD_SUCCESS = '[transactions] TRANSACTIONS_ADD_SUCCESS';
+export const TRANSACTIONS_ADD_ERROR = '[transactions] TRANSACTIONS_ADD_ERROR';
+export const UPDATE_TRANSACTIONS_ITEMS = '[transactions] UPDATE_TRANSACTIONS_ITEMS';
+export const GET_TRANSACTIONS_SUCCESS = '[transactions] GET_TRANSACTIONS_SUCCESS';

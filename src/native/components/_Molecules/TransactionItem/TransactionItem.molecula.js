@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'native-base';
+import { View, Text, Body, Right } from 'native-base';
 
+import I18n from '../../../../i18n';
+import { nFormat, cFormat } from '../../../../lib/utils';
 import styles from './TransactionItem.styles';
-import Spacer from '../../Spacer/Spacer.component';
+import { colors } from '../../../styles';
 import CoinsanePctText from '../../_Atoms/CoinsanePctText/CoinsanePctText.atom';
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 const TransactionItem = ({
-  date,
   category,
   categoryColor,
   amount,
@@ -16,31 +17,24 @@ const TransactionItem = ({
   currency,
   buy,
 }) => {
-  const totalDisplay = buy ? total : -Math.abs(total);
+  const totalDisplay = buy ? cFormat(nFormat(total, 2), currency) : `-${cFormat(nFormat(total, 2), currency)}`;
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.text}>{date}</Text>
-        <Text style={styles.text}>{buy ? 'Buy' : 'Sell'}</Text>
-      </View>
-      {
-        category ?
-          <View style={styles.body}>
-            <CoinsaneIcon name="Category" fill={categoryColor} width="12" height="16" />
-            <Text style={styles.text}>{category}</Text>
-          </View> :
-          <Spacer size={0} />
-      }
-      <View style={styles.footer}>
+      <Body style={styles.body}>
+        <View style={styles.category}>
+          <CoinsaneIcon name="Category" fill={categoryColor} width="12" height="16" />
+          <Text style={styles.text}>{category || I18n.t('categories.empty')}</Text>
+        </View>
         <Text style={styles.amount}>{amount}</Text>
-        <CoinsanePctText value={totalDisplay} symbol={currency} positive={!!buy} negative={!buy} />
-      </View>
+      </Body>
+      <Right style={styles.right}>
+        <CoinsanePctText value={totalDisplay} symbol="" positive={!!buy} negative={!buy} />
+      </Right>
     </View>
   );
 };
 
 TransactionItem.propTypes = {
-  date: PropTypes.string.isRequired,
   category: PropTypes.string,
   categoryColor: PropTypes.string,
   amount: PropTypes.number.isRequired,
@@ -50,8 +44,8 @@ TransactionItem.propTypes = {
 };
 
 TransactionItem.defaultProps = {
-  category: 'No category',
-  categoryColor: '#7ED4D8',
+  category: I18n.t('categories.empty'),
+  categoryColor: colors.category1,
 };
 
 export default TransactionItem;
