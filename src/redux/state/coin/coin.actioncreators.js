@@ -1,6 +1,5 @@
 import { delCoin } from '../../../api/coins';
 import {
-  ADD_TRANSACTION,
   GET_PRICE,
   COIN_HISTO_UPDATE,
   PORTFOLIO_COIN_REMOVED,
@@ -62,16 +61,6 @@ export function getTransactionsList(coinId) {
 
 export function getCoinHisto(payload) {
   return { type: COIN_HISTO_UPDATE, payload };
-}
-
-/**
-  * Add Transaction
-  */
-export function addTransaction(transaction) {
-  return {
-    type: ADD_TRANSACTION,
-    payload: transaction,
-  };
 }
 
 /**

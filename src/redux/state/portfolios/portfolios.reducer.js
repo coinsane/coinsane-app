@@ -1,12 +1,12 @@
+import _ from 'lodash';
 import {
   UPDATE_PORTFOLIOS,
   UPDATE_PORTFOLIOS_SUCCESS,
   UPDATE_PORTFOLIOS_ERROR,
-  PORTFOLIO_ADDED,
   PORTFOLIO_SELECT,
-  PORTFOLIO_REMOVED,
-  PORTFOLIO_UPDATE,
-  TOTALS_REPLACE,
+  PORTFOLIO_ADD_SUCCESS,
+  PORTFOLIO_REMOVE_SUCCESS,
+  PORTFOLIO_UPDATE_SUCCESS,
   PORTFOLIO_COIN_REMOVED,
   PORTFOLIOS_ERROR,
   SET_COIN_DATA,
@@ -15,7 +15,7 @@ import {
   UPDATE_PORTFOLIO_PERIOD_SUCCESS,
   UPDATE_PERIOD_SUCCESS,
   UPDATE_COLLAPSED,
-  TOTALS_REPLACE_SUCCESS,
+  UPDATE_PORTFOLIO_CHART_SUCCESS,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -23,9 +23,9 @@ export const initialState = {
   error: null,
   refreshing: false,
   list: [],
+  items: {},
   selected: null,
   chart: {},
-  coinData: {}, // TODO move to coins store
   currency: 'BTC',
   period: '1d',
   changePct: 0,
@@ -44,11 +44,13 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case UPDATE_PORTFOLIOS_SUCCESS: {
+      const items = { ...state.items, ...action.payload };
       return {
         ...state,
         error: null,
         loading: false,
-        list: action.payload,
+        items,
+        list: Object.keys(items),
         refreshing: false,
       };
     }
@@ -61,70 +63,82 @@ export default function actionReducer(state = initialState, action) {
         refreshing: false,
       };
     }
-    case PORTFOLIO_ADDED: {
-      return {
-        ...state,
-        error: null,
-        loading: false,
-        list: [ ...state.list, action.data ]
-      };
-    }
     case PORTFOLIO_SELECT: {
       return {
         ...state,
-        selected: action.data || null
+        selected: action.payload || null,
       };
     }
-    case PORTFOLIO_REMOVED: {
+    case PORTFOLIO_ADD_SUCCESS: {
+      const selected = action.payload._id;
+      const items = { ...state.items };
+      items[action.payload._id] = action.payload;
+      const { list } = state;
+      list.push(action.payload._id);
       return {
         ...state,
         error: null,
         loading: false,
-        selected: state.selected !== action.data ? state.selected : null,
-        list: [...state.list.filter(portfolio => portfolio._id !== action.data)]
+        items,
+        list,
+        selected,
       };
     }
-    case PORTFOLIO_UPDATE: {
-      const { _id, title, inTotal } = action.data;
+    case PORTFOLIO_REMOVE_SUCCESS: {
+      const items = { ...state.items };
+      delete items[action.payload];
+      const list = state.list.filter(item => item !== action.payload);
       return {
         ...state,
         error: null,
         loading: false,
-        list: [...state.list.map(portfolio => {
-          if (portfolio._id === _id) {
-            portfolio.title = title;
-            portfolio.inTotal = inTotal;
-          }
-          return portfolio;
-        })]
+        selected: null,
+        items,
+        list,
       };
     }
-    case TOTALS_REPLACE: {
-      const { totals, changePct, lastTotal } = action.data;
+    case PORTFOLIO_UPDATE_SUCCESS: {
+      const { _id, title, inTotal } = action.payload;
+      const items = { ...state.items };
+      items[_id] = {
+        ...items[_id],
+        title,
+        inTotal,
+      };
       return {
         ...state,
         error: null,
         loading: false,
-        chart: totals,
-        changePct,
-        lastTotal,
-        // list: [...state.list.map(portfolio => {
-        //   if (portfolio._id === portfolioId) {
-        //     portfolio.changePct = changePct;
-        //   }
-        //   return portfolio;
-        // })]
+        items,
       };
     }
-    case TOTALS_REPLACE_SUCCESS: {
-      const { totals, changePct, lastTotal } = action.payload;
+    case UPDATE_PORTFOLIO_CHART_SUCCESS: {
+      const {
+        portfolioId = 'all',
+        range = '1d',
+        symbol,
+        totals,
+      } = action.payload;
+      const chart = { ...state.chart };
+      if (!chart[portfolioId]) chart[portfolioId] = {};
+      const dataArr = Object.keys(totals).map(key => totals[key]);
+      const first = dataArr[0];
+      const last = dataArr[dataArr.length - 1];
+      const subtract = _.subtract(first, last);
+      const divide = _.divide(subtract, first);
+      const pct = _.multiply(divide, -100);
+      chart[portfolioId][`${range}:${symbol}`] = {
+        data: totals,
+        high: _.max(dataArr),
+        low: _.min(dataArr),
+        pct,
+      };
+
       return {
         ...state,
         error: null,
         loading: false,
-        chart: totals,
-        changePct,
-        lastTotal,
+        chart,
       };
     }
     case PORTFOLIO_COIN_REMOVED: {

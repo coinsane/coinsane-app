@@ -61,11 +61,8 @@ export const UPDATE_PORTFOLIOS_SUCCESS = '[portfolios] UPDATE_PORTFOLIOS_SUCCESS
 export const UPDATE_PORTFOLIOS_ERROR = '[portfolios] UPDATE_PORTFOLIOS_ERROR';
 
 export const UPDATE_PORTFOLIO_CHART = '[portfolios] UPDATE_PORTFOLIO_CHART';
-export const UPDATE_PORTFOLIO_CHART_SUCCESS = '[portfolios] UPDATE_PORTFOLIO_CHART_SUCCESS';
 export const UPDATE_PORTFOLIO_CHART_ERROR = '[portfolios] UPDATE_PORTFOLIO_CHART_ERROR';
-
-export const TOTALS_REPLACE = '[portfolios] TOTALS_REPLACE';
-export const TOTALS_REPLACE_SUCCESS = '[portfolios] TOTALS_REPLACE_SUCCESS';
+export const UPDATE_PORTFOLIO_CHART_SUCCESS = '[portfolios] UPDATE_PORTFOLIO_CHART_SUCCESS';
 
 export const UPDATE_PORTFOLIO_PERIOD = '[portfolios] UPDATE_PORTFOLIO_PERIOD';
 export const UPDATE_PORTFOLIO_PERIOD_SUCCESS = '[portfolios] UPDATE_PORTFOLIO_PERIOD_SUCCESS';
@@ -75,9 +72,18 @@ export const UPDATE_PORTFOLIO_CURRENCY_SUCCESS = '[portfolios] UPDATE_PORTFOLIO_
 export const UPDATE_PORTFOLIO_CURRENCY_ERROR = '[portfolios] UPDATE_PORTFOLIO_CURRENCY_ERROR';
 
 export const PORTFOLIO_SELECT = '[portfolios] PORTFOLIO_SELECT';
+export const PORTFOLIO_ADD = '[portfolios] PORTFOLIO_ADD';
+export const PORTFOLIO_ADD_SUCCESS = '[portfolios] PORTFOLIO_ADD_SUCCESS';
+export const PORTFOLIO_ADD_ERROR = '[portfolios] PORTFOLIO_ADD_ERROR';
+
 export const PORTFOLIO_UPDATE = '[portfolios] PORTFOLIO_UPDATE';
-export const PORTFOLIO_ADDED = '[portfolios] PORTFOLIO_ADDED';
-export const PORTFOLIO_REMOVED = '[portfolios] PORTFOLIO_REMOVED';
+export const PORTFOLIO_UPDATE_SUCCESS = '[portfolios] PORTFOLIO_UPDATE_SUCCESS';
+export const PORTFOLIO_UPDATE_ERROR = '[portfolios] PORTFOLIO_UPDATE_ERROR';
+
+export const PORTFOLIO_REMOVE = '[portfolios] PORTFOLIO_REMOVE';
+export const PORTFOLIO_REMOVE_SUCCESS = '[portfolios] PORTFOLIO_REMOVE_SUCCESS';
+export const PORTFOLIO_REMOVE_ERROR = '[portfolios] PORTFOLIO_REMOVE_ERROR';
+
 export const PORTFOLIOS_ERROR = '[portfolios] PORTFOLIOS_ERROR';
 export const UPDATE_PERIOD = '[portfolios] UPDATE_PERIOD';
 export const UPDATE_PERIOD_SUCCESS = '[portfolios] UPDATE_PERIOD_SUCCESS';
@@ -87,14 +93,6 @@ export const UPDATE_COLLAPSED = '[portfolios] UPDATE_COLLAPSED';
 // ========= [navigation] peace of state action types ========= //
 export const DRAWER_ACTIONS = '[navigation] DRAWER_ACTIONS';
 export const SET_ACTIVE_MENU = '[navigation] SET_ACTIVE_MENU';
-
-
-// ========= [inProcess] peace of state action types ========= //
-export const UPDATE_TRANSACTION = '[process] UPDATE_TRANSACTION';
-export const CLEAR_TRANSACTION = '[process] CLEAR_TRANSACTION';
-export const RECALCULATE = '[process] RECALCULATE';
-export const GET_TRANSACTION_PRICE_SUCCESS = '[inProcess] GET_TRANSACTION_PRICE_SUCCESS';
-export const GET_TRANSACTION_PRICE_ERROR = '[inProcess] GET_TRANSACTION_PRICE_ERROR';
 
 
 // ========= [settings] peace of state action types ========= //
@@ -122,3 +120,10 @@ export const TRANSACTIONS_ADD_SUCCESS = '[transactions] TRANSACTIONS_ADD_SUCCESS
 export const TRANSACTIONS_ADD_ERROR = '[transactions] TRANSACTIONS_ADD_ERROR';
 export const UPDATE_TRANSACTIONS_ITEMS = '[transactions] UPDATE_TRANSACTIONS_ITEMS';
 export const GET_TRANSACTIONS_SUCCESS = '[transactions] GET_TRANSACTIONS_SUCCESS';
+
+export const UPDATE_DRAFT_TRANSACTION = '[transactions] UPDATE_DRAFT_TRANSACTION';
+export const GET_TRANSACTION_PRICE_SUCCESS = '[transactions] GET_TRANSACTION_PRICE_SUCCESS';
+export const GET_TRANSACTION_PRICE_ERROR = '[transactions] GET_TRANSACTION_PRICE_ERROR';
+
+export const CLEAR_DRAFT_TRANSACTION = '[transactions] CLEAR_DRAFT_TRANSACTION';
+export const RECALCULATE = '[transactions] RECALCULATE';

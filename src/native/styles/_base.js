@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import colors from './_colors';
 import typography from './_typography';
+import fonts from "./_fonts";
 
 export default StyleSheet.create({
   white: { color: colors.white },
@@ -12,6 +13,12 @@ export default StyleSheet.create({
   contentContainer: {
     flex: 1,
     backgroundColor: colors.bgGray,
+  },
+  contentPadding: {
+    paddingTop: 25,
+    paddingBottom: 25,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   footer: {
     backgroundColor: colors.bgGray,
@@ -49,33 +56,59 @@ export default StyleSheet.create({
   },
   // List item shared input field with label
   listItem__labelInputContainer: {
-    paddingLeft: 10,
+    paddingLeft: 0,
+    marginLeft: 0,
     borderBottomColor: colors.bgGray,
-    marginLeft: 0
   },
   listItem__labelText: {
     paddingTop: 0,
-    paddingRight: 0
+    paddingRight: 0,
+    fontFamily: typography.fontRegular,
+    fontSize: 12,
+    color: colors.textGray,
   },
   listItem__labelInput: {
-    height: 21,
-    paddingLeft: 0
+    height: 24,
+    paddingLeft: 0,
   },
-  // form with input for name
+  form__title: {
+    color: colors.textGray,
+    fontSize: 14,
+    letterSpacing: 1,
+    fontFamily: typography.fontMedium,
+    marginBottom: 20,
+    marginTop: 5,
+  },
   form__titleContainer: {
     marginLeft: 0,
     borderBottomColor: colors.blackBorder,
   },
   form__titleLabel: {
     color: colors.textGray,
-    fontSize: typography.size12,
+    fontSize: 12,
     letterSpacing: 1,
     fontFamily: typography.fontRegular,
   },
   form__titleInput: {
-    fontSize: typography.size17,
+    fontSize: 16,
     letterSpacing: -0.25,
     fontFamily: typography.fontRegular,
+  },
+  form__switchContainer: {
+    paddingBottom: 24,
+    paddingTop: 24,
+    borderBottomColor: colors.blackBorder,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+  },
+  form__switchLabel: {
+    flex: 0.8,
+    color: colors.white,
+    fontFamily: typography.fontRegular,
+    fontSize: 16,
+  },
+  form__switchInput: {
+    flex: 0.2,
   },
   form__checkbox: {
     flex: 1,
@@ -86,7 +119,7 @@ export default StyleSheet.create({
   },
   form__checkboxText: {
     color: colors.white,
-    fontSize: typography.size17,
+    fontSize: 16,
     letterSpacing: -0.25,
     fontFamily: typography.fontRegular,
   },

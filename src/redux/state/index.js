@@ -5,7 +5,6 @@ import portfolios from './portfolios/portfolios.reducer';
 import coin from './coin/coin.reducer';
 import markets from './markets/markets.reducer';
 import currencies from './currencies/currencies.reducer';
-import inProcess from './inProcess/inProcess.reducer';
 import settings from './settings/settings.reducer';
 import pages from './pages/pages.reducer';
 import transactions from './transactions/transactions.reducer';
@@ -28,7 +27,6 @@ export default {
   coin,
   markets,
   currencies,
-  inProcess,
   settings,
   pages,
   transactions,

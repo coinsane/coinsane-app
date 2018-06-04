@@ -4,6 +4,7 @@ import { SectionList, View } from 'react-native';
 import { Container, List, Text, Button, Footer, Icon, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import get from 'lodash/get';
 
 import I18n from '../../../i18n';
 import Error from '../Error/Error.component';
@@ -25,7 +26,7 @@ class Portfolios extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     refreshing: PropTypes.bool,
-    list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    portfolios: PropTypes.shape({}).isRequired,
     chart: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({}).isRequired,
 
@@ -50,7 +51,7 @@ class Portfolios extends Component {
 
   static defaultProps = {
     error: null,
-    activePortfolio: 'all',
+    activePortfolio: null,
     period: null,
     refreshing: false,
   };
@@ -101,18 +102,17 @@ class Portfolios extends Component {
     Actions.portfolioSettings({ match: { params: { portfolioId } } });
   };
 
-
-  portfoliosList = () => {
-    const { list, activePortfolio } = this.props;
-    return activePortfolio ? list.filter(item => item._id === activePortfolio) : list;
-  };
-
   portfolioTotal = () => {
-    const { activePortfolio } = this.props;
+    const { portfolios, activePortfolio } = this.props;
     let lastTotal = 0;
-    const portfolios = this.portfoliosList();
-    portfolios.forEach(({ amount, inTotal }) => {
-      if (activePortfolio || inTotal) lastTotal += amount;
+    if (activePortfolio && activePortfolio !== 'all') {
+      const { amount } = portfolios[activePortfolio];
+      lastTotal = amount;
+      return lastTotal;
+    }
+    Object.keys(portfolios).forEach((key) => {
+      const { amount, inTotal } = portfolios[key];
+      if (inTotal) lastTotal += amount;
     });
     return lastTotal;
   };
@@ -141,7 +141,7 @@ class Portfolios extends Component {
           error={error}
         />
         <Chart
-          data={chart}
+          data={chart.data}
           currency={currency}
           loading={loading}
         />
@@ -242,14 +242,13 @@ class Portfolios extends Component {
       addCoin,
       activePortfolio,
       symbol,
+      portfolios,
     } = this.props;
 
     if (error) return <Error content={error} />;
 
-    const portfolios = this.portfoliosList();
-
     const HeaderTitle = () => {
-      const title = activePortfolio && portfolios.length ? portfolios[0].title : I18n.t('portfolios.all');
+      const title = get(portfolios, `${activePortfolio}.title`, I18n.t('portfolios.all'));
       return (
         <Title>
           <Icon name="ios-arrow-down" style={[styles.header__arrow, { color: colors.textGray }]} />
@@ -258,6 +257,13 @@ class Portfolios extends Component {
         </Title>
       );
     };
+
+    const sections = [];
+    if (activePortfolio && portfolios[activePortfolio]) {
+      sections.push(portfolios[activePortfolio]);
+    } else {
+      Object.keys(portfolios).forEach(key => sections.push(portfolios[key]));
+    }
 
     return (
       <Container>
@@ -272,7 +278,7 @@ class Portfolios extends Component {
         />
         <List style={base.contentContainer}>
           <SectionList
-            sections={portfolios}
+            sections={sections}
             renderItem={this.renderItem}
             renderSectionHeader={this.renderSectionHeader}
             keyExtractor={coin => coin._id}
@@ -281,7 +287,7 @@ class Portfolios extends Component {
             ListEmptyComponent={this.renderEmpty}
             onRefresh={this.handleRefresh}
             refreshing={refreshing}
-            extraData={symbol}
+            extraData={portfolios}
           />
           {
             activePortfolio && <LinearGradient

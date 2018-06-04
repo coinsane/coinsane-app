@@ -1,7 +1,6 @@
 import {
   GET_AVAILABLE_MARKETS,
   SEARCH_AVAILABLE_MARKETS,
-  GET_AVAILABLE_CURRENCIES,
   CLEAR_MARKETS,
   GET_MARKET_CAP,
 } from '../../actions/action.types';
@@ -19,14 +18,6 @@ export const getMarketCap = payload => ({
   */
 export const getAvailableMarkets = ({ limit = 10, skip = 0, refreshing = false }) => ({
   type: GET_AVAILABLE_MARKETS,
-  payload: { limit, skip, refreshing },
-});
-
-/**
-  * Get All Markets
-  */
-export const getAvailableCurrencies = ({ limit = 10, skip = 0, refreshing = false }) => ({
-  type: GET_AVAILABLE_CURRENCIES,
   payload: { limit, skip, refreshing },
 });
 

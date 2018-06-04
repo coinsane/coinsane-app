@@ -5,20 +5,20 @@ import { Actions } from 'react-native-router-flux';
 import get from 'lodash/get';
 
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
-import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
-import { addTransaction, getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
+import { getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
-import { getTransactions } from '../redux/state/transactions/transactions.actioncreators';
+import { getTransactions, updateDraftTransaction, addTransaction } from '../redux/state/transactions/transactions.actioncreators';
 
 class Coins extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     portfolios: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
+      loading: PropTypes.bool,
       error: PropTypes.string,
-      list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+      list: PropTypes.arrayOf(PropTypes.string),
+      items: PropTypes.shape({}),
     }).isRequired,
     coin: PropTypes.shape({
       items: PropTypes.shape({}),
@@ -64,7 +64,7 @@ class Coins extends Component {
     setCoinData: PropTypes.func.isRequired,
     selectCurrency: PropTypes.func.isRequired,
     updatePeriod: PropTypes.func.isRequired,
-    updateProcessTransaction: PropTypes.func.isRequired,
+    updateDraftTransaction: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
     getAvailableCurrencies: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
@@ -116,8 +116,7 @@ class Coins extends Component {
   };
 
   addTransaction = (portfolio) => {
-    // add portfolioId (passed as object) to process transaction peace of state
-    this.props.updateProcessTransaction({ portfolio });
+    this.props.updateDraftTransaction({ portfolio, create: true });
     // show SelectCoin screen
     Actions.selector({
       preLoad: () => {
@@ -132,9 +131,9 @@ class Coins extends Component {
       navigationType: 'close',
       searchBar: true,
       listName: 'markets',
-      selectAction: (item) => {
+      selectAction: (market) => {
         Actions.pop();
-        Actions.createNewTransaction({ coinItem: item });
+        Actions.createNewTransaction({ market });
       },
       closeType: 'close',
     });
@@ -224,7 +223,6 @@ const mapStateToProps = state => ({
   portfolios: state.portfolios,
   navigation: state.navigation,
   coin: state.coin,
-  currencies: state.currencies,
   settings: state.settings,
   markets: state.markets,
   transactions: state.transactions,
@@ -252,7 +250,7 @@ const mapDispatchToProps = {
   setCoinData,
   selectCurrency,
   updatePeriod,
-  updateProcessTransaction,
+  updateDraftTransaction,
   getAvailableMarkets,
   getAvailableCurrencies,
   updateCollapsed,

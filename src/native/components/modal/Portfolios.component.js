@@ -9,7 +9,7 @@ import styles from './Portfolios.styles';
 import { base } from '../../styles';
 
 const PortfoliosModal = ({
-  list,
+  portfolios,
   selectPortfolio,
 }) => {
   return (
@@ -17,7 +17,7 @@ const PortfoliosModal = ({
       <Container>
         <CoinsaneHeader
           leftIcon="Back"
-          title={<Title>{I18n.t('portfolios.title')}</Title>}
+          title={<Title>{I18n.t('portfolios.titleChoose')}</Title>}
         />
         <Content style={base.contentContainer}>
           <List>
@@ -31,17 +31,17 @@ const PortfoliosModal = ({
             >
               <Text style={styles.listItem__text}>{I18n.t('portfolios.all')}</Text>
             </ListItem>
-            {list.map(portfolio => (
+            {Object.keys(portfolios).map(key => (
               <ListItem
-                key={portfolio._id}
+                key={key}
                 button
                 style={styles.listItem__portfolio}
                 onPress={() => {
-                  selectPortfolio(portfolio._id);
+                  selectPortfolio(key);
                   Actions.pop();
                 }}
               >
-                <Text style={styles.listItem__text}>{portfolio.title}</Text>
+                <Text style={styles.listItem__text}>{portfolios[key].title}</Text>
               </ListItem>
             ))}
           </List>
@@ -66,7 +66,7 @@ const PortfoliosModal = ({
 };
 
 PortfoliosModal.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  portfolios: PropTypes.shape({}).isRequired,
   selectPortfolio: PropTypes.func.isRequired,
 };
 

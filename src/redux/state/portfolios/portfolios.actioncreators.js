@@ -1,12 +1,11 @@
-import React from 'react';
-import { fetchPortfolios, fetchTotals, setPortfolio, update, delPortfolio, watchUserPortfolios } from '../../../api/portfolios';
+import { fetchTotals, setPortfolio, update, delPortfolio } from '../../../api/portfolios';
 import {
   UPDATE_PORTFOLIOS,
   TOTALS_REPLACE,
   PORTFOLIO_SELECT,
   PORTFOLIO_UPDATE,
-  PORTFOLIO_ADDED,
-  PORTFOLIO_REMOVED,
+  PORTFOLIO_ADD,
+  PORTFOLIO_REMOVE,
   PORTFOLIOS_ERROR,
   SET_COIN_DATA,
   UPDATE_PERIOD,
@@ -37,53 +36,45 @@ export function getTotals(data) {
 /**
   * Select Portfolio
   */
-export function selectPortfolio(portfolioId) {
-  return dispatch => Promise.resolve()
-    .then(() => dispatch({
-      type: PORTFOLIO_SELECT,
-      data: portfolioId,
-    }))
-    // .catch(e => console.log(e));
-}
+export const selectPortfolio = payload => ({
+  type: PORTFOLIO_SELECT,
+  payload,
+});
 
 /**
   * Update Portfolio
   */
-export function updatePortfolio(data) {
-  const { _id, title, inTotal } = data;
-  return dispatch => Promise.resolve({ _id, title, inTotal })
-    .then(update)
-    .then(() => dispatch({
-      type: PORTFOLIO_UPDATE,
-      data: { _id, title, inTotal },
-    }))
-    // .catch(e => console.log(e));
-}
+export const updatePortfolio = payload => ({
+  type: PORTFOLIO_UPDATE,
+  payload,
+});
+// export function updatePortfolio(data) {
+//   const { _id, title, inTotal } = data;
+//   return dispatch => Promise.resolve({ _id, title, inTotal })
+//     .then(update)
+//     .then(() => dispatch({
+//       type: PORTFOLIO_UPDATE,
+//       data: { _id, title, inTotal },
+//     }))
+//     // .catch(e => console.log(e));
+// }
 
 /**
   * Add Portfolio
   */
-export function addPortfolio(newPortfolio) {
-  return dispatch => setPortfolio(newPortfolio)
-    .then(portfolio => dispatch({
-      type: PORTFOLIO_ADDED,
-      data: portfolio,
-    }))
-    // .catch(e => console.log(e));
-}
+export const addPortfolio = payload => ({
+  type: PORTFOLIO_ADD,
+  payload,
+});
+
 
 /**
   * Remove Portfolio
   */
-export function removePortfolio(portfolioId) {
-  return dispatch => Promise.resolve(portfolioId)
-    .then(delPortfolio)
-    .then(() => dispatch({
-      type: PORTFOLIO_REMOVED,
-      data: portfolioId,
-    }))
-    // .catch(e => console.log(e));
-}
+export const removePortfolio = payload => ({
+  type: PORTFOLIO_REMOVE,
+  payload,
+});
 
 /**
   * Set an Error Portfolios Message

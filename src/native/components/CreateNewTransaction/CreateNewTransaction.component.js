@@ -1,57 +1,61 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import { ScrollView } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import SwitchSelector from 'react-native-switch-selector';
 import DatePicker from 'react-native-datepicker';
 import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
-import { Right, Body, Container, Content, List, Input, ListItem, Icon, Text, Button, Footer, Title } from 'native-base';
+import { Right, Body, Container, Content, List, Input, ListItem, Icon, Text, Button, Footer, Title, View } from 'native-base';
+import get from 'lodash/get';
+
+import I18n from '../../../i18n';
 import Modal from '../modal/BaseModal.component';
-import { getPrice, addTransaction, getTransactions } from '../../../redux/state/coin/coin.actioncreators';
+import { getPrice } from '../../../redux/state/coin/coin.actioncreators';
 import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
+import CoinsaneSwitchSelector from '../_Molecules/CoinsaneSwitchSelector/CoinsaneSwitchSelector.molecula';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
-import { updateProcessTransaction, clearProcessTransaction, recalculate } from '../../../redux/state/inProcess/inProcess.actioncreators';
+import Loading from '../Loading/Loading.component';
+import { updateDraftTransaction, clearDraftTransaction, recalculate, addTransaction } from '../../../redux/state/transactions/transactions.actioncreators';
 import { getAvailableMarkets, clearMarkets } from '../../../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../../../redux/state/currencies/currencies.actioncreators';
 import styles from './CreateNewTransaction.styles';
-import { colors, base, typography } from '../../styles';
+import { colors, base } from '../../styles';
 
 class CreateNewTransaction extends Component {
   static propTypes = {
-    inProcess: PropTypes.shape({
-      transaction: PropTypes.shape({}).isRequired,
+    transactions: PropTypes.shape({
+      draft: PropTypes.shape({}).isRequired,
     }).isRequired,
     currencies: PropTypes.shape({
-      list: PropTypes.arrayOf(PropTypes.shape({})),
+      list: PropTypes.arrayOf(PropTypes.string),
+      items: PropTypes.shape({}),
     }).isRequired,
     portfolios: PropTypes.shape({
-      list: PropTypes.arrayOf(PropTypes.shape({})),
+      list: PropTypes.arrayOf(PropTypes.string),
+      items: PropTypes.shape({}),
     }).isRequired,
+    coinId: PropTypes.string,
     coin: PropTypes.shape({
       items: PropTypes.shape({}),
     }).isRequired,
     markets: PropTypes.shape({
       items: PropTypes.shape({}),
     }).isRequired,
-    // getTransactions: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
     getAvailableCurrencies: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
-    updateProcessTransaction: PropTypes.func.isRequired,
-    clearProcessTransaction: PropTypes.func.isRequired,
+    updateDraftTransaction: PropTypes.func.isRequired,
+    clearDraftTransaction: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
     clearMarkets: PropTypes.func.isRequired,
     recalculate: PropTypes.func.isRequired,
-    coinItem: PropTypes.shape({}).isRequired,
+    market: PropTypes.shape({}),
   };
 
   static defaultProps = {
+    coinId: null,
+    market: {},
   };
-
-  static onEnter() {
-    // console.log('On Enter');
-  }
 
   constructor() {
     super();
@@ -61,64 +65,91 @@ class CreateNewTransaction extends Component {
 
   componentWillMount() {
     const {
-      inProcess, portfolios, currencies, coinItem, markets,
-    } = this.props;
-    const market = markets[coinItem._id];
-    const { transaction } = inProcess;
-    const portfolioItemId = transaction.portfolio !== '' ? transaction.portfolio : coinItem.portfolio;
-    // selected portfolio and coin
-    const portfolioItem = portfolios.list.filter(portfolio => portfolio._id === portfolioItemId)[0];
-    // const currencyItem = currencies.list.filter(currency => currency.code === portfolios.currency)[0];
-    const currencyItem = currencies.list.filter(currency => currency.code === 'USD')[0];
-
-    this.props.updateProcessTransaction({
-      coin: coinItem._id,
-      coinItem,
+      coinId,
+      coin,
       market,
-      portfolioItem,
-      portfolio: portfolioItem._id,
-      currencyItem,
-      currency: currencyItem._id,
+      markets,
+      transactions,
+      currencies,
+    } = this.props;
+
+    const { draft } = transactions;
+
+    const portfolioId = get(coin, `items[${coinId}].portfolio`, draft.portfolio);
+    const marketId = get(coin, `items[${coinId}].market`, market && market._id);
+    const fsym = get(markets, `items[${marketId}].symbol`, null);
+
+    const currency = '5a9db9c3ce2c75001e71555d'; // USD
+    const tsyms = currencies.items[currency].code;
+
+    this.props.updateDraftTransaction({
+      coin: coinId,
+      market: marketId,
+      portfolio: portfolioId,
+      currency,
+      time: '00:00',
     });
     this.props.getPrice({
-      fsym: coinItem.symbol,
-      tsyms: currencyItem.code,
+      fsym,
+      tsyms,
       date: new Date(),
     });
   }
 
   onBlur = (fieldName) => {
-    const { transaction } = this.props.inProcess;
+    const {
+      transactions,
+      markets,
+      currencies,
+    } = this.props;
+    const { draft } = transactions;
+    const market = markets.items[draft.market];
+    const tsyms = currencies.items[draft.currency].code;
 
-    if (!(transaction.coinItem.symbol && transaction.currencyItem.code && transaction.date)) return;
+    if (!(market.symbol && draft.currency.code && draft.date)) return;
 
-    if (!(+transaction.price && transaction.price !== Infinity)) {
+    if (!(+draft.price && draft.price !== Infinity)) {
     //   this.props.recalculate(fieldName);
     // } else {
       this.props.getPrice({
-        fsym: transaction.coinItem.symbol,
-        tsyms: transaction.currencyItem.code,
-        date: transaction.date,
+        fsym: market.symbol,
+        tsyms,
+        date: draft.date,
       });
     }
   };
 
-  changeCoin() {
+  changePortfolio() {
+    Actions.selector({
+      title: I18n.t('portfolios.titleChoose'),
+      listItemType: 'blank',
+      navigationType: 'close',
+      searchBar: false,
+      listName: 'portfolios',
+      selectAction: (portfolio) => {
+        this.props.updateDraftTransaction({ portfolio: portfolio._id });
+        Actions.pop();
+      },
+      closeType: 'close',
+    });
+  }
+
+  changeMarket() {
     Actions.selector({
       preLoad: () => {
-        this.props.getAvailableMarkets();
-        this.props.getAvailableCurrencies();
+        this.props.getAvailableMarkets({});
+        this.props.getAvailableCurrencies({});
       },
       clear: () => {
         this.props.clearMarkets();
       },
-      title: 'Select coin',
+      title: I18n.t('markets.titleChoose'),
       listItemType: 'arrow',
       navigationType: 'back',
       searchBar: true,
       listName: 'markets',
-      selectAction: (coin) => { // id - of selected item
-        this.props.updateProcessTransaction({ coin: coin._id, coinItem: coin });
+      selectAction: (market) => {
+        this.props.updateDraftTransaction({ market: market._id });
         Actions.pop();
       },
       closeType: 'close',
@@ -126,36 +157,47 @@ class CreateNewTransaction extends Component {
   }
 
   changeCurrency() {
+    const {
+      markets,
+      transactions,
+    } = this.props;
+    const { draft } = transactions;
+    const fsym = markets.items[draft.market].symbol;
     Actions.selector({
       preLoad: () => {
-        this.props.getAvailableMarkets();
-        this.props.getAvailableCurrencies();
+        this.props.getAvailableMarkets({});
+        this.props.getAvailableCurrencies({});
       },
       clear: () => {
         this.props.clearMarkets();
       },
-      title: 'Select coin',
+      title: I18n.t('currencies.titleChoose'),
       listItemType: 'arrow',
       navigationType: 'back',
       searchBar: true,
       listName: 'currencies',
-      selectAction: (currency) => { // id - of selected item
-        this.props.updateProcessTransaction({ currency: currency._id, currencyItem: currency });
+      selectAction: (currency) => {
+        this.props.updateDraftTransaction({ currency: currency._id });
+        this.props.getPrice({
+          fsym,
+          tsyms: currency.code,
+          date: draft.date,
+        });
         Actions.pop();
       },
       closeType: 'close',
     });
   }
 
-  changePortfolio() {
+  chooseCategory() {
     Actions.selector({
-      title: 'Choose portfolio',
+      title: I18n.t('categories.titleChoose'),
       listItemType: 'blank',
       navigationType: 'close',
       searchBar: false,
-      listName: 'portfolios',
-      selectAction: (portfolio) => { // selected item
-        this.props.updateProcessTransaction({ portfolio: portfolio._id, portfolioItem: portfolio });
+      listName: 'categories',
+      selectAction: (category) => {
+        this.props.updateDraftTransaction({ category: category.title });
         Actions.pop();
       },
       closeType: 'close',
@@ -164,55 +206,86 @@ class CreateNewTransaction extends Component {
 
   handleChange = (name, val) => {
     let value = val;
+    if (value === '0') value = '';
     if (name === 'amount' || name === 'price' || name === 'total') {
       const exp = /^\d*(\.{0,1}\d{0,8})$/;
       value = value.replace(/[,]/g, '.');
       value = value.replace(/[^0-9.]/g, '');
       if (exp.test(value)) {
-        this.props.updateProcessTransaction({ [name]: value });
+        this.props.updateDraftTransaction({ [name]: value });
         this.props.recalculate(name);
       }
     }
 
     if (name === 'category' || name === 'note') {
-      this.props.updateProcessTransaction({ [name]: value });
+      this.props.updateDraftTransaction({ [name]: value });
     }
   };
 
   close() {
-    // clear selected coin
-    this.props.clearProcessTransaction();
+    this.props.clearDraftTransaction();
     Actions.pop();
   }
 
   toggleSegment(value) {
-    this.props.updateProcessTransaction({ buy: value });
+    this.props.updateDraftTransaction({ buy: value });
   }
 
   addTransaction() {
-    const { transaction } = this.props.inProcess;
+    const { draft } = this.props.transactions;
 
-    if (+transaction.amount && +transaction.total) {
-      this.props.addTransaction(transaction);
-      this.props.clearProcessTransaction();
+    if (+draft.amount && +draft.total) {
+      this.props.addTransaction(draft);
+      this.props.clearDraftTransaction();
       this.props.clearMarkets();
       Actions.pop();
+    } else {
+      Alert.alert(
+        I18n.t('transactions.error.title'),
+        I18n.t('transactions.error.emptyAmount'),
+        [{ text: I18n.t('buttons.ok') }],
+      );
     }
   }
 
   render() {
-    const { transaction } = this.props.inProcess;
+    const {
+      transactions,
+      markets,
+      portfolios,
+      currencies,
+    } = this.props;
+    const { draft } = transactions;
+    const portfolio = portfolios.items[draft.portfolio];
+    const market = markets.items[draft.market];
+    const currency = currencies.items[draft.currency];
 
     const segmentOptions = [
-      { label: 'BUY', value: true },
-      { label: 'SELL', value: false },
+      { label: I18n.t('transactions.form.labelBuy'), value: true },
+      { label: I18n.t('transactions.form.labelSell'), value: false },
     ];
 
     const values = {
-      amount: transaction.amount ? transaction.amount.toString() : '0',
-      price: transaction.price ? transaction.price.toString() : '0',
-      total: transaction.total ? transaction.total.toString() : '0',
+      amount: draft.amount ? draft.amount.toString() : '0',
+      price: draft.price ? draft.price.toString() : '0',
+      total: draft.total ? draft.total.toString() : '0',
     };
+
+    const customStyles = {
+      dateInput: {
+        height: 24,
+        paddingLeft: 0,
+        borderWidth: 0,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+      },
+      dateText: {
+        fontSize: 16,
+        color: colors.white,
+      },
+    };
+
+    if (!portfolio || !market) return <Loading />;
 
     return (
       <Modal hideClose>
@@ -220,163 +293,135 @@ class CreateNewTransaction extends Component {
           <CoinsaneHeader
             leftIcon="Close"
             leftAction={() => this.close()}
-            title={<Title>Add new transaction</Title>}
+            title={<Title>{I18n.t('transactions.titleAdd')}</Title>}
           />
-          <Content padder style={{ backgroundColor: colors.bgGray }}>
-            <ScrollView keyboardShouldPersistTaps="never">
-              <SwitchSelector
-                options={segmentOptions}
-                initial={0}
-                onPress={value => this.toggleSegment(value)}
-                buttonColor={colors.inputBg}
-                backgroundColor={colors.bgGray}
-                textColor={colors.textGray}
-              />
-              <List>
-                <ListItem
-                  style={styles.listItemContainer}
-                  onPress={() => this.changePortfolio()}
-                >
-                  <Body>
-                    <Text style={[typography.smallest, { color: colors.textGray }]}>
-                      Choose portfolio
-                    </Text>
-                    <Text style={typography.menuSmall}>{transaction.portfolioItem.title}</Text>
-                  </Body>
-                  <Right style={styles.listItem__rightIconContainer}>
-                    <Icon name="ios-arrow-forward" style={{ color: colors.textGray }} />
-                  </Right>
-                </ListItem>
-                <ListItem style={styles.listItemContainer}>
-                  <Body>
-                    <CoinsaneStackedLabel
-                      label="Amount"
-                      propName="amount"
-                      autoFocus
-                      clearTextOnFocus={values.amount === '0'}
-                      onChangeText={this.handleChange}
-                      keyboardType="numeric"
-                      onBlur={this.onBlur}
-                      value={values.amount}
-                    />
-                  </Body>
-                  <Right >
-                    <Button
-                      style={styles.listItem__rightButton}
-                      onPress={() => this.changeCoin()}
-                    >
-                      <Text style={[typography.menuSmall, styles.listItem__rightButtonText]}>
-                        {transaction.coinItem.symbol}
-                      </Text>
-                      <Icon name="ios-arrow-forward" style={[styles.listItem__rightIcon, { color: colors.textGray }]} />
-                    </Button>
-                  </Right>
-                </ListItem>
-                <ListItem style={styles.listItemContainer}>
-                  <Body>
-                    <CoinsaneStackedLabel
-                      label="Price by coin"
-                      propName="price"
-                      onChangeText={this.handleChange}
-                      keyboardType="numeric"
-                      onBlur={this.onBlur}
-                      value={values.price}
-                    />
-                  </Body>
-                  <Right >
-                    <Button
-                      style={styles.listItem__rightButton}
-                      onPress={() => this.changeCurrency()}
-                    >
-                      <Text style={[typography.menuSmall, styles.listItem__rightButtonText]}>
-                        {transaction.currencyItem.code}
-                      </Text>
-                      <Icon name="ios-arrow-forward" style={[styles.listItem__rightIcon, { color: colors.textGray }]} />
-                    </Button>
-                  </Right>
-                </ListItem>
-                <ListItem style={styles.listItemContainer}>
-                  <Body>
-                    <CoinsaneStackedLabel
-                      label="Total value"
-                      propName="total"
-                      clearTextOnFocus={values.total === '0'}
-                      onChangeText={this.handleChange}
-                      keyboardType="numeric"
-                      onBlur={this.onBlur}
-                      value={values.total}
-                    />
-                  </Body>
-                </ListItem>
-                <ListItem style={styles.listItemContainer}>
-                  <Body>
-                    <Text style={[typography.smallest, { color: colors.textGray }]} >
-                      Date and time
-                    </Text>
+          <Content style={[base.contentContainer, base.contentPadding]}>
+            <CoinsaneSwitchSelector
+              options={segmentOptions}
+              onPress={value => this.toggleSegment(value)}
+            />
+            <List>
+              <ListItem style={styles.listItemContainer} onPress={() => this.changePortfolio()}>
+                <Body>
+                  <Text style={styles.listItem__label}>{I18n.t('transactions.form.fieldPortfolio')}</Text>
+                  <Text style={styles.listItem__title}>{portfolio.title}</Text>
+                </Body>
+                <Right style={styles.listItem__rightIconContainer}>
+                  <Icon name="ios-arrow-forward" style={styles.listItem__rightIcon} />
+                </Right>
+              </ListItem>
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <CoinsaneStackedLabel
+                    autoFocus
+                    label={I18n.t('transactions.form.fieldAmount')}
+                    propName="amount"
+                    clearTextOnFocus={values.amount === '0'}
+                    onChangeText={this.handleChange}
+                    keyboardType="numeric"
+                    onBlur={this.onBlur}
+                    value={values.amount}
+                  />
+                </Body>
+                <Right>
+                  <Button style={styles.listItem__rightButton} onPress={() => this.changeMarket()}>
+                    <Text style={styles.listItem__rightButtonText}>{market.symbol}</Text>
+                    <Icon name="ios-arrow-forward" style={styles.listItem__rightIcon} />
+                  </Button>
+                </Right>
+              </ListItem>
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <CoinsaneStackedLabel
+                    label={I18n.t('transactions.form.fieldPrice')}
+                    propName="price"
+                    onChangeText={this.handleChange}
+                    keyboardType="numeric"
+                    onBlur={this.onBlur}
+                    value={values.price}
+                  />
+                </Body>
+                <Right>
+                  <Button style={styles.listItem__rightButton} onPress={() => this.changeCurrency()}>
+                    <Text style={styles.listItem__rightButtonText}>{currency.code}</Text>
+                    <Icon name="ios-arrow-forward" style={styles.listItem__rightIcon} />
+                  </Button>
+                </Right>
+              </ListItem>
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <CoinsaneStackedLabel
+                    label={I18n.t('transactions.form.fieldTotal')}
+                    propName="total"
+                    clearTextOnFocus={values.total === '0'}
+                    onChangeText={this.handleChange}
+                    keyboardType="numeric"
+                    onBlur={this.onBlur}
+                    value={values.total}
+                  />
+                </Body>
+              </ListItem>
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <Text style={styles.listItem__label}>{I18n.t('transactions.form.fieldDate')}</Text>
+                  <View style={{ flexDirection: 'row' }}>
                     <DatePicker
-                      style={{ width: '100%' }}
-                      date={transaction.date}
-                      mode="datetime"
-                      placeholder="select date"
-                      format="YYYY-MM-DD, hh:mm"
-                      confirmBtnText="Set"
-                      cancelBtnText="Cancel"
-                      customStyles={{
-                        dateIcon: {
-                          display: 'none',
-                        },
-                        dateInput: {
-                          height: 21,
-                          paddingLeft: 10,
-                          borderWidth: 0,
-                          alignItems: 'flex-start',
-                          justifyContent: 'flex-start',
-                        },
-                        dateText: {
-                          fontSize: 17,
-                          color: colors.white,
-                        },
-                      }}
-                      onDateChange={
-                        date => this.props.updateProcessTransaction({ date: new Date(date) })
-                      }
+                      style={{ flex: 0.5 }}
+                      date={draft.date}
+                      mode="date"
+                      maxDate={new Date()}
+                      showIcon={false}
+                      placeholder={I18n.t('transactions.form.placeholderDate')}
+                      confirmBtnText={I18n.t('buttons.setDate')}
+                      cancelBtnText={I18n.t('buttons.cancel')}
+                      customStyles={customStyles}
+                      onDateChange={date => this.props.updateDraftTransaction({ date })}
                     />
-                  </Body>
-                </ListItem>
-                <ListItem itemHeader>
-                  <Text style={[typography.h6, { color: colors.textGray }]}>ADDITIONAL INFO</Text>
-                </ListItem>
-                <ListItem style={styles.listItemContainer}>
-                  <Body>
-                    <Input
-                      placeholder="Set category"
-                      placeholderTextColor={colors.textGray}
-                      onChangeText={v => this.handleChange('category', v)}
-                      value={transaction.category}
-                      style={base.form__titleInput}
+                    <DatePicker
+                      style={{ flex: 0.5 }}
+                      date={draft.time}
+                      mode="time"
+                      showIcon={false}
+                      placeholder={I18n.t('transactions.form.placeholderTime')}
+                      confirmBtnText={I18n.t('buttons.setTime')}
+                      cancelBtnText={I18n.t('buttons.cancel')}
+                      customStyles={customStyles}
+                      onDateChange={time => this.props.updateDraftTransaction({ time })}
                     />
-                  </Body>
-                  <Right style={styles.listItem__rightIconContainer}>
-                    <Icon name="ios-arrow-forward" style={{ color: colors.textGray }} />
-                  </Right>
-                </ListItem>
-                <ListItem style={styles.listItemContainer}>
-                  <Body>
-                    <AutoGrowingTextInput
-                      placeholder="Note"
-                      placeholderTextColor={colors.textGray}
-                      style={{
-                        fontSize: 17,
-                        color: '#fff',
-                        paddingLeft: 5,
-                      }}
-                      onChangeText={v => this.handleChange('note', v)}
-                      value={transaction.note}
-                    />
-                  </Body>
-                </ListItem>
-              </List>
-            </ScrollView>
+                  </View>
+                </Body>
+              </ListItem>
+              <ListItem itemHeader style={[styles.listItemContainer, styles.listItemContainer_header]}>
+                <Text style={styles.listItem__header}>{I18n.t('transactions.form.labelAdditional')}</Text>
+              </ListItem>
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <Input
+                    placeholder={I18n.t('transactions.form.placeholderCategory')}
+                    placeholderTextColor={colors.textGray}
+                    onChangeText={v => this.handleChange('category', v)}
+                    value={draft.category}
+                    style={styles.listItem__textInput}
+                  />
+                </Body>
+                <Right style={styles.listItem__rightIconContainer}>
+                  <Button style={styles.listItem__rightButton} onPress={() => this.chooseCategory()}>
+                    <Icon name="ios-arrow-forward" style={styles.listItem__rightIcon} />
+                  </Button>
+                </Right>
+              </ListItem>
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <AutoGrowingTextInput
+                    placeholder={I18n.t('transactions.form.placeholderNote')}
+                    placeholderTextColor={colors.textGray}
+                    onChangeText={v => this.handleChange('note', v)}
+                    value={draft.note}
+                    style={styles.listItem__textInput_growing}
+                  />
+                </Body>
+              </ListItem>
+            </List>
           </Content>
         </Container>
         <Footer style={base.footer}>
@@ -387,7 +432,7 @@ class CreateNewTransaction extends Component {
             onPress={() => this.addTransaction()}
             style={base.footer__button}
           >
-            <Text style={base.footer__buttonText}>ADD</Text>
+            <Text style={base.footer__buttonText}>{I18n.t('transactions.createButton')}</Text>
           </Button>
         </Footer>
       </Modal>
@@ -396,20 +441,19 @@ class CreateNewTransaction extends Component {
 }
 
 const mapStateToProps = state => ({
-  inProcess: state.inProcess,
   currencies: state.currencies,
   portfolios: state.portfolios,
   coin: state.coin,
   markets: state.markets,
+  transactions: state.transactions,
 });
 
 const mapDispatchToProps = {
-  // getTransactions,
   getAvailableMarkets,
   getAvailableCurrencies,
   getPrice,
-  updateProcessTransaction,
-  clearProcessTransaction,
+  updateDraftTransaction,
+  clearDraftTransaction,
   addTransaction,
   clearMarkets,
   recalculate,

@@ -83,7 +83,7 @@
     "react-native-svg-charts": "^5.0.0",
     "react-native-svg-icon": "^0.7.0",
     "react-native-switch-pro": "^0.4.8",
-    "react-native-switch-selector": "^1.1.5",
+    "react-native-switch-selector": "^1.1.7",
     "react-native-version-number": "^0.3.3",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",

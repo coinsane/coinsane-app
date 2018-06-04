@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Container, Content, Title, List } from 'native-base';
+import { Container, List, Title, View } from 'native-base';
+
 import SearchBar from '../../_Molecules/SearchBar/SearchBar.molecula';
 import Modal from '../../modal/BaseModal.component';
-import { clearMarkets } from '../../../../redux/state/markets/markets.actioncreators';
 import SelectorListItem from '../../_Molecules/CoinCell/CoinCell.component';
 import CoinsaneHeader from '../../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import Loading from '../../Loading/Loading.component';
+import Empty from '../../Empty/Empty.component';
 import styles from './CoinsaneList.styles';
-import { colors } from '../../../styles';
+import { base } from '../../../styles';
+import I18n from '../../../../i18n';
 
 class CoinsaneList extends Component {
   static propTypes = {
-    navigationType: PropTypes.string.isRequired,
     searchBar: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     listName: PropTypes.string.isRequired,
@@ -34,6 +36,11 @@ class CoinsaneList extends Component {
     this.props.preLoad();
   }
 
+  getList = () => {
+    const { state, listName } = this.props;
+    return state[listName];
+  };
+
   close() {
     if (this.props.clear) {
       this.props.clear(); // from top container
@@ -41,16 +48,58 @@ class CoinsaneList extends Component {
     Actions.pop();
   }
 
+  handleRefresh = () => {
+    if (!this.getList().refreshing) this.props.preLoad();
+  };
+
+  handleLoadMore = () => {
+    // const {
+    //   markets,
+    //   changeSearchTerm,
+    //   getAvailableMarkets,
+    // } = this.props;
+    if (!this.getList().loading) {
+      if (this.getList().searchTerm) {
+        // changeSearchTerm({
+        //   skip: this.getList().list.length,
+        //   q: this.getList().searchTerm,
+        // });
+      } else {
+        // getAvailableMarkets({ skip: this.getList().list.length });
+      }
+    }
+  };
+
+  renderHeader = () => {
+    const { searchBar } = this.props;
+    if (!searchBar) return null;
+    return (
+      <View style={styles.search}>
+        <SearchBar />
+      </View>
+    );
+  };
+
+  renderFooter = () => {
+    if (!this.getList().loading) return null;
+    return <Loading size={25} />;
+  };
+
+  renderEmpty = () => {
+    if (this.getList().loading) return null;
+    return <Empty description={I18n.t('empty.search')} />;
+  };
+
+  renderSeparator = () => <View style={styles.separator} />;
+
   render() {
     const {
-      navigationType,
-      searchBar,
       title,
-      listName,
       listItemType,
       selectAction,
-      state,
     } = this.props;
+
+    const listItem = this.getList();
 
     return (
       <Modal hideClose>
@@ -60,23 +109,28 @@ class CoinsaneList extends Component {
             leftAction={() => this.close()}
             title={<Title>{title}</Title>}
           />
-          <Content style={{ backgroundColor: colors.bgGray }}>
-            { searchBar && <SearchBar /> }
-            {
-              state[listName].loading ?
-                <Loading /> :
-                <List style={styles.ListContainer}>
-                  { state[listName].list.map(item => (
-                    <SelectorListItem
-                      key={item}
-                      listItemType={listItemType}
-                      item={state[listName].items[item]}
-                      selectAction={() => selectAction(state[listName].items[item])}
-                    />
-                  )) }
-                </List>
-            }
-          </Content>
+          <List style={[base.contentContainer, base.contentPadding]}>
+            <FlatList
+              data={listItem.list}
+              renderItem={({ item, index }) => (
+                <SelectorListItem
+                  key={item}
+                  listItemType={listItemType}
+                  item={listItem.items[item]}
+                  selectAction={() => selectAction(listItem.items[item])}
+                />
+              )}
+              keyExtractor={item => item}
+              ItemSeparatorComponent={this.renderSeparator}
+              ListEmptyComponent={this.renderEmpty}
+              ListHeaderComponent={this.renderHeader}
+              ListFooterComponent={this.renderFooter}
+              onEndReached={this.handleLoadMore}
+              onEndReachedThreshold={0}
+              onRefresh={this.handleRefresh}
+              refreshing={listItem.refreshing}
+            />
+          </List>
         </Container>
       </Modal>
     );
@@ -85,8 +139,6 @@ class CoinsaneList extends Component {
 
 const mapStateToProps = state => ({ state });
 
-const mapDispatchToProps = {
-  clearMarkets,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinsaneList);

@@ -7020,9 +7020,9 @@ react-native-switch-pro@^0.4.8:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-switch-selector@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/react-native-switch-selector/-/react-native-switch-selector-1.1.5.tgz#901916b57aeabe4af08d89ca47bdcd461d01ba6c"
+react-native-switch-selector@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/react-native-switch-selector/-/react-native-switch-selector-1.1.7.tgz#79553de2016607c8009ca2962d6f3c5d0b266715"
 
 react-native-tab-view@^0.0.70:
   version "0.0.70"

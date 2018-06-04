@@ -7,8 +7,10 @@ export default StyleSheet.create({
     backgroundColor: colors.inputBg,
     borderRadius: 4,
     borderBottomWidth: 0,
-    margin: 15,
-    marginLeft: 15,
+    marginTop: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 0,
   },
   input: {
     height: 40,

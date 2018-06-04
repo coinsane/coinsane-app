@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import Switch from 'react-native-switch-pro';
 import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title } from 'native-base';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 
+import I18n from '../../../i18n';
+import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import styles from './CreatePortfolio.styles';
 import { base } from '../../styles';
-import I18n from "../../../i18n";
 
 class CreatePortfolio extends Component {
   static propTypes = {
-    list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     addPortfolio: PropTypes.func.isRequired,
-    selectPortfolio: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
   };
 
   constructor(props) {
@@ -37,11 +32,9 @@ class CreatePortfolio extends Component {
   };
 
   handleSubmit = () => {
-    const { addPortfolio, selectPortfolio, list } = this.props;
-    addPortfolio(this.state)
-      .then(action => selectPortfolio(action.data._id))
-      .then(Actions.pop)
-      // .catch(e => console.log(`Error: ${e}`));
+    const { addPortfolio } = this.props;
+    addPortfolio(this.state);
+    Actions.pop();
   };
 
 
@@ -50,13 +43,13 @@ class CreatePortfolio extends Component {
       <Container>
         <CoinsaneHeader
           leftIcon="Back"
-          title={<Title>Add new portfolio</Title>}
+          title={<Title>{I18n.t('portfolios.titleAdd')}</Title>}
         />
-        <Content padder style={base.contentContainer}>
-          <Text style={styles.content__text}>{'Basic'.toUpperCase()}</Text>
+        <Content style={[base.contentContainer, base.contentPadding]}>
+          <Text style={styles.content__text}>{I18n.t('portfolios.form.labelAdd')}</Text>
           <Form>
             <Item stackedLabel style={base.form__titleContainer}>
-              <Label style={base.form__titleLabel}>Portfolio title</Label>
+              <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldTitle')}</Label>
               <Input
                 autoFocus
                 onChangeText={v => this.handleChange('title', v)}
@@ -64,19 +57,12 @@ class CreatePortfolio extends Component {
                 style={base.form__titleInput}
               />
             </Item>
-            <View style={{paddingBottom: 24, paddingTop: 24, borderBottomColor: '#2F2A40', borderBottomWidth: 1, flexDirection: 'row'}}>
-              <Text style={{flex: 0.8, color: '#fff', fontFamily: 'Lato-Regular', fontSize: 17}}>Calculate amount on total</Text>
-              <View style={{flex: 0.2}}>
-                <Switch
+            <View style={base.form__switchContainer}>
+              <Text style={base.form__switchLabel}>{I18n.t('portfolios.form.fieldSwitch')}</Text>
+              <View style={base.form__switchInput}>
+                <CoinsaneSwitch
                   onSyncPress={() => this.handleChange('inTotal', !this.state.inTotal)}
                   defaultValue={this.state.inTotal}
-                  backgroundActive={'#31E981'}
-                  backgroundInactive={'#2C263F'}
-                  circleColorInactive={'#8D8A96'}
-                  width={44}
-                  height={23}
-                  circleStyle={{ width: 18, height: 18 }}
-                  style={{padding: 3, marginLeft: 'auto'}}
                 />
               </View>
             </View>

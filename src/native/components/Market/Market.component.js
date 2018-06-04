@@ -94,7 +94,9 @@ class Market extends Component {
           loading={markets.cap.loading}
           error={markets.cap.error}
         />
-        <SearchBar />
+        <View style={styles.market__search}>
+          <SearchBar />
+        </View>
         <View style={styles.market__header}>
           <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('markets.coin')}</Text>
           <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('markets.mcap')}/{I18n.t('markets.vol24')}</Text>

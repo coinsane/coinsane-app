@@ -65,3 +65,10 @@ Via webpack, starts a localhost server on port 3001 [http://localhost:3001](http
 
 - Save code and it auto refreshes
 - Install [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) into Chrome to see the state of Redux
+
+#### 3. Troubleshooting
+
+```bash
+# if build failed after adding new modules
+cd node_modules/react-native/third-party/glog-0.3.4/ && ../../scripts/ios-configure-glog.sh && cd ../../../../
+```

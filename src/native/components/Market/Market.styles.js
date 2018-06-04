@@ -14,6 +14,10 @@ export default StyleSheet.create({
     borderBottomColor: colors.btnBgBlack,
     borderBottomWidth: 1,
   },
+  market__search: {
+    marginLeft: 15,
+    marginRight: 15,
+  },
   market__header_text: {
     color: colors.textGray,
     fontFamily: typography.fontMedium,

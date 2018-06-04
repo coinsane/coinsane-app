@@ -1,4 +1,5 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import api from '../../../api';
 import {
   GET_AVAILABLE_CURRENCIES,
@@ -9,8 +10,15 @@ import {
 } from '../../../redux/actions/action.types';
 
 export function* fetchAvailableCurrencies(action) {
-  const response = yield call(api.currencies.fetchAvailableCurrencies, action.payload.limit || 10);
-  yield put({ type: GET_AVAILABLE_CURRENCIES_SUCCESS, payload: response.data.response.result });
+  if (action.payload.q) yield delay(2000);
+  const response = yield call(api.currencies.fetchAvailableCurrencies, action.payload);
+  yield put({
+    type: GET_AVAILABLE_CURRENCIES_SUCCESS,
+    payload: {
+      list: response.data.response.result,
+      ...action.payload,
+    },
+  });
 }
 
 export function* selectCurrency(action) {

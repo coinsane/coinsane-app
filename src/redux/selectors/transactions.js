@@ -1,2 +1,2 @@
 // Get entire transaction object
-export const getTransaction = state => state.inProcess.transaction;
+export const getTransaction = state => state.transactions.draft;

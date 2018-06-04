@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   content__text: {
     color: colors.textGray,
-    fontSize: typography.size14,
+    fontSize: 14,
     letterSpacing: 1,
     fontFamily: typography.fontMedium,
     marginBottom: 20,

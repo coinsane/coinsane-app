@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import get from 'lodash/get';
 
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
-import { updateProcessTransaction } from '../redux/state/inProcess/inProcess.actioncreators';
+import { updateDraftTransaction } from '../redux/state/transactions/transactions.actioncreators';
 import { removeCoin } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
@@ -14,9 +15,10 @@ class Portfolios extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     portfolios: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
+      loading: PropTypes.bool,
       error: PropTypes.string,
-      list: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+      list: PropTypes.arrayOf(PropTypes.string),
+      items: PropTypes.shape({}),
     }).isRequired,
     markets: PropTypes.shape({}).isRequired,
     navigation: PropTypes.shape({
@@ -45,7 +47,7 @@ class Portfolios extends Component {
     selectPortfolio: PropTypes.func.isRequired,
     selectCurrency: PropTypes.func.isRequired,
     updatePeriod: PropTypes.func.isRequired,
-    updateProcessTransaction: PropTypes.func.isRequired,
+    updateDraftTransaction: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
     getAvailableCurrencies: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
@@ -61,15 +63,22 @@ class Portfolios extends Component {
   };
 
   getCurrency = () => {
-    const {
-      currencies,
-      currency,
-    } = this.props.settings;
+    const { currencies, currency } = this.props.settings;
     return currencies[currency] || {};
   };
 
+  getChart = () => {
+    const { portfolios, settings } = this.props;
+    return get(portfolios, `chart[${portfolios.selected}][${portfolios.period}:${settings.currency}]`, {
+      data: {},
+      low: 0,
+      high: 0,
+      pct: 0,
+    });
+  };
+
   addCoin = (portfolio) => {
-    this.props.updateProcessTransaction({ portfolio });
+    this.props.updateDraftTransaction({ portfolio, create: true });
     Actions.selector({
       preLoad: () => {
         this.props.getAvailableMarkets({});
@@ -83,9 +92,9 @@ class Portfolios extends Component {
       navigationType: 'close',
       searchBar: true,
       listName: 'markets',
-      selectAction: (item) => {
+      selectAction: (market) => {
         Actions.pop();
-        Actions.createNewTransaction({ coinItem: item });
+        Actions.createNewTransaction({ market });
       },
       closeType: 'close',
     });
@@ -114,11 +123,12 @@ class Portfolios extends Component {
         drawer={navigation.drawer}
 
         id={id}
+        portfolios={portfolios.items}
         list={portfolios.list}
         error={portfolios.error}
         loading={portfolios.loading}
         refreshing={portfolios.refreshing}
-        chart={portfolios.chart}
+        chart={this.getChart()}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}
         period={portfolios.period}
@@ -174,7 +184,7 @@ const mapDispatchToProps = {
   addPortfolio,
   selectCurrency,
   updatePeriod,
-  updateProcessTransaction,
+  updateDraftTransaction,
   getAvailableMarkets,
   getAvailableCurrencies,
   updateCollapsed,

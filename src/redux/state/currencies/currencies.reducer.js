@@ -5,18 +5,25 @@ import {
 export const initialState = {
   loading: true,
   error: null,
+  refreshing: false,
+  items: {},
   list: [],
-  active: ['BTC', 'USD', 'RUB'],
 };
 
 export default function actionReducer(state = initialState, action) {
   switch (action.type) {
     case GET_AVAILABLE_CURRENCIES_SUCCESS: {
+      const items = { ...state.items };
+      const list = action.payload.list.map((market) => {
+        items[market._id] = market;
+        return market._id;
+      });
       return {
         ...state,
         error: null,
         loading: false,
-        list: action.payload,
+        items,
+        list,
       };
     }
     default:

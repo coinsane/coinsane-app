@@ -74,7 +74,7 @@ export default function actionReducer(state = initialState, action) {
       const items = { ...state.items };
       const listPayload = action.payload.list.map((market) => {
         if (action.payload.cached) return market;
-        Object.assign(items, { [market._id]: market });
+        items[market._id] = market;
         return market._id;
       });
       const list = [
@@ -97,7 +97,7 @@ export default function actionReducer(state = initialState, action) {
         searchTerm,
         list,
         items,
-        cache,
+        cache: {},
         count,
       };
     }
@@ -151,7 +151,7 @@ export default function actionReducer(state = initialState, action) {
     case SEARCH_AVAILABLE_MARKETS_SUCCESS: {
       const items = { ...state.items };
       const list = action.payload.list.map((market) => {
-        Object.assign(items, { [market._id]: market });
+        items[market._id] = market;
         return market._id;
       });
       return {

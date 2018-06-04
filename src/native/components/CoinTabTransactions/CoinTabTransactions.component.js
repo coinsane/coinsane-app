@@ -167,7 +167,7 @@ class CoinTabTransactions extends Component {
 
   render() {
     const {
-      coin,
+      coinId,
       transactions,
       transactionsRefreshing,
     } = this.props;
@@ -203,7 +203,7 @@ class CoinTabTransactions extends Component {
             small
             full
             bordered
-            onPress={() => Actions.createNewTransaction({ coinItem: coin })}
+            onPress={() => Actions.createNewTransaction({ coinId })}
             style={base.footer__button_bordered}
           >
             <Text style={base.footer__buttonText_bordered}>{I18n.t('transactions.addButton')}</Text>

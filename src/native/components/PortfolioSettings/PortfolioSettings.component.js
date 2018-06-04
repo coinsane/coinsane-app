@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Switch from 'react-native-switch-pro';
 import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title } from 'native-base';
-import ErrorMessages from '../../../constants/errors';
-import Error from '../Error/Error.component';
+
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import I18n from '../../../i18n';
 
 import styles from './PortfolioSettings.styles';
@@ -14,16 +14,11 @@ import { base } from '../../styles';
 
 class PortfolioSettings extends Component {
   static propTypes = {
-    error: PropTypes.string,
     id: PropTypes.string.isRequired,
-    list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    portfolios: PropTypes.shape({}).isRequired,
     editPortfolio: PropTypes.func.isRequired,
     selectPortfolio: PropTypes.func.isRequired,
     removePortfolio: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    error: null,
   };
 
   constructor(props) {
@@ -36,8 +31,8 @@ class PortfolioSettings extends Component {
   }
 
   getPortfolio = () => {
-    const { list, id } = this.props;
-    return id && list ? list.find(item => item._id === id) : null;
+    const { portfolios, id } = this.props;
+    return get(portfolios, id, {});
   };
 
   handleChange = (name, val) => {
@@ -48,52 +43,34 @@ class PortfolioSettings extends Component {
   };
 
   handleSubmit = () => {
-    this.props.editPortfolio(this.state)
-      .then(() => Actions.pop())
-      // .catch(e => console.log(`Error: ${e}`));
+    this.props.editPortfolio(this.state);
+    Actions.pop();
   };
 
   removePortfolioAlert = () => {
     Alert.alert(
-      'Delete portfolio',
-      'Are you sure?',
+      I18n.t('portfolios.form.fieldRemove'),
+      I18n.t('portfolios.form.fieldRemoveDesc'),
       [
         {
-          text: 'Delete',
+          text: I18n.t('portfolios.form.buttonRemove'),
           onPress: () => {
-            this.props.removePortfolio(this.state._id)
-              .then(() => this.props.selectPortfolio())
-              .then(Actions.pop)
-              // .catch(e => console.log(`Error: ${e}`));
+            this.props.removePortfolio(this.state._id);
+            this.props.selectPortfolio();
+            Actions.pop();
           },
-          style: 'cancel'
+          style: 'cancel',
         },
         {
-          text: 'Cancel',
-          onPress: () => {}
+          text: I18n.t('buttons.cancel'),
         },
       ],
-      { cancelable: false }
+      { cancelable: false },
     );
   };
 
   render() {
-    const {
-      error,
-      portfolios,
-      id,
-      editPortfolio,
-      removePortfolio
-    } = this.props;
-
-    // Error
-    if (error) return <Error content={error} />;
-
-    // Get this Portfolio from all portfolios
-    let portfolio = this.getPortfolio();
-
-    // Portfolio not found
-    if (!portfolio) return <Error content={ErrorMessages.portfolio404} />;
+    const portfolio = this.getPortfolio();
 
     return (
       <Container>
@@ -101,37 +78,34 @@ class PortfolioSettings extends Component {
           leftIcon="Back"
           title={<Title>{portfolio.title}</Title>}
         />
-        <Content padder style={base.contentContainer}>
-          <Text style={styles.container__text}>{'Edit portfolio'.toUpperCase()}</Text>
+        <Content style={[base.contentContainer, base.contentPadding]}>
           <Form>
+            <Text style={base.form__title}>{I18n.t('portfolios.form.labelEdit')}</Text>
             <Item stackedLabel style={base.form__titleContainer}>
-              <Label style={base.form__titleLabel}>Portfolio title</Label>
+              <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldTitle')}</Label>
               <Input
+                style={base.form__titleInput}
                 onChangeText={v => this.handleChange('title', v)}
                 value={this.state.title}
-                style={base.form__titleInput}
               />
             </Item>
-            <View style={{paddingBottom: 24, paddingTop: 24, borderBottomColor: '#2F2A40', borderBottomWidth: 1, flexDirection: 'row'}}>
-              <Text style={{flex: .8, color: '#fff', fontFamily: 'Lato-Regular', fontSize: 17}}>Calculate amount on total</Text>
-              <View style={{flex: .2}}>
-                <Switch
+            <View style={base.form__switchContainer}>
+              <Text style={base.form__switchLabel}>{I18n.t('portfolios.form.fieldSwitch')}</Text>
+              <View style={base.form__switchInput}>
+                <CoinsaneSwitch
                   onSyncPress={() => this.handleChange('inTotal', !this.state.inTotal)}
                   defaultValue={this.state.inTotal}
-                  backgroundActive={'#31E981'}
-                  backgroundInactive={'#2C263F'}
-                  circleColorInactive={'#8D8A96'}
-                  width={44}
-                  height={23}
-                  circleStyle={{ width: 18, height: 18 }}
-                  style={{padding: 3, marginLeft: 'auto'}}
                 />
               </View>
             </View>
+            <Button
+              style={styles.form__button}
+              transparent
+              onPress={() => this.removePortfolioAlert()}
+            >
+              <Text style={styles.form__buttonText}>{I18n.t('portfolios.form.fieldRemove')}</Text>
+            </Button>
           </Form>
-          <Button style={styles.form__button} transparent onPress={() => this.removePortfolioAlert()}>
-            <Text style={styles.form__buttonText}>Delete portfolio</Text>
-          </Button>
         </Content>
         <Footer style={base.footer}>
           <Button
@@ -146,7 +120,6 @@ class PortfolioSettings extends Component {
         </Footer>
       </Container>
     );
-
   }
 }
 

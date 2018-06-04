@@ -56,6 +56,5 @@ export default StyleSheet.flatten({
   },
   headerBtn__text: {
     color: colors.textGray,
-    fontWeight: 'normal',
   },
 });
