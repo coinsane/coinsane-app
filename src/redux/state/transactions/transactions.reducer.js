@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   TRANSACTIONS_ADD,
   TRANSACTIONS_ADD_SUCCESS,
@@ -5,8 +6,9 @@ import {
   UPDATE_TRANSACTIONS_ITEMS,
   GET_TRANSACTIONS_SUCCESS,
   GET_AVAILABLE_TRANSACTIONS,
-  UPDATE_DRAFT_TRANSACTION,
-  GET_TRANSACTION_PRICE_SUCCESS, CLEAR_DRAFT_TRANSACTION,
+  GET_TRANSACTION_PRICE_SUCCESS,
+  CLEAR_DRAFT_TRANSACTION,
+  UPDATE_DRAFT_TRANSACTION_SUCCESS,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -20,12 +22,12 @@ export const initialState = {
     portfolio: null,
     market: null,
     currency: null,
-    buy: true,
+    type: 'buy',
     price: 0,
     amount: 0,
     total: 0,
-    date: new Date(),
-    time: '00:00',
+    date: moment().format('YYYY-MM-DD'),
+    time: moment().format('HH:mm'),
     category: '',
     note: '',
   },
@@ -33,7 +35,7 @@ export const initialState = {
 
 export default function actionReducer(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_DRAFT_TRANSACTION: {
+    case UPDATE_DRAFT_TRANSACTION_SUCCESS: {
       const { create, ...payload } = action.payload;
       let draft = { ...payload };
       if (!create) draft = { ...state.draft, ...draft };
@@ -85,13 +87,10 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case UPDATE_TRANSACTIONS_ITEMS: {
-      const { transactions } = action.payload;
       const items = { ...state.items };
-      if (transactions.length) {
-        transactions.forEach((item) => {
-          items[item._id] = item;
-        });
-      }
+      action.payload.forEach((item) => {
+        items[item._id] = item;
+      });
       return {
         ...state,
         loading: false,

@@ -43,9 +43,10 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case UPDATE_COINS_CACHE: {
+      const items = { ...state.items, ...action.payload };
       return {
         ...state,
-        items: { ...state.items, ...action.payload },
+        items,
       };
     }
     case COIN_HISTO_UPDATE_SUCCESS: {

@@ -84,11 +84,23 @@ export default {
     </G>,
     viewBox: '0 0 28 28',
   },
+  Check: {
+    svg: <G id="check-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <Path d="M23.7071048,6.27919678 C23.3165975,5.90693441 22.6834733,5.90693441 22.2928878,6.27919678 L10.3122775,17.6990282 L5.70712682,13.3094747 C5.31661949,12.9372124 4.68349526,12.9372496 4.2929098,13.3094747 C3.9023634,13.6816999 3.9023634,14.2851834 4.2929098,14.6574458 L9.60516894,19.7209289 C9.99555909,20.093154 10.6291521,20.0928934 11.019386,19.7209289 L23.7071048,7.62720506 C24.0976512,7.25497992 24.0976122,6.65145914 23.7071048,6.27919678 Z" id="check-icon" fill-rule="nonzero" />
+    </G>,
+    viewBox: '0 0 28 28',
+  },
+  ChevronRight: {
+    svg: <G id="chevronRight-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <Path d="M5.20446689,8.49412448 L11.4955789,14.7831452 C11.7716287,15.0584979 12.2188735,15.0584979 12.4956204,14.7831452 C12.7716702,14.5077925 12.7716702,14.0605477 12.4956204,13.785195 L6.70351253,7.99517842 L12.4949233,2.20516183 C12.7709731,1.92980913 12.7709731,1.48256432 12.4949233,1.20651452 C12.2188735,0.931161826 11.7709316,0.931161826 11.4948818,1.20651452 L5.20376979,7.49547718 C4.93196066,7.7679834 4.93196066,8.22225726 5.20446689,8.49412448 Z" id="Chevron_Right" fill-rule="nonzero" transform="translate(8.851329, 7.994830) scale(-1, 1) translate(-8.851329, -7.994830)" />
+    </G>,
+    viewBox: '0 0 16 16',
+  },
   Category: {
     svg: <G id="triangle" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-      <Polygon id="triangle-icon" points="2 4 8 8 2 12"></Polygon>
+      <Polygon id="triangle-icon" points="2 4 8 8 2 12" />
     </G>,
-    viewBox: "0 0 12 16"
+    viewBox: '0 0 12 16',
   },
   Slack: {
     svg: <G id="slack-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

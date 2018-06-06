@@ -8,6 +8,7 @@ import currencies from './currencies/currencies.reducer';
 import settings from './settings/settings.reducer';
 import pages from './pages/pages.reducer';
 import transactions from './transactions/transactions.reducer';
+import categories from './categories/categories.reducer';
 
 const rehydrated = (state = false, action) => {
   switch (action.type) {
@@ -30,4 +31,5 @@ export default {
   settings,
   pages,
   transactions,
+  categories,
 };

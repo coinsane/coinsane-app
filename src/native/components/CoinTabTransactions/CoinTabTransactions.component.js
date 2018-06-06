@@ -82,11 +82,11 @@ class CoinTabTransactions extends Component {
         amount,
         total,
         histo,
-        buy,
+        type,
       } = transaction;
       const itemTotal = histo[selectedCurrency] * total;
 
-      if (buy) {
+      if (type === 'buy') {
         summaryList[0].value += amount;
         summaryList[1].value += itemTotal;
       } else {
@@ -133,22 +133,22 @@ class CoinTabTransactions extends Component {
   renderItem = ({ item }) => {
     const {
       _id,
-      date,
+      // date,
       category,
       amount,
       total,
       currency,
-      buy,
+      type,
     } = item;
     return (
       <TransactionItem
         key={_id}
-        date={date}
+        // date={date}
         category={category ? category.title : ''}
         amount={amount}
         total={total}
         currency={currency ? currency.symbol : ''}
-        buy={buy}
+        type={type}
       />
     );
   };

@@ -11,9 +11,12 @@ export default StyleSheet.create({
     marginRight: 0,
   },
   listItemContainer_header: {
-    borderBottomWidth: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
     paddingTop: 25,
     paddingBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
   },
   listItem__label: {
     fontFamily: typography.fontRegular,
@@ -40,13 +43,14 @@ export default StyleSheet.create({
     padding: 0,
     margin: 0,
     backgroundColor: 'transparent',
+    height: 40,
   },
   listItem__rightButtonText: {
     alignSelf: 'center',
     paddingLeft: 0,
-    paddingRight: 0,
+    paddingRight: 10,
     color: colors.white,
-    fontFamily: typography.fontRegular,
+    fontFamily: typography.fontMedium,
     fontSize: 16,
   },
   listItem__rightIcon: {
@@ -60,8 +64,8 @@ export default StyleSheet.create({
     fontSize: 14,
     letterSpacing: 1,
     fontFamily: typography.fontMedium,
-    marginBottom: 20,
-    marginTop: 5,
+    marginBottom: 0,
+    marginTop: 10,
   },
   listItem__subTitle: {
     color: colors.textGray,
@@ -76,6 +80,16 @@ export default StyleSheet.create({
     fontSize: 16,
     color: colors.white,
     paddingLeft: 0,
-    height: 36,
+  },
+  dateInput: {
+    height: 20,
+    paddingLeft: 0,
+    borderWidth: 0,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  dateText: {
+    fontSize: 16,
+    color: colors.white,
   },
 });

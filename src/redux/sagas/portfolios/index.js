@@ -35,9 +35,7 @@ import {
 export function* updatePortfoliosSaga(action) {
   try {
     let { symbol } = action.payload;
-    if (!symbol) {
-      symbol = yield select(selectors.getSymbol);
-    }
+    if (!symbol) symbol = yield select(selectors.getSymbol);
     const marketsItems = {};
     const coinsItems = {};
     const portfoliosItems = {};
@@ -48,12 +46,13 @@ export function* updatePortfoliosSaga(action) {
       portfoliosItems[portfolio._id] = {
         ...rest,
         data: coins.map((item) => {
-          const { _id, amount, market } = item;
+          const { _id, amount, market, transactions } = item;
           coinsItems[_id] = {
             _id,
             amount,
             market: market._id,
-            portfolio: portfolio._id ,
+            portfolio: portfolio._id,
+            transactions,
           };
           if (!marketsItems[market._id]) marketsItems[market._id] = market;
           return { _id, amount, market: market._id };
@@ -81,9 +80,7 @@ export function* updatePortfolioChartSaga(action) {
   try {
     const { period: range, portfolio: portfolioId } = action.payload;
     let { symbol } = action.payload;
-    if (!symbol) {
-      symbol = yield select(selectors.getSymbol);
-    }
+    if (!symbol) symbol = yield select(selectors.getSymbol);
     const { totals } = yield call(api.portfolios.fetchTotals, {
       portfolioId,
       range,

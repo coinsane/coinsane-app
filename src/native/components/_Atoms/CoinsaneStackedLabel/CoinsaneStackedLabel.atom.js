@@ -23,7 +23,7 @@ const CoinsaneStackedLabel = ({
       clearTextOnFocus={clearTextOnFocus}
       keyboardType={keyboardType}
       onChangeText={v => onChangeText(propName, v)}
-      onBlur={() => onBlur(propName)}
+      onBlur={onBlur}
       value={value}
       style={base.listItem__labelInput}
       placeholderTextColor={colors.textGray}
@@ -38,7 +38,7 @@ CoinsaneStackedLabel.propTypes = {
   clearTextOnFocus: PropTypes.bool,
   keyboardType: PropTypes.string,
   onChangeText: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   value: PropTypes.string.isRequired,
   autoFocus: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -49,6 +49,7 @@ CoinsaneStackedLabel.defaultProps = {
   clearTextOnFocus: false,
   autoFocus: false,
   placeholder: null,
+  onBlur: null,
 };
 
 export default CoinsaneStackedLabel;

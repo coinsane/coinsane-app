@@ -15,8 +15,9 @@ const TransactionItem = ({
   amount,
   total,
   currency,
-  buy,
+  type,
 }) => {
+  const buy = type === 'buy';
   const totalDisplay = buy ? cFormat(nFormat(total, 2), currency) : `-${cFormat(nFormat(total, 2), currency)}`;
   return (
     <View style={styles.container}>
@@ -28,7 +29,7 @@ const TransactionItem = ({
         <Text style={styles.amount}>{amount}</Text>
       </Body>
       <Right style={styles.right}>
-        <CoinsanePctText value={totalDisplay} symbol="" positive={!!buy} negative={!buy} />
+        <CoinsanePctText value={totalDisplay} symbol="" positive={buy} negative={!buy} />
       </Right>
     </View>
   );
@@ -40,7 +41,7 @@ TransactionItem.propTypes = {
   amount: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
-  buy: PropTypes.bool.isRequired,
+  type: PropTypes.oneOf(['buy', 'sell', 'exchange']).isRequired,
 };
 
 TransactionItem.defaultProps = {

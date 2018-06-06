@@ -50,6 +50,7 @@ export default {
     form: {
       labelBuy: 'ДОХОД/ПОКУПКА',
       labelSell: 'РАСХОД/ПРОДАЖА',
+      labelExchange: 'ОБМЕН',
       fieldPortfolio: 'Выбор коллекции',
       fieldAmount: 'Количество',
       fieldPrice: 'Стоимость',

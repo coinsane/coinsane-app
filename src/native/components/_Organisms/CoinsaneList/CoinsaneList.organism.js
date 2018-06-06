@@ -17,23 +17,27 @@ import I18n from '../../../../i18n';
 
 class CoinsaneList extends Component {
   static propTypes = {
-    searchBar: PropTypes.bool.isRequired,
+    searchBar: PropTypes.bool,
     title: PropTypes.string.isRequired,
     listName: PropTypes.string.isRequired,
-    listItemType: PropTypes.string.isRequired,
+    listItemType: PropTypes.string,
     selectAction: PropTypes.func.isRequired,
     preLoad: PropTypes.func,
     clear: PropTypes.func,
+    activeItem: PropTypes.string,
     state: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
-    preLoad: () => {},
-    clear: () => {},
+    searchBar: false,
+    activeItem: null,
+    listItemType: null,
+    preLoad: null,
+    clear: null,
   };
 
   componentWillMount() {
-    this.props.preLoad();
+    if (this.props.preLoad) this.props.preLoad({});
   }
 
   getList = () => {
@@ -42,31 +46,25 @@ class CoinsaneList extends Component {
   };
 
   close() {
-    if (this.props.clear) {
-      this.props.clear(); // from top container
-    }
+    if (this.props.clear) this.props.clear();
     Actions.pop();
   }
 
   handleRefresh = () => {
-    if (!this.getList().refreshing) this.props.preLoad();
+    if (this.props.preLoad && !this.getList().refreshing) {
+      this.props.preLoad({
+        q: this.getList().searchTerm,
+        skip: this.getList().list.length,
+      });
+    }
   };
 
   handleLoadMore = () => {
-    // const {
-    //   markets,
-    //   changeSearchTerm,
-    //   getAvailableMarkets,
-    // } = this.props;
-    if (!this.getList().loading) {
-      if (this.getList().searchTerm) {
-        // changeSearchTerm({
-        //   skip: this.getList().list.length,
-        //   q: this.getList().searchTerm,
-        // });
-      } else {
-        // getAvailableMarkets({ skip: this.getList().list.length });
-      }
+    if (this.props.preLoad && !this.getList().loading) {
+      this.props.preLoad({
+        q: this.getList().searchTerm,
+        skip: this.getList().list.length,
+      });
     }
   };
 
@@ -97,6 +95,8 @@ class CoinsaneList extends Component {
       title,
       listItemType,
       selectAction,
+      state,
+      activeItem,
     } = this.props;
 
     const listItem = this.getList();
@@ -112,12 +112,14 @@ class CoinsaneList extends Component {
           <List style={[base.contentContainer, base.contentPadding]}>
             <FlatList
               data={listItem.list}
-              renderItem={({ item, index }) => (
+              renderItem={({ item }) => (
                 <SelectorListItem
                   key={item}
                   listItemType={listItemType}
                   item={listItem.items[item]}
                   selectAction={() => selectAction(listItem.items[item])}
+                  currency={state.settings.currencies[state.settings.currency]}
+                  active={item === activeItem}
                 />
               )}
               keyExtractor={item => item}

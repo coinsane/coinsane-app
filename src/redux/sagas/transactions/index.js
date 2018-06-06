@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+import { delay } from 'redux-saga';
 import { put, call, takeLatest, select, takeEvery } from 'redux-saga/effects';
 import { round } from '../../../lib/utils';
 import { transactions } from '../../actions';
@@ -8,16 +10,17 @@ import {
   GET_TRANSACTION_PRICE_SUCCESS,
   RECALCULATE,
   UPDATE_DRAFT_TRANSACTION,
+  UPDATE_DRAFT_TRANSACTION_SUCCESS,
+  UPDATE_DRAFT_TRANSACTION_ERROR,
   GET_AVAILABLE_TRANSACTIONS,
-  GET_AVAILABLE_TRANSACTIONS_SUCCESS,
   UPDATE_PORTFOLIOS,
   UPDATE_COIN_TRANSACTIONS,
   UPDATE_TRANSACTIONS_ITEMS,
   GET_TRANSACTIONS_SUCCESS,
   TRANSACTIONS_ADD,
-  TRANSACTIONS_ADD_SUCCESS,
+  UPDATE_COINS_CACHE,
+  CLEAR_DRAFT_TRANSACTION,
 } from '../../actions/action.types';
-
 
 /**
  * action.payload: { coinId, refreshing }
@@ -29,7 +32,7 @@ export function* getTransactionsList(action) {
     const { transactions } = response.data.response;
     yield put({
       type: UPDATE_TRANSACTIONS_ITEMS,
-      payload: { transactions },
+      payload: transactions,
     });
     yield put({
       type: UPDATE_COIN_TRANSACTIONS,
@@ -42,46 +45,68 @@ export function* getTransactionsList(action) {
 /**
  * action.payload: {  }
  */
+
 export function* addTransaction(action) {
   const response = yield call(api.coins.addTransaction, action.payload);
-  const { transactions, _id: coinId } = response.data.response.coin;
+  const { coin } = response.data.response;
   yield put({
     type: UPDATE_TRANSACTIONS_ITEMS,
-    payload: { transactions },
+    payload: coin.transactions,
+  });
+  yield put({
+    type: UPDATE_COINS_CACHE,
+    payload: {
+      [coin._id]: {
+        _id: coin._id,
+        amount: coin.amount,
+        market: coin.market._id,
+        portfolio: coin.portfolio,
+        transactions: coin.transactions.map(transaction => transaction._id),
+      },
+    },
   });
   yield put({
     type: UPDATE_COIN_TRANSACTIONS,
-    payload: { coinId, transactions },
+    payload: { coinId: coin._id, transactions: coin.transactions },
   });
-  const symbol = yield select(selectors.getSymbol);
-  yield put({
-    type: UPDATE_PORTFOLIOS,
-    payload: { symbol },
-  });
+  yield put({ type: UPDATE_PORTFOLIOS, payload: {} });
+  yield put({ type: GET_TRANSACTIONS_SUCCESS });
+  yield put({ type: CLEAR_DRAFT_TRANSACTION });
 }
 
 /**
  * action.payload: {  }
  */
-export function* updateDraftTransaction(action) {
-  if (!(action.payload.coin || action.payload.market)) return;
 
-  const draft = yield select(selectors.getTransaction);
-  const marketItems = yield select(selectors.getMarkets);
-  if (marketItems[draft.market].symbol && draft.currency.code && draft.date) {
-    const response = yield call(api.coins.getPrice, {
-      fsym: marketItems[draft.market].symbol,
-      tsyms: draft.currency.code,
-      date: draft.date,
-    });
-    yield put({
-      type: GET_TRANSACTION_PRICE_SUCCESS,
-      payload: response.data.data[draft.currency.code],
-    });
-    yield put({
-      type: RECALCULATE,
-      payload: 'price',
-    });
+function* updateDraftTransaction(action) {
+  try {
+    yield put({ type: UPDATE_DRAFT_TRANSACTION_SUCCESS, payload: action.payload });
+    if (
+      action.payload.market ||
+      action.payload.currency ||
+      action.payload.exchange ||
+      action.payload.type ||
+      action.payload.date ||
+      action.payload.time
+    ) {
+      const draft = yield select(selectors.getTransaction);
+      const markets = yield select(selectors.getMarkets);
+      const currencies = yield select(selectors.getCurrencies);
+      const exchange = draft.exchange || '5a9c5e5244d0ad001eed91cd'; // BTC
+      const currency = draft.currency || '5a9db9c3ce2c75001e71555d'; // USD
+      const fsym = get(markets, `${draft.market}.symbol`, null);
+      const tsyms = draft.type === 'exchange' && draft.exchange ?
+        get(markets, `${exchange}.symbol`, null) :
+        get(currencies, `${currency}.code`, null);
+      const date = new Date(`${draft.date} ${draft.time}`);
+      if (fsym && tsyms && date) {
+        const response = yield call(api.coins.getPrice, { fsym, tsyms, date });
+        yield put({ type: GET_TRANSACTION_PRICE_SUCCESS, payload: response.data.data[tsyms] });
+        yield put({ type: RECALCULATE, payload: 'price' });
+      }
+    }
+  } catch (error) {
+    yield put({ type: UPDATE_DRAFT_TRANSACTION_ERROR, payload: error });
   }
 }
 
@@ -105,31 +130,30 @@ export function* getPrice(action) {
  */
 export function* recalculate(action) {
   const draft = yield select(selectors.getTransaction);
-
   if (action.payload === 'price') {
     if (+draft.amount) {
       const total = draft.price * draft.amount;
-      yield put(transactions.updateDraftTransaction({ total: round(total, 8) }));
+      yield put(transactions.updateDraftTransaction({ total: round(total, 12) }));
     } else if (+draft.total) {
       const amount = draft.total / draft.price;
-      yield put(transactions.updateDraftTransaction({ amount: round(amount, 8) }));
+      yield put(transactions.updateDraftTransaction({ amount: round(amount, 12) }));
     }
   }
   if (action.payload === 'total') {
     if (+draft.total) {
       if (+draft.amount) {
         const price = draft.total / draft.amount;
-        yield put(transactions.updateDraftTransaction({ price: round(price, 8) }));
+        yield put(transactions.updateDraftTransaction({ price: round(price, 12) }));
       } else {
         const amount = draft.total / draft.price;
-        yield put(transactions.updateDraftTransaction({ amount: round(amount, 8) }));
+        yield put(transactions.updateDraftTransaction({ amount: round(amount, 12) }));
       }
     }
   }
   if (action.payload === 'amount') {
     if (+draft.price) {
       const total = draft.price * draft.amount;
-      yield put(transactions.updateDraftTransaction({ total: round(total, 8) }));
+      yield put(transactions.updateDraftTransaction({ total: round(total, 12) }));
     }
   }
 }

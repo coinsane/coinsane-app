@@ -32,7 +32,7 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.error,
-        token: null,
+        // token: null,
       };
     }
 

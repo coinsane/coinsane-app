@@ -18,6 +18,7 @@ export const initialState = {
   loading: true,
   error: null,
   refreshing: false,
+  items: {},
   list: [],
   cap: {
     loading: true,
@@ -25,7 +26,6 @@ export const initialState = {
   },
   searchTerm: '',
   count: 0,
-  items: {},
   cache: {},
 };
 

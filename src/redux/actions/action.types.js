@@ -114,6 +114,16 @@ export const GET_PAGES = '[pages] GET_PAGES';
 export const GET_PAGES_SUCCESS = '[pages] GET_PAGES_SUCCESS';
 export const GET_PAGES_ERROR = '[pages] GET_PAGES_ERROR';
 
+
+// ========= [categories] peace of state action types ========= //
+export const GET_CATEGORIES = '[categories] GET_CATEGORIES';
+export const GET_CATEGORIES_SUCCESS = '[categories] GET_CATEGORIES_SUCCESS';
+export const GET_CATEGORIES_ERROR = '[categories] GET_CATEGORIES_ERROR';
+export const SELECT_CATEGORY = '[categories] SELECT_CATEGORY';
+export const SELECT_CATEGORY_SUCCESS = '[categories] SELECT_CATEGORY_SUCCESS';
+export const SELECT_CATEGORY_ERROR = '[categories] SELECT_CATEGORY_ERROR';
+
+
 // ========= [transactions] peace of state action types ========= //
 export const TRANSACTIONS_ADD = '[transactions] TRANSACTIONS_ADD';
 export const TRANSACTIONS_ADD_SUCCESS = '[transactions] TRANSACTIONS_ADD_SUCCESS';
@@ -122,6 +132,8 @@ export const UPDATE_TRANSACTIONS_ITEMS = '[transactions] UPDATE_TRANSACTIONS_ITE
 export const GET_TRANSACTIONS_SUCCESS = '[transactions] GET_TRANSACTIONS_SUCCESS';
 
 export const UPDATE_DRAFT_TRANSACTION = '[transactions] UPDATE_DRAFT_TRANSACTION';
+export const UPDATE_DRAFT_TRANSACTION_SUCCESS = '[transactions] UPDATE_DRAFT_TRANSACTION_SUCCESS';
+export const UPDATE_DRAFT_TRANSACTION_ERROR = '[transactions] UPDATE_DRAFT_TRANSACTION_ERROR';
 export const GET_TRANSACTION_PRICE_SUCCESS = '[transactions] GET_TRANSACTION_PRICE_SUCCESS';
 export const GET_TRANSACTION_PRICE_ERROR = '[transactions] GET_TRANSACTION_PRICE_ERROR';
 
