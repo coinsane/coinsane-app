@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors } from '../../../styles';
+import { fonts, colors } from '../../../styles';
 
 export default StyleSheet.create({
   container: {
@@ -24,22 +24,22 @@ export default StyleSheet.create({
   header: {
     color: colors.textGray,
     fontSize: 12,
-    fontFamily: typography.fontBold
+    fontFamily: fonts.fontBold
   },
   body: {
     fontSize: 14,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     paddingTop: 8
   },
   source: {
     fontSize: 12,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     flex: 1,
     marginBottom: 5,
   },
   pair: {
     fontSize: 12,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     color: colors.textGray,
     flex: 1,
   },

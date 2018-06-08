@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../../styles';
+import { colors, fonts } from '../../../styles';
 
 export default StyleSheet.create({
   listItemContainer: {
@@ -55,7 +55,7 @@ export default StyleSheet.create({
     marginTop: 4,
     marginBottom: 4,
     fontSize: 16,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   listItem__text_footer: {
     marginLeft: 0,
@@ -64,6 +64,6 @@ export default StyleSheet.create({
     fontSize: 13,
     lineHeight: 13,
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
 });

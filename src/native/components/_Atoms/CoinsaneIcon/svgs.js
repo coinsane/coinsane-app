@@ -1,5 +1,5 @@
 import React from 'react';
-import { G, Path, Polygon } from 'react-native-svg';
+import { G, Path, Circle } from 'react-native-svg';
 
 export default {
   Menu: {
@@ -97,10 +97,10 @@ export default {
     viewBox: '0 0 16 16',
   },
   Category: {
-    svg: <G id="triangle" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-      <Polygon id="triangle-icon" points="2 4 8 8 2 12" />
+    svg: <G id="category-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <Circle id="category-icon" cx="18" cy="18" r="18" />
     </G>,
-    viewBox: '0 0 12 16',
+    viewBox: '0 0 36 36',
   },
   Slack: {
     svg: <G id="slack-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

@@ -4,23 +4,23 @@ import { Container, Content, Text, View, Title } from 'native-base';
 import Markdown from 'react-native-simple-markdown';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 
-import { base, typography } from '../../styles';
+import { base, fonts } from '../../styles';
 
 const markdownStyles = {
   heading: {
-    fontFamily: typography.fontBold,
+    fontFamily: fonts.fontBold,
   },
   heading1: {
     fontSize: 16,
     lineHeight: 18,
-    fontFamily: typography.fontBold,
+    fontFamily: fonts.fontBold,
     paddingTop: 20,
     paddingBottom: 10,
   },
   heading2: {
     fontSize: 15,
     lineHeight: 17,
-    fontFamily: typography.fontBold,
+    fontFamily: fonts.fontBold,
     paddingTop: 20,
     paddingBottom: 10,
   },

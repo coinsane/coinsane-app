@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Container, List, Title, View } from 'native-base';
+import { Container, List, Title, View, Footer, Button, Text, ListItem } from 'native-base';
 
 import SearchBar from '../../_Molecules/SearchBar/SearchBar.molecula';
 import Modal from '../../modal/BaseModal.component';
@@ -26,6 +26,9 @@ class CoinsaneList extends Component {
     clear: PropTypes.func,
     activeItem: PropTypes.string,
     state: PropTypes.shape({}).isRequired,
+    footerTitle: PropTypes.string,
+    footerAction: PropTypes.func,
+    headItem: PropTypes.shape({}),
   };
 
   static defaultProps = {
@@ -34,6 +37,9 @@ class CoinsaneList extends Component {
     listItemType: null,
     preLoad: null,
     clear: null,
+    footerTitle: null,
+    footerAction: null,
+    headItem: null,
   };
 
   componentWillMount() {
@@ -90,6 +96,49 @@ class CoinsaneList extends Component {
 
   renderSeparator = () => <View style={styles.separator} />;
 
+  renderFooterButton = () => {
+    const {
+      footerTitle,
+      footerAction,
+    } = this.props;
+    if (!(footerTitle && footerAction)) return null;
+    return (
+      <Footer style={base.footer}>
+        <Button
+          small
+          bordered
+          full
+          onPress={footerAction}
+          style={base.footer__button}
+        >
+          <Text style={base.footer__buttonText}>{footerTitle}</Text>
+        </Button>
+      </Footer>
+    );
+  };
+
+  renderHeadListItem = () => {
+    const {
+      headItem,
+      listItemType,
+      activeItem,
+      state,
+    } = this.props;
+    if (!(headItem && headItem.title && headItem.selectAction)) return null;
+    return (
+      <View>
+        <SelectorListItem
+          listItemType={listItemType}
+          item={headItem}
+          selectAction={headItem.selectAction}
+          currency={state.settings.currencies[state.settings.currency]}
+          active={!activeItem}
+        />
+        <View style={styles.separator} />
+      </View>
+    );
+  };
+
   render() {
     const {
       title,
@@ -110,6 +159,7 @@ class CoinsaneList extends Component {
             title={<Title>{title}</Title>}
           />
           <List style={[base.contentContainer, base.contentPadding]}>
+            {this.renderHeadListItem()}
             <FlatList
               data={listItem.list}
               renderItem={({ item }) => (
@@ -134,6 +184,7 @@ class CoinsaneList extends Component {
             />
           </List>
         </Container>
+        {this.renderFooterButton()}
       </Modal>
     );
   }

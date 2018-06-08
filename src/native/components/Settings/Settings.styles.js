@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { colors, fonts } from '../../styles';
 
 export default StyleSheet.create({
   settings__header: {
@@ -42,7 +42,7 @@ export default StyleSheet.create({
   },
   settings_listItem__text: {
     fontSize: 17,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   settings_listItem__textWithLabel: {
     alignSelf: 'flex-start',
@@ -55,7 +55,7 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontSize: 14,
     letterSpacing: 1,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     marginBottom: 15,
     marginTop: 5,
   },

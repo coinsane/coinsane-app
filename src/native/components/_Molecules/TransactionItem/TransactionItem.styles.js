@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors } from '../../../styles';
+import { typography, colors, fonts } from '../../../styles';
 
 export default StyleSheet.create({
   container: {
@@ -12,9 +12,27 @@ export default StyleSheet.create({
   },
   body: {
     flex: 0.6,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 28,
+    height: 28,
+    position: 'relative',
+  },
+  iconText: {
+    fontFamily: fonts.fontMedium,
+    fontSize: 14,
+    position: 'absolute',
+  },
+  content: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    marginLeft: 15,
   },
   right: {
     flex: 0.4,
@@ -23,17 +41,23 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
   },
   category: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    fontSize: 13,
+    fontFamily: fonts.fontBold,
+    color: colors.textGray,
   },
   amount: {
-    fontSize: 20,
-    fontFamily: typography.fontBold,
+    fontSize: 18,
+    fontFamily: fonts.fontBold,
     letterSpacing: -0.35,
   },
   text: {
     fontSize: 12,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     color: colors.textGray,
   },
+  time: {
+    fontSize: 12,
+    fontFamily: fonts.fontLight,
+    color: colors.textGray,
+  }
 });

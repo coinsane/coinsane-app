@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { fonts } from '../../styles';
 
 export default StyleSheet.create({
   contentContainer: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     paddingLeft: 10,
   },
   text: {
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     fontSize: 18,
     letterSpacing: -0.3,
   },

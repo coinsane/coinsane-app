@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { colors, fonts } from '../../styles';
 
 export default StyleSheet.create({
   coinsHeader: { borderBottomWidth: 0 },
@@ -22,7 +22,7 @@ export default StyleSheet.create({
   coins__contentHeaderText: {
     color: colors.textGray,
     fontSize: 14,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
   coins__buttonPeriod: {
     height: 26,
@@ -33,17 +33,17 @@ export default StyleSheet.create({
     borderRadius: 3,
   },
   coins__buttonPeriodActive: {
-    backgroundColor: '#251F38',
+    backgroundColor: colors.btnBgDark,
   },
   coins__buttonPeriodText: {
     color: colors.textGray,
-    fontSize: typography.size14,
-    fontFamily: typography.fontMedium,
+    fontSize: 14,
+    fontFamily: fonts.fontMedium,
     paddingLeft: 12,
     paddingRight: 12,
   },
   coins__buttonPeriodTextActive: {
-    color: '#fff',
+    color: colors.white,
   },
   coins__nocoinsRow: {
     backgroundColor: colors.btnBgBlack,
@@ -54,7 +54,7 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   coins__nocoinsRowText: {
-    fontSize: typography.size14,
+    fontSize: 14,
     color: colors.textGray,
     textAlign: 'center',
     flex: 1,

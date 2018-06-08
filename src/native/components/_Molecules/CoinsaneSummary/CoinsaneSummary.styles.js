@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors } from '../../../styles';
+import { fonts, colors } from '../../../styles';
 
 export default StyleSheet.create({
   totalContainer: {
@@ -16,7 +16,7 @@ export default StyleSheet.create({
   total__buttonText: {
     fontSize: 12,
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     letterSpacing: 1,
   },
   total__buttonTextActive: {
@@ -50,7 +50,7 @@ export default StyleSheet.create({
   },
   total__summaryText: {
     fontSize: 10,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     letterSpacing: 0.5,
     paddingBottom: 4,
   },
@@ -64,12 +64,12 @@ export default StyleSheet.create({
     marginTop: 8,
     color: colors.textGray,
     fontSize: 14,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     letterSpacing: 0.5,
   },
   subValue: {
     color: colors.textGray,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     fontSize: 14,
     letterSpacing: 0.5,
   },

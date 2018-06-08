@@ -12,7 +12,6 @@ import CoinComponent from '../components/Coin/Coin.component';
 
 import PortfoliosContainer from '../../containers/Portfolios';
 import PortfoliosComponent from '../components/Portfolios/Portfolios.component';
-import PortfoliosModal from '../components/modal/Portfolios.component';
 
 import CoinsaneList from '../components/_Organisms/CoinsaneList/CoinsaneList.organism';
 
@@ -114,11 +113,6 @@ const Index = (
     <Scene
       key="page"
       component={PageComponent}
-    />
-    <Scene
-      key="portfolioSelect"
-      component={PortfoliosContainer}
-      Layout={PortfoliosModal}
     />
     <Scene
       key="selector"

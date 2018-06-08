@@ -70,6 +70,7 @@ export default {
   categories: {
     titleChoose: 'Выберите рубрику',
     empty: 'Без категории',
+    exchange: 'Обмен',
   },
   placeholder: {
     search: 'Поиск',

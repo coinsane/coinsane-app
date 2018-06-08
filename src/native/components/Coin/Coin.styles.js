@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { colors, fonts } from '../../styles';
 
 export default StyleSheet.create({
   coinHeader: {
@@ -19,12 +19,12 @@ export default StyleSheet.create({
     borderRadius: 12,
   },
   header__title: {
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     marginLeft: 8,
     marginRight: 4,
   },
   header__title_suffix: {
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     color: colors.textGray,
   },
 });

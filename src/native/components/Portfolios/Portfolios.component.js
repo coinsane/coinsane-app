@@ -30,6 +30,7 @@ class Portfolios extends Component {
     chart: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({}).isRequired,
 
+    selectPortfolio: PropTypes.func.isRequired,
     fetchPortfolios: PropTypes.func.isRequired,
     updatePortfolioChart: PropTypes.func.isRequired,
     updatePortfolioPeriod: PropTypes.func.isRequired,
@@ -234,6 +235,34 @@ class Portfolios extends Component {
     );
   };
 
+  portfolioSelect() {
+    const { activePortfolio } = this.props;
+
+    Actions.selector({
+      listName: 'portfolios',
+      title: I18n.t('portfolios.titleChoose'),
+      listItemType: 'check',
+      activeItem: activePortfolio,
+      selectAction: (item) => {
+        this.props.selectPortfolio(item._id);
+        Actions.pop();
+      },
+      footerTitle: I18n.t('portfolios.addButton'),
+      footerAction: () => {
+        Actions.pop();
+        Actions.createPortfolio();
+      },
+      headItem: {
+        title: I18n.t('portfolios.all'),
+        amount: this.portfolioTotal(),
+        selectAction: () => {
+          this.props.selectPortfolio(null);
+          Actions.pop();
+        },
+      },
+    });
+  }
+
   render() {
     const {
       error,
@@ -241,7 +270,6 @@ class Portfolios extends Component {
       drawer,
       addCoin,
       activePortfolio,
-      symbol,
       portfolios,
     } = this.props;
 
@@ -271,7 +299,7 @@ class Portfolios extends Component {
           leftIcon="Menu"
           leftAction={() => drawer.open()}
           title={<HeaderTitle />}
-          titleAction={() => Actions.portfolioSelect()}
+          titleAction={() => this.portfolioSelect()}
           rightIcon="Edit"
           rightAction={() => this.editPortfolio(activePortfolio)}
           rightActive={!!activePortfolio}

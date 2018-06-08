@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { colors, fonts } from '../../styles';
 
 export default StyleSheet.create({
   market__header: {
@@ -20,7 +20,7 @@ export default StyleSheet.create({
   },
   market__header_text: {
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     fontSize: 12,
     alignSelf: 'center',
   },

@@ -70,6 +70,7 @@ export default {
   categories: {
     titleChoose: 'Choose Category',
     empty: 'No category',
+    exchange: 'Exchange',
   },
   placeholder: {
     search: 'Search',

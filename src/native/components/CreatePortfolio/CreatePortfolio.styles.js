@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { colors, fonts } from '../../styles';
 
 export default StyleSheet.create({
   contentHeader: {
@@ -16,7 +16,7 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontSize: 14,
     letterSpacing: 1,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     marginBottom: 20,
     marginTop: 5,
   },

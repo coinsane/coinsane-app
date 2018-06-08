@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../../styles/index';
+import { colors, typography, fonts } from '../../../styles/index';
 
 export default StyleSheet.create({
   container: {
@@ -44,7 +44,7 @@ export default StyleSheet.create({
     marginRight: 0,
     marginBottom: 2,
     fontSize: 15,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   portfolio__row_textLeft: {
     flex: 0.5,
@@ -56,17 +56,17 @@ export default StyleSheet.create({
   portfolio__textSymbol: {
     fontSize: 15,
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
   portfolio__textAmount: {
     fontSize: 15,
     color: colors.white,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
   portfolio__textFooter: {
     fontSize: 13,
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
   portfolio__buttonContainer: {
     marginBottom: 15,
@@ -80,7 +80,7 @@ export default StyleSheet.create({
   },
   portfolio__buttonText: {
     color: colors.textGray,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   market_item: {
     marginLeft: 0,
@@ -98,7 +98,7 @@ export default StyleSheet.create({
   },
   market_order: {
     color: colors.textGray,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     fontSize: 11,
     marginTop: 5,
     alignSelf: 'flex-start',
@@ -128,7 +128,7 @@ export default StyleSheet.create({
     marginRight: 0,
     marginBottom: 4,
     fontSize: 15,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   market__text_footer: {
     marginLeft: 0,
@@ -136,6 +136,6 @@ export default StyleSheet.create({
     fontSize: 13,
     lineHeight: 13,
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
 });

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors } from '../../../styles';
+import { fonts, colors } from '../../../styles';
 
 export default StyleSheet.flatten({
   container: {
@@ -33,7 +33,7 @@ export default StyleSheet.flatten({
     marginLeft: 0,
     marginRight: 0,
     fontSize: 15,
-    fontFamily: typography.fontBold,
+    fontFamily: fonts.fontBold,
     color: colors.textGray,
     alignSelf: 'center',
   },

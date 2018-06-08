@@ -18,6 +18,7 @@ class Coin extends Component {
     coin: PropTypes.shape({}),
     currency: PropTypes.shape({}).isRequired,
     market: PropTypes.shape({}).isRequired,
+    markets: PropTypes.shape({}).isRequired,
     transactions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     exchanges: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
@@ -31,6 +32,7 @@ class Coin extends Component {
     getTransactions: PropTypes.func.isRequired,
     symbol: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
+    coins: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
     updateCoinsPeriod: PropTypes.func.isRequired,
@@ -93,6 +95,8 @@ class Coin extends Component {
       periods,
       updateCoinsPeriod,
       chart,
+      coins,
+      markets,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -142,6 +146,8 @@ class Coin extends Component {
             <CoinTabTransactions
               error={error}
               coin={coin}
+              coins={coins}
+              markets={markets}
               currency={currency}
               symbol={symbol}
               market={market}

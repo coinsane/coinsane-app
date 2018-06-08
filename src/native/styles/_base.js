@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import colors from './_colors';
 import typography from './_typography';
-import fonts from "./_fonts";
 
 export default StyleSheet.create({
   white: { color: colors.white },

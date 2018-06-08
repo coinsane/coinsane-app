@@ -4,7 +4,7 @@ import { ListItem, View, Text, Body, Left, Right, Button } from 'native-base';
 import FastImage from 'react-native-fast-image';
 
 import I18n from '../../../../i18n';
-import { nFormat, cFormat } from '../../../../lib/utils';
+import { nFormat, cFormat, round } from '../../../../lib/utils';
 import styles from './CoinCard.styles';
 import { colors, typography } from '../../../styles/index';
 
@@ -94,7 +94,7 @@ class CoinCard extends PureComponent {
 
 
     if (type === 'portfolio') {
-      coinCard.amount = amount || 0;
+      coinCard.amount = round(amount, 13) || 0;
     }
 
     if (symbol === market.symbol) {

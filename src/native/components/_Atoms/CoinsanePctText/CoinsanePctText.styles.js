@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../../styles';
+import { colors, fonts } from '../../../styles';
 
 export default StyleSheet.create({
   positive: {
@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   text: {
     color: colors.textGray,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   white: {
     color: colors.white,

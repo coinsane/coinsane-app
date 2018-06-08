@@ -14,5 +14,4 @@ export default {
   white: '#fff',
   gradientFrom: 'rgba(27,21,45,1)',
   gradientTo: 'rgba(27,21,45,0)',
-  category1: '#7ED4D8',
 };
