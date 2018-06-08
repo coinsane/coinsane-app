@@ -121,7 +121,7 @@ export default function actionReducer(state = initialState, action) {
       } = action.payload;
       const chart = { ...state.chart };
       if (!chart[portfolioId]) chart[portfolioId] = {};
-      const dataArr = Object.keys(totals).map(key => totals[key]);
+      const dataArr = Object.keys(totals).map(key => totals[key].avg || totals[key]);
       const first = dataArr[0];
       const last = dataArr[dataArr.length - 1];
       const subtract = _.subtract(first, last);

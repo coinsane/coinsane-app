@@ -19,7 +19,7 @@ import Empty from '../Empty/Empty.component';
 
 import styles from './Portfolios.styles';
 import { colors, base } from '../../styles';
-import { nFormat } from '../../../lib/utils';
+import { nFormat, round } from '../../../lib/utils';
 
 class Portfolios extends Component {
   static propTypes = {
@@ -118,11 +118,37 @@ class Portfolios extends Component {
     return lastTotal;
   };
 
+  portfolioSelect() {
+    const { activePortfolio } = this.props;
+    Actions.selector({
+      listName: 'portfolios',
+      title: I18n.t('portfolios.titleChoose'),
+      listItemType: 'check',
+      activeItem: activePortfolio,
+      selectAction: (item) => {
+        this.props.selectPortfolio(item._id);
+        Actions.pop();
+      },
+      footerTitle: I18n.t('portfolios.addButton'),
+      footerAction: () => {
+        Actions.pop();
+        Actions.createPortfolio();
+      },
+      headItem: {
+        title: I18n.t('portfolios.all'),
+        amount: this.portfolioTotal(),
+        selectAction: () => {
+          this.props.selectPortfolio(null);
+          Actions.pop();
+        },
+      },
+    });
+  }
+
   renderHeader = () => {
     const {
       currencies,
       currency,
-      changePct,
       chart,
       period,
       periods,
@@ -130,14 +156,22 @@ class Portfolios extends Component {
       error,
     } = this.props;
 
+    const decimal = currency.decimal > 6 ? 6 : currency.decimal;
+    const low = chart.low && nFormat(chart.low, decimal);
+    const high = chart.high && nFormat(chart.high, decimal);
+
     return (
       <View>
         <CoinsaneSummary
           value={nFormat(this.portfolioTotal(), currency.decimal)}
           currency={currency}
           buttons={Object.keys(currencies)}
-          subValue={changePct}
+          subValue={round(chart.pct, 2)}
           updateCurrency={this.updateCurrency}
+          leftTitle={I18n.t('coins.low')}
+          leftValue={low}
+          rightTitle={I18n.t('coins.high')}
+          rightValue={high}
           loading={loading}
           error={error}
         />
@@ -234,34 +268,6 @@ class Portfolios extends Component {
       />
     );
   };
-
-  portfolioSelect() {
-    const { activePortfolio } = this.props;
-
-    Actions.selector({
-      listName: 'portfolios',
-      title: I18n.t('portfolios.titleChoose'),
-      listItemType: 'check',
-      activeItem: activePortfolio,
-      selectAction: (item) => {
-        this.props.selectPortfolio(item._id);
-        Actions.pop();
-      },
-      footerTitle: I18n.t('portfolios.addButton'),
-      footerAction: () => {
-        Actions.pop();
-        Actions.createPortfolio();
-      },
-      headItem: {
-        title: I18n.t('portfolios.all'),
-        amount: this.portfolioTotal(),
-        selectAction: () => {
-          this.props.selectPortfolio(null);
-          Actions.pop();
-        },
-      },
-    });
-  }
 
   render() {
     const {
