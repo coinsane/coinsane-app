@@ -24,21 +24,18 @@ const PortfolioHeader = ({
   if (!show) return <Spacer size={0} />;
 
   const textPlaceholder = isLoading && typography.textPlaceholder;
+  const icon = isCollapsed ? 'ios-arrow-up' : 'ios-arrow-down';
 
   const totalDisplay = cFormat(nFormat(amount, currency.decimal), currency.symbol);
 
-  const changeColor = changePct > 0 ? colors.primaryGreen : colors.primaryPink;
+  const changeColor = changePct < 0 ? colors.primaryPink : colors.primaryGreen;
   const changePctDisplay = `${changePct}%`;
 
   return (
     <View style={styles.container}>
       <ListItem style={styles.listItem} onPress={() => updateCollapsed(id)}>
         <Body style={styles.body}>
-          {
-            isCollapsed ?
-              <Icon name="ios-arrow-up" style={styles.body__arrowIcon} /> :
-              <Icon name="ios-arrow-down" style={styles.body__arrowIcon} />
-          }
+          <Icon name={icon} style={styles.body__arrowIcon} />
           <Text numberOfLines={1} style={styles.body__text}>{title}</Text>
         </Body>
         <Right style={styles.right}>

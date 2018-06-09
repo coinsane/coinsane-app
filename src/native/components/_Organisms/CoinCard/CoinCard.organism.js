@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import I18n from '../../../../i18n';
 import { nFormat, cFormat, round } from '../../../../lib/utils';
 import styles from './CoinCard.styles';
-import { colors, typography } from '../../../styles/index';
+import { base, colors, typography } from '../../../styles/index';
 
 class CoinCard extends PureComponent {
   static propTypes = {
@@ -100,6 +100,8 @@ class CoinCard extends PureComponent {
     if (symbol === market.symbol) {
       coinCard.price = 1;
       coinCard.changePct = '0%';
+      coinCard.marketCap = getMarketCap(market);
+      coinCard.volume24h = getVolume24h(market);
     } else {
       coinCard.price = getCoinPrice(market);
       coinCard.marketCap = getMarketCap(market);
@@ -107,7 +109,7 @@ class CoinCard extends PureComponent {
       coinCard.changePct = getPctChange(market) ? `${(getPctChange(market) > 0 ? '+' : '')}${getPctChange(market).toFixed(2)}%` : '0%';
     }
 
-    const changeColor = parseFloat(coinCard.changePct) > 0 ? colors.primaryGreen : colors.primaryPink;
+    const changeColor = parseFloat(coinCard.changePct) < 0 ? colors.primaryPink : colors.primaryGreen;
 
     coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(decimal);
     coinCard.priceDisplay = cFormat(nFormat(coinCard.price, currency.decimal), currency.symbol);
@@ -157,15 +159,15 @@ class CoinCard extends PureComponent {
         }
         {
           (portfolioId && !activePortfolio) &&
-          <View style={styles.portfolio__buttonContainer}>
+          <View style={base.list__buttonContainer}>
             <Button
               small
               bordered
               full
-              style={styles.portfolio__button}
+              style={base.list__button}
               onPress={() => addCoin(portfolioId)}
             >
-              <Text style={styles.portfolio__buttonText}>{I18n.t('coins.addButton')}</Text>
+              <Text style={base.list__buttonText}>{I18n.t('coins.addButton')}</Text>
             </Button>
           </View>
         }

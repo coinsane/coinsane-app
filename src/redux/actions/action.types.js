@@ -87,7 +87,7 @@ export const PORTFOLIO_REMOVE_ERROR = '[portfolios] PORTFOLIO_REMOVE_ERROR';
 export const PORTFOLIOS_ERROR = '[portfolios] PORTFOLIOS_ERROR';
 export const UPDATE_PERIOD = '[portfolios] UPDATE_PERIOD';
 export const UPDATE_PERIOD_SUCCESS = '[portfolios] UPDATE_PERIOD_SUCCESS';
-export const UPDATE_COLLAPSED = '[portfolios] UPDATE_COLLAPSED';
+export const PORTFOLIO_COLLAPSE = '[portfolios] PORTFOLIO_COLLAPSE';
 
 
 // ========= [navigation] peace of state action types ========= //
@@ -107,6 +107,7 @@ export const GET_MARKET_CAP_SUCCESS = '[markets] GET_MARKET_CAP_SUCCESS';
 export const GET_MARKET_CAP_ERROR = '[markets] GET_MARKET_CAP_ERROR';
 export const UPDATE_MARKETS_CACHE = '[markets] UPDATE_MARKETS_CACHE';
 export const MARKET_CHART_UPDATE = '[markets] MARKET_CHART_UPDATE';
+export const MARKET_DATA_COLLAPSE = '[markets] MARKET_DATA_COLLAPSE';
 
 
 // ========= [pages] peace of state action types ========= //

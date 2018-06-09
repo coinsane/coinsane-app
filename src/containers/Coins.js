@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import get from 'lodash/get';
 
-import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
+import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
 import { getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
-import { getAvailableMarkets, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
+import { getAvailableMarkets, clearMarkets, getMarketCap, updateCollapsed } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
 import { getTransactions, updateDraftTransaction, addTransaction } from '../redux/state/transactions/transactions.actioncreators';
@@ -23,6 +23,7 @@ class Coins extends Component {
     coin: PropTypes.shape({
       items: PropTypes.shape({}),
       period: PropTypes.string,
+      refreshing: PropTypes.bool,
     }).isRequired,
     transactions: PropTypes.shape({
       items: PropTypes.shape({}),
@@ -115,6 +116,12 @@ class Coins extends Component {
     });
   };
 
+  getCollapsed = () => {
+    const { match } = this.props;
+    const market = get(match, 'params.market', {});
+    return market.collapsed || [];
+  };
+
   addTransaction = (portfolio) => {
     this.props.updateDraftTransaction({ portfolio, create: true });
     // show SelectCoin screen
@@ -183,6 +190,7 @@ class Coins extends Component {
         activePortfolio={portfolios.selected}
         coinData={coin.list}
         coins={coin.items}
+        refreshing={coin.refreshing}
 
         fetchPortfolios={this.fetchPortfolios}
         updatePortfolioChart={this.props.updatePortfolioChart}
@@ -206,14 +214,14 @@ class Coins extends Component {
         removeCoin={this.props.removeCoin}
         getCoinHisto={this.props.getCoinHisto}
         getCoinMarkets={this.props.getCoinMarkets}
-        updateCollapsed={this.props.updateCollapsed}
-        collapsedList={portfolios.collapsed}
         exchanges={coin.markets}
         settings={settings}
         markets={markets}
         periods={settings.periods}
         period={coin.period}
         updateCoinsPeriod={this.props.updateCoinsPeriod}
+        updateCollapsed={this.props.updateCollapsed}
+        collapsedList={this.getCollapsed()}
       />
     );
   }

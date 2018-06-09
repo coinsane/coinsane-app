@@ -4,27 +4,29 @@ import { fonts, colors } from '../../../styles';
 export default StyleSheet.create({
   container: {
 
-    marginLeft: 15,
-    marginRight: 15,
   },
   row: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     flex: 1,
-    marginBottom: 10
+    marginLeft: 15,
+    marginRight: 15,
   },
-  rowHeader: {
+  header: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     flex: 1,
+    marginTop: 10,
     marginBottom: 15,
+    marginLeft: 15,
+    marginRight: 15,
   },
-  header: {
+  headerText: {
     color: colors.textGray,
     fontSize: 12,
-    fontFamily: fonts.fontBold
+    fontFamily: fonts.fontBold,
   },
   body: {
     fontSize: 14,

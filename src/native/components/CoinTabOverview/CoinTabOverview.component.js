@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
-import { Content } from 'native-base';
+import { View, SectionList } from 'react-native';
+import { List, Button, Text } from 'native-base';
 
 import { nFormat, cFormat } from '../../../lib/utils';
 import Spacer from '../Spacer/Spacer.component';
@@ -33,9 +33,12 @@ class CoinTabOverview extends Component {
     symbol: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
     exchanges: PropTypes.arrayOf(PropTypes.shape({})),
+    collapsedList: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateCurrency: PropTypes.func.isRequired,
+    updateCollapsed: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
     periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+    refreshing: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -47,11 +50,10 @@ class CoinTabOverview extends Component {
     const {
       market,
       getCoinMarkets,
-      symbol,
+      symbol: tsym,
     } = this.props;
 
     const fsym = market.symbol;
-    const tsym = symbol;
 
     getCoinMarkets({ fsym, tsym });
   }
@@ -80,14 +82,32 @@ class CoinTabOverview extends Component {
     getCoinHisto({ market: market._id, fsym: market.symbol, tsym: symbol, range });
   };
 
-  render() {
+  handleRefresh = () => {
+    const {
+      refreshing,
+      market,
+      getCoinMarkets,
+      getCoinHisto,
+      symbol: tsym,
+      period: range,
+    } = this.props;
+
+    if (!refreshing) {
+      const fsym = market.symbol;
+      getCoinHisto({ market: market._id, fsym, tsym, range, refreshing: true });
+      getCoinMarkets({ fsym, tsym });
+    }
+  };
+
+  isCollapsed = name => this.props.collapsedList.indexOf(name) !== -1;
+
+  renderHeader = () => {
     const {
       market,
       chart,
       currency,
       symbol,
       currencies,
-      exchanges,
       period,
       periods,
     } = this.props;
@@ -107,36 +127,30 @@ class CoinTabOverview extends Component {
       },
     ];
 
-    const exchangesList = exchanges.map(exchange => ({
-      source: exchange.market,
-      pair: `${market.symbol}/${symbol}`,
-      volume: nFormat(exchange.volume, 2),
-      price: nFormat(parseFloat(exchange.price), 2),
-      changePct: 0,
-    }));
-
     const currencyButtons = Object.keys(currencies).filter(key => key !== market.symbol);
-    const decimal = currency.decimal > 6 ? 6 : currency.decimal;
 
+    const low = chart.low ? nFormat(chart.low, currency.decimal) : 0;
+    const high = chart.high ? nFormat(chart.high, currency.decimal) : 0;
+    const value = nFormat(market.prices[symbol].price, currency.decimal);
     return (
-      <Content style={[base.contentContainer, { paddingTop: 20 }]}>
+      <View>
+        <Spacer size={20} />
         <CoinsaneSummary
-          style={{ flex: 0.6 }}
-          value={market.prices[symbol].price}
+          value={value}
           currency={currency}
           buttons={currencyButtons}
           subValue={parseFloat(chart.pct, 2)}
           updateCurrency={this.updateCurrency}
           leftTitle={I18n.t('coins.low')}
-          leftValue={chart.low && nFormat(chart.low, decimal)}
+          leftValue={low}
           rightTitle={I18n.t('coins.high')}
-          rightValue={chart.high && nFormat(chart.high, decimal)}
+          rightValue={high}
         />
         <Chart
           data={chart.data}
           currency={currency}
         />
-        <View style={styles.cointab__graphButtonsContainer}>
+        <View style={styles.period}>
           { periods.map(key => (
             <CoinsaneButton
               key={key}
@@ -152,15 +166,97 @@ class CoinTabOverview extends Component {
         <SummaryCell
           summaryList={summaryList}
         />
-        <Spacer size={20} />
-        <TabHeader title={I18n.t('coins.exchanges')} />
+      </View>
+    );
+  };
+
+  renderSectionHeader = ({ section }) => {
+    const { market } = this.props;
+    return (
+      <TabHeader
+        title={section.title}
+        onPress={() => this.props.updateCollapsed({ marketId: market._id, collapse: section.type })}
+        isCollapsed={this.isCollapsed(section.type)}
+      />
+    );
+  };
+
+  renderItem = ({ item, section, index }) => {
+    if (section.type === 'exchanges') {
+      return (
         <MarketInfoCell
-          list={exchangesList}
+          item={item}
+          isFirst={index === 0}
         />
-        <Spacer size={20} />
-        {/* <TabHeader title="News" />
-        <Spacer size={50} /> */}
-      </Content>
+      );
+    }
+    return <Spacer size={30} />;
+  };
+
+  renderSeparator = () => <Spacer size={15} />;
+
+  renderSectionFooter = ({ section }) => {
+    const loadMore = true;
+    return !this.isCollapsed(section.type) && (
+      loadMore ?
+        <View style={[base.list__buttonContainer, styles.buttonContainer]}>
+          <Spacer size={20} />
+          <Button
+            small
+            bordered
+            full
+            style={base.list__button}
+            // onPress={() => ()}
+          >
+            <Text style={base.list__buttonText}>{I18n.t('coins.loadMore')}</Text>
+          </Button>
+        </View> :
+        <Spacer size={30} />
+    );
+  };
+
+  render() {
+    const {
+      market,
+      symbol,
+      exchanges,
+      refreshing,
+    } = this.props;
+
+    const sections = [
+      {
+        title: I18n.t('coins.exchanges'),
+        type: 'exchanges',
+        data: !this.isCollapsed('exchanges') ? exchanges.map(exchange => ({
+          source: exchange.market,
+          pair: `${market.symbol}/${symbol}`,
+          volume: nFormat(exchange.volume, 2),
+          price: nFormat(parseFloat(exchange.price), 2),
+          changePct: 0,
+        })) : [],
+      },
+      // {
+      //   title: I18n.t('coins.news'),
+      //   type: 'news',
+      //   data: [],
+      // },
+    ];
+
+    return (
+      <List style={base.contentContainer}>
+        <SectionList
+          sections={sections}
+          renderItem={this.renderItem}
+          renderSectionHeader={this.renderSectionHeader}
+          renderSectionFooter={this.renderSectionFooter}
+          keyExtractor={(item, index) => index}
+          ListHeaderComponent={this.renderHeader}
+          ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={this.handleRefresh}
+          refreshing={refreshing}
+          // extraData={portfolios}
+        />
+      </List>
     );
   }
 }

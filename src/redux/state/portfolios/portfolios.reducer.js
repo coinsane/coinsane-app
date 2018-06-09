@@ -14,7 +14,7 @@ import {
   UPDATE_PORTFOLIO_CURRENCY_SUCCESS,
   UPDATE_PORTFOLIO_PERIOD_SUCCESS,
   UPDATE_PERIOD_SUCCESS,
-  UPDATE_COLLAPSED,
+  PORTFOLIO_COLLAPSE,
   UPDATE_PORTFOLIO_CHART_SUCCESS,
 } from '../../actions/action.types';
 
@@ -121,8 +121,12 @@ export default function actionReducer(state = initialState, action) {
       } = action.payload;
       const chart = { ...state.chart };
       if (!chart[portfolioId]) chart[portfolioId] = {};
-      const dataArr = Object.keys(totals).map(key => totals[key].avg || totals[key]);
-      const first = dataArr[0];
+      let first = 0;
+      const dataArr = Object.keys(totals).map((key) => {
+        const value = totals[key].avg || totals[key];
+        if (!first && value !== 0) first = value;
+        return value;
+      });
       const last = dataArr[dataArr.length - 1];
       const subtract = _.subtract(first, last);
       const divide = _.divide(subtract, first);
@@ -191,10 +195,10 @@ export default function actionReducer(state = initialState, action) {
         period: action.payload,
       };
     }
-    case UPDATE_COLLAPSED: {
+    case PORTFOLIO_COLLAPSE: {
       const collapsed = [...state.collapsed];
-      if (collapsed.indexOf(action.portfolioId) === -1) collapsed.push(action.portfolioId);
-      else collapsed.splice(collapsed.indexOf(action.portfolioId), 1);
+      if (collapsed.indexOf(action.payload) === -1) collapsed.push(action.payload);
+      else collapsed.splice(collapsed.indexOf(action.payload), 1);
       return {
         ...state,
         collapsed,

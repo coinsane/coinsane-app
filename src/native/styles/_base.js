@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import colors from './_colors';
-import typography from './_typography';
+import fonts from './_fonts';
 
 export default StyleSheet.create({
   white: { color: colors.white },
@@ -36,7 +36,7 @@ export default StyleSheet.create({
   },
   footer__buttonText: {
     color: colors.white,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
   footer__button_bordered: {
     flex: 1,
@@ -51,9 +51,22 @@ export default StyleSheet.create({
   },
   footer__buttonText_bordered: {
     color: colors.textGray,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
   },
-  // List item shared input field with label
+  list__buttonContainer: {
+    marginBottom: 15,
+  },
+  list__button: {
+    borderWidth: 1,
+    borderColor: colors.blackBorder,
+    borderRadius: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  list__buttonText: {
+    color: colors.textGray,
+    fontFamily: fonts.fontRegular,
+  },
   listItem__labelInputContainer: {
     paddingLeft: 0,
     marginLeft: 0,
@@ -62,7 +75,7 @@ export default StyleSheet.create({
   listItem__labelText: {
     paddingTop: 0,
     paddingRight: 0,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     fontSize: 12,
     color: colors.textGray,
   },
@@ -74,7 +87,7 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontSize: 14,
     letterSpacing: 1,
-    fontFamily: typography.fontMedium,
+    fontFamily: fonts.fontMedium,
     marginBottom: 20,
     marginTop: 5,
   },
@@ -86,12 +99,12 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontSize: 12,
     letterSpacing: 1,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   form__titleInput: {
     fontSize: 16,
     letterSpacing: -0.25,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   form__switchContainer: {
     paddingBottom: 24,
@@ -103,7 +116,7 @@ export default StyleSheet.create({
   form__switchLabel: {
     flex: 0.8,
     color: colors.white,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
     fontSize: 16,
   },
   form__switchInput: {
@@ -120,7 +133,7 @@ export default StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     letterSpacing: -0.25,
-    fontFamily: typography.fontRegular,
+    fontFamily: fonts.fontRegular,
   },
   gradientBottom: {
     flex: 1,

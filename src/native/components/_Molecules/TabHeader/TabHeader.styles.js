@@ -3,8 +3,19 @@ import { fonts, colors } from '../../../styles';
 
 export default StyleSheet.create({
   container: {
-    borderColor: '#2C263F',
+    borderColor: colors.btnBgBlack,
+    backgroundColor: colors.bgGray,
     borderTopWidth: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  icon: {
+    marginRight: 8,
+    fontSize: 18,
+    color: colors.textGray,
+    alignSelf: 'center',
   },
   title: {
     color: colors.textGray,
@@ -12,7 +23,5 @@ export default StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 15,
-    marginLeft: 15,
-    marginRight: 15,
   },
 });

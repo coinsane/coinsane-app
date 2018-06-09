@@ -9,6 +9,9 @@ import {
   UPDATE_COINS_PERIOD,
 } from '../../actions/action.types';
 
+
+export const getCoinHisto = payload => ({ type: COIN_HISTO_UPDATE, payload });
+
 /**
   * Get course for particular pair and date
   */
@@ -59,9 +62,6 @@ export function getTransactionsList(coinId) {
   * Add Coin
   */
 
-export function getCoinHisto(payload) {
-  return { type: COIN_HISTO_UPDATE, payload };
-}
 
 /**
   * Remove Coin

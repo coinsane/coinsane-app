@@ -22,6 +22,7 @@ export default {
     high: 'МАКС',
     exchanges: 'Обмен',
     news: 'Лента',
+    loadMore: 'ЕЩЕ',
   },
   portfolios: {
     titleChoose: 'Выбрать коллекцию',

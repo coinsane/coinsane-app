@@ -9,7 +9,7 @@ import {
   PORTFOLIOS_ERROR,
   SET_COIN_DATA,
   UPDATE_PERIOD,
-  UPDATE_COLLAPSED,
+  PORTFOLIO_COLLAPSE,
   UPDATE_PORTFOLIO_CHART,
   UPDATE_PORTFOLIO_PERIOD,
   UPDATE_PORTFOLIO_CURRENCY,
@@ -19,6 +19,7 @@ export const updatePortfolios = payload => ({ type: UPDATE_PORTFOLIOS, payload }
 export const updatePortfolioChart = payload => ({ type: UPDATE_PORTFOLIO_CHART, payload });
 export const updatePortfolioPeriod = payload => ({ type: UPDATE_PORTFOLIO_PERIOD, payload });
 export const updatePortfolioCurrency = payload => ({ type: UPDATE_PORTFOLIO_CURRENCY, payload });
+export const updateCollapsed = payload => ({ type: PORTFOLIO_COLLAPSE, payload });
 
 /**
   * Get Totals
@@ -113,11 +114,4 @@ export function updatePeriod(data) {
       data
     }))
     // .catch(e => console.log(e));
-}
-
-export function updateCollapsed(portfolioId) {
-  return {
-    type: UPDATE_COLLAPSED,
-    portfolioId,
-  };
 }

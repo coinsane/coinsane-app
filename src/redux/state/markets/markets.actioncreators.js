@@ -3,7 +3,10 @@ import {
   SEARCH_AVAILABLE_MARKETS,
   CLEAR_MARKETS,
   GET_MARKET_CAP,
+  MARKET_DATA_COLLAPSE,
 } from '../../actions/action.types';
+
+export const updateCollapsed = payload => ({ type: MARKET_DATA_COLLAPSE, payload });
 
 /**
   * Get Market Cap

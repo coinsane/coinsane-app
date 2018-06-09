@@ -22,6 +22,7 @@ export default {
     high: 'HIGH',
     exchanges: 'Markets',
     news: 'News',
+    loadMore: 'LOAD MORE',
   },
   portfolios: {
     titleChoose: 'Choose Portfolio',

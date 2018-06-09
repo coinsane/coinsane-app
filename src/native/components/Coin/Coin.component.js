@@ -21,11 +21,10 @@ class Coin extends Component {
     markets: PropTypes.shape({}).isRequired,
     transactions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     exchanges: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
     transactionsLoading: PropTypes.bool.isRequired,
     transactionsRefreshing: PropTypes.bool.isRequired,
+    refreshing: PropTypes.bool.isRequired,
     transactionsError: PropTypes.string,
-    coinData: PropTypes.shape({}).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
     getCoinMarkets: PropTypes.func.isRequired,
@@ -35,6 +34,7 @@ class Coin extends Component {
     coins: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
+    updateCollapsed: PropTypes.func.isRequired,
     updateCoinsPeriod: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
     periods: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -76,10 +76,8 @@ class Coin extends Component {
       coin,
       market,
       exchanges,
-      coinData,
       addTransaction,
       transactions,
-      transactionsList,
       transactionsLoading,
       transactionsRefreshing,
       transactionsError,
@@ -94,9 +92,12 @@ class Coin extends Component {
       getTransactions,
       periods,
       updateCoinsPeriod,
+      updateCollapsed,
+      collapsedList,
       chart,
       coins,
       markets,
+      refreshing,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -140,6 +141,9 @@ class Coin extends Component {
               updateCoinsPeriod={updateCoinsPeriod}
               exchanges={exchanges}
               periods={periods}
+              updateCollapsed={updateCollapsed}
+              refreshing={refreshing}
+              collapsedList={collapsedList}
             />
           </Tab>
           <Tab heading={tabHeading('Transactions')}>

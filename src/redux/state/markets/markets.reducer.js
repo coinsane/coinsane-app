@@ -12,6 +12,7 @@ import {
   GET_MARKET_CAP_ERROR,
   UPDATE_MARKETS_CACHE,
   MARKET_CHART_UPDATE,
+  MARKET_DATA_COLLAPSE,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -112,18 +113,37 @@ export default function actionReducer(state = initialState, action) {
       const items = { ...state.items };
       if (items[market]) {
         if (!items[market].chart) items[market].chart = {};
-        const dataArr = Object.keys(data).map(key => data[key]);
-        const first = dataArr[0];
+        let first = 0;
+        const dataNoZero = [];
+        const dataArr = Object.keys(data).map((key) => {
+          if (!first && data[key] !== 0) first = data[key];
+          if (data[key] !== 0) dataNoZero.push(data[key]);
+          return data[key];
+        });
+
         const last = dataArr[dataArr.length - 1];
         const subtract = _.subtract(first, last);
         const divide = _.divide(subtract, first);
         const pct = _.multiply(divide, -100);
         items[market].chart[`${range}:${symbol}`] = {
           data,
-          high: _.max(dataArr),
-          low: _.min(dataArr),
+          high: _.max(dataNoZero),
+          low: _.min(dataNoZero),
           pct,
         };
+      }
+      return {
+        ...state,
+        items,
+      };
+    }
+    case MARKET_DATA_COLLAPSE: {
+      const { marketId, collapse } = action.payload;
+      const items = { ...state.items };
+      if (items[marketId]) {
+        if (!items[marketId].collapsed) items[marketId].collapsed = [];
+        if (items[marketId].collapsed.indexOf(collapse) === -1) items[marketId].collapsed.push(collapse);
+        else items[marketId].collapsed.splice(items[marketId].collapsed.indexOf(collapse), 1);
       }
       return {
         ...state,

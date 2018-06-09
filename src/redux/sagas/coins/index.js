@@ -3,6 +3,7 @@ import selectors from '../../selectors';
 import api from '../../../api';
 import {
   COIN_HISTO_UPDATE,
+  COIN_HISTO_UPDATE_SUCCESS,
   COIN_MARKETS_UPDATE,
   COIN_MARKETS_UPDATE_SUCCESS,
   MARKET_CHART_UPDATE,
@@ -31,6 +32,7 @@ export function* coinHistoUpdate(action) {
       data: response.data.data,
     },
   });
+  yield put({ type: COIN_HISTO_UPDATE_SUCCESS });
 }
 
 

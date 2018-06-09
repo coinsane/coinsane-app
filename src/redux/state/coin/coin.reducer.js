@@ -1,4 +1,5 @@
 import {
+  COIN_HISTO_UPDATE,
   COIN_HISTO_UPDATE_SUCCESS,
   COIN_MARKETS_UPDATE_SUCCESS,
   COINS_ERROR,
@@ -11,6 +12,7 @@ import {
 
 export const initialState = {
   loading: true,
+  refreshing: false,
   error: null,
   list: {},
   items: {},
@@ -49,11 +51,20 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
+    case COIN_HISTO_UPDATE: {
+      return {
+        ...state,
+        error: null,
+        loading: true,
+        refreshing: action.payload.refreshing || false,
+      };
+    }
     case COIN_HISTO_UPDATE_SUCCESS: {
       return {
         ...state,
         error: null,
         loading: false,
+        refreshing: false,
         list: action.payload,
       };
     }
@@ -64,14 +75,6 @@ export default function actionReducer(state = initialState, action) {
         transactionsLoading: true,
       };
     }
-    // case GET_AVAILABLE_TRANSACTIONS_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     transactionsError: null,
-    //     transactionsLoading: false,
-    //     transactions: action.payload,
-    //   };
-    // }
     case GET_AVAILABLE_TRANSACTIONS_ERROR: {
       return {
         ...state,
