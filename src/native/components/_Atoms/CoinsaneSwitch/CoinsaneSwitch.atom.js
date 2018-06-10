@@ -27,11 +27,9 @@ CoinsaneSwitch.propTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]).isRequired,
-  onSyncPress: PropTypes.func,
+  onSyncPress: PropTypes.func.isRequired,
 };
 
-CoinsaneSwitch.defaultProps = {
-  onSyncPress: null,
-};
+CoinsaneSwitch.defaultProps = {};
 
 export default CoinsaneSwitch;

@@ -57,6 +57,8 @@ export default {
       fieldAmount: 'Количество',
       fieldPrice: 'Стоимость',
       fieldTotal: 'Сумма',
+      fieldDeduct: 'Вычесть из {{currency}} сбережений',
+      fieldDeductAlt: 'Добавить к {{currency}} сбережениям',
       fieldDate: 'Дата и время',
       placeholderDate: 'Выбор даты',
       placeholderTime: 'Выбор времени',

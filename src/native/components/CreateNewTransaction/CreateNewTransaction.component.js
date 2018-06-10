@@ -14,6 +14,7 @@ import withPreventDoubleClick from '../../../hocs';
 import I18n from '../../../i18n';
 import Modal from '../modal/BaseModal.component';
 import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
+import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import CoinsaneSwitchSelector from '../_Molecules/CoinsaneSwitchSelector/CoinsaneSwitchSelector.molecula';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import Loading from '../Loading/Loading.component';
@@ -91,6 +92,7 @@ class CreateNewTransaction extends Component {
       date: moment().format('YYYY-MM-DD'),
       time: moment().format('HH:mm'),
       type: 'buy',
+      deduct: true,
     });
 
     this.timer = null;
@@ -345,6 +347,24 @@ class CreateNewTransaction extends Component {
       );
     };
 
+    const DeductSwitch = () => {
+      const symbol = draft.type === 'exchange' ? exchange.symbol : currency.code;
+      const deductTitle = draft.type === 'sell' ?
+        I18n.t('transactions.form.fieldDeductAlt', { currency: symbol }) :
+        I18n.t('transactions.form.fieldDeduct', { currency: symbol });
+      return (
+        <View style={base.form__switchContainer}>
+          <Text style={base.form__switchLabel}>{deductTitle}</Text>
+          <View style={base.form__switchInput}>
+            <CoinsaneSwitch
+              onSyncPress={deduct => this.props.updateDraftTransaction({ deduct })}
+              defaultValue={draft.deduct}
+            />
+          </View>
+        </View>
+      )
+    };
+
     const CategorySelector = () => (
       <ListItem style={styles.listItemContainer}>
         <Body>
@@ -397,6 +417,7 @@ class CreateNewTransaction extends Component {
               <CurrencySelector />
               <ExchangeSelector />
               <TotalInput />
+              <DeductSwitch />
               <DateSelector />
               <ListItem itemHeader style={styles.listItemContainer_header}>
                 <Text style={styles.listItem__header}>{I18n.t('transactions.form.labelAdditional')}</Text>

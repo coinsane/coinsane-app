@@ -30,6 +30,7 @@ export const initialState = {
     time: moment().format('HH:mm'),
     category: '',
     note: '',
+    deduct: true,
   },
 };
 

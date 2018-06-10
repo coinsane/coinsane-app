@@ -57,6 +57,8 @@ export default {
       fieldAmount: 'Amount',
       fieldPrice: 'Price by coin',
       fieldTotal: 'Total value, {{currency}}',
+      fieldDeduct: 'Deduct from {{currency}} holdings',
+      fieldDeductAlt: 'Add to {{currency}} holdings',
       fieldDate: 'Date and time',
       placeholderDate: 'Select date',
       placeholderTime: 'Select time',
