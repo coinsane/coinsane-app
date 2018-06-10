@@ -159,7 +159,7 @@ class CoinTabOverview extends Component {
           data={chart.data}
           currency={currency}
         />
-        <View style={styles.period}>
+        <View style={styles.range}>
           { periods.map(key => (
             <CoinsaneButton
               key={key}
@@ -171,7 +171,6 @@ class CoinTabOverview extends Component {
             />
           )) }
         </View>
-        <Spacer size={10} />
         <SummaryCell
           summaryList={summaryList}
         />

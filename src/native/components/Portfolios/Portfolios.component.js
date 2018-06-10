@@ -4,6 +4,7 @@ import { SectionList, View } from 'react-native';
 import { Container, List, Text, Button, Footer, Icon, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import Swiper from 'react-native-swiper';
 import get from 'lodash/get';
 
 import I18n from '../../../i18n';
@@ -13,6 +14,7 @@ import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.compo
 import PortfolioHeader from '../_Molecules/PortfolioHeader/PortfolioHeader.molecula';
 import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import Chart from '../_Organisms/Chart/Chart.component';
+import Pie from '../_Organisms/Pie/Pie.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 import Empty from '../Empty/Empty.component';
@@ -29,6 +31,7 @@ class Portfolios extends Component {
     portfolios: PropTypes.shape({}).isRequired,
     chart: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({}).isRequired,
+    coins: PropTypes.shape({}).isRequired,
 
     selectPortfolio: PropTypes.func.isRequired,
     fetchPortfolios: PropTypes.func.isRequired,
@@ -145,6 +148,67 @@ class Portfolios extends Component {
     });
   }
 
+  pieChartData = () => {
+    const {
+      activePortfolio,
+      portfolios,
+      markets,
+      symbol,
+      coins,
+    } = this.props;
+
+    let portfolioItems = [];
+    if (activePortfolio && portfolios[activePortfolio]) {
+      portfolioItems = portfolios[activePortfolio].data;
+    } else {
+      portfolioItems = Object.keys(portfolios).map(portfolioId => ({
+        value: portfolios[portfolioId].amount,
+        symbol: portfolios[portfolioId].title,
+      }));
+    }
+
+    const pieData = [];
+    const max = 5;
+    let others = 0;
+    let total = 0;
+    const getCoinPrice = (_market) => {
+      return _market.prices ? parseFloat(_market.prices[symbol].price) : 0;
+    };
+    const items = portfolioItems.map((item) => {
+      if (item.value && item.symbol) {
+        total += item.value;
+        return item;
+      }
+      const price = getCoinPrice(markets.items[item.market]);
+      const value = +(coins[item._id].amount * price).toFixed(2);
+      total += value;
+      return {
+        value,
+        symbol: markets.items[item.market].symbol,
+      };
+    });
+
+    items.sort((a, b) => b.value - a.value);
+    items.forEach((item, index) => {
+      if (index + 1 < max) {
+        pieData.push(item);
+      } else if (items.length > max) {
+        others += item.value;
+      } else {
+        pieData.push(item);
+      }
+    });
+
+    if (others) {
+      pieData.push({
+        value: others,
+        symbol: I18n.t('portfolios.others'),
+      });
+    }
+
+    return pieData.map(item => ({ ...item, pct: (item.value / total) * 100 }));
+  };
+
   renderHeader = () => {
     const {
       currencies,
@@ -160,21 +224,17 @@ class Portfolios extends Component {
     const low = chart.low && nFormat(chart.low, decimal);
     const high = chart.high && nFormat(chart.high, decimal);
 
-    return (
-      <View>
-        <CoinsaneSummary
-          value={nFormat(this.portfolioTotal(), currency.decimal)}
-          currency={currency}
-          buttons={Object.keys(currencies)}
-          subValue={round(chart.pct, 2)}
-          updateCurrency={this.updateCurrency}
-          leftTitle={I18n.t('coins.low')}
-          leftValue={low}
-          rightTitle={I18n.t('coins.high')}
-          rightValue={high}
+    const SlidePie = () => (
+      <View style={styles.slide}>
+        <Pie
+          data={this.pieChartData()}
           loading={loading}
-          error={error}
         />
+      </View>
+    );
+
+    const SlideChart = () => (
+      <View style={styles.slide}>
         <Chart
           data={chart.data}
           currency={currency}
@@ -192,6 +252,35 @@ class Portfolios extends Component {
             />
           )) }
         </View>
+      </View>
+    );
+
+    return (
+      <View style={{ marginBottom: 15 }}>
+        <CoinsaneSummary
+          value={nFormat(this.portfolioTotal(), currency.decimal)}
+          currency={currency}
+          buttons={Object.keys(currencies)}
+          subValue={round(chart.pct, 2)}
+          updateCurrency={this.updateCurrency}
+          leftTitle={I18n.t('coins.low')}
+          leftValue={low}
+          rightTitle={I18n.t('coins.high')}
+          rightValue={high}
+          loading={loading}
+          error={error}
+        />
+        <Swiper
+          index={0}
+          height={180}
+          dot={<View style={styles.dot} />}
+          activeDot={<View style={styles.dotActive} />}
+          paginationStyle={styles.pagination}
+          loop={false}
+        >
+          <SlideChart />
+          <SlidePie />
+        </Swiper>
       </View>
     );
   };

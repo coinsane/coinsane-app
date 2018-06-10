@@ -7014,6 +7014,12 @@ react-native-svg@6.3.1:
     lodash "^4.16.6"
     pegjs "^0.10.0"
 
+react-native-swiper@^1.5.13:
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.13.tgz#fa695cd4ab77b9a9df2d2bfee38ea7274dd07a2e"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-switch-pro@^0.4.8:
   version "0.4.8"
   resolved "https://registry.yarnpkg.com/react-native-switch-pro/-/react-native-switch-pro-0.4.8.tgz#e4346bbc748239e46e93e6faad67628834e9a8e6"

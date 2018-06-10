@@ -40,6 +40,7 @@ export default {
       fieldRemoveDesc: 'Are you sure?',
       buttonRemove: 'Delete',
     },
+    others: 'Others',
   },
   transactions: {
     titleAdd: 'Add new transaction',

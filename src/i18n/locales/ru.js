@@ -40,6 +40,7 @@ export default {
       fieldRemoveDesc: 'Вы уверены?',
       buttonRemove: 'Удалить',
     },
+    others: 'Другие',
   },
   transactions: {
     titleAdd: 'Добавить транзакцию',

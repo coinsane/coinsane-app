@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    height: 140,
-    marginBottom: 20,
+    height: 120,
+    // marginBottom: 20,
     flex: 1,
     flexDirection: 'column',
     flexWrap: 'nowrap',

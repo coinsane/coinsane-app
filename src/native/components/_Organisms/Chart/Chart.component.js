@@ -57,8 +57,8 @@ class Chart extends Component {
     const CustomGrid = () => (
       <G>
         <Line x1="0%" x2="100%" y1={1} y2={1} stroke={colors.blackBorder} />
-        <Line x1="0%" x2="100%" y1={76} y2={76} stroke={colors.blackBorder} />
-        <Line x1="0%" x2="100%" y1={139} y2={139} stroke={colors.blackBorder} />
+        <Line x1="0%" x2="100%" y1={66} y2={66} stroke={colors.blackBorder} />
+        <Line x1="0%" x2="100%" y1={119} y2={119} stroke={colors.blackBorder} />
       </G>
     );
 
@@ -70,6 +70,8 @@ class Chart extends Component {
         </LinearGradient>
       </Defs>
     );
+
+    if (loading) return <Loading style={styles.loading} size={25} />;
 
     return (
       <View style={styles.container}>
@@ -83,24 +85,20 @@ class Chart extends Component {
           }}
           formatLabel={value => nFormat(value, currency.decimal)}
         />
-        {
-          loading ?
-            <Loading style={styles.loading} size={25} /> :
-            <AreaChart
-              // animate
-              style={{ flex: 1 }}
-              data={dataPoints}
-              svg={{
-                stroke: dataColor,
-                fill: 'url(#gradient)',
-              }}
-              contentInset={chartInset}
-              curve={shape.curveLinear}
-            >
-              <Gradient />
-              <CustomGrid belowChart />
-            </AreaChart>
-        }
+        <AreaChart
+          // animate
+          style={{ flex: 1 }}
+          data={dataPoints}
+          svg={{
+            stroke: dataColor,
+            fill: 'url(#gradient)',
+          }}
+          contentInset={chartInset}
+          curve={shape.curveLinear}
+        >
+          <Gradient />
+          <CustomGrid belowChart />
+        </AreaChart>
       </View>
     );
   }

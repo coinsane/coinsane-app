@@ -21,6 +21,7 @@ class Portfolios extends Component {
       items: PropTypes.shape({}),
     }).isRequired,
     markets: PropTypes.shape({}).isRequired,
+    coin: PropTypes.shape({}).isRequired,
     navigation: PropTypes.shape({
       drawer: PropTypes.shape({}),
     }).isRequired,
@@ -116,6 +117,7 @@ class Portfolios extends Component {
       match,
       settings,
       markets,
+      coin,
     } = this.props;
 
     const id = match.params && match.params.portfolioId ? match.params.portfolioId : null;
@@ -160,6 +162,7 @@ class Portfolios extends Component {
         updatePeriod={this.props.updatePeriod}
 
         markets={markets}
+        coins={coin.items}
       />
     );
   }
@@ -169,6 +172,7 @@ const mapStateToProps = state => ({
   navigation: state.navigation,
   portfolios: state.portfolios,
   markets: state.markets,
+  coin: state.coin,
   settings: state.settings,
   auth: state.auth,
 });
