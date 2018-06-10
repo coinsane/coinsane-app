@@ -128,7 +128,7 @@ class Coin extends Component {
           leftIcon="Back"
           title={<HeaderTitle />}
         />
-        <Tabs style={{ backgroundColor: colors.bgGray }} tabBarUnderlineStyle={{ height: 1 }}>
+        <Tabs locked style={{ backgroundColor: colors.bgGray }} tabBarUnderlineStyle={{ height: 1 }}>
           <Tab heading={tabHeading('Overview')}>
             <CoinTabOverview
               error={error}
