@@ -69,7 +69,9 @@ class Portfolios extends Component {
 
   getChart = () => {
     const { portfolios, settings } = this.props;
-    return get(portfolios, `chart[${portfolios.selected}][${portfolios.period}:${settings.currency}]`, {
+    const activePortfolio = portfolios.selected || 'all';
+    const period = portfolios.period || '1d';
+    return get(portfolios, `chart[${activePortfolio}][${period}:${settings.currency}]`, {
       data: {},
       low: 0,
       high: 0,

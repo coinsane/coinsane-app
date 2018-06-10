@@ -1,10 +1,9 @@
 import get from 'lodash/get';
-import { delay } from 'redux-saga';
 import { put, call, takeLatest, select, takeEvery } from 'redux-saga/effects';
-import { round } from '../../../lib/utils';
-import { transactions } from '../../actions';
-import api from '../../../api';
-import selectors from '../../selectors';
+import { round } from '../../lib/utils';
+import { transactions } from '../actions';
+import api from '../../api';
+import selectors from '../selectors';
 import {
   GET_PRICE,
   GET_TRANSACTION_PRICE_SUCCESS,
@@ -20,7 +19,7 @@ import {
   TRANSACTIONS_ADD,
   UPDATE_COINS_CACHE,
   CLEAR_DRAFT_TRANSACTION,
-} from '../../actions/action.types';
+} from '../actions/action.types';
 
 /**
  * action.payload: { coinId, refreshing }

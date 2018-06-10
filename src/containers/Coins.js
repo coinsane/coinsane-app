@@ -5,8 +5,8 @@ import { Actions } from 'react-native-router-flux';
 import get from 'lodash/get';
 
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
-import { getPrice, removeCoin, getCoinHisto, setCoinsError, getCoinMarkets, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
-import { getAvailableMarkets, clearMarkets, getMarketCap, updateCollapsed } from '../redux/state/markets/markets.actioncreators';
+import { getPrice, removeCoin, getCoinHisto, setCoinsError, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
+import { getAvailableMarkets, clearMarkets, getMarketCap, updateCollapsed, getExchanges, loadMoreExchanges } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
 import { getTransactions, updateDraftTransaction, addTransaction } from '../redux/state/transactions/transactions.actioncreators';
@@ -42,6 +42,7 @@ class Coins extends Component {
     updatePortfolioPeriod: PropTypes.func.isRequired,
     updatePortfolioCurrency: PropTypes.func.isRequired,
 
+    loadMoreExchanges: PropTypes.func.isRequired,
     clearMarkets: PropTypes.func.isRequired,
     getMarketCap: PropTypes.func.isRequired,
     markets: PropTypes.shape({
@@ -61,7 +62,7 @@ class Coins extends Component {
     selectPortfolio: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
     getCoinHisto: PropTypes.func.isRequired,
-    getCoinMarkets: PropTypes.func.isRequired,
+    getExchanges: PropTypes.func.isRequired,
     setCoinData: PropTypes.func.isRequired,
     selectCurrency: PropTypes.func.isRequired,
     updatePeriod: PropTypes.func.isRequired,
@@ -114,6 +115,16 @@ class Coins extends Component {
       high: 0,
       pct: 0,
     });
+  };
+
+  getExchanges = () => {
+    const { match } = this.props;
+    const market = get(match, 'params.market', {});
+    return market && market.exchanges ? market.exchanges : {
+      list: [],
+      loading: false,
+      count: 0,
+    };
   };
 
   getCollapsed = () => {
@@ -213,8 +224,9 @@ class Coins extends Component {
         getMarketCap={this.props.getMarketCap}
         removeCoin={this.props.removeCoin}
         getCoinHisto={this.props.getCoinHisto}
-        getCoinMarkets={this.props.getCoinMarkets}
-        exchanges={coin.markets}
+        getExchanges={this.props.getExchanges}
+        exchanges={this.getExchanges()}
+        loadMoreExchanges={this.props.loadMoreExchanges}
         settings={settings}
         markets={markets}
         periods={settings.periods}
@@ -253,7 +265,7 @@ const mapDispatchToProps = {
   addPortfolio,
   removeCoin,
   getCoinHisto,
-  getCoinMarkets,
+  getExchanges,
   setCoinsError,
   setCoinData,
   selectCurrency,
@@ -265,6 +277,7 @@ const mapDispatchToProps = {
   clearMarkets,
   getMarketCap,
   updateCoinsPeriod,
+  loadMoreExchanges,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Coins);

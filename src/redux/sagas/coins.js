@@ -1,13 +1,11 @@
 import { takeLatest, put, call, select } from 'redux-saga/effects';
-import selectors from '../../selectors';
-import api from '../../../api';
+import selectors from '../selectors';
+import api from '../../api';
 import {
   COIN_HISTO_UPDATE,
   COIN_HISTO_UPDATE_SUCCESS,
-  COIN_MARKETS_UPDATE,
-  COIN_MARKETS_UPDATE_SUCCESS,
   MARKET_CHART_UPDATE,
-} from '../../../redux/actions/action.types';
+} from '../../redux/actions/action.types';
 
 /**
  * Fetch Markets side effect.
@@ -16,7 +14,7 @@ import {
  */
 export function* coinHistoUpdate(action) {
   const {
-    market,
+    marketId,
     fsym,
     tsym,
     range,
@@ -26,7 +24,7 @@ export function* coinHistoUpdate(action) {
   yield put({
     type: MARKET_CHART_UPDATE,
     payload: {
-      market,
+      marketId,
       range,
       symbol,
       data: response.data.data,
@@ -35,14 +33,7 @@ export function* coinHistoUpdate(action) {
   yield put({ type: COIN_HISTO_UPDATE_SUCCESS });
 }
 
-
-export function* coinMarketsUpdate(action) {
-  const response = yield call(api.coins.getCoinMarkets, action.payload);
-  yield put({ type: COIN_MARKETS_UPDATE_SUCCESS, payload: response.data.data.markets });
-}
-
 // for rootSaga
 export default [
   takeLatest(COIN_HISTO_UPDATE, coinHistoUpdate),
-  takeLatest(COIN_MARKETS_UPDATE, coinMarketsUpdate),
 ];

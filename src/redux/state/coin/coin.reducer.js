@@ -1,7 +1,6 @@
 import {
   COIN_HISTO_UPDATE,
   COIN_HISTO_UPDATE_SUCCESS,
-  COIN_MARKETS_UPDATE_SUCCESS,
   COINS_ERROR,
   GET_AVAILABLE_TRANSACTIONS,
   GET_AVAILABLE_TRANSACTIONS_ERROR,
@@ -80,14 +79,6 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         transactionsError: action.payload,
         transactionsLoading: false,
-      };
-    }
-    case COIN_MARKETS_UPDATE_SUCCESS: {
-      return {
-        ...state,
-        error: null,
-        loading: false,
-        markets: action.payload,
       };
     }
     case COINS_ERROR: {

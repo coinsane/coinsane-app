@@ -20,14 +20,15 @@ class Coin extends Component {
     market: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({}).isRequired,
     transactions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    exchanges: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    exchanges: PropTypes.shape({}).isRequired,
     transactionsLoading: PropTypes.bool.isRequired,
     transactionsRefreshing: PropTypes.bool.isRequired,
     refreshing: PropTypes.bool.isRequired,
     transactionsError: PropTypes.string,
     getCoinHisto: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
-    getCoinMarkets: PropTypes.func.isRequired,
+    loadMoreExchanges: PropTypes.func.isRequired,
+    getExchanges: PropTypes.func.isRequired,
     getTransactions: PropTypes.func.isRequired,
     symbol: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
@@ -44,7 +45,6 @@ class Coin extends Component {
     error: null,
     id: null,
     coin: null,
-    transactionsList: [{}],
     transactionsError: null,
   };
 
@@ -56,17 +56,20 @@ class Coin extends Component {
       currencies,
       symbol,
       period,
+      getExchanges,
     } = this.props;
 
     const fsym = market.symbol;
+    const marketId = market._id;
     let tsym = symbol;
 
     if (market.symbol === symbol) {
       tsym = Object.keys(currencies).filter(key => key !== market.symbol)[0];
       updateCurrency(tsym);
+      getExchanges({ marketId, fsym, tsym });
     }
 
-    getCoinHisto({ market: market._id, fsym, tsym, range: period });
+    getCoinHisto({ marketId, fsym, tsym, range: period });
   }
 
   render() {
@@ -87,7 +90,7 @@ class Coin extends Component {
       updateCurrency,
       getPrice,
       currency,
-      getCoinMarkets,
+      getExchanges,
       period,
       getTransactions,
       periods,
@@ -95,6 +98,7 @@ class Coin extends Component {
       updateCollapsed,
       collapsedList,
       chart,
+      loadMoreExchanges,
       coins,
       markets,
       refreshing,
@@ -137,13 +141,14 @@ class Coin extends Component {
               currencies={currencies}
               updateCurrency={updateCurrency}
               period={period}
-              getCoinMarkets={getCoinMarkets}
+              getExchanges={getExchanges}
               updateCoinsPeriod={updateCoinsPeriod}
               exchanges={exchanges}
               periods={periods}
               updateCollapsed={updateCollapsed}
               refreshing={refreshing}
               collapsedList={collapsedList}
+              loadMoreExchanges={loadMoreExchanges}
             />
           </Tab>
           <Tab heading={tabHeading('Transactions')}>

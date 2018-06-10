@@ -4,7 +4,7 @@ import {
   GET_PAGES,
   GET_PAGES_SUCCESS,
   GET_PAGES_ERROR,
-} from '../../../redux/actions/action.types';
+} from '../../redux/actions/action.types';
 
 export function* getPagesSaga() {
   try {

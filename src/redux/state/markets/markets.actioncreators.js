@@ -4,17 +4,24 @@ import {
   CLEAR_MARKETS,
   GET_MARKET_CAP,
   MARKET_DATA_COLLAPSE,
+  EXCHANGES_UPDATE,
+  EXCHANGES_LOAD_MORE,
 } from '../../actions/action.types';
 
 export const updateCollapsed = payload => ({ type: MARKET_DATA_COLLAPSE, payload });
 
+
+/**
+ * Get markets for particular coin
+ */
+export const getExchanges = payload => ({ type: EXCHANGES_UPDATE, payload });
+
+export const loadMoreExchanges = payload => ({ type: EXCHANGES_LOAD_MORE, payload });
+
 /**
   * Get Market Cap
   */
-export const getMarketCap = payload => ({
-  type: GET_MARKET_CAP,
-  payload,
-});
+export const getMarketCap = payload => ({ type: GET_MARKET_CAP, payload });
 
 /**
   * Get All Markets

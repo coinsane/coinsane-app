@@ -9,7 +9,6 @@ const MarketInfoCell = ({ item, isFirst }) => {
     pair,
     volume,
     price,
-    changePct,
   } = item;
   return (
     <View>
@@ -19,7 +18,6 @@ const MarketInfoCell = ({ item, isFirst }) => {
           <Text style={[styles.col1, styles.headerText]}>Source</Text>
           <Text style={[styles.col2, styles.headerText]}>Vol(24h)</Text>
           <Text style={[styles.col3, styles.headerText]}>Price</Text>
-          <Text style={[styles.col4, styles.headerText]}>Vol(%)</Text>
         </View>
       }
       <View style={styles.row}>
@@ -29,7 +27,6 @@ const MarketInfoCell = ({ item, isFirst }) => {
         </View>
         <Text style={[styles.col2, styles.body]}>{volume}</Text>
         <Text style={[styles.col3, styles.body]}>{price}</Text>
-        <Text style={[styles.col4, styles.body]}>{changePct}</Text>
       </View>
     </View>
   );

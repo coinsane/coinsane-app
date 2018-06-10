@@ -1,6 +1,6 @@
 import { takeLatest, put, call, select } from 'redux-saga/effects';
-import api from '../../../api';
-import selectors from '../../selectors';
+import api from '../../api';
+import selectors from '../selectors';
 import {
   UPDATE_PORTFOLIOS,
   PORTFOLIO_UPDATE,
@@ -25,7 +25,7 @@ import {
   PORTFOLIO_ADD,
   PORTFOLIO_ADD_SUCCESS,
   PORTFOLIO_ADD_ERROR,
-} from '../../../redux/actions/action.types';
+} from '../../redux/actions/action.types';
 
 /**
  * Fetch Markets side effect.
@@ -78,7 +78,9 @@ export function* updatePortfoliosSaga(action) {
 
 export function* updatePortfolioChartSaga(action) {
   try {
-    const { period: range, portfolio: portfolioId } = action.payload;
+    const { period, portfolio } = action.payload;
+    const portfolioId = portfolio || 'all';
+    const range = period || '1d';
     let { symbol } = action.payload;
     if (!symbol) symbol = yield select(selectors.getSymbol);
     const { totals } = yield call(api.portfolios.fetchTotals, {
@@ -102,7 +104,9 @@ export function* updatePortfolioChartSaga(action) {
 
 export function* updatePortfolioCurrencySaga(action) {
   try {
-    const { period: range, portfolio: portfolioId } = action.payload;
+    const { period, portfolio } = action.payload;
+    const portfolioId = portfolio || 'all';
+    const range = period || '1d';
     let { symbol } = action.payload;
     if (!symbol) {
       symbol = yield select(selectors.getSymbol);
@@ -130,7 +134,9 @@ export function* updatePortfolioCurrencySaga(action) {
 
 export function* updatePortfolioPeriodSaga(action) {
   try {
-    const { period: range, portfolio: portfolioId } = action.payload;
+    const { period, portfolio } = action.payload;
+    const portfolioId = portfolio || 'all';
+    const range = period || '1d';
     let { symbol } = action.payload;
     if (!symbol) {
       symbol = yield select(selectors.getSymbol);

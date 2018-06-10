@@ -114,11 +114,12 @@ export default function actionReducer(state = initialState, action) {
     }
     case UPDATE_PORTFOLIO_CHART_SUCCESS: {
       const {
-        portfolioId = 'all',
-        range = '1d',
+        portfolioId,
+        range,
         symbol,
         totals,
       } = action.payload;
+      console.log('portfolioId', portfolioId);
       const chart = { ...state.chart };
       if (!chart[portfolioId]) chart[portfolioId] = {};
       let first = 0;

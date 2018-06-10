@@ -6,20 +6,14 @@ export const addTransaction = transaction => axios.post('/coins', transaction);
 
 export const getPrice = ({ fsym, tsyms, date }) => axios.get('/price', { params: { fsym, tsyms, date } });
 
-export const getCoinHisto = async ({ fsym, tsym, range }) => {
+export const getCoinHisto = ({ fsym, tsym, range }) => axios.get('/histo', { params: { fsym, tsym, range } });
+
+export const getExchanges = async (params) => {
   try {
-    return await axios.get('/histo', { params: { fsym, tsym, range } });
+    const { data } = await axios.get('/market/exchanges', { params });
+    return data;
   } catch (e) {
-    // yield put(fetchFailed(e));
     return null;
-  }
-};
-export const getCoinMarkets = async ({ fsym, tsym }) => {
-  try {
-    return await axios.get('/market/list', { params: { fsym, tsym } });
-  } catch (e) {
-    // yield put(fetchFailed(e));
-    return;
   }
 };
 

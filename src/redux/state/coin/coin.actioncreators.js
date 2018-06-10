@@ -5,7 +5,6 @@ import {
   PORTFOLIO_COIN_REMOVED,
   COINS_ERROR,
   GET_AVAILABLE_TRANSACTIONS,
-  COIN_MARKETS_UPDATE,
   UPDATE_COINS_PERIOD,
 } from '../../actions/action.types';
 
@@ -26,18 +25,6 @@ export function getPrice({ fsym, tsyms, date }) {
   };
 }
 
-/**
-  * Get markets for particular coin
-  */
-export function getCoinMarkets({ fsym, tsym }) {
-  return {
-    type: COIN_MARKETS_UPDATE,
-    payload: {
-      fsym,
-      tsym,
-    },
-  };
-}
 /**
   * Update period for coins chart
   */

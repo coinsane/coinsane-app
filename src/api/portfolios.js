@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const fetchTotals = data => new Promise(async (resolve, reject) => {
-  const { portfolioId, range, symbol } = data;
+  const { portfolioId = 'all', range, symbol } = data;
   const response = await axios.get('/totals', { params: { portfolioId, range, symbol } });
   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);
   return resolve(response.data.response);

@@ -1,7 +1,6 @@
 import { delay } from 'redux-saga';
-import { takeLatest, put, call, select } from 'redux-saga/effects';
-import selectors from '../../selectors';
-import api from '../../../api';
+import { takeLatest, put, call } from 'redux-saga/effects';
+import api from '../../api';
 import {
   GET_AVAILABLE_MARKETS,
   GET_AVAILABLE_MARKETS_SUCCESS,
@@ -10,7 +9,10 @@ import {
   GET_MARKET_CAP,
   GET_MARKET_CAP_SUCCESS,
   GET_MARKET_CAP_ERROR,
-} from '../../../redux/actions/action.types';
+  EXCHANGES_UPDATE,
+  EXCHANGES_UPDATE_SUCCESS,
+  EXCHANGES_UPDATE_ERROR,
+} from '../../redux/actions/action.types';
 
 /**
  * Fetch Markets side effect.
@@ -90,8 +92,20 @@ export function* searchAvailableMarkets(action) {
   }
 }
 
+export function* marketsExchangeUpdate(action) {
+  try {
+    const { marketId } = action.payload;
+    const { success, exchanges, message } = yield call(api.coins.getExchanges, action.payload);
+    if (success) yield put({ type: EXCHANGES_UPDATE_SUCCESS, payload: { marketId, exchanges } });
+    else yield put({ type: EXCHANGES_UPDATE_ERROR, payload: message });
+  } catch (e) {
+    yield put({ type: EXCHANGES_UPDATE_ERROR, payload: '500' });
+  }
+}
+
 export default [
   takeLatest(GET_MARKET_CAP, getMarketCap),
   takeLatest(GET_AVAILABLE_MARKETS, fetchAvailableMarkets),
   takeLatest(SEARCH_AVAILABLE_MARKETS, searchAvailableMarkets),
+  takeLatest(EXCHANGES_UPDATE, marketsExchangeUpdate),
 ];

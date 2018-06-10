@@ -36,7 +36,6 @@ class Portfolios extends Component {
     updatePortfolioPeriod: PropTypes.func.isRequired,
     updatePortfolioCurrency: PropTypes.func.isRequired,
 
-    changePct: PropTypes.number.isRequired,
     drawer: PropTypes.shape({}).isRequired,
     addCoin: PropTypes.func.isRequired,
     removeCoin: PropTypes.func.isRequired,
@@ -60,6 +59,7 @@ class Portfolios extends Component {
   constructor(props) {
     super(props);
     this.updateCurrency = this.updateCurrency.bind(this);
+    this.updatePeriod = this.updatePeriod.bind(this);
   }
 
   handleRefresh = () => {

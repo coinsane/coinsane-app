@@ -46,16 +46,14 @@ export default StyleSheet.create({
     flex: 1,
   },
   col1: {
-    flex: 0.32,
+    flex: 0.36,
   },
   col2: {
-    flex: 0.26,
+    flex: 0.32,
+    textAlign: 'right',
   },
   col3: {
-    flex: 0.26,
-  },
-  col4: {
-    flex: 0.16,
+    flex: 0.32,
     textAlign: 'right',
   },
 });

@@ -13,6 +13,9 @@ import {
   UPDATE_MARKETS_CACHE,
   MARKET_CHART_UPDATE,
   MARKET_DATA_COLLAPSE,
+  EXCHANGES_UPDATE,
+  EXCHANGES_UPDATE_SUCCESS,
+  EXCHANGES_LOAD_MORE,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -109,10 +112,10 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case MARKET_CHART_UPDATE: {
-      const { market, range, symbol, data } = action.payload;
+      const { marketId, range, symbol, data } = action.payload;
       const items = { ...state.items };
-      if (items[market]) {
-        if (!items[market].chart) items[market].chart = {};
+      if (items[marketId]) {
+        if (!items[marketId].chart) items[marketId].chart = {};
         let first = 0;
         const dataNoZero = [];
         const dataArr = Object.keys(data).map((key) => {
@@ -125,7 +128,7 @@ export default function actionReducer(state = initialState, action) {
         const subtract = _.subtract(first, last);
         const divide = _.divide(subtract, first);
         const pct = _.multiply(divide, -100);
-        items[market].chart[`${range}:${symbol}`] = {
+        items[marketId].chart[`${range}:${symbol}`] = {
           data,
           high: _.max(dataNoZero),
           low: _.min(dataNoZero),
@@ -188,6 +191,40 @@ export default function actionReducer(state = initialState, action) {
         error: true,
         loading: false,
         list: [],
+      };
+    }
+    case EXCHANGES_UPDATE: {
+      const { marketId } = action.payload;
+      const items = { ...state.items };
+      if (!items[marketId].exchanges) items[marketId].exchanges = {};
+      items[marketId].exchanges.loading = true;
+      items[marketId].exchanges.page = 0;
+      return {
+        ...state,
+        items,
+      };
+    }
+    case EXCHANGES_UPDATE_SUCCESS: {
+      const { marketId, exchanges } = action.payload;
+      const items = { ...state.items };
+      if (items[marketId]) {
+        if (!items[marketId].exchanges) items[marketId].exchanges = {};
+        items[marketId].exchanges.list = _.chunk(exchanges, 5);
+        items[marketId].exchanges.count = items[marketId].exchanges.list.length;
+        items[marketId].exchanges.loading = false;
+      }
+      return {
+        ...state,
+        items,
+      };
+    }
+    case EXCHANGES_LOAD_MORE: {
+      const { marketId } = action.payload;
+      const items = { ...state.items };
+      items[marketId].exchanges.page += 1;
+      return {
+        ...state,
+        items,
       };
     }
     case CLEAR_MARKETS: {

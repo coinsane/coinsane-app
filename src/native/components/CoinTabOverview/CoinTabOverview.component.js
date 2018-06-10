@@ -13,9 +13,13 @@ import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
 import MarketInfoCell from '../_Molecules/MarketInfoCell/MarketInfoCell.molecula';
 import TabHeader from '../_Molecules/TabHeader/TabHeader.molecula';
 import Chart from '../_Organisms/Chart/Chart.component';
+import Loading from '../Loading/Loading.component';
 
 import styles from './CoinTabOverview.styles';
 import { base } from '../../styles';
+import withPreventDoubleClick from '../../../hocs';
+
+const ButtonEx = withPreventDoubleClick(Button);
 
 class CoinTabOverview extends Component {
   static propTypes = {
@@ -27,48 +31,50 @@ class CoinTabOverview extends Component {
       pct: PropTypes.number,
     }).isRequired,
     getCoinHisto: PropTypes.func.isRequired,
-    getCoinMarkets: PropTypes.func.isRequired,
+    getExchanges: PropTypes.func.isRequired,
     updateCoinsPeriod: PropTypes.func.isRequired,
     currency: PropTypes.shape({}).isRequired,
     symbol: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
-    exchanges: PropTypes.arrayOf(PropTypes.shape({})),
+    exchanges: PropTypes.shape({}).isRequired,
     collapsedList: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
+    loadMoreExchanges: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
     periods: PropTypes.arrayOf(PropTypes.string).isRequired,
     refreshing: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
-    error: null,
-    exchanges: [],
   };
 
   componentDidMount() {
     const {
       market,
-      getCoinMarkets,
+      getExchanges,
       symbol: tsym,
     } = this.props;
 
     const fsym = market.symbol;
+    const marketId = market._id;
 
-    getCoinMarkets({ fsym, tsym });
+    getExchanges({ marketId, fsym, tsym });
   }
 
   updateCurrency = (tsym) => {
     const {
       market,
       getCoinHisto,
-      getCoinMarkets,
+      getExchanges,
       updateCurrency,
-      period,
+      period: range,
     } = this.props;
+    const fsym = market.symbol;
+    const marketId = market._id;
     updateCurrency(tsym);
-    getCoinHisto({ market: market._id, fsym: market.symbol, tsym, range: period });
-    getCoinMarkets({ fsym: market.symbol, tsym });
+    getCoinHisto({ marketId, fsym, tsym, range });
+    getExchanges({ marketId, fsym, tsym });
   };
 
   updatePeriod = (range) => {
@@ -76,17 +82,19 @@ class CoinTabOverview extends Component {
       market,
       getCoinHisto,
       updateCoinsPeriod,
-      symbol,
+      symbol: tsym,
     } = this.props;
+    const marketId = market._id;
+    const fsym = market.symbol;
     updateCoinsPeriod(range);
-    getCoinHisto({ market: market._id, fsym: market.symbol, tsym: symbol, range });
+    getCoinHisto({ marketId, fsym, tsym, range });
   };
 
   handleRefresh = () => {
     const {
       refreshing,
       market,
-      getCoinMarkets,
+      getExchanges,
       getCoinHisto,
       symbol: tsym,
       period: range,
@@ -94,8 +102,9 @@ class CoinTabOverview extends Component {
 
     if (!refreshing) {
       const fsym = market.symbol;
-      getCoinHisto({ market: market._id, fsym, tsym, range, refreshing: true });
-      getCoinMarkets({ fsym, tsym });
+      const marketId = market._id;
+      getCoinHisto({ marketId, fsym, tsym, range, refreshing: true });
+      getExchanges({ marketId, fsym, tsym });
     }
   };
 
@@ -196,24 +205,55 @@ class CoinTabOverview extends Component {
   renderSeparator = () => <Spacer size={15} />;
 
   renderSectionFooter = ({ section }) => {
-    const loadMore = true;
-    return !this.isCollapsed(section.type) && (
-      loadMore ?
+    if (this.isCollapsed(section.type)) return null;
+    const {
+      exchanges,
+      market,
+    } = this.props;
+
+    if (section.type === 'exchanges') {
+      if (exchanges.loading) return <Loading size={25} />;
+      const loadMore = exchanges.count > exchanges.page + 1;
+      return loadMore ?
         <View style={[base.list__buttonContainer, styles.buttonContainer]}>
           <Spacer size={20} />
-          <Button
+          <ButtonEx
             small
             bordered
             full
             style={base.list__button}
-            // onPress={() => ()}
+            onPress={() => this.props.loadMoreExchanges({ marketId: market._id })}
           >
             <Text style={base.list__buttonText}>{I18n.t('coins.loadMore')}</Text>
-          </Button>
+          </ButtonEx>
         </View> :
-        <Spacer size={30} />
-    );
+        <Spacer size={30} />;
+    }
+    return <Spacer size={30} />;
   };
+
+  getSectionData(name) {
+    const {
+      market,
+      symbol,
+      exchanges,
+    } = this.props;
+    if (this.isCollapsed(name)) return [];
+    let list = [];
+    if (exchanges.list) {
+      exchanges.list.forEach((listItem, index) => {
+        if (index < exchanges.page + 1) {
+          list = [...list, ...listItem.map(item => ({
+            source: item.market,
+            pair: `${market.symbol}/${symbol}`,
+            volume: nFormat(item.volume, 2),
+            price: nFormat(parseFloat(item.price), 2),
+          }))];
+        }
+      });
+    }
+    return list;
+  }
 
   render() {
     const {
@@ -227,13 +267,10 @@ class CoinTabOverview extends Component {
       {
         title: I18n.t('coins.exchanges'),
         type: 'exchanges',
-        data: !this.isCollapsed('exchanges') ? exchanges.map(exchange => ({
-          source: exchange.market,
-          pair: `${market.symbol}/${symbol}`,
-          volume: nFormat(exchange.volume, 2),
-          price: nFormat(parseFloat(exchange.price), 2),
-          changePct: 0,
-        })) : [],
+        loading: exchanges.loading,
+        count: exchanges.count,
+        page: 0,
+        data: this.getSectionData('exchanges'),
       },
       // {
       //   title: I18n.t('coins.news'),
