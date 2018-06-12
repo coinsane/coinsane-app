@@ -4,6 +4,8 @@ export const getTransactions = ({ coinId }) => axios.get('/transactions', { para
 
 export const addTransaction = transaction => axios.post('/coins', transaction);
 
+export const removeTransaction = ({ transactionId }) => axios.delete('/transaction', { data: { transactionId } });
+
 export const getPrice = ({ fsym, tsyms, date }) => axios.get('/price', { params: { fsym, tsyms, date } });
 
 export const getCoinHisto = ({ fsym, tsym, range }) => axios.get('/histo', { params: { fsym, tsym, range } });
@@ -17,6 +19,7 @@ export const getExchanges = async (params) => {
   }
 };
 
+export const removeCoin = ({ coinId }) => axios.delete('/coins', { data: { coinId } });
 
 export const fetchCoins = portfolioId => new Promise(async (resolve) => {
   resolve(portfolioId);

@@ -1,6 +1,7 @@
 import {
   GET_AVAILABLE_TRANSACTIONS,
   TRANSACTIONS_ADD,
+  TRANSACTIONS_REMOVE,
   UPDATE_DRAFT_TRANSACTION,
   CLEAR_DRAFT_TRANSACTION,
   RECALCULATE,
@@ -13,6 +14,8 @@ export const clearDraftTransaction = () => ({ type: CLEAR_DRAFT_TRANSACTION, pay
 export const recalculate = payload => ({ type: RECALCULATE, payload });
 
 export const addTransaction = payload => ({ type: TRANSACTIONS_ADD, payload });
+
+export const delTransaction = payload => ({ type: TRANSACTIONS_REMOVE, payload });
 
 /**
  * Get user transactions for particular coin

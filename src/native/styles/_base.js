@@ -55,6 +55,8 @@ export default StyleSheet.create({
   },
   list__buttonContainer: {
     marginBottom: 15,
+    marginLeft: 15,
+    marginRight: 15,
   },
   list__button: {
     borderWidth: 1,

@@ -31,6 +31,7 @@ export const SEARCH_AVAILABLE_MARKETS_SUCCESS = '[api] SEARCH_AVAILABLE_MARKETS_
 export const SEARCH_AVAILABLE_MARKETS_ERROR = '[api] SEARCH_AVAILABLE_MARKETS_ERROR';
 export const CLEAR_MARKETS = '[coins] CLEAR_MARKETS';
 export const UPDATE_COIN_TRANSACTIONS = '[coins] UPDATE_COIN_TRANSACTIONS';
+export const COIN_TRANSACTION_REMOVE = '[coins] COIN_TRANSACTION_REMOVE';
 
 
 // ========= [currencies] peace of state action types ========= //
@@ -130,6 +131,9 @@ export const SELECT_CATEGORY_ERROR = '[categories] SELECT_CATEGORY_ERROR';
 export const TRANSACTIONS_ADD = '[transactions] TRANSACTIONS_ADD';
 export const TRANSACTIONS_ADD_SUCCESS = '[transactions] TRANSACTIONS_ADD_SUCCESS';
 export const TRANSACTIONS_ADD_ERROR = '[transactions] TRANSACTIONS_ADD_ERROR';
+export const TRANSACTIONS_REMOVE = '[transactions] TRANSACTIONS_REMOVE';
+export const TRANSACTIONS_REMOVE_SUCCESS = '[transactions] TRANSACTIONS_REMOVE_SUCCESS';
+export const TRANSACTIONS_REMOVE_ERROR = '[transactions] TRANSACTIONS_REMOVE_ERROR';
 export const UPDATE_TRANSACTIONS_ITEMS = '[transactions] UPDATE_TRANSACTIONS_ITEMS';
 export const GET_TRANSACTIONS_SUCCESS = '[transactions] GET_TRANSACTIONS_SUCCESS';
 

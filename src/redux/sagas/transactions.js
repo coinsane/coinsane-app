@@ -17,8 +17,11 @@ import {
   UPDATE_TRANSACTIONS_ITEMS,
   GET_TRANSACTIONS_SUCCESS,
   TRANSACTIONS_ADD,
+  TRANSACTIONS_REMOVE,
   UPDATE_COINS_CACHE,
   CLEAR_DRAFT_TRANSACTION,
+  TRANSACTIONS_REMOVE_SUCCESS,
+  COIN_TRANSACTION_REMOVE,
 } from '../actions/action.types';
 
 /**
@@ -71,6 +74,16 @@ export function* addTransaction(action) {
   yield put({ type: UPDATE_PORTFOLIOS, payload: {} });
   yield put({ type: GET_TRANSACTIONS_SUCCESS });
   yield put({ type: CLEAR_DRAFT_TRANSACTION });
+}
+
+export function* removeTransaction(action) {
+  const response = yield call(api.coins.removeTransaction, action.payload);
+  const { transaction } = response.data.response;
+  const { coin, pair } = transaction;
+  yield put({ type: COIN_TRANSACTION_REMOVE, payload: { coinId: coin, transaction } });
+  if (pair) yield put({ type: COIN_TRANSACTION_REMOVE, payload: { coinId: pair, transaction } });
+  yield put({ type: TRANSACTIONS_REMOVE_SUCCESS, payload: transaction });
+  // yield put({ type: UPDATE_PORTFOLIOS, payload: {} });
 }
 
 /**
@@ -162,6 +175,7 @@ export default [
   takeLatest(GET_PRICE, getPrice),
   takeLatest(RECALCULATE, recalculate),
   takeLatest(TRANSACTIONS_ADD, addTransaction),
+  takeLatest(TRANSACTIONS_REMOVE, removeTransaction),
   takeEvery(UPDATE_DRAFT_TRANSACTION, updateDraftTransaction),
   takeLatest(GET_AVAILABLE_TRANSACTIONS, getTransactionsList),
 ];

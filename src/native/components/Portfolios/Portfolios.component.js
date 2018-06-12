@@ -30,6 +30,7 @@ class Portfolios extends Component {
     refreshing: PropTypes.bool,
     portfolios: PropTypes.shape({}).isRequired,
     chart: PropTypes.shape({}).isRequired,
+    charts: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({}).isRequired,
     coins: PropTypes.shape({}).isRequired,
 
@@ -171,22 +172,29 @@ class Portfolios extends Component {
     const max = 5;
     let others = 0;
     let total = 0;
-    const getCoinPrice = (_market) => {
-      return _market.prices ? parseFloat(_market.prices[symbol].price) : 0;
-    };
-    const items = portfolioItems.map((item) => {
-      if (item.value && item.symbol) {
-        total += item.value;
-        return item;
-      }
-      const price = getCoinPrice(markets.items[item.market]);
-      const value = +(coins[item._id].amount * price).toFixed(2);
-      total += value;
-      return {
-        value,
-        symbol: markets.items[item.market].symbol,
-      };
-    });
+    const getCoinPrice = market => get(market, `prices[${symbol}].price`, 0);
+    const items = [];
+
+    if (portfolioItems) {
+      portfolioItems.forEach((item) => {
+        if (item.value && item.symbol) {
+          total += item.value;
+          items.push(item);
+          return;
+        }
+        if (coins[item._id]) {
+          const price = getCoinPrice(markets.items[item.market]);
+          const value = +(coins[item._id].amount * price).toFixed(2);
+          if (value > 0) {
+            total += value;
+            items.push({
+              value,
+              symbol: markets.items[item.market].symbol,
+            });
+          }
+        }
+      });
+    }
 
     items.sort((a, b) => b.value - a.value);
     items.forEach((item, index) => {
@@ -311,7 +319,7 @@ class Portfolios extends Component {
       removeCoin,
       loading,
     } = this.props;
-    const last = section.data.length - 1 === index ? section._id : null;
+    // if (!amount) return null;
     return (
       <CoinCard
         type="portfolio"
@@ -326,7 +334,8 @@ class Portfolios extends Component {
         activePortfolio={activePortfolio}
         isCollapsed={collapsedList.indexOf(section._id) !== -1}
         isLoading={loading}
-        portfolioId={last}
+        portfolioId={section._id}
+        isLast={section.data.length - 1 === index}
       />
     );
   };
@@ -339,7 +348,11 @@ class Portfolios extends Component {
       collapsedList,
       updateCollapsed,
       loading,
+      charts,
+      period,
+      symbol,
     } = this.props;
+    const changePct = round(get(charts, `[${section._id}][${period}:${symbol}].pct`, 0), 2);
     return (
       <PortfolioHeader
         show={!activePortfolio}
@@ -349,7 +362,7 @@ class Portfolios extends Component {
         count={section.data.length}
         addCoin={addCoin}
         currency={currency}
-        changePct={section.changePct}
+        changePct={changePct}
         amount={section.amount}
         updateCollapsed={updateCollapsed}
         isCollapsed={collapsedList.indexOf(section._id) !== -1}

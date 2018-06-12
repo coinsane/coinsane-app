@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typography, colors, fonts } from '../../../styles';
+import { colors, fonts } from '../../../styles';
 
 export default StyleSheet.create({
   container: {
@@ -10,24 +10,9 @@ export default StyleSheet.create({
     position: 'relative',
     backgroundColor: colors.bgPrimary,
   },
-  row: {
-    backgroundColor: colors.bgPrimary,
-    flex: 1,
-    overflow: 'hidden',
-  },
-  buttons: {
-    position: 'absolute',
-    right: 10,
-    height: 60,
-    width: 120,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  item: {
+  swipeItem: {
     left: 0,
     right: 0,
-    height: 60,
     flexDirection: 'row',
     backgroundColor: colors.bgGray,
   },

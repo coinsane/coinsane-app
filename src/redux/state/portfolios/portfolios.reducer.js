@@ -147,17 +147,20 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case PORTFOLIO_COIN_REMOVED: {
-      const { coinId, portfolioId } = action.data;
+      const { id, portfolioId } = action.payload;
+      const items = { ...state.items };
+      if (items[portfolioId]) {
+        const data = [];
+        items[portfolioId].data.forEach((coin) => {
+          if (coin._id !== id) data.push(coin);
+        });
+        items[portfolioId].data = data;
+      }
       return {
         ...state,
         error: null,
         loading: false,
-        list: [...state.list.map(portfolio => {
-          if (portfolio._id === portfolioId) {
-            portfolio.coins = portfolio.coins.filter(coin => coin._id !== coinId);
-          }
-          return portfolio;
-        })]
+        items,
       };
     }
     case PORTFOLIOS_ERROR: {

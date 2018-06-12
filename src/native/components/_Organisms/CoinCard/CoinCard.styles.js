@@ -2,16 +2,16 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '../../../styles';
 
 export default StyleSheet.create({
-  container: {
-    paddingLeft: 15,
-    paddingRight: 15,
+  portfolio__container: {
     flex: 1,
+    height: 74,
   },
   portfolio__item: {
     backgroundColor: colors.btnBgBlack,
     borderBottomWidth: 0,
     borderRadius: 4,
-    marginLeft: 0,
+    marginLeft: 15,
+    marginRight: 15,
     paddingTop: 12,
     paddingBottom: 12,
     paddingLeft: 12,
@@ -20,6 +20,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
+    left: 0,
+    right: 0,
+    height: 64,
   },
   portfolio__thumbnail: {
     width: 32,
@@ -81,6 +84,12 @@ export default StyleSheet.create({
   portfolio__buttonText: {
     color: colors.textGray,
     fontFamily: fonts.fontRegular,
+  },
+  market__container: {
+    flex: 1,
+    height: 64,
+    marginLeft: 15,
+    marginRight: 15,
   },
   market_item: {
     marginLeft: 0,

@@ -9,7 +9,7 @@ import { getPrice, removeCoin, getCoinHisto, setCoinsError, updateCoinsPeriod } 
 import { getAvailableMarkets, clearMarkets, getMarketCap, updateCollapsed, getExchanges, loadMoreExchanges } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
-import { getTransactions, updateDraftTransaction, addTransaction } from '../redux/state/transactions/transactions.actioncreators';
+import { getTransactions, updateDraftTransaction, addTransaction, delTransaction } from '../redux/state/transactions/transactions.actioncreators';
 
 class Coins extends Component {
   static propTypes = {
@@ -76,6 +76,7 @@ class Coins extends Component {
       currency: PropTypes.string,
       periods: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
+    delTransaction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -234,6 +235,7 @@ class Coins extends Component {
         updateCoinsPeriod={this.props.updateCoinsPeriod}
         updateCollapsed={this.props.updateCollapsed}
         collapsedList={this.getCollapsed()}
+        delTransaction={this.props.delTransaction}
       />
     );
   }
@@ -278,6 +280,7 @@ const mapDispatchToProps = {
   getMarketCap,
   updateCoinsPeriod,
   loadMoreExchanges,
+  delTransaction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Coins);

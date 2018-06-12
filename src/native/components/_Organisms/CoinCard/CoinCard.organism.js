@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 import I18n from '../../../../i18n';
 import { nFormat, cFormat, round } from '../../../../lib/utils';
 import styles from './CoinCard.styles';
+import SwipeRow from '../../_Molecules/SwipeRow/SwipeRow.molecula';
 import { base, colors, typography } from '../../../styles/index';
 
 class CoinCard extends PureComponent {
@@ -16,6 +17,7 @@ class CoinCard extends PureComponent {
     amount: PropTypes.number,
     order: PropTypes.number,
     addCoin: PropTypes.func.isRequired,
+    removeCoin: PropTypes.func.isRequired,
     showCoin: PropTypes.func.isRequired,
     currency: PropTypes.shape({
       id: PropTypes.string,
@@ -30,6 +32,7 @@ class CoinCard extends PureComponent {
     isCollapsed: PropTypes.bool,
     isLoading: PropTypes.bool,
     portfolioId: PropTypes.string,
+    isLast: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -39,6 +42,7 @@ class CoinCard extends PureComponent {
     isCollapsed: false,
     isLoading: false,
     portfolioId: null,
+    isLast: false,
     order: 0,
   };
 
@@ -56,6 +60,7 @@ class CoinCard extends PureComponent {
       isCollapsed,
       isLoading,
       portfolioId,
+      isLast,
     } = this.props;
 
     const symbol = currency.code;
@@ -115,67 +120,87 @@ class CoinCard extends PureComponent {
     coinCard.priceDisplay = cFormat(nFormat(coinCard.price, currency.decimal), currency.symbol);
     coinCard.totalPriceDisplay = cFormat(nFormat(coinCard.totalPrice, decimal), currency.symbol);
 
+    const buttons = [
+      {
+        icon: 'Close',
+        color: colors.primaryPink,
+        onPress: () => this.props.removeCoin({ id, portfolioId }),
+      },
+    ];
 
-    const portfolioCard = () => (
-      <View style={styles.container}>
-        {
-          (activePortfolio || !isCollapsed) &&
-          <ListItem
-            button
-            style={styles.portfolio__item}
-            onPress={() => showCoin({ market, id })}
-          >
-            <FastImage source={coinCard.icon} style={styles.portfolio__thumbnail} />
-            <View style={styles.portfolio__body}>
-              <View style={styles.portfolio__row}>
-                <Text
-                  numberOfLines={1}
-                  style={[styles.portfolio__row_text, styles.portfolio__row_textLeft]}
-                >
-                  <Text style={styles.portfolio__textSymbol}>{coinCard.symbol}&nbsp;</Text>
-                  <Text style={styles.portfolio__textAmount}>{coinCard.amount}</Text>
-                </Text>
-                <Text
-                  numberOfLines={1}
-                  style={[
-                    styles.portfolio__row_text,
-                    styles.portfolio__row_textRight,
-                    textPlaceholder,
-                  ]}
-                >
-                  {coinCard.totalPriceDisplay}
-                </Text>
-              </View>
-              <View style={styles.portfolio__row}>
-                <Text style={[styles.portfolio__textFooter, textPlaceholder]}>
-                  {coinCard.priceDisplay}
-                </Text>
-                <Text style={[styles.portfolio__textFooter, { color: changeColor }, textPlaceholder]}>
-                  {coinCard.changePct}
-                </Text>
-              </View>
-            </View>
-          </ListItem>
-        }
-        {
-          (portfolioId && !activePortfolio) &&
-          <View style={base.list__buttonContainer}>
-            <Button
-              small
-              bordered
-              full
-              style={base.list__button}
-              onPress={() => addCoin(portfolioId)}
-            >
-              <Text style={base.list__buttonText}>{I18n.t('coins.addButton')}</Text>
-            </Button>
-          </View>
-        }
+    const ButtonPortfolio = () => (
+      isLast && !activePortfolio &&
+      <View style={base.list__buttonContainer}>
+        <Button
+          small
+          bordered
+          full
+          style={base.list__button}
+          onPress={() => addCoin(portfolioId)}
+        >
+          <Text style={base.list__buttonText}>{I18n.t('coins.addButton')}</Text>
+        </Button>
       </View>
     );
 
-    const marketCard = () => (
-      <View style={styles.container}>
+    const PortfolioCard = () => {
+      if (isCollapsed) return null;
+      if (!coinCard.amount) return <ButtonPortfolio />;
+      return (
+        <View>
+          <View style={styles.portfolio__container}>
+            <SwipeRow
+              buttons={buttons}
+              backgroundColor={colors.bgGray}
+              itemBackground={colors.btnBgBlack}
+              height={64}
+              right={25}
+            >
+              <ListItem
+                button
+                style={styles.portfolio__item}
+                onPress={() => showCoin({ market, id })}
+              >
+                <FastImage source={coinCard.icon} style={styles.portfolio__thumbnail} />
+                <View style={styles.portfolio__body}>
+                  <View style={styles.portfolio__row}>
+                    <Text
+                      numberOfLines={1}
+                      style={[styles.portfolio__row_text, styles.portfolio__row_textLeft]}
+                    >
+                      <Text style={styles.portfolio__textSymbol}>{coinCard.symbol}&nbsp;</Text>
+                      <Text style={styles.portfolio__textAmount}>{coinCard.amount}</Text>
+                    </Text>
+                    <Text
+                      numberOfLines={1}
+                      style={[
+                        styles.portfolio__row_text,
+                        styles.portfolio__row_textRight,
+                        textPlaceholder,
+                      ]}
+                    >
+                      {coinCard.totalPriceDisplay}
+                    </Text>
+                  </View>
+                  <View style={styles.portfolio__row}>
+                    <Text style={[styles.portfolio__textFooter, textPlaceholder]}>
+                      {coinCard.priceDisplay}
+                    </Text>
+                    <Text style={[styles.portfolio__textFooter, { color: changeColor }, textPlaceholder]}>
+                      {coinCard.changePct}
+                    </Text>
+                  </View>
+                </View>
+              </ListItem>
+            </SwipeRow>
+          </View>
+          <ButtonPortfolio />
+        </View>
+      );
+    };
+
+    const MarketCard = () => (
+      <View style={styles.market__container}>
         <ListItem
           button
           style={styles.market_item}
@@ -247,7 +272,7 @@ class CoinCard extends PureComponent {
       </View>
     );
 
-    return type === 'portfolio' ? portfolioCard() : marketCard();
+    return type === 'portfolio' ? <PortfolioCard /> : <MarketCard />;
   }
 }
 

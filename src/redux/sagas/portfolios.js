@@ -25,6 +25,7 @@ import {
   PORTFOLIO_ADD,
   PORTFOLIO_ADD_SUCCESS,
   PORTFOLIO_ADD_ERROR,
+  PORTFOLIO_COIN_REMOVED,
 } from '../../redux/actions/action.types';
 
 /**
@@ -198,6 +199,13 @@ export function* addPortfolioSaga(action) {
   }
 }
 
+export function* coinRemovedSaga(action) {
+  try {
+    const { id, portfolioId } = action.payload;
+    const response = yield call(api.coins.removeCoin, { coinId: id });
+  } catch (error) {}
+}
+
 // for rootSaga
 export default [
   takeLatest(UPDATE_PORTFOLIOS, updatePortfoliosSaga),
@@ -207,4 +215,5 @@ export default [
   takeLatest(UPDATE_PORTFOLIO_CHART, updatePortfolioChartSaga),
   takeLatest(UPDATE_PORTFOLIO_CURRENCY, updatePortfolioCurrencySaga),
   takeLatest(UPDATE_PORTFOLIO_PERIOD, updatePortfolioPeriodSaga),
+  takeLatest(PORTFOLIO_COIN_REMOVED, coinRemovedSaga),
 ];

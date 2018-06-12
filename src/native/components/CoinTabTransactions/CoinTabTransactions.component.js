@@ -31,6 +31,7 @@ class CoinTabTransactions extends Component {
     transactionsLoading: PropTypes.bool.isRequired,
     transactionsRefreshing: PropTypes.bool.isRequired,
     getTransactions: PropTypes.func.isRequired,
+    delTransaction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -138,6 +139,7 @@ class CoinTabTransactions extends Component {
   };
 
   renderItem = ({ item }) => {
+    const { delTransaction } = this.props;
     const { _id, currency, exchange } = item;
     const pair = currency || exchange;
     const pairSymbol = this.getPairSymbol(item);
@@ -147,6 +149,7 @@ class CoinTabTransactions extends Component {
         {...item}
         pair={pair}
         pairSymbol={pairSymbol}
+        delTransaction={delTransaction}
       />
     );
   };

@@ -53,15 +53,11 @@ export function getTransactionsList(coinId) {
 /**
   * Remove Coin
   */
-export function removeCoin(coinId) {
-  return dispatch => Promise.resolve(coinId)
-    .then(delCoin)
-    .then(data => dispatch({
-      type: PORTFOLIO_COIN_REMOVED,
-      data,
-    }))
-    // .catch(e => console.log(e));
-}
+export const removeCoin = payload => ({
+  type: PORTFOLIO_COIN_REMOVED,
+  payload,
+});
+
 
 /**
   * Set an Error Portfolios Message

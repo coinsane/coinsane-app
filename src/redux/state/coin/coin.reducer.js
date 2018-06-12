@@ -7,6 +7,7 @@ import {
   UPDATE_COINS_CACHE,
   UPDATE_COINS_PERIOD,
   UPDATE_COIN_TRANSACTIONS,
+  COIN_TRANSACTION_REMOVE,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -31,6 +32,22 @@ export default function actionReducer(state = initialState, action) {
       const items = { ...state.items };
       if (items[coinId]) {
         items[coinId].transactions = transactions.map(transaction => transaction._id);
+      }
+      return {
+        ...state,
+        items,
+      };
+    }
+    case COIN_TRANSACTION_REMOVE: {
+      const { coinId, transaction } = action.payload;
+      const items = { ...state.items };
+      if (items[coinId]) {
+        const transactionsUpdated = [];
+        items[coinId].transactions.forEach((id) => {
+          if (id !== transaction._id) transactionsUpdated.push(id);
+        });
+        items[coinId].transactions = transactionsUpdated;
+        items[coinId].amount -= transaction.amount;
       }
       return {
         ...state,

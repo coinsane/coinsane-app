@@ -9,6 +9,7 @@ import {
   GET_TRANSACTION_PRICE_SUCCESS,
   CLEAR_DRAFT_TRANSACTION,
   UPDATE_DRAFT_TRANSACTION_SUCCESS,
+  TRANSACTIONS_REMOVE, TRANSACTIONS_REMOVE_SUCCESS,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -77,6 +78,18 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    }
+    // case TRANSACTIONS_REMOVE: {
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //   };
+    // }
+    case TRANSACTIONS_REMOVE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
       };
     }
     case GET_AVAILABLE_TRANSACTIONS: {

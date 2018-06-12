@@ -19,6 +19,7 @@ class Portfolios extends Component {
       error: PropTypes.string,
       list: PropTypes.arrayOf(PropTypes.string),
       items: PropTypes.shape({}),
+      chart: PropTypes.shape({}),
     }).isRequired,
     markets: PropTypes.shape({}).isRequired,
     coin: PropTypes.shape({}).isRequired,
@@ -132,6 +133,7 @@ class Portfolios extends Component {
         error={portfolios.error}
         loading={portfolios.loading}
         refreshing={portfolios.refreshing}
+        charts={portfolios.chart}
         chart={this.getChart()}
         changePct={portfolios.changePct}
         lastTotal={portfolios.lastTotal}

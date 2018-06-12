@@ -39,6 +39,7 @@ class Coin extends Component {
     updateCoinsPeriod: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
     periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+    delTransaction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -102,6 +103,7 @@ class Coin extends Component {
       coins,
       markets,
       refreshing,
+      delTransaction,
     } = this.props;
     // Error
     if (error) return <Error content={error} />;
@@ -169,6 +171,7 @@ class Coin extends Component {
               transactionsRefreshing={transactionsRefreshing}
               transactionsError={transactionsError}
               getTransactions={getTransactions}
+              delTransaction={delTransaction}
             />
           </Tab>
         </Tabs>
