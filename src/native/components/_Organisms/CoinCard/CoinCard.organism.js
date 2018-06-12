@@ -144,7 +144,7 @@ class CoinCard extends PureComponent {
     );
 
     const PortfolioCard = () => {
-      if (isCollapsed) return null;
+      if (isCollapsed && !activePortfolio) return null;
       if (!coinCard.amount) return <ButtonPortfolio />;
       return (
         <View>
