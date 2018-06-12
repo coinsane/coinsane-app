@@ -65,8 +65,8 @@ class CreateNewTransaction extends Component {
     market: {},
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -92,7 +92,7 @@ class CreateNewTransaction extends Component {
       date: moment().format('YYYY-MM-DD'),
       time: moment().format('HH:mm'),
       type: 'buy',
-      deduct: true,
+      deduct: false,
     });
 
     this.timer = null;
@@ -240,6 +240,7 @@ class CreateNewTransaction extends Component {
             label={I18n.t('transactions.form.fieldAmount')}
             propName="amount"
             clearTextOnFocus={values.amount === '0'}
+            selectTextOnFocus
             onChangeText={this.handleChange}
             keyboardType="numeric"
             value={values.amount}
@@ -261,6 +262,7 @@ class CreateNewTransaction extends Component {
           <CoinsaneStackedLabel
             label={I18n.t('transactions.form.fieldPrice')}
             propName="price"
+            selectTextOnFocus
             onChangeText={this.handleChange}
             keyboardType="numeric"
             value={values.price}
@@ -282,6 +284,7 @@ class CreateNewTransaction extends Component {
           <CoinsaneStackedLabel
             label={I18n.t('transactions.form.fieldPrice')}
             propName="price"
+            selectTextOnFocus
             onChangeText={this.handleChange}
             keyboardType="numeric"
             value={values.price}
@@ -338,6 +341,7 @@ class CreateNewTransaction extends Component {
               label={I18n.t('transactions.form.fieldTotal', { currency: symbol })}
               propName="total"
               clearTextOnFocus={values.total === '0'}
+              selectTextOnFocus
               onChangeText={this.handleChange}
               keyboardType="numeric"
               value={values.total}
@@ -348,6 +352,7 @@ class CreateNewTransaction extends Component {
     };
 
     const DeductSwitch = () => {
+      if (draft.type !== 'exchange') return null;
       const symbol = draft.type === 'exchange' ? exchange.symbol : currency.code;
       const deductTitle = draft.type === 'sell' ?
         I18n.t('transactions.form.fieldDeductAlt', { currency: symbol }) :
@@ -362,7 +367,7 @@ class CreateNewTransaction extends Component {
             />
           </View>
         </View>
-      )
+      );
     };
 
     const CategorySelector = () => (
