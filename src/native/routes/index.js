@@ -1,6 +1,5 @@
 import React from 'react';
-import { Overlay, Scene, Tabs, Stack, Modal, Lightbox } from 'react-native-router-flux';
-import { View } from 'native-base';
+import { Overlay, Scene, Stack, Modal } from 'react-native-router-flux';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 import DefaultProps from '../constants/navigation';
@@ -42,60 +41,58 @@ const Index = (
       key="overlay"
       contentComponent={NavigationDrawer}
     >
-      <Lightbox key="lightbox">
-        <Tabs
-          key="tabbar"
-          swipeEnabled={false}
-          animationEnabled={false}
-          tabBarComponent={() => <View />}
+      <Stack
+        key="sections"
+        transitionConfig={() => ({
+          screenInterpolator: CardStackStyleInterpolator.forFade,
+        })}
+      >
+        <Stack
+          key="coins"
+          hideNavBar
+          {...DefaultProps.navbarProps}
         >
-          <Stack
-            key="coins"
-            hideNavBar
-            {...DefaultProps.navbarProps}
-          >
-            <Scene
-              key="portfolios"
-              component={PortfoliosContainer}
-              Layout={PortfoliosComponent}
-            />
-            <Scene
-              key="portfolioSettings"
-              component={PortfoliosContainer}
-              Layout={PortfolioSettingsComponent}
-            />
-            <Scene
-              key="createPortfolio"
-              component={PortfoliosContainer}
-              Layout={CreatePortfolioComponent}
-            />
-          </Stack>
+          <Scene
+            key="portfolios"
+            component={PortfoliosContainer}
+            Layout={PortfoliosComponent}
+          />
+          <Scene
+            key="portfolioSettings"
+            component={PortfoliosContainer}
+            Layout={PortfolioSettingsComponent}
+          />
+          <Scene
+            key="createPortfolio"
+            component={PortfoliosContainer}
+            Layout={CreatePortfolioComponent}
+          />
+        </Stack>
 
-          <Stack
+        <Stack
+          key="market"
+          hideNavBar
+          {...DefaultProps.navbarProps}
+        >
+          <Scene
             key="market"
-            hideNavBar
-            {...DefaultProps.navbarProps}
-          >
-            <Scene
-              key="market"
-              component={MarketContainer}
-              Layout={MarketComponent}
-            />
-          </Stack>
+            component={MarketContainer}
+            Layout={MarketComponent}
+          />
+        </Stack>
 
-          <Stack
+        <Stack
+          key="settings"
+          hideNavBar
+          {...DefaultProps.navbarProps}
+        >
+          <Scene
             key="settings"
-            hideNavBar
-            {...DefaultProps.navbarProps}
-          >
-            <Scene
-              key="settings"
-              component={SettingsContainer}
-              Layout={SettingsComponent}
-            />
-          </Stack>
-        </Tabs>
-      </Lightbox>
+            component={SettingsContainer}
+            Layout={SettingsComponent}
+          />
+        </Stack>
+      </Stack>
 
       <Scene
         back

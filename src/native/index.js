@@ -62,7 +62,12 @@ class Root extends Component {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
-  getSceneStyle = () => ({ backgroundColor: colors.bgPrimary });
+  getSceneStyle = () => ({
+    backgroundColor: colors.bgPrimary,
+    elevation: 0,
+    shadowOpacity: 0,
+    borderBottomWidth: 0,
+  });
 
   handleOpenURL = (event) => {
     console.log(event.url);
