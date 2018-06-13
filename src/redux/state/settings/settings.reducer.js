@@ -9,6 +9,7 @@ export const initialState = {
   currencies: {},
   currency: 'BTC',
   periods: ['1h', '1d', '1w', '1m', '3m', '6m', '1y'],
+  onboarding: true,
 };
 
 export default function actionReducer(state = initialState, action) {

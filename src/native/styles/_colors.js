@@ -12,6 +12,7 @@ export default {
   mediumGray: '#7C778C',
   textGray: '#8D8A96',
   white: '#fff',
+  onboardingCard: '#393252',
   gradientFrom: 'rgba(27,21,45,1)',
   gradientTo: 'rgba(27,21,45,0)',
   chart1: '#9A84FF',

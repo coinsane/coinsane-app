@@ -16,6 +16,7 @@ import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import Chart from '../_Organisms/Chart/Chart.component';
 import Pie from '../_Organisms/Pie/Pie.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Onboarding from '../_Organisms/Onboarding/Onboarding.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 import Empty from '../Empty/Empty.component';
 
@@ -379,6 +380,7 @@ class Portfolios extends Component {
       addCoin,
       activePortfolio,
       portfolios,
+      markets,
     } = this.props;
 
     if (error) return <Error content={error} />;
@@ -400,6 +402,10 @@ class Portfolios extends Component {
     } else {
       Object.keys(portfolios).forEach(key => sections.push(portfolios[key]));
     }
+
+    // return (
+    //   <Onboarding currency={this.props.currency} market={markets.items['5a9c5e5244d0ad001eed91cd']} />
+    // );
 
     return (
       <Container>

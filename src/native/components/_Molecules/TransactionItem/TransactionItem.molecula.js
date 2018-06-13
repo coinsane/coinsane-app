@@ -21,11 +21,15 @@ class TransactionItem extends Component {
     _id: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     delTransaction: PropTypes.func.isRequired,
+    noSwipe: PropTypes.bool,
+    backgroundColor: PropTypes.string,
   };
 
   static defaultProps = {
     category: null,
     pairSymbol: null,
+    noSwipe: false,
+    backgroundColor: colors.bgGray,
   };
 
   constructor(props) {
@@ -46,6 +50,7 @@ class TransactionItem extends Component {
       pairSymbol,
       type,
       date,
+      backgroundColor,
     } = this.props;
 
     let pairDisplay = cFormat(nFormat(Math.abs(total), 2), pair.symbol);
@@ -91,6 +96,27 @@ class TransactionItem extends Component {
       },
     ];
 
+    const Transaction = () => (
+      <View style={[styles.swipeItem, { backgroundColor }]}>
+        <Body style={styles.body}>
+          <View style={styles.iconContainer}>
+            <CoinsaneIcon name="Category" fill={categoryColor} width={36} />
+            <Text style={styles.iconText}>{categoryIcon}</Text>
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.category}>{categoryTitle}</Text>
+            <Text style={styles.time}>{time}</Text>
+          </View>
+        </Body>
+        <Right style={styles.right}>
+          <Text style={styles.amount}>{amountDisplay}</Text>
+          <Text style={styles.text}>{pairDisplay}</Text>
+        </Right>
+      </View>
+    );
+
+    if (this.props.noSwipe) return <Transaction />;
+
     return (
       <View style={styles.container}>
         <SwipeRow
@@ -98,22 +124,7 @@ class TransactionItem extends Component {
           tension={this.state.tension}
           buttons={buttons}
         >
-          <View style={styles.swipeItem}>
-            <Body style={styles.body}>
-              <View style={styles.iconContainer}>
-                <CoinsaneIcon name="Category" fill={categoryColor} width={36} />
-                <Text style={styles.iconText}>{categoryIcon}</Text>
-              </View>
-              <View style={styles.content}>
-                <Text style={styles.category}>{categoryTitle}</Text>
-                <Text style={styles.time}>{time}</Text>
-              </View>
-            </Body>
-            <Right style={styles.right}>
-              <Text style={styles.amount}>{amountDisplay}</Text>
-              <Text style={styles.text}>{pairDisplay}</Text>
-            </Right>
-          </View>
+          <Transaction />
         </SwipeRow>
       </View>
     );
