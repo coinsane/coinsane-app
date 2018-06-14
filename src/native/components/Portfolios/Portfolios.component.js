@@ -51,6 +51,7 @@ class Portfolios extends Component {
     periods: PropTypes.arrayOf(PropTypes.string).isRequired,
     symbol: PropTypes.string.isRequired,
     currency: PropTypes.shape({}).isRequired,
+    onboarding: PropTypes.bool.isRequired,
     period: PropTypes.string,
   };
 
@@ -381,6 +382,7 @@ class Portfolios extends Component {
       activePortfolio,
       portfolios,
       markets,
+      onboarding,
     } = this.props;
 
     if (error) return <Error content={error} />;
@@ -403,9 +405,14 @@ class Portfolios extends Component {
       Object.keys(portfolios).forEach(key => sections.push(portfolios[key]));
     }
 
-    // return (
-    //   <Onboarding currency={this.props.currency} market={markets.items['5a9c5e5244d0ad001eed91cd']} />
-    // );
+    // if (onboarding) {
+    //   return (
+    //     <Onboarding
+    //       currency={this.props.currency}
+    //       market={markets.items['5a9c5e5244d0ad001eed91cd']}
+    //     />
+    //   );
+    // }
 
     return (
       <Container>

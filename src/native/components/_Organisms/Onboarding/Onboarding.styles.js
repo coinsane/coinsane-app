@@ -47,6 +47,20 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.fontMedium,
   },
+  buttonStart: {
+    fontSize: 14,
+    fontFamily: fonts.fontMedium,
+    position: 'absolute',
+    right: 20,
+    bottom: 18,
+  },
+  buttonSkip: {
+    fontSize: 14,
+    fontFamily: fonts.fontMedium,
+    position: 'absolute',
+    left: 20,
+    bottom: 18,
+  },
   slidePlaceholder: {
     height: 300,
   },

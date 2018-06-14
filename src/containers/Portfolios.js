@@ -56,6 +56,7 @@ class Portfolios extends Component {
     settings: PropTypes.shape({
       currencies: PropTypes.shape({}),
       currency: PropTypes.string,
+      onboarding: PropTypes.bool,
       periods: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
   };
@@ -159,6 +160,7 @@ class Portfolios extends Component {
         currency={this.getCurrency()}
         symbol={settings.currency}
         periods={settings.periods}
+        onboarding={settings.onboarding}
 
         updateCurrency={this.props.selectCurrency}
         updatePeriod={this.props.updatePeriod}
