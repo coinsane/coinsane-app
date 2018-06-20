@@ -30,7 +30,7 @@ CoinsanePctText.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ]).isRequired,
+  ]),
   symbol: PropTypes.string,
   size: PropTypes.number,
   positive: PropTypes.bool,
@@ -38,6 +38,7 @@ CoinsanePctText.propTypes = {
 };
 
 CoinsanePctText.defaultProps = {
+  value: 0,
   symbol: '%',
   size: 14,
   positive: null,

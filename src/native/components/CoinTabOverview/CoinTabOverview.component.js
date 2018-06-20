@@ -119,6 +119,7 @@ class CoinTabOverview extends Component {
       currencies,
       period,
       periods,
+      loading,
     } = this.props;
 
     const summaryList = [
@@ -154,10 +155,12 @@ class CoinTabOverview extends Component {
           leftValue={low}
           rightTitle={I18n.t('coins.high')}
           rightValue={high}
+          loading={loading}
         />
         <Chart
           data={chart.data}
           currency={currency}
+          loading={loading}
         />
         <View style={styles.range}>
           { periods.map(key => (

@@ -21,7 +21,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginLeft: 20,
+    marginLeft: 10,
   },
   iconContainer: {
     justifyContent: 'center',
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginLeft: 15,
+    marginLeft: 5,
   },
   right: {
     flex: 0.4,

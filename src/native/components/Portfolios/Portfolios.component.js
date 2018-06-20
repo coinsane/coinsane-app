@@ -52,6 +52,7 @@ class Portfolios extends Component {
     symbol: PropTypes.string.isRequired,
     currency: PropTypes.shape({}).isRequired,
     onboarding: PropTypes.bool.isRequired,
+    hideOnboarding: PropTypes.func.isRequired,
     period: PropTypes.string,
   };
 
@@ -405,14 +406,16 @@ class Portfolios extends Component {
       Object.keys(portfolios).forEach(key => sections.push(portfolios[key]));
     }
 
-    // if (onboarding) {
-    //   return (
-    //     <Onboarding
-    //       currency={this.props.currency}
-    //       market={markets.items['5a9c5e5244d0ad001eed91cd']}
-    //     />
-    //   );
-    // }
+    if (onboarding) {
+      const market = markets.items['5a9c5e5244d0ad001eed91cd']; // BTC
+      return (
+        <Onboarding
+          currency={this.props.currency}
+          market={market}
+          hideOnboarding={this.props.hideOnboarding}
+        />
+      );
+    }
 
     return (
       <Container>

@@ -76,6 +76,16 @@ export default {
     empty: 'No category',
     exchange: 'Exchange',
   },
+  onboarding: {
+    prev: 'PREV',
+    next: 'NEXT',
+    skip: 'SKIP',
+    start: 'START',
+    category: 'My Investments',
+    oneText: 'Add and edit portfolio manually or automatically. Switch over portfolios and see changes',
+    twoText: 'Chose coins, add transactions and track changes in portfolio and on the exchanges',
+    threeText: 'Here some text about market and market filtering here some text about market',
+  },
   placeholder: {
     search: 'Search',
   },

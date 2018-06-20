@@ -24,6 +24,7 @@ class Coin extends Component {
     transactionsLoading: PropTypes.bool.isRequired,
     transactionsRefreshing: PropTypes.bool.isRequired,
     refreshing: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
     transactionsError: PropTypes.string,
     getCoinHisto: PropTypes.func.isRequired,
     addTransaction: PropTypes.func.isRequired,
@@ -33,12 +34,14 @@ class Coin extends Component {
     symbol: PropTypes.string.isRequired,
     currencies: PropTypes.shape({}).isRequired,
     coins: PropTypes.shape({}).isRequired,
+    chart: PropTypes.shape({}).isRequired,
     updateCurrency: PropTypes.func.isRequired,
     getPrice: PropTypes.func.isRequired,
     updateCollapsed: PropTypes.func.isRequired,
     updateCoinsPeriod: PropTypes.func.isRequired,
     period: PropTypes.string.isRequired,
     periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+    collapsedList: PropTypes.arrayOf(PropTypes.string).isRequired,
     delTransaction: PropTypes.func.isRequired,
   };
 
@@ -103,6 +106,7 @@ class Coin extends Component {
       coins,
       markets,
       refreshing,
+      loading,
       delTransaction,
     } = this.props;
     // Error
@@ -149,6 +153,7 @@ class Coin extends Component {
               periods={periods}
               updateCollapsed={updateCollapsed}
               refreshing={refreshing}
+              loading={loading}
               collapsedList={collapsedList}
               loadMoreExchanges={loadMoreExchanges}
             />

@@ -1,4 +1,3 @@
-import { delCoin } from '../../../api/coins';
 import {
   GET_PRICE,
   COIN_HISTO_UPDATE,

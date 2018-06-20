@@ -97,6 +97,7 @@ export const SET_ACTIVE_MENU = '[navigation] SET_ACTIVE_MENU';
 export const GET_SETTINGS = '[settings] GET_SETTINGS';
 export const GET_SETTINGS_SUCCEED = '[settings] GET_SETTINGS_SUCCEED';
 export const GET_SETTINGS_ERROR = '[settings] GET_SETTINGS_ERROR';
+export const HIDE_ONBOARDING = '[settings] HIDE_ONBOARDING';
 
 
 // ========= [markets] peace of state action types ========= //

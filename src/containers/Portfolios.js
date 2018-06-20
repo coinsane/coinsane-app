@@ -9,7 +9,7 @@ import { updateDraftTransaction } from '../redux/state/transactions/transactions
 import { removeCoin } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
-import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
+import { selectCurrency, hideOnboarding } from '../redux/state/settings/settings.actioncreators';
 
 class Portfolios extends Component {
   static propTypes = {
@@ -59,6 +59,7 @@ class Portfolios extends Component {
       onboarding: PropTypes.bool,
       periods: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
+    hideOnboarding: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -161,6 +162,7 @@ class Portfolios extends Component {
         symbol={settings.currency}
         periods={settings.periods}
         onboarding={settings.onboarding}
+        hideOnboarding={this.props.hideOnboarding}
 
         updateCurrency={this.props.selectCurrency}
         updatePeriod={this.props.updatePeriod}
@@ -200,6 +202,7 @@ const mapDispatchToProps = {
   updateCollapsed,
   clearMarkets,
   removeCoin,
+  hideOnboarding,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Portfolios);

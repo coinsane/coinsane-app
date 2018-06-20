@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '../../../styles/index';
 
 export default StyleSheet.create({
+  slider: {
+    flex: 1,
+  },
   dot: {
     backgroundColor: colors.textGray,
     width: 7,

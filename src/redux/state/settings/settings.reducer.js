@@ -1,6 +1,7 @@
 import {
   GET_SETTINGS_SUCCEED,
   SELECT_CURRENCY_SUCCESS,
+  HIDE_ONBOARDING,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -26,6 +27,12 @@ export default function actionReducer(state = initialState, action) {
       return {
         ...state,
         currency: action.payload,
+      };
+    }
+    case HIDE_ONBOARDING: {
+      return {
+        ...state,
+        onboarding: false,
       };
     }
     default:

@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { colors, typography } from '../../styles';
+import { colors } from '../../styles';
 
 export default StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: colors.btnBgBlack,
-    marginLeft: 58,
+    marginLeft: 65,
     marginRight: 0,
   },
 });

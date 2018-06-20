@@ -24,6 +24,7 @@ class Coins extends Component {
       items: PropTypes.shape({}),
       period: PropTypes.string,
       refreshing: PropTypes.bool,
+      loading: PropTypes.bool,
     }).isRequired,
     transactions: PropTypes.shape({
       items: PropTypes.shape({}),
@@ -203,6 +204,7 @@ class Coins extends Component {
         coinData={coin.list}
         coins={coin.items}
         refreshing={coin.refreshing}
+        loading={coin.loading}
 
         fetchPortfolios={this.fetchPortfolios}
         updatePortfolioChart={this.props.updatePortfolioChart}
