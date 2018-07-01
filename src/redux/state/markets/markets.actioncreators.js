@@ -34,7 +34,7 @@ export const getAvailableMarkets = ({ limit = 10, skip = 0, refreshing = false }
 /**
   * Search for market
   */
-export const changeSearchTerm = ({ q, limit = 10, skip = 0, refreshing = false }) => ({
+export const changeSearchTerm = ({ q = '', limit = 10, skip = 0, refreshing = false }) => ({
   type: SEARCH_AVAILABLE_MARKETS,
   payload: { q, limit, skip, refreshing },
 });

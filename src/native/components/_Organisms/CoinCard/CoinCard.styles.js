@@ -134,14 +134,14 @@ export default StyleSheet.create({
   },
   market__text: {
     marginLeft: 0,
-    marginRight: 0,
+    marginRight: 1,
     marginBottom: 4,
     fontSize: 15,
     fontFamily: fonts.fontRegular,
   },
   market__text_footer: {
     marginLeft: 0,
-    marginRight: 0,
+    marginRight: 1,
     fontSize: 13,
     lineHeight: 13,
     color: colors.textGray,

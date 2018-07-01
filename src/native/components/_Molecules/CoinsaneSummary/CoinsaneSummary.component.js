@@ -40,7 +40,7 @@ const CoinsaneSummary = ({
           <Loading style={styles.loading} size={25} /> :
           <View style={styles.total__summaryContainer}>
             {
-              leftTitle &&
+              leftValue &&
               <View style={styles.total__summaryLeft}>
                 <Text style={styles.total__summaryText}>{leftTitle.toUpperCase()}</Text>
                 <CoinsanePctText style={styles.total__summaryText} size={11} value={leftValue} symbol="" negative />
@@ -55,7 +55,7 @@ const CoinsaneSummary = ({
               }
             </View>
             {
-              rightTitle &&
+              rightValue &&
               <View style={styles.total__summaryRight}>
                 <Text style={styles.total__summaryText}>{rightTitle.toUpperCase()}</Text>
                 <CoinsanePctText style={styles.total__summaryText} size={11} value={rightValue} symbol="" positive />

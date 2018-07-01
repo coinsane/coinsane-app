@@ -44,9 +44,10 @@ const CoinCell = ({
     <ListItem style={styles.listItemContainer} onPress={selectAction}>
       <RenderLeft />
       <Body style={styles.listItem__body}>
-        <Text numberOfLines={1} style={styles.listItem__text} >{title}</Text>
+        <Text numberOfLines={1} style={styles.listItem__text}>{title}</Text>
         {
-          subtitle && <Text numberOfLines={1} style={styles.listItem__text_footer}>{subtitle}</Text>
+          subtitle &&
+          <Text numberOfLines={1} style={styles.listItem__text_footer}>{subtitle}</Text>
         }
       </Body>
       <Right style={styles.listItem__right}>

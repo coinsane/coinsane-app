@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Content, List, ListItem, Left, Body, Text } from 'native-base';
+import { Container, List, ListItem, Left, Body, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 import { setActiveMenu } from '../../../redux/state/navigation/navigation.actioncreators';
 
-import Spacer from '../Spacer/Spacer.component';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './DrawerContent.styles';
@@ -22,6 +21,7 @@ class DrawerContent extends Component {
     const { navigation } = this.props;
     if (Actions.currentScene !== key) {
       this.props.setActiveMenu(key);
+      Actions.pop();
       Actions[key].call();
     }
     setTimeout(() => navigation.drawer.close(), 0);
@@ -29,11 +29,13 @@ class DrawerContent extends Component {
 
   render() {
     const { navigation } = this.props;
+    const getColor = (active) => {
+      return active ? colors.white : colors.mediumGray;
+    };
 
     return (
-      <Content style={styles.contentContainer} scrollEnabled={false}>
-        <Spacer size={100} />
-        <List>
+      <Container style={styles.contentContainer}>
+        <List style={styles.list}>
           {navigation.menu.map(item => (
             <ListItem
               key={item.icon}
@@ -41,25 +43,21 @@ class DrawerContent extends Component {
               onPress={() => this.openScene(item.scene)}
               style={styles.listItem}
             >
-              <Left>
-                <CoinsaneIcon
-                  name={item.icon}
-                  width={28}
-                  fill={item.active ? colors.white : colors.mediumGray}
-                />
-              </Left>
-              <Body>
-                <Text
-                  numberOfLines={1}
-                  style={[styles.text, { color: item.active ? colors.white : colors.mediumGray }]}
-                >
-                  {item.text}
-                </Text>
-              </Body>
+              <CoinsaneIcon
+                name={item.icon}
+                width={28}
+                fill={getColor(item.active)}
+              />
+              <Text
+                numberOfLines={1}
+                style={[styles.text, { color: getColor(item.active) }]}
+              >
+                {item.text}
+              </Text>
             </ListItem>
           ))}
         </List>
-      </Content>
+      </Container>
     );
   }
 }

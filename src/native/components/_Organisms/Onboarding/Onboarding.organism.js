@@ -4,6 +4,7 @@ import { TouchableHighlight } from 'react-native';
 import { Text, View } from 'native-base';
 import FastImage from 'react-native-fast-image';
 import Swiper from 'react-native-swiper';
+import get from 'lodash/get';
 
 import I18n from '../../../../i18n';
 import Config from '../../../../constants/config';
@@ -109,6 +110,8 @@ class Onboarding extends Component {
         </TouchableHighlight>;
     };
 
+    const price = get(this.props.market, 'prices.USD.price', 0);
+
     return (
       <View style={styles.slider}>
         <Swiper
@@ -125,7 +128,7 @@ class Onboarding extends Component {
         >
           <SlideOne />
           <SlideTwo
-            price={this.props.market.prices.USD.price}
+            price={price}
             amount={0.85411}
             symbol="USD"
             pair="BTC"

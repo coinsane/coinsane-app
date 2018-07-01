@@ -6,7 +6,7 @@ import get from 'lodash/get';
 
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
 import { getPrice, removeCoin, getCoinHisto, setCoinsError, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
-import { getAvailableMarkets, clearMarkets, getMarketCap, updateCollapsed, getExchanges, loadMoreExchanges } from '../redux/state/markets/markets.actioncreators';
+import { getAvailableMarkets, clearMarkets, changeSearchTerm, getMarketCap, updateCollapsed, getExchanges, loadMoreExchanges } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
 import { getTransactions, updateDraftTransaction, addTransaction, delTransaction } from '../redux/state/transactions/transactions.actioncreators';
@@ -78,6 +78,7 @@ class Coins extends Component {
       periods: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
     delTransaction: PropTypes.func.isRequired,
+    changeSearchTerm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -129,23 +130,17 @@ class Coins extends Component {
     };
   };
 
-  getCollapsed = () => {
-    const { match } = this.props;
-    const market = get(match, 'params.market', {});
-    return market.collapsed || [];
-  };
+  getCollapsed = () => get(this.props.match, 'params.market.collapsed', []);
 
   addTransaction = (portfolio) => {
     this.props.updateDraftTransaction({ portfolio, create: true });
     // show SelectCoin screen
     Actions.selector({
-      preLoad: () => {
-        this.props.getAvailableMarkets({});
+      preLoad: (data) => {
+        this.props.changeSearchTerm(data);
         this.props.getAvailableCurrencies({});
       },
-      clear: () => {
-        this.props.clearMarkets();
-      },
+      clear: () => this.props.clearMarkets(),
       title: 'Select coin',
       listItemType: 'arrow',
       navigationType: 'close',
@@ -283,6 +278,7 @@ const mapDispatchToProps = {
   updateCoinsPeriod,
   loadMoreExchanges,
   delTransaction,
+  changeSearchTerm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Coins);

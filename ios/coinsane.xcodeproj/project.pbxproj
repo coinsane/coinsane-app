@@ -48,6 +48,7 @@
 		3052854D002A49DA9D197DD3 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10D80A1379724FE5AE81D467 /* Foundation.ttf */; };
 		3EE353D224694FDB9040613F /* Lato-HairlineItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6446FD5E48334A3F801164C8 /* Lato-HairlineItalic.ttf */; };
 		4413E8A4267F4809B39F9572 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E89BF8D24CF04EA9AD2E13EE /* Lato-Light.ttf */; };
+		44A60D3B340C470C97C0D618 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A480D7C767F1442AB200F425 /* libRNDeviceInfo.a */; };
 		4B86CE8B936F4B59BCD18734 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9B9168AAB014E229793E0C5 /* Lato-Thin.ttf */; };
 		5BC06EC47DB34F528D2F8DF7 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 643727E6CE3D4A28AF92EFEB /* libRNVectorIcons.a */; };
 		5BE5BD1B774C472EAFE37FBA /* Lato-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7B8C54BD6104458B6C6631E /* Lato-HeavyItalic.ttf */; };
@@ -58,8 +59,8 @@
 		745B4A845FD14E8794797662 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAA3F078DB924A2E8D8E3277 /* Lato-Regular.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8BE52BF34BFF4709A3D69F4A /* Lato-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AFE4E9E97114AFFA96BE631 /* Lato-MediumItalic.ttf */; };
-		8BF38D9B8BB648D3BFF6EB09 /* libInteractable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 225234F7EF144F6B9CA33613 /* libInteractable.a */; };
 		8F9712CEC1BE4C64BC0266AE /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE643E221D444DF99E6C503B /* Lato-ThinItalic.ttf */; };
+		9968C756020F45CDB45BB831 /* libInteractable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD72DA5C6A72439892892CAB /* libInteractable.a */; };
 		9C94EAE5577E40ADB68299B6 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B3C7BC693C04509A8A6A5F5 /* Roboto.ttf */; };
 		9CC38876389B4345ABA1AC61 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E43407DB6374ED5AD4DFF7D /* MaterialIcons.ttf */; };
 		9DFD5D9B7AE5416FB04C94F8 /* Lato-Hairline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87209508EADA469794E309B8 /* Lato-Hairline.ttf */; };
@@ -74,6 +75,7 @@
 		B9840921BDA14BF6A258418F /* Lato-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B10882FCD19D4B6B89D55148 /* Lato-SemiboldItalic.ttf */; };
 		CA99DBEAAEAE47B4B003F62B /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2797563B944EB19F265B94 /* libRNSpinkit.a */; };
 		CAF2E9E3E0C949FABC8C2D60 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 036AABCDAF8144DBAEA07BAC /* libRNI18n.a */; };
+		D5B61452C8FB41A9887AAF09 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B422E19AFD644AABB2167EF8 /* libRNDeviceInfo-tvOS.a */; };
 		D76E3EC9AC6D4E4ABF5729FC /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E3D6FF660504FFFACD5AE02 /* FontAwesome.ttf */; };
 		D9B26EC7028A4E578BBE1430 /* libRNVersionNumber.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E062F7AAD14557B4392475 /* libRNVersionNumber.a */; };
 		E2480E95A4194D8584BCEA33 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 610C1B5AA9D940D4BC5B83F8 /* Entypo.ttf */; };
@@ -153,9 +155,23 @@
 			remoteGlobalIDString = 24DF11ED1DA3A2B90056F77C;
 			remoteInfo = RNInstabug;
 		};
-		165361B620B1C6FC009C0AF0 /* PBXContainerItemProxy */ = {
+		16567EC420D305F0007F914C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A610E28CC0B541AE8F16F03D /* Interactable.xcodeproj */;
+			containerPortal = 1C53212275D145EFAD4F18DD /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
+			remoteInfo = RNDeviceInfo;
+		};
+		16567EC620D305F0007F914C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C53212275D145EFAD4F18DD /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E72EC1401F7ABB5A0001BC90;
+			remoteInfo = "RNDeviceInfo-tvOS";
+		};
+		16567F7520D307EE007F914C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB520B80F1BA40C283DF30EA /* Interactable.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CC0127971E3ACC3900B23C9F;
 			remoteInfo = Interactable;
@@ -334,13 +350,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 91090D8B1BB6C934009AE358;
 			remoteInfo = RNQuickAction;
-		};
-		16BC288220AE75A200D9DA4A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA48F295B86549AAAD808BCA /* Interactable.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CC0127971E3ACC3900B23C9F;
-			remoteInfo = Interactable;
 		};
 		16D9B8B3202F182300C4B170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -525,8 +534,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = coinsane/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		169669712099BB5000775295 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = coinsane/main.jsbundle; sourceTree = "<group>"; };
+		1C53212275D145EFAD4F18DD /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		1F1AF0AA168B47A488A01113 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		225234F7EF144F6B9CA33613 /* libInteractable.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libInteractable.a; sourceTree = "<group>"; };
 		2BFD69A6797B4DF19EB4B838 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* coinsane-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "coinsane-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* coinsane-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "coinsane-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -559,10 +568,12 @@
 		9AFE4E9E97114AFFA96BE631 /* Lato-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-MediumItalic.ttf"; path = "../assets/fonts/Lato-MediumItalic.ttf"; sourceTree = "<group>"; };
 		9BABC385EB254F13ABE2A52F /* ActivityView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ActivityView.xcodeproj; path = "../node_modules/react-native-activity-view/ActivityView.xcodeproj"; sourceTree = "<group>"; };
 		9D6A2507BE234E12874C6ACE /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		A480D7C767F1442AB200F425 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		A4E75D0450DD45BCBB000F3E /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
-		A610E28CC0B541AE8F16F03D /* Interactable.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Interactable.xcodeproj; path = "../node_modules/react-native-interactable/ios/Interactable.xcodeproj"; sourceTree = "<group>"; };
+		AD72DA5C6A72439892892CAB /* libInteractable.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libInteractable.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B10882FCD19D4B6B89D55148 /* Lato-SemiboldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-SemiboldItalic.ttf"; path = "../assets/fonts/Lato-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		B422E19AFD644AABB2167EF8 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
 		B44001AEEF374621A87EBE7A /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		B84CE24288A044D596D06884 /* RNStoreReview.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNStoreReview.xcodeproj; path = "../node_modules/react-native-store-review/ios/RNStoreReview.xcodeproj"; sourceTree = "<group>"; };
 		B9B9168AAB014E229793E0C5 /* Lato-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Thin.ttf"; path = "../assets/fonts/Lato-Thin.ttf"; sourceTree = "<group>"; };
@@ -577,6 +588,7 @@
 		DE643E221D444DF99E6C503B /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-ThinItalic.ttf"; path = "../assets/fonts/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
 		E89BF8D24CF04EA9AD2E13EE /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
 		EA48F295B86549AAAD808BCA /* Interactable.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Interactable.xcodeproj; path = "../node_modules/react-native-interactable/ios/Interactable.xcodeproj"; sourceTree = "<group>"; };
+		EB520B80F1BA40C283DF30EA /* Interactable.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Interactable.xcodeproj; path = "../node_modules/react-native-interactable/lib/ios/Interactable.xcodeproj"; sourceTree = "<group>"; };
 		EE1AD54263EC46DF9C03703C /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		F42DCA41954848BF80978C56 /* RNVersionNumber.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVersionNumber.xcodeproj; path = "../node_modules/react-native-version-number/ios/RNVersionNumber.xcodeproj"; sourceTree = "<group>"; };
 		F7B8C54BD6104458B6C6631E /* Lato-HeavyItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-HeavyItalic.ttf"; path = "../assets/fonts/Lato-HeavyItalic.ttf"; sourceTree = "<group>"; };
@@ -620,9 +632,10 @@
 				D9B26EC7028A4E578BBE1430 /* libRNVersionNumber.a in Frameworks */,
 				CAF2E9E3E0C949FABC8C2D60 /* libRNI18n.a in Frameworks */,
 				1FFEF8DEBF3A4F3A8BC35919 /* libRNQuickAction.a in Frameworks */,
-				8BF38D9B8BB648D3BFF6EB09 /* libInteractable.a in Frameworks */,
 				FE67A7FAC36C436A9CC88043 /* libFastImage.a in Frameworks */,
 				F2F886CC18784BCF9013D824 /* libBVLinearGradient.a in Frameworks */,
+				44A60D3B340C470C97C0D618 /* libRNDeviceInfo.a in Frameworks */,
+				9968C756020F45CDB45BB831 /* libInteractable.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,6 +651,7 @@
 				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
+				D5B61452C8FB41A9887AAF09 /* libRNDeviceInfo-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,10 +789,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		165361B020B1C6FC009C0AF0 /* Products */ = {
+		16567EC020D305F0007F914C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				165361B720B1C6FC009C0AF0 /* libInteractable.a */,
+				16567EC520D305F0007F914C /* libRNDeviceInfo.a */,
+				16567EC720D305F0007F914C /* libRNDeviceInfo-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16567F7220D307ED007F914C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16567F7620D307EE007F914C /* libInteractable.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -814,9 +837,11 @@
 				37E062F7AAD14557B4392475 /* libRNVersionNumber.a */,
 				036AABCDAF8144DBAEA07BAC /* libRNI18n.a */,
 				06E80FD4276C4434BBAD184D /* libRNQuickAction.a */,
-				225234F7EF144F6B9CA33613 /* libInteractable.a */,
 				623C8E29B427427DA87986EE /* libFastImage.a */,
 				CB7A6E4FF19345C780996ADB /* libBVLinearGradient.a */,
+				A480D7C767F1442AB200F425 /* libRNDeviceInfo.a */,
+				B422E19AFD644AABB2167EF8 /* libRNDeviceInfo-tvOS.a */,
+				AD72DA5C6A72439892892CAB /* libInteractable.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -891,7 +916,6 @@
 		16BC287F20AE75A200D9DA4A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				16BC288320AE75A200D9DA4A /* libInteractable.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -916,7 +940,6 @@
 		241F0FE01CDC4A4BA3306CD0 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A610E28CC0B541AE8F16F03D /* Interactable.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1008,9 +1031,10 @@
 				F42DCA41954848BF80978C56 /* RNVersionNumber.xcodeproj */,
 				B44001AEEF374621A87EBE7A /* RNI18n.xcodeproj */,
 				028F66F312D04CB589944804 /* RNQuickAction.xcodeproj */,
-				EA48F295B86549AAAD808BCA /* Interactable.xcodeproj */,
 				A4E75D0450DD45BCBB000F3E /* FastImage.xcodeproj */,
 				7CBE0917BB7B4718A4A7A600 /* BVLinearGradient.xcodeproj */,
+				1C53212275D145EFAD4F18DD /* RNDeviceInfo.xcodeproj */,
+				EB520B80F1BA40C283DF30EA /* Interactable.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1198,8 +1222,8 @@
 					ProjectRef = EA48F295B86549AAAD808BCA /* Interactable.xcodeproj */;
 				},
 				{
-					ProductGroup = 165361B020B1C6FC009C0AF0 /* Products */;
-					ProjectRef = A610E28CC0B541AE8F16F03D /* Interactable.xcodeproj */;
+					ProductGroup = 16567F7220D307ED007F914C /* Products */;
+					ProjectRef = EB520B80F1BA40C283DF30EA /* Interactable.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1248,6 +1272,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 16567EC020D305F0007F914C /* Products */;
+					ProjectRef = 1C53212275D145EFAD4F18DD /* RNDeviceInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = 16BC27FA20AD23F100D9DA4A /* Products */;
@@ -1360,11 +1388,25 @@
 			remoteRef = 1644693620A714C9007DDFF6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		165361B720B1C6FC009C0AF0 /* libInteractable.a */ = {
+		16567EC520D305F0007F914C /* libRNDeviceInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNDeviceInfo.a;
+			remoteRef = 16567EC420D305F0007F914C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		16567EC720D305F0007F914C /* libRNDeviceInfo-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNDeviceInfo-tvOS.a";
+			remoteRef = 16567EC620D305F0007F914C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		16567F7620D307EE007F914C /* libInteractable.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libInteractable.a;
-			remoteRef = 165361B620B1C6FC009C0AF0 /* PBXContainerItemProxy */;
+			remoteRef = 16567F7520D307EE007F914C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		166209A820B50FD40006A007 /* libFastImage.a */ = {
@@ -1540,13 +1582,6 @@
 			fileType = archive.ar;
 			path = libRNQuickAction.a;
 			remoteRef = 16BC280520AD23F100D9DA4A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		16BC288320AE75A200D9DA4A /* libInteractable.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libInteractable.a;
-			remoteRef = 16BC288220AE75A200D9DA4A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		16D9B8B4202F182300C4B170 /* libRNSVG.a */ = {
@@ -1878,21 +1913,16 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/RNQuickAction",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 				);
 				INFOPLIST_FILE = coinsaneTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1923,21 +1953,16 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/RNQuickAction",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 				);
 				INFOPLIST_FILE = coinsaneTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1972,10 +1997,10 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/RNQuickAction",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 				);
 				INFOPLIST_FILE = coinsane/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2018,10 +2043,10 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/RNQuickAction",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 				);
 				INFOPLIST_FILE = coinsane/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2067,20 +2092,15 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/RNQuickAction",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 				);
 				INFOPLIST_FILE = "coinsane-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2120,20 +2140,15 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/RNQuickAction",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
-					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 				);
 				INFOPLIST_FILE = "coinsane-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2164,11 +2179,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.coinsane-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2193,11 +2203,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.coinsane-tvOSTests";

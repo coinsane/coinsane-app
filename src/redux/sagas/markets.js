@@ -38,7 +38,7 @@ export function* fetchAvailableMarkets(action) {
     let fetchEndpoint = api.markets.fetchAvailableMarkets;
     if (q) {
       fetchEndpoint = api.markets.searchAvailableMarkets;
-      if (!action.payload.skip) yield delay(2000);
+      if (!action.payload.skip) yield delay(500);
     }
     const response = yield call(fetchEndpoint, action.payload);
     yield put({
@@ -78,12 +78,13 @@ export function* getMarketCap(action) {
  */
 export function* searchAvailableMarkets(action) {
   try {
-    yield delay(2000);
+    if (action.payload.q) yield delay(500);
     const response = yield call(api.markets.searchAvailableMarkets, action.payload);
     yield put({
       type: GET_AVAILABLE_MARKETS_SUCCESS,
       payload: {
         list: response.data.response.result,
+        count: response.data.response.count,
         ...action.payload,
       },
     });

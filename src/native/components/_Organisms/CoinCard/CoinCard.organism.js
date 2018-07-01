@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, View, Text, Body, Left, Right, Button } from 'native-base';
 import FastImage from 'react-native-fast-image';
+import get from 'lodash/get';
 
 import I18n from '../../../../i18n';
 import { nFormat, cFormat, round } from '../../../../lib/utils';
@@ -66,18 +67,10 @@ class CoinCard extends PureComponent {
     const symbol = currency.code;
     const decimal = currency.decimal > 6 ? 6 : currency.decimal;
 
-    const getCoinPrice = (_market) => {
-      return _market.prices ? parseFloat(_market.prices[symbol].price) : 0;
-    };
-    const getPctChange = (_market) => {
-      return _market.prices ? _market.prices[symbol].changePctDay : 0;
-    };
-    const getMarketCap = (_market) => {
-      return _market.prices ? nFormat(_market.prices[symbol].marketCap, 2, 1) : 0;
-    };
-    const getVolume24h = (_market) => {
-      return _market.prices ? nFormat(_market.prices[symbol].totalVolume24HTo, 2, 1) : 0;
-    };
+    const getPctChange = _market => get(_market, `prices[${symbol}].changePctDay`, 0);
+    const getCoinPrice = _market => parseFloat(get(_market, `prices[${symbol}].price`, 0));
+    const getMarketCap = _market => nFormat(get(_market, `prices[${symbol}].marketCap`, 0), 2, 1);
+    const getVolume24h = _market => nFormat(get(_market, `prices[${symbol}].totalVolume24HTo`, 0), 2, 1);
 
     const textPlaceholder = isLoading && typography.textPlaceholder;
 
@@ -249,7 +242,6 @@ class CoinCard extends PureComponent {
           </Body>
           <Right style={styles.market__right}>
             <Text
-              numberOfLines={1}
               style={[
                 styles.market__text,
                 textPlaceholder,
@@ -258,7 +250,6 @@ class CoinCard extends PureComponent {
               {coinCard.priceDisplay}
             </Text>
             <Text
-              numberOfLines={1}
               style={[
                 styles.market__text_footer,
                 { color: changeColor },

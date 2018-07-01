@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Container, List, Title, View, Footer, Button, Text, ListItem } from 'native-base';
+import { Container, List, Title, View, Footer, Button, Text } from 'native-base';
 
 import SearchBar from '../../_Molecules/SearchBar/SearchBar.molecula';
 import Modal from '../../modal/BaseModal.component';

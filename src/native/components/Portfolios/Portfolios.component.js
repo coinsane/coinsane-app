@@ -9,6 +9,7 @@ import get from 'lodash/get';
 
 import I18n from '../../../i18n';
 import Error from '../Error/Error.component';
+import Loading from '../Loading/Loading.component';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
 import PortfolioHeader from '../_Molecules/PortfolioHeader/PortfolioHeader.molecula';
@@ -54,6 +55,7 @@ class Portfolios extends Component {
     onboarding: PropTypes.bool.isRequired,
     hideOnboarding: PropTypes.func.isRequired,
     period: PropTypes.string,
+    getAvailableMarkets: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -67,6 +69,10 @@ class Portfolios extends Component {
     super(props);
     this.updateCurrency = this.updateCurrency.bind(this);
     this.updatePeriod = this.updatePeriod.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getAvailableMarkets({});
   }
 
   handleRefresh = () => {
@@ -408,6 +414,7 @@ class Portfolios extends Component {
 
     if (onboarding) {
       const market = markets.items['5a9c5e5244d0ad001eed91cd']; // BTC
+      if (!market) return <Loading />;
       return (
         <Onboarding
           currency={this.props.currency}

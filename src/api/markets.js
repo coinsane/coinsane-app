@@ -26,7 +26,7 @@ export const getMarketCap = convert => axios.get('/market/cap', { params: { conv
  */
 
 export const searchAvailableMarkets = ({
-  q,
+  q = '',
   limit = 10,
   skip = 0,
   type = 'market',

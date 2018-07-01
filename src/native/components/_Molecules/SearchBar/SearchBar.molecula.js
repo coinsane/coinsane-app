@@ -33,8 +33,9 @@ class SearchBar extends Component {
   onFocus = () => this.props.getAvailableMarkets({});
 
   onChangeText = (q = '') => {
-    if (q.length > 1) this.props.changeSearchTerm({ q });
-    else this.props.getAvailableMarkets({});
+    this.props.changeSearchTerm({ q });
+    // if (q.length > 1) this.props.changeSearchTerm({ q });
+    // else this.props.getAvailableMarkets({});
   };
 
   render() {

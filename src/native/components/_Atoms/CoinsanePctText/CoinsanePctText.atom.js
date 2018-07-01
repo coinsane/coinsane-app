@@ -11,6 +11,7 @@ const CoinsanePctText = ({
   negative,
 }) => {
   if (symbol === '%') {
+    if (Number.isNaN(value)) return null;
     const color = value >= 0 ? styles.positive : styles.negative;
     const prefix = value >= 0 ? '+' : '-';
     const displayValue = `${prefix}${parseFloat(Math.abs(value)).toFixed(2) || 0}${symbol}`;

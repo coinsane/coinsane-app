@@ -77,7 +77,7 @@ export default function actionReducer(state = initialState, action) {
     case GET_AVAILABLE_MARKETS_SUCCESS: {
       const items = { ...state.items };
       const listPayload = action.payload.list.map((market) => {
-        if (action.payload.cached) return market;
+        // if (action.payload.cached) return market;
         items[market._id] = market;
         return market._id;
       });
@@ -85,13 +85,13 @@ export default function actionReducer(state = initialState, action) {
         ...(action.payload.skip ? state.list : []),
         ...listPayload,
       ];
-      const cache = { ...state.cache };
+      // const cache = { ...state.cache };
       const searchTerm = action.payload.q ? action.payload.q.toLowerCase() : '';
-      const q = searchTerm ? `:${searchTerm}` : '';
-      if (!action.payload.cached) {
-        const cacheKey = `${action.payload.skip}${q}`;
-        cache[cacheKey] = listPayload;
-      }
+      // const q = searchTerm ? `:${searchTerm}` : '';
+      // if (!action.payload.cached) {
+      //   const cacheKey = `${action.payload.skip}${q}`;
+      //   cache[cacheKey] = listPayload;
+      // }
       const count = action.payload.count ? action.payload.count : null;
       return {
         ...state,
@@ -173,6 +173,7 @@ export default function actionReducer(state = initialState, action) {
     }
     case SEARCH_AVAILABLE_MARKETS_SUCCESS: {
       const items = { ...state.items };
+      const { count } = action.payload;
       const list = action.payload.list.map((market) => {
         items[market._id] = market;
         return market._id;
@@ -183,6 +184,7 @@ export default function actionReducer(state = initialState, action) {
         loading: false,
         list,
         items,
+        count,
       };
     }
     case SEARCH_AVAILABLE_MARKETS_ERROR: {

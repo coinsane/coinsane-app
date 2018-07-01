@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
 import { updateDraftTransaction } from '../redux/state/transactions/transactions.actioncreators';
 import { removeCoin } from '../redux/state/coin/coin.actioncreators';
-import { getAvailableMarkets, clearMarkets } from '../redux/state/markets/markets.actioncreators';
+import { getAvailableMarkets, clearMarkets, changeSearchTerm } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency, hideOnboarding } from '../redux/state/settings/settings.actioncreators';
 
@@ -60,6 +60,7 @@ class Portfolios extends Component {
       periods: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
     hideOnboarding: PropTypes.func.isRequired,
+    changeSearchTerm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -86,13 +87,11 @@ class Portfolios extends Component {
   addCoin = (portfolio) => {
     this.props.updateDraftTransaction({ portfolio, create: true });
     Actions.selector({
-      preLoad: () => {
-        this.props.getAvailableMarkets({});
+      preLoad: (data) => {
+        this.props.changeSearchTerm(data);
         this.props.getAvailableCurrencies({});
       },
-      clear: () => {
-        this.props.clearMarkets();
-      },
+      clear: () => this.props.clearMarkets(),
       title: 'Select coin',
       listItemType: 'arrow',
       navigationType: 'close',
@@ -166,6 +165,7 @@ class Portfolios extends Component {
 
         updateCurrency={this.props.selectCurrency}
         updatePeriod={this.props.updatePeriod}
+        getAvailableMarkets={this.props.getAvailableMarkets}
 
         markets={markets}
         coins={coin.items}
@@ -203,6 +203,7 @@ const mapDispatchToProps = {
   clearMarkets,
   removeCoin,
   hideOnboarding,
+  changeSearchTerm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Portfolios);

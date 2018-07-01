@@ -43,6 +43,7 @@ const Index = (
     >
       <Stack
         key="sections"
+        panHandlers={null}
         transitionConfig={() => ({
           screenInterpolator: CardStackStyleInterpolator.forFade,
         })}

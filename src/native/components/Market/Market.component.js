@@ -62,15 +62,20 @@ class Market extends Component {
       changeSearchTerm,
       getAvailableMarkets,
     } = this.props;
-    if (!markets.loading) {
-      if (markets.searchTerm) {
-        changeSearchTerm({
-          skip: markets.list.length,
-          q: markets.searchTerm,
-        });
-      } else {
-        getAvailableMarkets({ skip: markets.list.length });
-      }
+    if (!markets.loading && markets.count !== markets.list.length) {
+      const q = markets.searchTerm || '';
+      changeSearchTerm({
+        skip: markets.list.length,
+        q,
+      });
+      // if (markets.searchTerm) {
+      //   changeSearchTerm({
+      //     skip: markets.list.length,
+      //     q: markets.searchTerm,
+      //   });
+      // } else {
+      //   getAvailableMarkets({ skip: markets.list.length });
+      // }
     }
   };
 
@@ -97,20 +102,23 @@ class Market extends Component {
         <View style={styles.market__search}>
           <SearchBar />
         </View>
-        <View style={styles.market__header}>
-          <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('markets.coin')}</Text>
-          <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('markets.mcap')}/{I18n.t('markets.vol24')}</Text>
-          <Text style={[styles.market__header_text, styles.market__header_row3]}>{I18n.t('markets.price')}</Text>
-        </View>
+        {
+          markets.list.length &&
+          <View style={styles.market__header}>
+            <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('markets.coin')}</Text>
+            <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('markets.mcap')}/{I18n.t('markets.vol24')}</Text>
+            <Text style={[styles.market__header_text, styles.market__header_row3]}>{I18n.t('markets.price')}</Text>
+          </View>
+        }
       </View>
     );
   };
 
   renderFooter = () => {
-    // const {
-    //   markets,
-    // } = this.props;
-    // if (!markets.loading) return null;
+    const {
+      markets,
+    } = this.props;
+    if (!markets.loading) return null;
     return <Loading size={25} />;
   };
 
