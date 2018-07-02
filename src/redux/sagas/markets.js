@@ -35,12 +35,10 @@ export function* fetchAvailableMarkets(action) {
     //     },
     //   });
     // } else {
-    let fetchEndpoint = api.markets.fetchAvailableMarkets;
     if (q) {
-      fetchEndpoint = api.markets.searchAvailableMarkets;
       if (!action.payload.skip) yield delay(500);
     }
-    const response = yield call(fetchEndpoint, action.payload);
+    const response = yield call(api.markets.searchAvailableMarkets, action.payload);
     yield put({
       type: GET_AVAILABLE_MARKETS_SUCCESS,
       payload: {
