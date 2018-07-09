@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import { put, call, takeLatest, select, takeEvery } from 'redux-saga/effects';
+import moment from 'moment';
 import { round } from '../../lib/utils';
 import { transactions } from '../actions';
 import api from '../../api';
@@ -110,7 +111,7 @@ function* updateDraftTransaction(action) {
       const tsyms = draft.type === 'exchange' && draft.exchange ?
         get(markets, `${exchange}.symbol`, null) :
         get(currencies, `${currency}.code`, null);
-      const date = new Date(`${draft.date} ${draft.time}`);
+      const date = moment(`${draft.date} ${draft.time}`, 'YYYY-MM-DD hh:mm').toString();
       if (fsym && tsyms && date) {
         const response = yield call(api.coins.getPrice, { fsym, tsyms, date });
         yield put({ type: GET_TRANSACTION_PRICE_SUCCESS, payload: response.data.data[tsyms] });
