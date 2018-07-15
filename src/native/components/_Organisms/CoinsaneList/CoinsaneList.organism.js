@@ -156,7 +156,7 @@ class CoinsaneList extends Component {
           <CoinsaneHeader
             leftIcon="Close"
             leftAction={() => this.close()}
-            title={<Title>{title}</Title>}
+            title={<Title style={base.title}>{title}</Title>}
           />
           <List style={[base.contentContainer, base.contentPadding]}>
             {this.renderHeadListItem()}

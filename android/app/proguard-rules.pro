@@ -68,3 +68,8 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# fastimage
+
+-keep public class com.dylanvann.fastimage.* { public *; }
+-dontwarn com.dylanvann.fastimage.**

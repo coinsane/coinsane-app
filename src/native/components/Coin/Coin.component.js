@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Container, Text, Tabs, Tab, TabHeading, View } from 'native-base';
 import FastImage from 'react-native-fast-image';
 
+import ga from '../../../lib/ga';
 import Error from '../Error/Error.component';
 import CoinTabOverview from '../CoinTabOverview/CoinTabOverview.component';
 import CoinTabTransactions from '../CoinTabTransactions/CoinTabTransactions.component';
@@ -69,11 +70,17 @@ class Coin extends Component {
 
     if (market.symbol === symbol) {
       tsym = Object.keys(currencies).filter(key => key !== market.symbol)[0];
-      updateCurrency(tsym);
-      getExchanges({ marketId, fsym, tsym });
+      if (tsym) {
+        updateCurrency(tsym);
+        getExchanges({ marketId, fsym, tsym });
+      }
     }
 
     getCoinHisto({ marketId, fsym, tsym, range: period });
+  }
+
+  componentDidMount() {
+    ga.trackScreenView('Coin');
   }
 
   render() {
@@ -135,7 +142,7 @@ class Coin extends Component {
           title={<HeaderTitle />}
         />
         <Tabs locked style={{ backgroundColor: colors.bgGray }} tabBarUnderlineStyle={{ height: 1 }}>
-          <Tab heading={tabHeading('Overview')}>
+          <Tab heading={tabHeading('Overview')} tabStyle={{ elevation: 0 }}>
             <CoinTabOverview
               error={error}
               market={market}
@@ -158,7 +165,7 @@ class Coin extends Component {
               loadMoreExchanges={loadMoreExchanges}
             />
           </Tab>
-          <Tab heading={tabHeading('Transactions')}>
+          <Tab heading={tabHeading('Transactions')} tabStyle={{ elevation: 0 }}>
             <CoinTabTransactions
               error={error}
               coin={coin}

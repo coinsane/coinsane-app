@@ -46,7 +46,7 @@ const CoinCell = ({
       <Body style={styles.listItem__body}>
         <Text numberOfLines={1} style={styles.listItem__text}>{title}</Text>
         {
-          subtitle &&
+          !!subtitle &&
           <Text numberOfLines={1} style={styles.listItem__text_footer}>{subtitle}</Text>
         }
       </Body>

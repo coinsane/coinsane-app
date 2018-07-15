@@ -76,7 +76,7 @@ class PortfolioSettings extends Component {
       <Container>
         <CoinsaneHeader
           leftIcon="Back"
-          title={<Title>{portfolio.title}</Title>}
+          title={<Title style={base.title}>{portfolio.title}</Title>}
         />
         <Content style={[base.contentContainer, base.contentPadding]}>
           <Form>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Item, Label, Input } from 'native-base';
-import { base, colors } from '../../../styles';
+
+import styles from './CoinsaneStackedLabel.styles';
+import { colors } from '../../../styles';
 
 class CoinsaneStackedLabel extends Component {
   render() {
@@ -18,10 +20,8 @@ class CoinsaneStackedLabel extends Component {
       placeholder,
     } = this.props;
     return (
-      <Item stackedLabel style={base.listItem__labelInputContainer}>
-        <Label style={base.listItem__labelText}>
-          {label}
-        </Label>
+      <Item stackedLabel style={styles.item}>
+        <Label style={styles.label}>{label}</Label>
         <Input
           autoFocus={autoFocus}
           clearTextOnFocus={clearTextOnFocus}
@@ -30,7 +30,7 @@ class CoinsaneStackedLabel extends Component {
           onBlur={v => onBlur(propName, v)}
           value={value}
           selectTextOnFocus={selectTextOnFocus}
-          style={base.listItem__labelInput}
+          style={styles.input}
           placeholderTextColor={colors.textGray}
           placeholder={placeholder}
         />

@@ -13,7 +13,7 @@ const MarketInfoCell = ({ item, isFirst }) => {
   return (
     <View>
       {
-        isFirst &&
+        !!isFirst &&
         <View style={styles.header}>
           <Text style={[styles.col1, styles.headerText]}>Source</Text>
           <Text style={[styles.col2, styles.headerText]}>Vol(24h)</Text>

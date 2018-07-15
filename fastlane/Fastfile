@@ -1,0 +1,87 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+# default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    ensure_git_branch(
+      branch: "master"
+    )
+
+    increment_build_number(xcodeproj: "./ios/coinsane.xcodeproj")
+
+    get_certificates
+    get_provisioning_profile(app_identifier: "org.coinsane.v1")
+
+    build_app(
+      project: "./ios/coinsane.xcodeproj",
+      scheme: "coinsane",
+      export_method: "app-store"
+    )
+
+    upload_to_testflight
+  end
+end
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    ensure_git_branch(
+      branch: "master"
+    )
+
+    increment_version_code(
+      gradle_file_path: "android/app/build.gradle"
+    )
+
+    gradle(task: "clean", project_dir: "android/")
+    gradle(task: "assemble", build_type: "Release", project_dir: "android/")
+
+    crashlytics(
+      api_token: "cd0496671a73bb599483e2c43d807a7b08a5b4f1",
+      build_secret: "a07d14a1f88d639071119f71bf795e905f6beaba661b2e57760f219ea838347d"
+    )
+
+    hockey(
+      api_token: "f7ddaba1264a490bbe298d85518f0a1d",
+      apk: "android/app/build/outputs/apk/app-armeabi-v7a-release.apk"
+    )
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to HockeyApp"
+  lane :hockeyapp do
+    hockey(
+      api_token: "f7ddaba1264a490bbe298d85518f0a1d",
+      apk: "android/app/build/outputs/apk/app-armeabi-v7a-release.apk"
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean", project_dir: "android/")
+    gradle(task: "assemble", build_type: "Release", project_dir: "android/")
+    upload_to_play_store
+  end
+end

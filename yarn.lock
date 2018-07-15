@@ -6904,6 +6904,10 @@ react-native-easy-grid@0.1.17:
   dependencies:
     lodash "^4.11.1"
 
+react-native-fabric@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-fabric/-/react-native-fabric-0.5.1.tgz#e5eb65c56196355b41f230c14adcc9c4bcf60dda"
+
 react-native-fast-image@^4.0.14:
   version "4.0.14"
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-4.0.14.tgz#1e84c9a01b1471793e294ef4e7c3cc20e09562a0"
@@ -6919,6 +6923,10 @@ react-native-gifted-listview@^0.0.15:
 react-native-gifted-spinner@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/react-native-gifted-spinner/-/react-native-gifted-spinner-0.0.4.tgz#32652b5a60423f14719a1c3125613299af0995f2"
+
+react-native-google-analytics-bridge@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-google-analytics-bridge/-/react-native-google-analytics-bridge-5.8.0.tgz#37140a8a2322c4edf5eeaf385f0c9eff9feed521"
 
 react-native-i18n@^2.0.12:
   version "2.0.12"

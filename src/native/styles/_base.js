@@ -4,6 +4,11 @@ import fonts from './_fonts';
 
 export default StyleSheet.create({
   white: { color: colors.white },
+  title: {
+    color: colors.white,
+    fontFamily: fonts.fontMedium,
+    fontSize: 16,
+  },
   textCenter: { textAlign: 'center' },
   headerContainer: { borderBottomWidth: 0 },
   contentBackground: {
@@ -23,6 +28,7 @@ export default StyleSheet.create({
     backgroundColor: colors.bgGray,
     borderTopWidth: 0,
     height: 50,
+    elevation: 0,
   },
   footer__button: {
     flex: 1,

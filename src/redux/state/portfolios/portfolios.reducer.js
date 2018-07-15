@@ -13,7 +13,6 @@ import {
   UPDATE_PERIOD,
   UPDATE_PORTFOLIO_CURRENCY_SUCCESS,
   UPDATE_PORTFOLIO_PERIOD_SUCCESS,
-  UPDATE_PERIOD_SUCCESS,
   PORTFOLIO_COLLAPSE,
   UPDATE_PORTFOLIO_CHART_SUCCESS,
 } from '../../actions/action.types';
@@ -26,7 +25,7 @@ export const initialState = {
   items: {},
   selected: null,
   chart: {},
-  currency: 'BTC',
+  currency: 'USD',
   period: '1d',
   changePct: 0,
   lastTotal: 0,

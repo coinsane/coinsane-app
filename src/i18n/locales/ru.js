@@ -5,7 +5,6 @@ export default {
     settings: 'Настройки',
   },
   markets: {
-    title: 'Markets',
     coin: 'Монета',
     mcap: 'Кап.',
     vol24: '24 об.',
@@ -23,6 +22,7 @@ export default {
     exchanges: 'Обмен',
     news: 'Лента',
     loadMore: 'ЕЩЕ',
+    titleSelect: 'Выбор монеты',
   },
   portfolios: {
     titleChoose: 'Выбрать коллекцию',
@@ -50,8 +50,8 @@ export default {
     profit: 'Доходность',
     createButton: 'ДОБАВИТЬ',
     form: {
-      labelBuy: 'ДОХОД/ПОКУПКА',
-      labelSell: 'РАСХОД/ПРОДАЖА',
+      labelBuy: 'ПРИХОД',
+      labelSell: 'РАСХОД',
       labelExchange: 'ОБМЕН',
       fieldPortfolio: 'Выбор коллекции',
       fieldAmount: 'Количество',
@@ -70,6 +70,21 @@ export default {
       title: 'Ошибка',
       emptyAmount: 'Укажите количество и сумму',
     },
+  },
+  settings: {
+    channels: 'КАНАЛЫ',
+    version: 'Версия:',
+    policy: 'Политика конфиденциальности',
+    rate: 'Оценить приложение',
+    terms: 'Условия использования',
+    share: 'Поделиться',
+    shareText: 'Coinsane — это круто!',
+    shareUrl: 'https://coinsane.org',
+    currency: 'Валюты',
+    telegram: 'Telegram',
+    telegramUrl: 'https://t.me/coinsane',
+    twitter: 'Twitter',
+    twitterUrl: 'https://twitter.com/coinsane_org',
   },
   categories: {
     titleChoose: 'Выберите рубрику',

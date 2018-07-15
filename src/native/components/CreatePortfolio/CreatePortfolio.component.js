@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title } from 'native-base';
 
+import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
@@ -24,6 +25,10 @@ class CreatePortfolio extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    ga.trackScreenView('CreatePortfolio');
+  }
+
   handleChange = (name, val) => {
     this.setState({
       ...this.state,
@@ -43,7 +48,7 @@ class CreatePortfolio extends Component {
       <Container>
         <CoinsaneHeader
           leftIcon="Back"
-          title={<Title>{I18n.t('portfolios.titleAdd')}</Title>}
+          title={<Title style={base.title}>{I18n.t('portfolios.titleAdd')}</Title>}
         />
         <Content style={[base.contentContainer, base.contentPadding]}>
           <Text style={styles.content__text}>{I18n.t('portfolios.form.labelAdd')}</Text>

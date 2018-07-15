@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Swiper from 'react-native-swiper';
 import get from 'lodash/get';
 
+import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
 import Error from '../Error/Error.component';
 import Loading from '../Loading/Loading.component';
@@ -72,6 +73,7 @@ class Portfolios extends Component {
   }
 
   componentDidMount() {
+    ga.trackScreenView('Portfolios');
     this.props.getAvailableMarkets({});
   }
 
@@ -400,7 +402,7 @@ class Portfolios extends Component {
         <Title>
           <Icon name="ios-arrow-down" style={[styles.header__arrow, { color: colors.textGray }]} />
           &nbsp;
-          <Text>{title}</Text>
+          <Text style={base.title}>{title}</Text>
         </Title>
       );
     };
@@ -449,14 +451,14 @@ class Portfolios extends Component {
             extraData={portfolios}
           />
           {
-            activePortfolio && <LinearGradient
+            !!activePortfolio && <LinearGradient
               colors={[colors.gradientTo, colors.gradientFrom]}
               style={base.gradientBottom}
             />
           }
         </List>
         {
-          activePortfolio &&
+          !!activePortfolio &&
           <Footer style={base.footer}>
             <Button
               small

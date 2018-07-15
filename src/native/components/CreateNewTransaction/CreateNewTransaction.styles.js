@@ -44,6 +44,7 @@ export default StyleSheet.create({
     margin: 0,
     backgroundColor: 'transparent',
     height: 40,
+    elevation: 0,
   },
   listItem__rightButtonText: {
     alignSelf: 'center',

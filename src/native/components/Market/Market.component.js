@@ -4,6 +4,7 @@ import { FlatList } from 'react-native';
 import { Container, View, Text, Title, List } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
+import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
@@ -35,6 +36,7 @@ class Market extends Component {
   };
 
   componentDidMount() {
+    ga.trackScreenView('Market');
     const {
       getAvailableMarkets,
     } = this.props;
@@ -103,7 +105,7 @@ class Market extends Component {
           <SearchBar />
         </View>
         {
-          markets.list.length &&
+          !!markets.list.length &&
           <View style={styles.market__header}>
             <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('markets.coin')}</Text>
             <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('markets.mcap')}/{I18n.t('markets.vol24')}</Text>
@@ -148,7 +150,7 @@ class Market extends Component {
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Title>{I18n.t('markets.title')}</Title>}
+          title={<Title style={base.title}>{I18n.t('navigation.markets')}</Title>}
           rightIcon="Filter"
           rightAction={() => {}}
         />

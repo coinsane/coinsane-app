@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Body, Header, Left, Button, Right } from 'native-base';
-import { StatusBar, TouchableOpacity } from 'react-native';
+import {Platform, StatusBar, TouchableOpacity} from 'react-native';
 
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './CoinsaneHeader.styles';
 import { colors } from '../../../styles';
+
+if (Platform.OS === 'android') {
+  StatusBar.setHidden(false);
+}
 
 const CoinsaneHeader = ({
   leftIcon,
@@ -23,10 +27,10 @@ const CoinsaneHeader = ({
     style={styles.header}
     hasTabs
   >
-    <StatusBar barStyle="light-content" />
+    <StatusBar backgroundColor={colors.bgPrimary} barStyle="light-content" />
     <Left style={styles.header__left}>
       {
-        leftActive && leftIcon && leftAction &&
+        !!leftActive && leftIcon && leftAction &&
         <Button transparent onPress={leftAction}>
           <CoinsaneIcon name={leftIcon} width={28} fill={colors.white} />
         </Button>
@@ -43,7 +47,7 @@ const CoinsaneHeader = ({
     </Body>
     <Right style={styles.header__right}>
       {
-        rightActive && rightIcon && rightAction &&
+        !!rightActive && rightIcon && rightAction &&
         <Button transparent onPress={rightAction}>
           <CoinsaneIcon name={rightIcon} width={28} fill={colors.white} />
         </Button>

@@ -5,7 +5,6 @@ export default {
     settings: 'Settings',
   },
   markets: {
-    title: 'Markets',
     coin: 'Coin',
     mcap: 'M.cap',
     vol24: '24 Vol',
@@ -23,6 +22,7 @@ export default {
     exchanges: 'Markets',
     news: 'News',
     loadMore: 'LOAD MORE',
+    titleSelect: 'Select coin',
   },
   portfolios: {
     titleChoose: 'Choose Portfolio',
@@ -70,6 +70,21 @@ export default {
       title: 'Error',
       emptyAmount: 'Amount is empty',
     },
+  },
+  settings: {
+    channels: 'CHANNELS',
+    version: 'App version',
+    policy: 'Privacy policy',
+    rate: 'Rate the app',
+    terms: 'Terms and Conditions',
+    share: 'Sharing',
+    shareText: 'Coinsane is awesome!',
+    shareUrl: 'https://coinsane.org',
+    currency: 'Currency',
+    telegram: 'Telegram',
+    telegramUrl: 'https://t.me/coinsane',
+    twitter: 'Twitter',
+    twitterUrl: 'https://twitter.com/coinsane_org',
   },
   categories: {
     titleChoose: 'Choose Category',

@@ -1,0 +1,11 @@
+json_key_file("") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("org.coinsane.v1") # e.g. com.krausefx.app
+
+app_identifier("org.coinsane.v1") # The bundle identifier of your app
+apple_id("temakashin@me.com") # Your Apple email address
+
+itc_team_id("119078190") # App Store Connect Team ID
+team_id("794ZY94G69") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

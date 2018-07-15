@@ -10,6 +10,7 @@ import { removeCoin } from '../redux/state/coin/coin.actioncreators';
 import { getAvailableMarkets, clearMarkets, changeSearchTerm } from '../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 import { selectCurrency, hideOnboarding } from '../redux/state/settings/settings.actioncreators';
+import I18n from '../i18n';
 
 class Portfolios extends Component {
   static propTypes = {
@@ -92,7 +93,7 @@ class Portfolios extends Component {
         this.props.getAvailableCurrencies({});
       },
       clear: () => this.props.clearMarkets(),
-      title: 'Select coin',
+      title: I18n.t('coins.titleSelect'),
       listItemType: 'arrow',
       navigationType: 'close',
       searchBar: true,

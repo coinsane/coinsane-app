@@ -9,6 +9,7 @@ import { Right, Body, Container, Content, List, Input, ListItem, Text, Button, F
 import get from 'lodash/get';
 import moment from 'moment';
 
+import ga from '../../../lib/ga';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import withPreventDoubleClick from '../../../hocs';
 import I18n from '../../../i18n';
@@ -96,6 +97,10 @@ class CreateNewTransaction extends Component {
     });
 
     this.timer = null;
+  }
+
+  componentDidMount() {
+    ga.trackScreenView('CreateTransaction');
   }
 
   update = (list) => {
@@ -409,7 +414,7 @@ class CreateNewTransaction extends Component {
           <CoinsaneHeader
             leftIcon="Close"
             leftAction={() => this.close()}
-            title={<Title>{I18n.t('transactions.titleAdd')}</Title>}
+            title={<Title style={base.title}>{I18n.t('transactions.titleAdd')}</Title>}
           />
           <Content style={[base.contentContainer, base.contentPadding]}>
             <CoinsaneSwitchSelector

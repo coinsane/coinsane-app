@@ -4,6 +4,7 @@ import { fonts } from '../../styles';
 export default StyleSheet.create({
   contentContainer: {
     backgroundColor: 'transparent',
+    width: 300,
   },
   list: {
     marginTop: 100,
@@ -21,7 +22,7 @@ export default StyleSheet.create({
     fontFamily: fonts.fontRegular,
     fontSize: 18,
     letterSpacing: -0.3,
-    height: 21,
+    height: 24,
     width: 200,
     marginLeft: 10,
   },

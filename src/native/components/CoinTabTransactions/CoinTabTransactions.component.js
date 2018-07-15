@@ -182,7 +182,7 @@ class CoinTabTransactions extends Component {
           <SummaryCell
             summaryList={this.getSummaryList()}
             borderBottom
-            loading={transactionsLoading}
+            // loading={transactionsLoading}
           />
         </View>
         <List style={base.contentContainer}>

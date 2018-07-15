@@ -8,7 +8,7 @@ export const initialState = {
   loading: true,
   error: null,
   currencies: {},
-  currency: 'BTC',
+  currency: 'USD',
   periods: ['1h', '1d', '1w', '1m', '3m', '6m', '1y'],
   onboarding: true,
 };

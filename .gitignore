@@ -7,7 +7,16 @@ ios/build
 .eslintrc
 android/gradle.properties
 android/local.properties
-android/app/coinsane.keystore
+android/app/*.keystore
 android/app/build
 android/build
 android/.gradle
+
+# Deployment
+*.cer
+*.jsbundle
+*.jsbundle.meta
+*dSYM.zip
+*.keystore
+*.mobileprovision
+fastlane/report.xml

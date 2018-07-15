@@ -3,6 +3,7 @@ package com.coinsane.v1;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -18,6 +19,9 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.smixx.fabric.FabricPackage;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new GoogleAnalyticsBridgePackage(),
             new RNDeviceInfo(),
             new LinearGradientPackage(),
             new FastImageViewPackage(),
@@ -42,15 +47,10 @@ public class MainApplication extends Application implements ReactApplication {
             new RNI18nPackage(),
             new RNVersionNumberPackage(),
             new SplashScreenReactPackage(),
-            		new RNInstabugReactnativePackage.Builder("eb8edc791b160f8f1ba74fa4fbf0786f",MainApplication.this)
-							.setInvocationEvent("shake")
-							.setPrimaryColor("#1D82DC")
-							.setFloatingEdge("left")
-							.setFloatingButtonOffsetFromTop(250)
-							.build(),
             new AutoGrowTextInputPackage(),
             new RNSpinkitPackage(),
-            new SvgPackage()
+            new SvgPackage(),
+            new FabricPackage()
       );
     }
 
@@ -69,5 +69,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    Fabric.with(this, new Crashlytics());
   }
 }

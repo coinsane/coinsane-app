@@ -61,7 +61,10 @@ class ForgotPassword extends React.Component {
             content="No stress, no stress. We'll get you back into your account."
           />
 
-          {error && <Messages message={error} />}
+          {
+            !!error &&
+            <Messages message={error} />
+          }
 
           <Form>
             <Item stackedLabel>

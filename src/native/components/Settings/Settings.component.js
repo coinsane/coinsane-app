@@ -7,12 +7,14 @@ import * as StoreReview from 'react-native-store-review';
 import VersionNumber from 'react-native-version-number';
 import { Actions } from 'react-native-router-flux';
 
+import ga from '../../../lib/ga';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import I18n from '../../../i18n';
 
 import styles from './Settings.styles';
-import { colors } from '../../styles';
+import { base, colors } from '../../styles';
 
 class Settings extends Component {
   static propTypes = {
@@ -26,6 +28,10 @@ class Settings extends Component {
     }).isRequired,
   };
 
+  componentDidMount() {
+    ga.trackScreenView('Settings');
+  }
+
   render() {
     const {
       drawer, settings, pages,
@@ -33,21 +39,21 @@ class Settings extends Component {
 
     const items = [
       {
-        label: 'Currency',
+        label: I18n.t('settings.currency'),
         name: Object.keys(settings.currencies).join(','),
         onPress: () => {},
       },
       {
-        name: 'Sharing',
+        name: I18n.t('settings.share'),
         onPress: () => {
           ActivityView.show({
-            text: 'Coinsane is awesome!',
-            url: 'https://coinsane.org',
+            text: I18n.t('settings.shareText'),
+            url: I18n.t('settings.shareUrl'),
           });
         },
       },
       {
-        name: 'Terms and Conditions',
+        name: I18n.t('settings.terms'),
         onPress: () => Actions.page({ ...pages.terms }),
       },
       // {
@@ -58,7 +64,7 @@ class Settings extends Component {
       //   }),
       // },
       {
-        name: 'Rate the app',
+        name: I18n.t('settings.rate'),
         onPress: () => {
           if (StoreReview.isAvailable) {
             StoreReview.requestReview();
@@ -66,7 +72,7 @@ class Settings extends Component {
         },
       },
       {
-        name: 'Privacy policy',
+        name: I18n.t('settings.policy'),
         onPress: () => Actions.page({ ...pages.policy }),
       },
     ];
@@ -78,14 +84,14 @@ class Settings extends Component {
       //   onPress: () => Linking.openURL('https://t.me/coinsane'),
       // },
       {
-        name: 'Telegram',
+        name: I18n.t('settings.telegram'),
         icon: 'Telegram',
-        onPress: () => Linking.openURL('https://t.me/coinsane'),
+        onPress: () => Linking.openURL(I18n.t('settings.telegramUrl')),
       },
       {
-        name: 'Twitter',
+        name: I18n.t('settings.twitter'),
         icon: 'Twitter',
-        onPress: () => Linking.openURL('https://twitter.com/coinsane_org'),
+        onPress: () => Linking.openURL(I18n.t('settings.twitterUrl')),
       },
     ];
     return (
@@ -93,7 +99,7 @@ class Settings extends Component {
         <CoinsaneHeader
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Title>Settings</Title>}
+          title={<Title style={base.title}>{I18n.t('navigation.settings')}</Title>}
         />
         <Content style={styles.settings__container}>
           <List style={styles.settings_list}>
@@ -104,7 +110,7 @@ class Settings extends Component {
                 style={[styles.settings_listItem, label && styles.settings_listItem__withLabel]}
                 onPress={onPress}
               >
-                {label && <Label style={styles.settings_listItem__label}>Currency</Label>}
+                {!!label && <Label style={styles.settings_listItem__label}>{I18n.t('settings.currency')}</Label>}
                 <Text
                   style={[styles.settings_listItem__text, styles.settings_listItem__textWithLabel]}
                 >
@@ -113,7 +119,7 @@ class Settings extends Component {
               </ListItem>
             ))}
           </List>
-          <Text style={styles.container__text}>{'Channels'.toUpperCase()}</Text>
+          <Text style={styles.container__text}>{I18n.t('settings.channels')}</Text>
           <List style={styles.settings_list}>
             {channels.map(({ name, icon, onPress }) => (
               <ListItem
@@ -131,7 +137,7 @@ class Settings extends Component {
               </ListItem>
             ))}
           </List>
-          <Text style={styles.container__text}>App version {VersionNumber.appVersion}</Text>
+          <Text style={styles.container__text}>{I18n.t('settings.version')} {VersionNumber.appVersion}</Text>
           <Spacer size={30} />
         </Content>
       </Container>

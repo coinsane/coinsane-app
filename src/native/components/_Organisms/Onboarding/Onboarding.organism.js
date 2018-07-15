@@ -104,10 +104,12 @@ class Onboarding extends Component {
 
     const NavButton = ({ show, title }) => {
       const style = this.state.skip ? styles.buttonSkip : styles.buttonStart;
-      return show &&
-        <TouchableHighlight onPress={this.props.hideOnboarding}>
-          <Text style={style}>{title}</Text>
-        </TouchableHighlight>;
+      return !!show &&
+        <View style={style}>
+          <TouchableHighlight onPress={this.props.hideOnboarding}>
+            <Text style={styles.buttonText}>{title}</Text>
+          </TouchableHighlight>
+        </View>;
     };
 
     const price = get(this.props.market, 'prices.USD.price', 0);

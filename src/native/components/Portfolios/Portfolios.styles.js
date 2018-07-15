@@ -22,8 +22,8 @@ export default StyleSheet.create({
     marginRight: 7,
   },
   coins__contentHeaderText: {
-    color: colors.textGray,
-    fontSize: 14,
+    color: colors.white,
+    fontSize: 16,
     fontFamily: fonts.fontMedium,
   },
   coins__buttonPeriod: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, Platform, DeviceEventEmitter, Linking } from 'react-native';
+import { DeviceEventEmitter, Linking, YellowBox } from 'react-native';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import { Router } from 'react-native-router-flux';
@@ -20,6 +20,8 @@ import { getToken } from '../redux/state/auth/auth.actioncreators';
 
 import Config from '../constants/config';
 
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+
 DeviceEventEmitter.addListener('quickActionShortcut', console.log);
 
 QuickActions.setShortcutItems([
@@ -35,9 +37,6 @@ QuickActions.setShortcutItems([
 ]);
 
 const RouterWithRedux = connect()(Router);
-
-// Hide StatusBar on Android as it overlaps tabs
-if (Platform.OS === 'android') StatusBar.setHidden(true);
 
 class Root extends Component {
   static propTypes = {

@@ -44,7 +44,7 @@ const Page = ({ title, content }) => (
   <Container>
     <CoinsaneHeader
       leftIcon="Close"
-      title={<Title>{title}</Title>}
+      title={<Title style={base.title}>{title}</Title>}
     />
     <Content padder style={base.contentContainer}>
       <Markdown styles={markdownStyles}>{content}</Markdown>
