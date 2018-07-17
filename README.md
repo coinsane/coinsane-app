@@ -20,7 +20,6 @@
 
 ## 📖 Docs
 
-- [Setup your own Firebase](/docs/firebase.md)
 - [Understanding the file structure](/docs/file-structure.md)
 - [FAQs & Opinions](/docs/faqs.md)
 - [Testing, Deploying & Publishing](/docs/publishing.md)
@@ -38,22 +37,24 @@
 git clone https://gitlab.com/coinsane-org/coinsane-client.git
 
 # Install dependencies
-npm i
+yarn
+
+# Link native modules
+react-native link
 ```
 
 #### 2.1. Run the _React Native_ App
 
 ```bash
-# Start the React Native packager
-npm start
+# Start the React Native for iOS
+yarn ios
+
+# Start the React Native for Android
+yarn android
 ```
 
-Instructions are shown in the terminal. You can select to open it in:
 
-- An emulator (either iOS or Android)
-- Your mobile device with the [Expo app](https://expo.io/). It will reload if you save edits to your files and you will see build errors and logs in the terminal.
-
-#### 2.2. Run the _Web_ App
+#### 2.2. Run the _Web_ App (Not inplemented yet)
 
 ```bash
 # Starts are local live-reload server at:
