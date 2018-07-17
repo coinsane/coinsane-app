@@ -26,8 +26,6 @@ import { getCategories } from '../../../redux/state/categories/categories.action
 import styles from './CreateNewTransaction.styles';
 import { colors, base } from '../../styles';
 
-const WAIT_INTERVAL = 1000;
-
 class CreateNewTransaction extends Component {
   static propTypes = {
     transactions: PropTypes.shape({
@@ -151,23 +149,19 @@ class CreateNewTransaction extends Component {
   };
 
   handleChange = (name, val) => {
-    clearTimeout(this.timer);
-
-    this.timer = setTimeout(() => {
-      let value = val;
-      if (value === '0') value = '';
-      if (name === 'amount' || name === 'price' || name === 'total') {
-        const exp = /^\d*(\.{0,1}\d{0,12})$/;
-        value = value.replace(/[,]/g, '.');
-        value = value.replace(/[^0-9.]/g, '');
-        if (exp.test(value)) {
-          this.props.updateDraftTransaction({ [name]: value });
-          this.props.recalculate(name);
-        }
-      } else if (name === 'category' || name === 'note') {
+    let value = val;
+    if (value === '0') value = '';
+    if (name === 'amount' || name === 'price' || name === 'total') {
+      const exp = /^\d*(\.{0,1}\d{0,12})$/;
+      value = value.replace(/[,]/g, '.');
+      value = value.replace(/[^0-9.]/g, '');
+      if (exp.test(value)) {
         this.props.updateDraftTransaction({ [name]: value });
+        this.props.recalculate(name);
       }
-    }, WAIT_INTERVAL);
+    } else if (name === 'category' || name === 'note') {
+      this.props.updateDraftTransaction({ [name]: value });
+    }
   };
 
   close = () => {
