@@ -238,72 +238,6 @@ class CreateNewTransaction extends Component {
       </ListItemEx>
     );
 
-    const MarketSelector = () => (
-      <ListItem style={styles.listItemContainer}>
-        <Body>
-          <CoinsaneStackedLabel
-            label={I18n.t('transactions.form.fieldAmount')}
-            propName="amount"
-            clearTextOnFocus={values.amount === '0'}
-            selectTextOnFocus
-            onChangeText={this.handleChange}
-            keyboardType="numeric"
-            value={values.amount}
-          />
-        </Body>
-        <Right>
-          <ButtonEx style={styles.listItem__rightButton} onPress={() => this.update('market')}>
-            <Text style={styles.listItem__rightButtonText}>{market.symbol}</Text>
-            <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
-          </ButtonEx>
-        </Right>
-      </ListItem>
-    );
-
-    const CurrencySelector = () => (
-      draft.type !== 'exchange' &&
-      <ListItem style={styles.listItemContainer}>
-        <Body>
-          <CoinsaneStackedLabel
-            label={I18n.t('transactions.form.fieldPrice')}
-            propName="price"
-            selectTextOnFocus
-            onChangeText={this.handleChange}
-            keyboardType="numeric"
-            value={values.price}
-          />
-        </Body>
-        <Right>
-          <ButtonEx style={styles.listItem__rightButton} onPress={() => this.update('currency')}>
-            <Text style={styles.listItem__rightButtonText}>{currency.code}</Text>
-            <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
-          </ButtonEx>
-        </Right>
-      </ListItem>
-    );
-
-    const ExchangeSelector = () => (
-      draft.type === 'exchange' &&
-      <ListItem style={styles.listItemContainer}>
-        <Body>
-          <CoinsaneStackedLabel
-            label={I18n.t('transactions.form.fieldPrice')}
-            propName="price"
-            selectTextOnFocus
-            onChangeText={this.handleChange}
-            keyboardType="numeric"
-            value={values.price}
-          />
-        </Body>
-        <Right>
-          <ButtonEx style={styles.listItem__rightButton} onPress={() => this.update('exchange')}>
-            <Text style={styles.listItem__rightButtonText}>{exchange.symbol || 'Choose'}</Text>
-            <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
-          </ButtonEx>
-        </Right>
-      </ListItem>
-    );
-
     const DateSelector = () => (
       <ListItem style={styles.listItemContainer}>
         <Body>
@@ -336,25 +270,6 @@ class CreateNewTransaction extends Component {
         </Body>
       </ListItem>
     );
-
-    const TotalInput = () => {
-      const symbol = draft.type === 'exchange' ? exchange.symbol : currency.symbol;
-      return (
-        <ListItem style={styles.listItemContainer}>
-          <Body>
-            <CoinsaneStackedLabel
-              label={I18n.t('transactions.form.fieldTotal', { currency: symbol })}
-              propName="total"
-              clearTextOnFocus={values.total === '0'}
-              selectTextOnFocus
-              onChangeText={this.handleChange}
-              keyboardType="numeric"
-              value={values.total}
-            />
-          </Body>
-        </ListItem>
-      );
-    };
 
     const DeductSwitch = () => {
       if (draft.type !== 'exchange') return null;
@@ -423,10 +338,76 @@ class CreateNewTransaction extends Component {
             />
             <List>
               <PortfolioSelector />
-              <MarketSelector />
-              <CurrencySelector />
-              <ExchangeSelector />
-              <TotalInput />
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <CoinsaneStackedLabel
+                    label={I18n.t('transactions.form.fieldAmount')}
+                    propName="amount"
+                    clearTextOnFocus={values.amount === '0'}
+                    selectTextOnFocus
+                    onChangeText={this.handleChange}
+                    keyboardType="numeric"
+                    value={values.amount}
+                  />
+                </Body>
+                <Right>
+                  <ButtonEx style={styles.listItem__rightButton} onPress={() => this.update('market')}>
+                    <Text style={styles.listItem__rightButtonText}>{market.symbol}</Text>
+                    <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
+                  </ButtonEx>
+                </Right>
+              </ListItem>
+              {draft.type !== 'exchange' &&
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <CoinsaneStackedLabel
+                    label={I18n.t('transactions.form.fieldPrice')}
+                    propName="price"
+                    selectTextOnFocus
+                    onChangeText={this.handleChange}
+                    keyboardType="numeric"
+                    value={values.price}
+                  />
+                </Body>
+                <Right>
+                  <ButtonEx style={styles.listItem__rightButton} onPress={() => this.update('currency')}>
+                    <Text style={styles.listItem__rightButtonText}>{currency.code}</Text>
+                    <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
+                  </ButtonEx>
+                </Right>
+              </ListItem>}
+              {draft.type === 'exchange' &&
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <CoinsaneStackedLabel
+                    label={I18n.t('transactions.form.fieldPrice')}
+                    propName="price"
+                    selectTextOnFocus
+                    onChangeText={this.handleChange}
+                    keyboardType="numeric"
+                    value={values.price}
+                  />
+                </Body>
+                <Right>
+                  <ButtonEx style={styles.listItem__rightButton} onPress={() => this.update('exchange')}>
+                    <Text style={styles.listItem__rightButtonText}>{exchange.symbol || 'Choose'}</Text>
+                    <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
+                  </ButtonEx>
+                </Right>
+              </ListItem>}
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                  <CoinsaneStackedLabel
+                    label={I18n.t('transactions.form.fieldTotal', { currency: draft.type === 'exchange' ? exchange.symbol : currency.symbol })}
+                    propName="total"
+                    clearTextOnFocus={values.total === '0'}
+                    selectTextOnFocus
+                    onChangeText={this.handleChange}
+                    keyboardType="numeric"
+                    value={values.total}
+                  />
+                </Body>
+              </ListItem>
               <DeductSwitch />
               <DateSelector />
               <ListItem itemHeader style={styles.listItemContainer_header}>
