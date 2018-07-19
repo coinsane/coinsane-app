@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'native-base';
+import DeviceInfo from 'react-native-device-info';
 
 import Loading from '../Loading/Loading.component';
 
@@ -14,7 +15,8 @@ class AuthProvider extends Component {
   };
 
   componentWillMount() {
-    this.props.getToken();
+    const deviceId = DeviceInfo.getUniqueID();
+    this.props.getToken({ deviceId });
   }
 
   render() {

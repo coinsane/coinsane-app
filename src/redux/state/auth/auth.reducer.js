@@ -1,4 +1,5 @@
 import axios from 'axios';
+import DeviceInfo from 'react-native-device-info';
 
 import Config from '../../../constants/config';
 import { GET_TOKEN, GET_TOKEN_SUCCEED, GET_TOKEN_ERROR } from '../../actions/action.types';
@@ -10,6 +11,8 @@ export const initialState = {
 };
 
 export default function actionReducer(state = initialState, action) {
+  const deviceId = DeviceInfo.getUniqueID();
+
   switch (action.type) {
     case GET_TOKEN: {
       return {
@@ -19,7 +22,7 @@ export default function actionReducer(state = initialState, action) {
       };
     }
     case GET_TOKEN_SUCCEED: {
-      axios.defaults.headers.common.Authorization = `${Config.appName} token=${action.token}`;
+      axios.defaults.headers.common.Authorization = `${Config.appName} token=${action.token} deviceId=${deviceId}`;
       return {
         ...state,
         loading: false,

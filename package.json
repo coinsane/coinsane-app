@@ -65,7 +65,7 @@
     "react-native-autogrow-textinput": "^5.1.1",
     "react-native-check-box": "^2.0.2",
     "react-native-datepicker": "^1.6.0",
-    "react-native-device-info": "^0.13.0",
+    "react-native-device-info": "^0.21.5",
     "react-native-drawer": "^2.5.0",
     "react-native-fabric": "^0.5.1",
     "react-native-fast-image": "^4.0.14",

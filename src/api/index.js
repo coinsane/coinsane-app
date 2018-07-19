@@ -4,6 +4,8 @@ import * as markets from './markets';
 import * as currencies from './currencies';
 import * as pages from './pages';
 import * as categories from './categories';
+import * as auth from './auth';
+import * as account from './account';
 
 export default {
   coins,
@@ -12,4 +14,6 @@ export default {
   currencies,
   pages,
   categories,
+  auth,
+  account,
 };

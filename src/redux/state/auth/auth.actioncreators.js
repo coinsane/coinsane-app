@@ -1,8 +1,6 @@
 import { GET_TOKEN } from '../../actions/action.types';
 
-export const getToken = () => ({
-  type: GET_TOKEN,
-});
+export const getToken = payload => ({ type: GET_TOKEN, payload });
 
 /**
   * Sign Up to Firebase

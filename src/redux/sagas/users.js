@@ -1,5 +1,6 @@
-import { takeLatest, put, select } from 'redux-saga/effects';
-import axios from 'axios';
+import { takeLatest, put, call, select } from 'redux-saga/effects';
+
+import api from '../../api';
 
 import selectors from '../selectors';
 import {
@@ -14,11 +15,11 @@ import {
   UPDATE_PORTFOLIO_PERIOD_SUCCESS,
 } from '../../redux/actions/action.types';
 
-export function* getToken() {
+export function* getToken(action) {
   try {
     let token = yield select(selectors.getToken);
     if (!token) {
-      const { data: { result: { token: newToken } } } = yield axios.get('/auth/getToken');
+      const { data: { result: { token: newToken } } } = yield call(api.auth.getToken, action.payload);
       token = newToken;
     }
     yield put({ type: GET_TOKEN_SUCCEED, token });
@@ -34,7 +35,7 @@ export function* getToken() {
 
 export function* getSettings() {
   try {
-    const { data } = yield axios.get('/settings');
+    const { data } = yield call(api.account.getSettings);
     yield put({ type: GET_SETTINGS_SUCCEED, payload: data.data });
   } catch (error) {
     yield put({ type: GET_SETTINGS_ERROR, error });
