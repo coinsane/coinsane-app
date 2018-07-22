@@ -61,7 +61,6 @@
     "react": "^16.4.0",
     "react-dom": "^16.2.0",
     "react-native": "^0.55.4",
-    "react-native-activity-view": "^0.2.11",
     "react-native-autogrow-textinput": "^5.1.1",
     "react-native-check-box": "^2.0.2",
     "react-native-datepicker": "^1.6.0",

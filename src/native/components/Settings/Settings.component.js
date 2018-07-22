@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
+import { Linking, Share } from 'react-native';
 import PropTypes from 'prop-types';
 import { Container, Content, List, ListItem, Text, Label, Title } from 'native-base';
-import ActivityView from 'react-native-activity-view';
 import * as StoreReview from 'react-native-store-review';
 import VersionNumber from 'react-native-version-number';
 import { Actions } from 'react-native-router-flux';
@@ -46,8 +45,8 @@ class Settings extends Component {
       {
         name: I18n.t('settings.share'),
         onPress: () => {
-          ActivityView.show({
-            text: I18n.t('settings.shareText'),
+          Share.share({
+            title: I18n.t('settings.shareText'),
             url: I18n.t('settings.shareUrl'),
           });
         },

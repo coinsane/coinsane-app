@@ -6851,10 +6851,6 @@ react-dom@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-native-activity-view@^0.2.11:
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/react-native-activity-view/-/react-native-activity-view-0.2.11.tgz#844e1f745a7215f3bfe54e2ef8cca2834403b4f3"
-
 react-native-autogrow-textinput@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-native-autogrow-textinput/-/react-native-autogrow-textinput-5.1.1.tgz#e6c85077f2a7c3371f382ab3224808b88f385819"
