@@ -3,8 +3,8 @@ package com.coinsane.v1;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.wix.interactable.Interactable;
@@ -38,8 +38,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new GoogleAnalyticsBridgePackage(),
             new RNDeviceInfo(),
+            new GoogleAnalyticsBridgePackage(),
             new LinearGradientPackage(),
             new FastImageViewPackage(),
             new Interactable(),
