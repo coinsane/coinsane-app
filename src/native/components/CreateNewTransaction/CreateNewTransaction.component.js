@@ -213,6 +213,20 @@ class CreateNewTransaction extends Component {
     const customStyles = {
       dateInput: styles.dateInput,
       dateText: styles.dateText,
+      btnCancel: {
+        padding: 0,
+        paddingLeft: 20,
+        paddingRight: 20,
+      },
+      btnConfirm: {
+        padding: 0,
+        paddingLeft: 20,
+        paddingRight: 20,
+      },
+      btnTextConfirm: {
+        color: '#07f',
+        fontWeight: 'bold',
+      },
     };
 
     const ListItemEx = withPreventDoubleClick(ListItem);

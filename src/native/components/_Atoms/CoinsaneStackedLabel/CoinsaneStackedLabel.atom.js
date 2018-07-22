@@ -13,6 +13,7 @@ class CoinsaneStackedLabel extends Component {
       clearTextOnFocus,
       autoFocus,
       keyboardType,
+      returnKeyType,
       selectTextOnFocus,
       onChangeText,
       onBlur,
@@ -26,6 +27,7 @@ class CoinsaneStackedLabel extends Component {
           autoFocus={autoFocus}
           clearTextOnFocus={clearTextOnFocus}
           keyboardType={keyboardType}
+          returnKeyType={returnKeyType}
           onChangeText={v => onChangeText(propName, v)}
           onBlur={v => onBlur(propName, v)}
           value={value}
@@ -44,6 +46,7 @@ CoinsaneStackedLabel.propTypes = {
   propName: PropTypes.string.isRequired,
   clearTextOnFocus: PropTypes.bool,
   keyboardType: PropTypes.string,
+  returnKeyType: PropTypes.string,
   onChangeText: PropTypes.func,
   onBlur: PropTypes.func,
   value: PropTypes.string.isRequired,
@@ -54,6 +57,7 @@ CoinsaneStackedLabel.propTypes = {
 
 CoinsaneStackedLabel.defaultProps = {
   keyboardType: 'numeric',
+  returnKeyType: 'done',
   clearTextOnFocus: false,
   autoFocus: false,
   selectTextOnFocus: false,

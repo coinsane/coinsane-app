@@ -70,6 +70,11 @@ Via webpack, starts a localhost server on port 3001 [http://localhost:3001](http
 #### 3. Troubleshooting
 
 ```bash
-# if build failed after adding new modules
+# if build failed after adding new modules `'config.h' file not found`
 cd node_modules/react-native/third-party/glog-0.3.4/ && ../../scripts/ios-configure-glog.sh && cd ../../../../
+```
+
+```bash
+# if fastline doesn'r deploy add transporter parameter
+DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS="-t DAV" fastlane
 ```
