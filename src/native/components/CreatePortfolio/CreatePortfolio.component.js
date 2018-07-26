@@ -22,7 +22,7 @@ class CreatePortfolio extends Component {
       inTotal: true,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.createPortfolio = this.createPortfolio.bind(this);
   }
 
   componentDidMount() {
@@ -36,9 +36,10 @@ class CreatePortfolio extends Component {
     });
   };
 
-  handleSubmit = () => {
+  createPortfolio = () => {
     const { addPortfolio } = this.props;
     addPortfolio(this.state);
+    ga.trackEvent('portfolios', 'createPortfolio_Success');
     Actions.pop();
   };
 
@@ -78,7 +79,7 @@ class CreatePortfolio extends Component {
             small
             bordered
             full
-            onPress={() => this.handleSubmit()}
+            onPress={this.createPortfolio}
             style={base.footer__button}
           >
             <Text style={base.footer__buttonText}>{I18n.t('portfolios.createButton')}</Text>

@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Swiper from 'react-native-swiper';
 import get from 'lodash/get';
 
+import Config from '../../../constants/config';
 import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
 import Error from '../Error/Error.component';
@@ -111,10 +112,15 @@ class Portfolios extends Component {
   };
 
   showCoin = ({ market, id }) => {
+    const { symbol } = market;
+    ga.trackEvent('portfolios', 'showCoin', {
+      symbol,
+    });
     Actions.coin({ match: { params: { market, id } } });
   };
 
   editPortfolio = (portfolioId) => {
+    ga.trackEvent('portfolios', 'editPortfolio');
     Actions.portfolioSettings({ match: { params: { portfolioId } } });
   };
 
@@ -147,6 +153,7 @@ class Portfolios extends Component {
       footerTitle: I18n.t('portfolios.addButton'),
       footerAction: () => {
         Actions.pop();
+        ga.trackEvent('portfolios', 'createPortfolio');
         Actions.createPortfolio();
       },
       headItem: {
@@ -415,7 +422,7 @@ class Portfolios extends Component {
     }
 
     if (onboarding) {
-      const market = markets.items['5a9c5e5244d0ad001eed91cd']; // BTC
+      const market = markets.items[Config.BTC];
       if (!market) return <Loading />;
       return (
         <Onboarding

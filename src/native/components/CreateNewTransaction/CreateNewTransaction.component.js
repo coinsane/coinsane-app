@@ -9,6 +9,7 @@ import { Right, Body, Container, Content, List, Input, ListItem, Text, Button, F
 import get from 'lodash/get';
 import moment from 'moment';
 
+import Config from '../../../constants/config';
 import ga from '../../../lib/ga';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import withPreventDoubleClick from '../../../hocs';
@@ -86,8 +87,8 @@ class CreateNewTransaction extends Component {
       coin: coinId,
       market: marketId,
       portfolio: portfolioId,
-      exchange: '5a9c5e5244d0ad001eed91cd', // BTC
-      currency: '5a9db9c3ce2c75001e71555d', // USD
+      exchange: Config.BTC,
+      currency: Config.USD,
       date: moment().format('YYYY-MM-DD'),
       time: moment().format('HH:mm'),
       type: 'buy',
@@ -175,6 +176,7 @@ class CreateNewTransaction extends Component {
     const { draft } = this.props.transactions;
     if (+draft.amount && +draft.total) {
       this.props.addTransaction(draft);
+      ga.trackEvent('transactions', 'addTransaction');
       Actions.pop();
     } else {
       Alert.alert(
@@ -298,39 +300,6 @@ class CreateNewTransaction extends Component {
       );
     };
 
-    const CategorySelector = () => (
-      <ListItem style={styles.listItemContainer}>
-        <Body>
-          <Input
-            placeholder={I18n.t('transactions.form.placeholderCategory')}
-            placeholderTextColor={colors.textGray}
-            onChangeText={v => this.handleChange('category', v)}
-            value={category}
-            style={styles.listItem__textInput}
-          />
-        </Body>
-        <Right style={styles.listItem__rightIconContainer}>
-          <Button style={styles.listItem__rightButton} onPress={() => this.update('category')}>
-            <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
-          </Button>
-        </Right>
-      </ListItem>
-    );
-
-    const NoteInput = () => (
-      <ListItem style={styles.listItemContainer}>
-        <Body>
-          <AutoGrowingTextInput
-            placeholder={I18n.t('transactions.form.placeholderNote')}
-            placeholderTextColor={colors.textGray}
-            onChangeText={v => this.handleChange('note', v)}
-            value={draft.note}
-            style={styles.listItem__textInput_growing}
-          />
-        </Body>
-      </ListItem>
-    );
-
     return (
       <Modal hideClose>
         <Container>
@@ -421,8 +390,33 @@ class CreateNewTransaction extends Component {
               <ListItem itemHeader style={styles.listItemContainer_header}>
                 <Text style={styles.listItem__header}>{I18n.t('transactions.form.labelAdditional')}</Text>
               </ListItem>
-              <CategorySelector />
-              <NoteInput />
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                <Input
+                  placeholder={I18n.t('transactions.form.placeholderCategory')}
+                  placeholderTextColor={colors.textGray}
+                  onChangeText={v => this.handleChange('category', v)}
+                  value={category}
+                  style={styles.listItem__textInput}
+                />
+                </Body>
+                <Right style={styles.listItem__rightIconContainer}>
+                  <Button style={styles.listItem__rightButton} onPress={() => this.update('category')}>
+                    <CoinsaneIcon name="ChevronRight" width={16} fill={colors.textGray} />
+                  </Button>
+                </Right>
+              </ListItem>
+              <ListItem style={styles.listItemContainer}>
+                <Body>
+                <AutoGrowingTextInput
+                  placeholder={I18n.t('transactions.form.placeholderNote')}
+                  placeholderTextColor={colors.textGray}
+                  onChangeText={v => this.handleChange('note', v)}
+                  value={draft.note}
+                  style={styles.listItem__textInput_growing}
+                />
+                </Body>
+              </ListItem>
             </List>
           </Content>
         </Container>

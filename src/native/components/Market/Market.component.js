@@ -62,7 +62,6 @@ class Market extends Component {
     const {
       markets,
       changeSearchTerm,
-      getAvailableMarkets,
     } = this.props;
     if (!markets.loading && markets.count !== markets.list.length) {
       const q = markets.searchTerm || '';
@@ -70,15 +69,15 @@ class Market extends Component {
         skip: markets.list.length,
         q,
       });
-      // if (markets.searchTerm) {
-      //   changeSearchTerm({
-      //     skip: markets.list.length,
-      //     q: markets.searchTerm,
-      //   });
-      // } else {
-      //   getAvailableMarkets({ skip: markets.list.length });
-      // }
     }
+  };
+
+  showCoin = ({ market }) => {
+    const { symbol } = market;
+    ga.trackEvent('markets', 'showCoin', {
+      symbol,
+    });
+    Actions.coin({ match: { params: { market } } });
   };
 
   renderHeader = () => {
@@ -134,10 +133,6 @@ class Market extends Component {
 
   renderSeparator = () => <View style={styles.separator} />;
 
-  showCoin = ({ market }) => {
-    Actions.coin({ match: { params: { market } } });
-  };
-
   render() {
     const {
       drawer,
@@ -157,10 +152,10 @@ class Market extends Component {
         <List style={base.contentContainer}>
           <FlatList
             data={this.getData()}
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <CoinCard
                 type="market"
-                order={index + 1}
+                order={markets.items[item].rank}
                 market={markets.items[item]}
                 currency={currency}
                 showCoin={this.showCoin}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View } from 'native-base';
 import DeviceInfo from 'react-native-device-info';
 
+import ga from '../../../lib/ga';
 import Loading from '../Loading/Loading.component';
 
 class AuthProvider extends Component {
@@ -16,13 +17,15 @@ class AuthProvider extends Component {
 
   componentWillMount() {
     const deviceId = DeviceInfo.getUniqueID();
+    ga.setClient(deviceId);
     this.props.getToken({ deviceId });
   }
 
   render() {
+    const { auth, children} = this.props;
     return (
-      this.props.auth.token ?
-        <View style={{ flex: 1 }}>{this.props.children}</View> :
+      auth.token ?
+        <View style={{ flex: 1 }}>{children}</View> :
         <Loading />
     );
   }

@@ -17,6 +17,7 @@ import Loading from '../Loading/Loading.component';
 import { nFormat, cFormat, round } from '../../../lib/utils';
 import I18n from '../../../i18n';
 import styles from './CoinTabTransactions.styles';
+import ga from "../../../lib/ga";
 
 class CoinTabTransactions extends Component {
   static propTypes = {
@@ -166,9 +167,19 @@ class CoinTabTransactions extends Component {
     return <Empty description={I18n.t('empty.transactions')} />;
   };
 
-  render() {
+  createNewTransaction = () => {
     const {
       coinId,
+    } = this.props;
+    Actions.createNewTransaction({ coinId });
+    ga.trackEvent('transactions', 'createNewTransaction', {
+      view: 'Coin',
+      coinId,
+    });
+  };
+
+  render() {
+    const {
       transactions,
       transactionsRefreshing,
       transactionsLoading,
@@ -210,7 +221,7 @@ class CoinTabTransactions extends Component {
             small
             full
             bordered
-            onPress={() => Actions.createNewTransaction({ coinId })}
+            onPress={this.createNewTransaction}
             style={base.footer__button_bordered}
           >
             <Text style={base.footer__buttonText_bordered}>{I18n.t('transactions.addButton')}</Text>

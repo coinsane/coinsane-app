@@ -40,11 +40,14 @@ class Settings extends Component {
       {
         label: I18n.t('settings.currency'),
         name: Object.keys(settings.currencies).join(','),
-        onPress: () => {},
+        onPress: () => {
+          ga.trackEvent('settings', 'chooseCurrencies');
+        },
       },
       {
         name: I18n.t('settings.share'),
         onPress: () => {
+          ga.trackEvent('settings', 'share');
           Share.share({
             title: I18n.t('settings.shareText'),
             url: I18n.t('settings.shareUrl'),
@@ -53,7 +56,10 @@ class Settings extends Component {
       },
       {
         name: I18n.t('settings.terms'),
-        onPress: () => Actions.page({ ...pages.terms }),
+        onPress: () => {
+          ga.trackEvent('settings', 'terms');
+          Actions.page({ ...pages.terms });
+        },
       },
       // {
       //   name: 'FAQ',
@@ -66,13 +72,17 @@ class Settings extends Component {
         name: I18n.t('settings.rate'),
         onPress: () => {
           if (StoreReview.isAvailable) {
+            ga.trackEvent('settings', 'rate');
             StoreReview.requestReview();
           }
         },
       },
       {
         name: I18n.t('settings.policy'),
-        onPress: () => Actions.page({ ...pages.policy }),
+        onPress: () => {
+          ga.trackEvent('settings', 'policy');
+          Actions.page({ ...pages.policy });
+        },
       },
     ];
 
@@ -85,12 +95,18 @@ class Settings extends Component {
       {
         name: I18n.t('settings.telegram'),
         icon: 'Telegram',
-        onPress: () => Linking.openURL(I18n.t('settings.telegramUrl')),
+        onPress: () => {
+          ga.trackEvent('settings', 'telegram');
+          Linking.openURL(I18n.t('settings.telegramUrl'));
+        },
       },
       {
         name: I18n.t('settings.twitter'),
         icon: 'Twitter',
-        onPress: () => Linking.openURL(I18n.t('settings.twitterUrl')),
+        onPress: () => {
+          ga.trackEvent('settings', 'twitter');
+          Linking.openURL(I18n.t('settings.twitterUrl'));
+        },
       },
     ];
     return (

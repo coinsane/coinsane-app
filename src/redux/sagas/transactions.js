@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import { put, call, takeLatest, select, takeEvery } from 'redux-saga/effects';
 import moment from 'moment';
+import Config from '../../constants/config';
 import { round } from '../../lib/utils';
 import { transactions } from '../actions';
 import api from '../../api';
@@ -105,8 +106,8 @@ function* updateDraftTransaction(action) {
       const draft = yield select(selectors.getTransaction);
       const markets = yield select(selectors.getMarkets);
       const currencies = yield select(selectors.getCurrencies);
-      const exchange = draft.exchange || '5a9c5e5244d0ad001eed91cd'; // BTC
-      const currency = draft.currency || '5a9db9c3ce2c75001e71555d'; // USD
+      const exchange = draft.exchange || Config.BTC;
+      const currency = draft.currency || Config.USD;
       const fsym = get(markets, `${draft.market}.symbol`, null);
       const tsyms = draft.type === 'exchange' && draft.exchange ?
         get(markets, `${exchange}.symbol`, null) :
