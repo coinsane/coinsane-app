@@ -1,5 +1,5 @@
 import axios from 'axios';
-import DeviceInfo from 'react-native-device-info';
+import * as DeviceInfo from 'react-native-device-info';
 
 import Config from '../../../constants/config';
 import { GET_TOKEN, GET_TOKEN_SUCCEED, GET_TOKEN_ERROR } from '../../actions/action.types';

@@ -8,6 +8,7 @@ import { StyleProvider } from 'native-base';
 import SplashScreen from 'react-native-splash-screen';
 import QuickActions from 'react-native-quick-actions';
 import axios from 'axios/index';
+import OneSignal from 'react-native-onesignal';
 
 import getTheme from '../../native-base-theme/components';
 import theme from '../../native-base-theme/variables/commonColor';
@@ -50,6 +51,9 @@ class Root extends Component {
 
   componentWillMount() {
     axios.defaults.baseURL = Config.apiUri;
+    OneSignal.init(Config.oneSignalAppId, {
+      kOSSettingsKeyAutoPrompt: false,
+    });
   }
 
   componentDidMount() {

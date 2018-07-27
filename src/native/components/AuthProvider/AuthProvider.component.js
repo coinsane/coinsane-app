@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'native-base';
-import DeviceInfo from 'react-native-device-info';
+import * as DeviceInfo from 'react-native-device-info';
 
 import ga from '../../../lib/ga';
 import Loading from '../Loading/Loading.component';
@@ -22,7 +22,7 @@ class AuthProvider extends Component {
   }
 
   render() {
-    const { auth, children} = this.props;
+    const { auth, children } = this.props;
     return (
       auth.token ?
         <View style={{ flex: 1 }}>{children}</View> :

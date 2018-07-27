@@ -5,6 +5,7 @@ import { Container, Content, List, ListItem, Text, Label, Title } from 'native-b
 import * as StoreReview from 'react-native-store-review';
 import VersionNumber from 'react-native-version-number';
 import { Actions } from 'react-native-router-flux';
+import OneSignal from 'react-native-onesignal';
 
 import ga from '../../../lib/ga';
 import Spacer from '../Spacer/Spacer.component';
@@ -29,6 +30,9 @@ class Settings extends Component {
 
   componentDidMount() {
     ga.trackScreenView('Settings');
+    OneSignal.getPermissionSubscriptionState((status) => {
+      if (!status.notificationsEnabled) setTimeout(OneSignal.registerForPushNotifications, 3000);
+    });
   }
 
   render() {

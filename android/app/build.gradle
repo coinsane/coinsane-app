@@ -116,7 +116,7 @@ android {
         applicationId "com.coinsane.v1"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 5
+        versionCode 8
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -163,6 +163,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-onesignal')
     compile project(':react-native-device-info')
     compile project(':react-native-google-analytics-bridge')
     compile project(':react-native-linear-gradient')

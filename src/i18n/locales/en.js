@@ -77,6 +77,7 @@ export default {
     policy: 'Privacy policy',
     rate: 'Rate the app',
     terms: 'Terms and Conditions',
+    pushNotifications: 'Push Notifications',
     share: 'Sharing',
     shareText: 'Coinsane is awesome!',
     shareUrl: 'https://coinsane.org',

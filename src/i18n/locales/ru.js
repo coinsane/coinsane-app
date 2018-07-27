@@ -77,6 +77,7 @@ export default {
     policy: 'Политика конфиденциальности',
     rate: 'Оценить приложение',
     terms: 'Условия использования',
+    pushNotifications: 'Push уведомления',
     share: 'Поделиться',
     shareText: 'Coinsane — это круто!',
     shareUrl: 'https://coinsane.org',
