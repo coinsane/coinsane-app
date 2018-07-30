@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title } from 'native-base';
 
+import api from '../../../api';
 import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
+import CoinsaneListItem from '../_Molecules/CoinsaneListItem/CoinsaneListItem.molecula';
+import Loading from '../Loading/Loading.component';
 import styles from './CreatePortfolio.styles';
 import { base } from '../../styles';
 
@@ -20,6 +23,7 @@ class CreatePortfolio extends Component {
     this.state = {
       title: '',
       inTotal: true,
+      providers: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.createPortfolio = this.createPortfolio.bind(this);
@@ -27,6 +31,21 @@ class CreatePortfolio extends Component {
 
   componentDidMount() {
     ga.trackScreenView('CreatePortfolio');
+  }
+
+  showExchanges() {
+    this.setState({ loading: true });
+    api.portfolios.getExchanges()
+      .then((data) => {
+        console.log('data', data.data.data);
+        this.setState({
+          providers: data.data.data,
+          provider: data.data.data[0],
+          loading: false,
+          key: '',
+          secret: '',
+        });
+      });
   }
 
   handleChange = (name, val) => {
@@ -43,6 +62,22 @@ class CreatePortfolio extends Component {
     Actions.pop();
   };
 
+  chooseExchange = (provider) => {
+    this.setState({ provider });
+  };
+
+  exchangeSelector = (activeItem) => {
+    Actions.selector({
+      listName: 'portfolios',
+      title: I18n.t('portfolios.titleChoose'),
+      listItemType: 'check',
+      activeItem,
+      selectAction: (item) => {
+        this.chooseExchange(item);
+        Actions.pop();
+      },
+    });
+  };
 
   render() {
     return (
@@ -52,8 +87,8 @@ class CreatePortfolio extends Component {
           title={<Title style={base.title}>{I18n.t('portfolios.titleAdd')}</Title>}
         />
         <Content style={[base.contentContainer, base.contentPadding]}>
-          <Text style={styles.content__text}>{I18n.t('portfolios.form.labelAdd')}</Text>
           <Form>
+            <Text style={styles.content__text}>{I18n.t('portfolios.form.labelAdd')}</Text>
             <Item stackedLabel style={base.form__titleContainer}>
               <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldTitle')}</Label>
               <Input
@@ -73,6 +108,46 @@ class CreatePortfolio extends Component {
               </View>
             </View>
           </Form>
+          {
+            !this.state.providers.length &&
+            !this.state.loading &&
+            <Button
+              small
+              bordered
+              full
+              style={styles.btn}
+              onPress={() => this.showExchanges()}
+            >
+              <Text style={styles.btn__text}>{I18n.t('portfolios.form.buttonFromExchange')}</Text>
+            </Button>
+          }
+          { this.state.loading && <Loading /> }
+          {
+            this.state.providers.length &&
+            <Form>
+              <Text style={[styles.content__text, styles.content__text_top]}>{I18n.t('portfolios.form.labelExchange')}</Text>
+              <CoinsaneListItem
+                title={this.state.provider.name}
+                onPress={() => this.exchangeSelector(this.state.provider._id)}
+              />
+              <Item stackedLabel style={base.form__titleContainer}>
+                <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldKey')}</Label>
+                <Input
+                  onChangeText={v => this.handleChange('key', v)}
+                  value={this.state.key}
+                  style={base.form__titleInput}
+                />
+              </Item>
+              <Item stackedLabel style={base.form__titleContainer}>
+                <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldSecret')}</Label>
+                <Input
+                  onChangeText={v => this.handleChange('secret', v)}
+                  value={this.state.secret}
+                  style={base.form__titleInput}
+                />
+              </Item>
+            </Form>
+          }
         </Content>
         <Footer style={base.footer}>
           <Button

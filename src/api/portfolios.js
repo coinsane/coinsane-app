@@ -9,6 +9,8 @@ export const fetchTotals = data => new Promise(async (resolve, reject) => {
 
 export const fetchPortfolios = symbol => axios.get('/portfolios', { params: { symbol } });
 
+export const getExchanges = () => axios.get('/exchanges');
+
 export const setPortfolio = (data = {}) => new Promise(async (resolve, reject) => {
   const response = await axios.post('/portfolios', data);
   if (!(response && response.status === 200 && response.data.success)) return reject(console.error);

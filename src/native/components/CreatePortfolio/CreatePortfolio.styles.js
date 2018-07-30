@@ -20,4 +20,20 @@ export default StyleSheet.create({
     marginBottom: 20,
     marginTop: 5,
   },
+  content__text_top: {
+    marginTop: 20,
+  },
+  btn: {
+    borderColor: colors.blackBorder,
+    borderRadius: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
+    marginTop: 30,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 30,
+  },
+  btn__text: {
+    color: colors.textGray,
+  },
 });
