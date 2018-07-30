@@ -1,4 +1,4 @@
-package com.coinsane.v1;
+package org.coinsane.v1;
 
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;

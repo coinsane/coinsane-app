@@ -21,7 +21,11 @@ import { getToken } from '../redux/state/auth/auth.actioncreators';
 
 import Config from '../constants/config';
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+YellowBox.ignoreWarnings([
+  'Warning: isMounted(...) is deprecated',
+  'Module RCTImageLoader',
+  'Module RNQuickActionManager',
+]);
 
 DeviceEventEmitter.addListener('quickActionShortcut', console.log);
 

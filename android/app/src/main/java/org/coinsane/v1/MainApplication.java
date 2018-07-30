@@ -1,4 +1,4 @@
-package com.coinsane.v1;
+package org.coinsane.v1;
 
 import android.app.Application;
 
@@ -39,7 +39,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactNativeOneSignalPackage(),
             new RNDeviceInfo(),
             new GoogleAnalyticsBridgePackage(),
             new LinearGradientPackage(),
@@ -52,7 +51,8 @@ public class MainApplication extends Application implements ReactApplication {
             new AutoGrowTextInputPackage(),
             new RNSpinkitPackage(),
             new SvgPackage(),
-            new FabricPackage()
+            new FabricPackage(),
+            new ReactNativeOneSignalPackage()
       );
     }
 

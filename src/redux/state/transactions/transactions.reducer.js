@@ -14,7 +14,7 @@ import {
 } from '../../actions/action.types';
 
 export const initialState = {
-  loading: true,
+  loading: false,
   error: null,
   refreshing: false,
   list: [],

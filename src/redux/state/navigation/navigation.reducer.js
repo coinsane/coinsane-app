@@ -1,5 +1,5 @@
 import I18n from '../../../i18n';
-import { DRAWER_ACTIONS, SET_ACTIVE_MENU } from '../../actions/action.types';
+import { DRAWER_ACTIONS, SET_ACTIVE_MENU, DRAWER_CLOSE } from '../../actions/action.types';
 
 export const initialState = {
   menu: [
@@ -23,10 +23,16 @@ export const initialState = {
     },
   ],
   drawer: {},
+  loading: false,
 };
 
 export default function actionReducer(state = initialState, action) {
   switch (action.type) {
+    case DRAWER_CLOSE:
+      return {
+        ...state,
+        loading: action.payload,
+      };
     case DRAWER_ACTIONS: {
       return {
         ...state,

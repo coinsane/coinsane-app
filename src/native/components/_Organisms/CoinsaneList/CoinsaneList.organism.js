@@ -19,7 +19,8 @@ class CoinsaneList extends Component {
   static propTypes = {
     searchBar: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    listName: PropTypes.string.isRequired,
+    items: PropTypes.string,
+    listName: PropTypes.string,
     listItemType: PropTypes.string,
     selectAction: PropTypes.func.isRequired,
     preLoad: PropTypes.func,
@@ -32,6 +33,8 @@ class CoinsaneList extends Component {
   };
 
   static defaultProps = {
+    items: null,
+    listName: null,
     searchBar: false,
     activeItem: null,
     listItemType: null,
@@ -47,7 +50,13 @@ class CoinsaneList extends Component {
   }
 
   getList = () => {
-    const { state, listName } = this.props;
+    const { state, listName, items } = this.props;
+    if (items) {
+      return {
+        items,
+        list: items.map(item => item._id),
+      };
+    }
     return state[listName];
   };
 
@@ -178,7 +187,7 @@ class CoinsaneList extends Component {
               ListHeaderComponent={this.renderHeader}
               ListFooterComponent={this.renderFooter}
               onEndReached={this.handleLoadMore}
-              onEndReachedThreshold={0}
+              onEndReachedThreshold={0.01}
               onRefresh={this.handleRefresh}
               refreshing={listItem.refreshing}
             />

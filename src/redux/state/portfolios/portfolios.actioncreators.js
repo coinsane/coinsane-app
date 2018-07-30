@@ -1,4 +1,4 @@
-import { fetchTotals, setPortfolio, update, delPortfolio } from '../../../api/portfolios';
+import { fetchTotals } from '../../../api/portfolios';
 import {
   UPDATE_PORTFOLIOS,
   TOTALS_REPLACE,

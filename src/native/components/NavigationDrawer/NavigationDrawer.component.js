@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Drawer from 'react-native-drawer';
 
 import DrawerContent from '../DrawerContent/DrawerContent.component';
-import { setDrawerActions } from '../../../redux/state/navigation/navigation.actioncreators';
+import { setDrawerActions, setDrawerClose } from '../../../redux/state/navigation/navigation.actioncreators';
 
 import { colors } from '../../styles';
 
@@ -14,6 +14,7 @@ class NavigationDrawer extends Component {
       drawer: PropTypes.shape({}).isRequired,
     }).isRequired,
     setDrawerActions: PropTypes.func.isRequired,
+    setDrawerClose: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
   };
 
@@ -42,6 +43,8 @@ class NavigationDrawer extends Component {
         tweenHandler={this.tweenHandler}
         acceptTap
         tapToClose
+        onCloseStart={() => this.props.setDrawerClose(true)}
+        onClose={() => this.props.setDrawerClose(false)}
         style={{ backgroundColor: colors.bgGray, borderBottomWidth: 0 }}
       >
         {this.props.children[0]}
@@ -56,6 +59,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setDrawerActions,
+  setDrawerClose,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationDrawer);

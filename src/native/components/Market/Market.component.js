@@ -146,8 +146,8 @@ class Market extends Component {
           leftIcon="Menu"
           leftAction={() => drawer.open()}
           title={<Title style={base.title}>{I18n.t('navigation.markets')}</Title>}
-          rightIcon="Filter"
-          rightAction={() => {}}
+          // rightIcon="Filter"
+          // rightAction={() => {}}
         />
         <List style={base.contentContainer}>
           <FlatList
@@ -169,7 +169,7 @@ class Market extends Component {
             ListHeaderComponent={this.renderHeader}
             ListFooterComponent={this.renderFooter}
             onEndReached={this.handleLoadMore}
-            onEndReachedThreshold={0}
+            onEndReachedThreshold={0.01}
             onRefresh={this.handleRefresh}
             refreshing={markets.refreshing}
             extraData={markets}

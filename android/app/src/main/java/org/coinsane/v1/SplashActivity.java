@@ -1,4 +1,4 @@
-package com.coinsane.v1;
+package org.coinsane.v1;
 
 import android.content.Intent;
 import android.os.Bundle;

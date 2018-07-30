@@ -1,3 +1,4 @@
+apply plugin: "com.onesignal.androidsdk.onesignal-gradle-plugin"
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
@@ -5,11 +6,13 @@ import com.android.build.OutputFile
 buildscript {
   repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://plugins.gradle.org/m2/' }
   }
   dependencies {
     // The Fabric Gradle plugin uses an open ended version to react
     // quickly to Android tooling updates
     classpath 'io.fabric.tools:gradle:1.+'
+    classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.10.2, 0.99.99]'
   }
 }
 apply plugin: 'io.fabric'
@@ -108,15 +111,30 @@ def enableSeparateBuildPerCPUArchitecture = true
  */
 def enableProguardInReleaseBuilds = true
 
+def getPassword(String currentUser, String keyChain) {
+    def stdout = new ByteArrayOutputStream()
+    def stderr = new ByteArrayOutputStream()
+    exec {
+        commandLine 'security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w'
+        standardOutput = stdout
+        errorOutput = stderr
+        ignoreExitValue true
+    }
+    //noinspection GroovyAssignabilityCheck
+    stdout.toString().trim()
+}
+
+def pass = getPassword("coinsane","android_keystore")
+
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.coinsane.v1"
+        applicationId "org.coinsane.v1"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 8
+        targetSdkVersion 26
+        versionCode 15
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -126,9 +144,9 @@ android {
         release {
             if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
                 storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                storePassword pass
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+                keyPassword pass
             }
         }
     }

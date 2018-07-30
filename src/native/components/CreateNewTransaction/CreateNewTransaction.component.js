@@ -41,6 +41,7 @@ class CreateNewTransaction extends Component {
       items: PropTypes.shape({}),
     }).isRequired,
     coinId: PropTypes.string,
+    marketId: PropTypes.string,
     coin: PropTypes.shape({
       items: PropTypes.shape({}),
     }).isRequired,
@@ -62,6 +63,7 @@ class CreateNewTransaction extends Component {
 
   static defaultProps = {
     coinId: null,
+    marketId: null,
     market: {},
   };
 
@@ -75,17 +77,24 @@ class CreateNewTransaction extends Component {
       coinId,
       coin,
       market,
+      currencies,
       transactions,
+      portfolios,
+      marketId,
     } = this.props;
+
+    if (!currencies.list.length) this.props.getAvailableCurrencies({});
 
     const { draft } = transactions;
 
-    const portfolioId = get(coin, `items[${coinId}].portfolio`, draft.portfolio);
-    const marketId = get(coin, `items[${coinId}].market`, market && market._id);
+    const portfolioId = get(coin, `items[${coinId}].portfolio`, draft.portfolio) || portfolios.list[0];
+    const _marketId = get(coin, `items[${coinId}].market`, market && market._id) || marketId;
+
+    console.log(portfolioId, _marketId, coinId);
 
     this.props.updateDraftTransaction({
       coin: coinId,
-      market: marketId,
+      market: _marketId,
       portfolio: portfolioId,
       exchange: Config.BTC,
       currency: Config.USD,

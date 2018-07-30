@@ -91,6 +91,7 @@ export const PORTFOLIO_COLLAPSE = '[portfolios] PORTFOLIO_COLLAPSE';
 // ========= [navigation] peace of state action types ========= //
 export const DRAWER_ACTIONS = '[navigation] DRAWER_ACTIONS';
 export const SET_ACTIVE_MENU = '[navigation] SET_ACTIVE_MENU';
+export const DRAWER_CLOSE = '[navigation] DRAWER_CLOSE';
 
 
 // ========= [settings] peace of state action types ========= //

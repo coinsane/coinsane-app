@@ -98,9 +98,9 @@ export default {
     skip: 'SKIP',
     start: 'START',
     category: 'My Investments',
-    oneText: 'Add and edit portfolio manually or automatically. Switch over portfolios and see changes',
+    oneText: 'Add and edit portfolio manually or automatically. See total portfolios value',
     twoText: 'Chose coins, add transactions and track changes in portfolio and on the exchanges',
-    threeText: 'Here some text about market and market filtering here some text about market',
+    threeText: 'See changes and trends in the market or a particular crypto',
   },
   placeholder: {
     search: 'Search',

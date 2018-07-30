@@ -73,3 +73,7 @@
 
 -keep public class com.dylanvann.fastimage.* { public *; }
 -dontwarn com.dylanvann.fastimage.**
+
+# onesignal
+
+-ignorewarnings

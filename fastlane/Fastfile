@@ -25,15 +25,34 @@ platform :ios do
     increment_build_number(xcodeproj: "./ios/coinsane.xcodeproj")
 
     get_certificates
-    get_provisioning_profile(app_identifier: "org.coinsane.v1")
+    get_provisioning_profile(
+      app_identifier: "org.coinsane.v1",
+      provisioning_name: "org.coinsane.v1 AppStore",
+      cert_id: "794ZY94G69",
+      cert_owner_name: "Artem Kashin"
+    )
+    get_provisioning_profile(
+      app_identifier: "org.coinsane.v1.OneSignalNotificationServiceExtension",
+      provisioning_name: "org.coinsane.v1.OneSignal",
+      cert_id: "794ZY94G69",
+      cert_owner_name: "Artem Kashin"
+    )
 
     build_app(
       project: "./ios/coinsane.xcodeproj",
       scheme: "coinsane",
-      export_method: "app-store"
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "org.coinsane.v1" => "org.coinsane.v1 AppStore",
+          "org.coinsane.v1.OneSignalNotificationServiceExtension" => "org.coinsane.v1.OneSignal"
+        }
+      }
     )
 
-    upload_to_testflight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
   end
 end
 
@@ -61,9 +80,15 @@ platform :android do
       build_secret: "a07d14a1f88d639071119f71bf795e905f6beaba661b2e57760f219ea838347d"
     )
 
-    hockey(
-      api_token: "f7ddaba1264a490bbe298d85518f0a1d",
-      apk: "android/app/build/outputs/apk/app-armeabi-v7a-release.apk"
+    # hockey(
+    #   api_token: "f7ddaba1264a490bbe298d85518f0a1d",
+    #   apk: "android/app/build/outputs/apk/app-armeabi-v7a-release.apk"
+    # )
+
+    supply(
+      track: "alpha",
+      apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS],
+      json_key: "android/app/api-8833389418747476720-751042-73a8dad83e6d.json"
     )
 
     # sh "your_script.sh"

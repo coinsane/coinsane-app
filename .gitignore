@@ -9,6 +9,7 @@ android/gradle.properties
 android/local.properties
 android/app/*.keystore
 android/app/build
+android/app/api-*
 android/build
 android/.gradle
 
@@ -20,3 +21,4 @@ android/.gradle
 *.keystore
 *.mobileprovision
 fastlane/report.xml
+coinsane.ipa

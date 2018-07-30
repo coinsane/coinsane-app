@@ -98,9 +98,9 @@ export default {
     skip: 'ПРОПУСТИТЬ',
     start: 'ПРИСТУПИМ',
     category: 'Мои инвестиции',
-    oneText: 'Add and edit portfolio manually or automatically. Switch over portfolios and see changes',
-    twoText: 'Chose coins, add transactions and track changes in portfolio and on the exchanges',
-    threeText: 'Here some text about market and market filtering here some text about market',
+    oneText: 'Создавайте коллекции монет: добавляйте их вручную, подключайтесь к биржам',
+    twoText: 'Просматривайте историю операций, создавайте новые транзакции покупки, продажи и обмена',
+    threeText: 'Будьте в курсе изменений и тенденций рынка',
   },
   placeholder: {
     search: 'Поиск',
