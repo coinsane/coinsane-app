@@ -1,4 +1,10 @@
 export default {
+  authorization: {
+    error: {
+      networkTokenError: 'Вам нужен хотя бы анонимный аккаунт, добудьте интернет.',
+    },
+    reconnect: 'Подключиться',
+  },
   navigation: {
     portfolio: 'Портфолио',
     markets: 'Маркет',

@@ -4,6 +4,7 @@ import api from '../../api';
 import {
   GET_AVAILABLE_CURRENCIES,
   GET_AVAILABLE_CURRENCIES_SUCCESS,
+  GET_AVAILABLE_CURRENCIES_ERROR,
   SELECT_CURRENCY,
   SELECT_CURRENCY_SUCCESS,
   SELECT_CURRENCY_ERROR,
@@ -11,14 +12,18 @@ import {
 
 export function* fetchAvailableCurrencies(action) {
   if (action.payload.q) yield delay(2000);
-  const response = yield call(api.currencies.fetchAvailableCurrencies, action.payload);
-  yield put({
-    type: GET_AVAILABLE_CURRENCIES_SUCCESS,
-    payload: {
-      list: response.data.response.result,
-      ...action.payload,
-    },
-  });
+  try {
+    const response = yield call(api.currencies.fetchAvailableCurrencies, action.payload);
+    yield put({
+      type: GET_AVAILABLE_CURRENCIES_SUCCESS,
+      payload: {
+        list: response.data.response.result,
+        ...action.payload,
+      },
+    });
+  } catch (e) {
+    yield put({ type: GET_AVAILABLE_CURRENCIES_ERROR, payload: e });
+  }
 }
 
 export function* selectCurrency(action) {

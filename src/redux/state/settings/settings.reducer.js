@@ -20,7 +20,7 @@ export default function actionReducer(state = initialState, action) {
         ...state,
         error: null,
         loading: false,
-        currencies: action.payload.currencies,
+        currencies: action.payload && action.payload.currencies,
       };
     }
     case SELECT_CURRENCY_SUCCESS: {

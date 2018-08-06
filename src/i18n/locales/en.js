@@ -1,4 +1,10 @@
 export default {
+  authorization: {
+    error: {
+      networkTokenError: "Sorry, but we can't create anonymous account for you without network connection.",
+    },
+    reconnect: 'Reconnect',
+  },
   navigation: {
     portfolio: 'Portfolio',
     markets: 'Markets',
