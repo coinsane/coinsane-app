@@ -1,6 +1,7 @@
 import {
   GET_AVAILABLE_CURRENCIES,
   GET_AVAILABLE_CURRENCIES_SUCCESS,
+  GET_AVAILABLE_CURRENCIES_ERROR,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -44,6 +45,15 @@ export default function actionReducer(state = initialState, action) {
         list,
         searchTerm,
         count,
+      };
+    }
+    case GET_AVAILABLE_CURRENCIES_ERROR: {
+      return {
+        ...state,
+        error: action.payload.message,
+        loading: false,
+        refreshing: false,
+        list: [],
       };
     }
     default:

@@ -7,6 +7,10 @@ export const GET_TOKEN_SUCCEED = '[auth] GET_TOKEN_SUCCEED';
 export const GET_TOKEN_ERROR = '[auth] GET_TOKEN_ERROR';
 
 
+// ========= [status] peace of state action types ========= //
+export const NETWORK_STATUS_CHANGE = '[status] NETWORK_STATUS_CHANGE';
+
+
 // ========= [coins] peace of state action types ========= //
 export const GET_PRICE = '[coins] GET_PRICE';
 export const COIN_HISTO_UPDATE = '[coins] COIN_HISTO_UPDATE';
@@ -90,8 +94,8 @@ export const PORTFOLIO_COLLAPSE = '[portfolios] PORTFOLIO_COLLAPSE';
 
 // ========= [navigation] peace of state action types ========= //
 export const DRAWER_ACTIONS = '[navigation] DRAWER_ACTIONS';
-export const SET_ACTIVE_MENU = '[navigation] SET_ACTIVE_MENU';
 export const DRAWER_CLOSE = '[navigation] DRAWER_CLOSE';
+export const SET_ACTIVE_MENU = '[navigation] SET_ACTIVE_MENU';
 
 
 // ========= [settings] peace of state action types ========= //
