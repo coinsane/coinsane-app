@@ -1,8 +1,10 @@
+import { NETWORK_STATUS_CHANGE } from '../../actions/action.types';
+
 /**
   * Show Error
   */
-export default function (dispatch, type, val) {
-  return new Promise((resolve, reject) => {
+export const appstatus = (dispatch, type, val) => (
+  new Promise((resolve, reject) => {
     // Validate types
     const allowed = ['error', 'success', 'info', 'loading'];
     if (!allowed.includes(type)) {
@@ -22,5 +24,9 @@ export default function (dispatch, type, val) {
       type: 'STATUS_REPLACE',
       [type]: message,
     }));
-  });
-}
+  }));
+
+export const networkStatusChange = status => ({
+  type: NETWORK_STATUS_CHANGE,
+  payload: status,
+});

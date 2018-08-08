@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DeviceEventEmitter, Linking, YellowBox } from 'react-native';
+import { DeviceEventEmitter, Linking, YellowBox, NetInfo, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import { Router } from 'react-native-router-flux';
@@ -18,6 +18,7 @@ import Routes from './routes';
 import Loading from './components/Loading/Loading.component';
 import AuthProvider from './components/AuthProvider/AuthProvider.component';
 import { getToken } from '../redux/state/auth/auth.actioncreators';
+import { auth, status } from '../redux/actions';
 
 import Config from '../constants/config';
 
@@ -48,9 +49,15 @@ class Root extends Component {
     store: PropTypes.shape({}).isRequired,
     persistor: PropTypes.shape({}).isRequired,
     getToken: PropTypes.func.isRequired,
+    networkStatusChange: PropTypes.func.isRequired,
+    network: PropTypes.boolean,
     auth: PropTypes.shape({
       token: PropTypes.string,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    network: null,
   };
 
   componentWillMount() {
@@ -62,11 +69,17 @@ class Root extends Component {
 
   componentDidMount() {
     SplashScreen.hide();
+
+    // get initial and set listener for network status
+    this._getConnectionInfo().then(isConnected => this.props.networkStatusChange(isConnected));
+    // NetInfo.isConnected.addEventListener('connectionChange', () => this._getConnectionInfo());
+
     Linking.addEventListener('url', this.handleOpenURL);
   }
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL);
+    // NetInfo.isConnected.removeEventListener('connectionChange', () => this._getConnectionInfo());
   }
 
   getSceneStyle = () => ({
@@ -75,6 +88,25 @@ class Root extends Component {
     shadowOpacity: 0,
     borderBottomWidth: 0,
   });
+
+  _getConnectionInfo() {
+    if (Platform.OS === 'ios') {
+      return new Promise(resolve => {
+        const handleFirstConnectivityChangeIOS = isConnected => {
+          NetInfo.isConnected.removeEventListener('connectionChange', handleFirstConnectivityChangeIOS);
+          this.props.networkStatusChange(isConnected);
+          if (!this.props.auth.token && isConnected) {
+            this.props.getToken();
+          }
+          resolve(isConnected);
+        };
+        NetInfo.isConnected.addEventListener('connectionChange', handleFirstConnectivityChangeIOS);
+      });
+    }
+
+    NetInfo.isConnected.fetch()
+      .then(isConnected => this.props.networkStatusChange(isConnected));
+  }
 
   handleOpenURL = (event) => {
     console.log(event.url);
@@ -88,7 +120,7 @@ class Root extends Component {
       <Provider store={store}>
         <PersistGate loading={<Loading />} persistor={persistor}>
           <StyleProvider style={getTheme(theme)}>
-            <AuthProvider getToken={this.props.getToken} auth={auth}>
+            <AuthProvider getToken={this.props.getToken} auth={auth} status={this.props.status} reconnect={() => this.props.getToken()}>
               <RouterWithRedux getSceneStyle={this.getSceneStyle}>
                 {Routes}
               </RouterWithRedux>
@@ -102,10 +134,7 @@ class Root extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  status: state.status,
 });
 
-const mapDispatchToProps = {
-  getToken,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Root);
+export default connect(mapStateToProps, { ...auth, ...status })(Root);

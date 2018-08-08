@@ -17,7 +17,7 @@ class Portfolios extends Component {
     Layout: PropTypes.func.isRequired,
     portfolios: PropTypes.shape({
       loading: PropTypes.bool,
-      error: PropTypes.string,
+      error: PropTypes.object,
       list: PropTypes.arrayOf(PropTypes.string),
       items: PropTypes.shape({}),
       chart: PropTypes.shape({}),
@@ -132,7 +132,6 @@ class Portfolios extends Component {
         id={id}
         portfolios={portfolios.items}
         list={portfolios.list}
-        error={portfolios.error}
         loading={portfolios.loading}
         refreshing={portfolios.refreshing}
         charts={portfolios.chart}

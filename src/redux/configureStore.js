@@ -12,7 +12,7 @@ import rootSaga from './sagas';
 const config = {
   key: 'root',
   storage,
-  blacklist: ['navigation'],
+  blacklist: ['navigation', 'status'],
 };
 
 const reducer = persistCombineReducers(config, state);

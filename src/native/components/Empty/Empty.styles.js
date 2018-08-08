@@ -17,5 +17,6 @@ export default StyleSheet.create({
     color: colors.textGray,
     fontFamily: fonts.fontMedium,
     textAlign: 'center',
+    width: '80%'
   },
 });
