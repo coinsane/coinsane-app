@@ -80,10 +80,10 @@ platform :android do
       build_secret: "a07d14a1f88d639071119f71bf795e905f6beaba661b2e57760f219ea838347d"
     )
 
-    # hockey(
-    #   api_token: "f7ddaba1264a490bbe298d85518f0a1d",
-    #   apk: "android/app/build/outputs/apk/app-armeabi-v7a-release.apk"
-    # )
+    hockey(
+      api_token: "f7ddaba1264a490bbe298d85518f0a1d",
+      apk: "android/app/build/outputs/apk/app-armeabi-v7a-release.apk"
+    )
 
     supply(
       track: "alpha",

@@ -1,21 +1,27 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:amazon="http://schemas.amazon.com/apk/res/android"
   package="org.coinsane.v1"
   android:versionCode="1"
   android:versionName="1.0">
 
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+  <uses-permission android:name="com.amazon.device.messaging.permission.RECEIVE" />
+  <permission android:name="org.coinsane.v1.permission.RECEIVE_ADM_MESSAGE" android:protectionLevel="signature" />
+  <uses-permission android:name="org.coinsane.v1.permission.RECEIVE_ADM_MESSAGE" />
 
   <uses-sdk
     android:minSdkVersion="16"
-    android:targetSdkVersion="22"
+    android:targetSdkVersion="26"
   />
 
   <application
     android:name=".MainApplication"
     android:allowBackup="true"
     android:label="@string/app_name"
-    android:icon="@mipmap/icon"
+    android:icon="@mipmap/ic_launcher"
+    android:roundIcon="@mipmap/ic_launcher_round"
     android:theme="@style/AppTheme"
     android:launchMode="singleTop">
     <activity
@@ -24,7 +30,6 @@
       android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
     <activity
@@ -49,5 +54,15 @@
       android:name="io.fabric.ApiKey"
       android:value="cd0496671a73bb599483e2c43d807a7b08a5b4f1"
     />
+    <amazon:enable-feature android:name="com.amazon.device.messaging" android:required="false"/>
+    <service android:name="com.onesignal.ADMMessageHandler" android:exported="false" />
+    <receiver android:name="com.onesignal.ADMMessageHandler$Receiver"
+              android:permission="com.amazon.device.messaging.permission.SEND" >
+      <intent-filter>
+        <action android:name="com.amazon.device.messaging.intent.REGISTRATION" />
+        <action android:name="com.amazon.device.messaging.intent.RECEIVE" />
+        <category android:name="org.coinsane.v1" />
+      </intent-filter>
+    </receiver>
   </application>
 </manifest>

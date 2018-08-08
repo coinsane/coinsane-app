@@ -10,6 +10,7 @@ android/local.properties
 android/app/*.keystore
 android/app/build
 android/app/api-*
+android/app/assets
 android/build
 android/.gradle
 
