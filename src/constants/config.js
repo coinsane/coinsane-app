@@ -5,6 +5,7 @@ export default {
   appName: 'Coinsane',
   apiUri: devMode ? 'http://localhost:8080' : 'https://api.coinsane.space',
   // apiUri: 'https://api.coinsane.space',
+  fileUri: 'https://coinsane.ams3.digitaloceanspaces.com',
 
   // Build Configuration - eg. Debug or Release?
   DEV: devMode,

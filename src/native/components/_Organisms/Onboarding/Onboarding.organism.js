@@ -44,9 +44,9 @@ class Onboarding extends Component {
       <View style={styles.slide}>
         <View style={styles.slideImagesWrapper}>
           <View style={styles.slideImageWrapper__back}>
-            <FastImage source={{ uri: `${Config.apiUri}/img/screen2.png` }} style={styles.slideImage__back} />
+            <FastImage source={{ uri: `${Config.fileUri}/onboarding/screen2.png` }} style={styles.slideImage__back} />
           </View>
-          <FastImage source={{ uri: `${Config.apiUri}/img/screen1.png` }} style={styles.slideImage__front} />
+          <FastImage source={{ uri: `${Config.fileUri}/onboarding/screen1.png` }} style={styles.slideImage__front} />
         </View>
         <Text style={styles.slideText}>{I18n.t('onboarding.oneText')}</Text>
       </View>
@@ -56,9 +56,9 @@ class Onboarding extends Component {
       <View style={styles.slide}>
         <View style={styles.slideImagesWrapper}>
           <View style={styles.slideImageWrapper__back}>
-            <FastImage source={{ uri: `${Config.apiUri}/img/screen4.png` }} style={styles.slideImage__back} />
+            <FastImage source={{ uri: `${Config.fileUri}/onboarding/screen4.png` }} style={styles.slideImage__back} />
           </View>
-          <FastImage source={{ uri: `${Config.apiUri}/img/screen3.png` }} style={styles.slideImage__front} />
+          <FastImage source={{ uri: `${Config.fileUri}/onboarding/screen3.png` }} style={styles.slideImage__front} />
           <View style={styles.slideTransactionWrapper}>
             <TransactionItem
               noSwipe
@@ -83,9 +83,9 @@ class Onboarding extends Component {
       <View style={styles.slide}>
         <View style={styles.slideImagesWrapper}>
           <View style={styles.slideImageWrapper__back}>
-            <FastImage source={{ uri: `${Config.apiUri}/img/screen6.png` }} style={styles.slideImage__back} />
+            <FastImage source={{ uri: `${Config.fileUri}/onboarding/screen6.png` }} style={styles.slideImage__back} />
           </View>
-          <FastImage source={{ uri: `${Config.apiUri}/img/screen5.png` }} style={styles.slideImage__front} />
+          <FastImage source={{ uri: `${Config.fileUri}/onboarding/screen5.png` }} style={styles.slideImage__front} />
           <View style={styles.slideMarketWrapper}>
             <CoinCard
               type="market"
