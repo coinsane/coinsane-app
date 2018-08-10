@@ -1,7 +1,7 @@
 export default {
   authorization: {
     error: {
-      networkTokenError: 'Вам нужен хотя бы анонимный аккаунт, добудьте интернет.',
+      networkTokenError: 'Чтобы продолжить, добудьте интернет.',
     },
     reconnect: 'Подключиться',
   },

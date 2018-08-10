@@ -1,7 +1,7 @@
 export default {
   authorization: {
     error: {
-      networkTokenError: "Sorry, but we can't create anonymous account for you without network connection.",
+      networkTokenError: 'Please connect to the internet to proceed',
     },
     reconnect: 'Reconnect',
   },

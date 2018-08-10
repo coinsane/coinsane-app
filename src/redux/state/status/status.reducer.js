@@ -2,10 +2,10 @@ import { NETWORK_STATUS_CHANGE } from '../../actions/action.types';
 
 export const initialState = {
   loading: false,
-  info: null,
-  error: null,
-  success: null,
-  network: null,
+  info: '',
+  error: false,
+  success: true,
+  network: true,
 };
 
 export default function actionReducer(state = initialState, action) {
@@ -14,15 +14,15 @@ export default function actionReducer(state = initialState, action) {
       return {
         ...state,
         loading: action.loading || false,
-        info: action.info || null,
-        error: action.error || null,
-        success: action.success || null,
+        info: action.info || '',
+        error: action.error || false,
+        success: action.success || false,
       };
     }
     case NETWORK_STATUS_CHANGE:
       return {
         ...state,
-        network: action.payload,
+        network: action.payload || false,
       };
     default:
       return state;

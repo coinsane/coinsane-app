@@ -8,26 +8,20 @@ import Loading from '../Loading/Loading.component';
 import Empty from '../Empty/Empty.component';
 
 import i18n from '../../../i18n';
+import Config from '../../../constants/config';
 
 class AuthProvider extends Component {
   static propTypes = {
     getToken: PropTypes.func.isRequired,
-    status: PropTypes.shape({
-      loading: PropTypes.boolean,
-      info: PropTypes.string,
-      error: PropTypes.string,
-      success: PropTypes.boolean,
-      network: PropTypes.boolean,
-    }),
+    network: PropTypes.bool,
     reconnect: PropTypes.func.isRequired,
-    auth: PropTypes.shape({
-      token: PropTypes.string,
-    }).isRequired,
+    token: PropTypes.string,
     children: PropTypes.node.isRequired,
   };
 
   static defaultProps = {
-    status: null,
+    network: true,
+    token: '',
   };
 
   componentWillMount() {
@@ -41,13 +35,15 @@ class AuthProvider extends Component {
   }
 
   renderContent = () => {
-    if (this.props.auth.token) {
+    if (this.props.token) {
       return <View style={{ flex: 1 }}>{this.props.children}</View>;
-    } else if (this.props.status.network === false) {
+    }
+
+    if (!this.props.network) {
       return (
         <Empty
           description={i18n.t('authorization.error.networkTokenError')}
-          image={require('../../../images/network.png')}
+          image={`${Config.fileUri}/states/network.png`}
           imageWidth={200}
           imageHeight={230}
           buttonLabel={i18n.t('authorization.reconnect')}
@@ -57,7 +53,7 @@ class AuthProvider extends Component {
     }
 
     return <Loading />;
-  }
+  };
 
   render() {
     return (

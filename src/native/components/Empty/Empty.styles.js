@@ -13,10 +13,13 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   container__text: {
-    fontSize: 15,
+    fontSize: 16,
     color: colors.textGray,
     fontFamily: fonts.fontMedium,
     textAlign: 'center',
-    width: '80%'
+    width: '80%',
+  },
+  image: {
+    marginBottom: 20,
   },
 });

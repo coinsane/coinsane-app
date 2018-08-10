@@ -17,7 +17,6 @@ import { colors } from './styles';
 import Routes from './routes';
 import Loading from './components/Loading/Loading.component';
 import AuthProvider from './components/AuthProvider/AuthProvider.component';
-import { getToken } from '../redux/state/auth/auth.actioncreators';
 import { auth, status } from '../redux/actions';
 
 import Config from '../constants/config';
@@ -50,14 +49,13 @@ class Root extends Component {
     persistor: PropTypes.shape({}).isRequired,
     getToken: PropTypes.func.isRequired,
     networkStatusChange: PropTypes.func.isRequired,
-    network: PropTypes.boolean,
-    auth: PropTypes.shape({
-      token: PropTypes.string,
-    }).isRequired,
+    token: PropTypes.string,
+    network: PropTypes.bool,
   };
 
   static defaultProps = {
-    network: null,
+    token: '',
+    network: true,
   };
 
   componentWillMount() {
@@ -91,11 +89,11 @@ class Root extends Component {
 
   _getConnectionInfo() {
     if (Platform.OS === 'ios') {
-      return new Promise(resolve => {
-        const handleFirstConnectivityChangeIOS = isConnected => {
+      return new Promise((resolve) => {
+        const handleFirstConnectivityChangeIOS = (isConnected) => {
           NetInfo.isConnected.removeEventListener('connectionChange', handleFirstConnectivityChangeIOS);
           this.props.networkStatusChange(isConnected);
-          if (!this.props.auth.token && isConnected) {
+          if (!this.props.token && isConnected) {
             this.props.getToken();
           }
           resolve(isConnected);
@@ -104,7 +102,7 @@ class Root extends Component {
       });
     }
 
-    NetInfo.isConnected.fetch()
+    return NetInfo.isConnected.fetch()
       .then(isConnected => this.props.networkStatusChange(isConnected));
   }
 
@@ -115,12 +113,17 @@ class Root extends Component {
   };
 
   render() {
-    const { store, persistor, auth } = this.props;
+    const { store, persistor } = this.props;
     return (
       <Provider store={store}>
         <PersistGate loading={<Loading />} persistor={persistor}>
           <StyleProvider style={getTheme(theme)}>
-            <AuthProvider getToken={this.props.getToken} auth={auth} status={this.props.status} reconnect={() => this.props.getToken()}>
+            <AuthProvider
+              getToken={this.props.getToken}
+              token={this.props.token}
+              network={this.props.network}
+              reconnect={() => this.props.getToken()}
+            >
               <RouterWithRedux getSceneStyle={this.getSceneStyle}>
                 {Routes}
               </RouterWithRedux>
@@ -133,8 +136,14 @@ class Root extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  status: state.status,
+  token: state.auth.token,
+  network: state.status.network,
 });
 
-export default connect(mapStateToProps, { ...auth, ...status })(Root);
+const mapDispatchToProps = {
+  ...auth,
+  ...status,
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Root);
