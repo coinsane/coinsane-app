@@ -121,6 +121,12 @@ class Coins extends Component {
     });
   };
 
+  getPortfolio = () => {
+    const { portfolios } = this.props;
+    const coin = this.getCoin();
+    return get(portfolios, `items[${coin.portfolio}]`, {});
+  };
+
   getExchanges = () => {
     const { match } = this.props;
     const market = get(match, 'params.market', {});
@@ -211,6 +217,7 @@ class Coins extends Component {
         coin={this.getCoin()}
         transactions={this.getTransactions()}
         chart={this.getChart()}
+        portfolio={this.getPortfolio()}
 
         getPrice={this.props.getPrice}
         addTransaction={this.addTransaction}

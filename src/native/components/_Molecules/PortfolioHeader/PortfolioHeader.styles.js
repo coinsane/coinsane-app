@@ -24,13 +24,13 @@ export default StyleSheet.flatten({
     flexWrap: 'nowrap',
   },
   body__arrowIcon: {
-    marginRight: 8,
+    marginRight: 6,
     fontSize: 18,
     color: colors.textGray,
     alignSelf: 'center',
   },
   body__text: {
-    marginLeft: 0,
+    marginLeft: 2,
     marginRight: 0,
     fontSize: 15,
     fontFamily: fonts.fontBold,

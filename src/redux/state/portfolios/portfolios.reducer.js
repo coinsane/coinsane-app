@@ -1,10 +1,13 @@
 import _ from 'lodash';
+import { Toast } from 'native-base';
 import {
   UPDATE_PORTFOLIOS,
   UPDATE_PORTFOLIOS_SUCCESS,
   UPDATE_PORTFOLIOS_ERROR,
   PORTFOLIO_SELECT,
+  PORTFOLIO_ADD,
   PORTFOLIO_ADD_SUCCESS,
+  PORTFOLIO_ADD_ERROR,
   PORTFOLIO_REMOVE_SUCCESS,
   PORTFOLIO_UPDATE_SUCCESS,
   PORTFOLIO_COIN_REMOVED,
@@ -68,6 +71,13 @@ export default function actionReducer(state = initialState, action) {
         selected: action.payload || null,
       };
     }
+    case PORTFOLIO_ADD: {
+      return {
+        ...state,
+        error: null,
+        loading: true,
+      };
+    }
     case PORTFOLIO_ADD_SUCCESS: {
       const selected = action.payload._id;
       const items = { ...state.items };
@@ -81,6 +91,17 @@ export default function actionReducer(state = initialState, action) {
         items,
         list,
         selected,
+      };
+    }
+    case PORTFOLIO_ADD_ERROR: {
+      Toast.show({
+        text: action.payload.message,
+        buttonText: 'OK',
+      });
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.message,
       };
     }
     case PORTFOLIO_REMOVE_SUCCESS: {

@@ -19,6 +19,7 @@ class Coin extends Component {
     coin: PropTypes.shape({}),
     currency: PropTypes.shape({}).isRequired,
     market: PropTypes.shape({}).isRequired,
+    portfolio: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({}).isRequired,
     transactions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     exchanges: PropTypes.shape({}).isRequired,
@@ -89,6 +90,7 @@ class Coin extends Component {
       id,
       coin,
       market,
+      portfolio,
       exchanges,
       addTransaction,
       transactions,
@@ -171,6 +173,7 @@ class Coin extends Component {
               coin={coin}
               coins={coins}
               markets={markets}
+              portfolio={portfolio}
               currency={currency}
               symbol={symbol}
               market={market}
