@@ -10,7 +10,7 @@ import get from 'lodash/get';
 import Config from '../../../constants/config';
 import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
-import Error from '../Error/Error.component';
+// import Error from '../Error/Error.component';
 import Loading from '../Loading/Loading.component';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
@@ -21,6 +21,7 @@ import Pie from '../_Organisms/Pie/Pie.component';
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import Onboarding from '../_Organisms/Onboarding/Onboarding.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import Empty from '../Empty/Empty.component';
 
 import styles from './Portfolios.styles';
@@ -336,8 +337,10 @@ class Portfolios extends Component {
       collapsedList,
       removeCoin,
       loading,
+      portfolios,
     } = this.props;
     // if (!amount) return null;
+    const service = !!get(portfolios, `${section._id}.service`, false);
     return (
       <CoinCard
         type="portfolio"
@@ -354,6 +357,7 @@ class Portfolios extends Component {
         isLoading={loading}
         portfolioId={section._id}
         isLast={section.data.length - 1 === index}
+        service={service}
       />
     );
   };
@@ -364,6 +368,7 @@ class Portfolios extends Component {
       addCoin,
       currency,
       collapsedList,
+      portfolios,
       updateCollapsed,
       loading,
       charts,
@@ -371,6 +376,7 @@ class Portfolios extends Component {
       symbol,
     } = this.props;
     const changePct = round(get(charts, `[${section._id}][${period}:${symbol}].pct`, 0), 2);
+    const provider = get(portfolios, `${section._id}.service.provider.name`, null);
     return (
       <PortfolioHeader
         show={!activePortfolio}
@@ -385,13 +391,15 @@ class Portfolios extends Component {
         updateCollapsed={updateCollapsed}
         isCollapsed={collapsedList.indexOf(section._id) !== -1}
         isLoading={loading}
+        hideAddButton={!!provider}
+        provider={provider}
       />
     );
   };
 
   render() {
     const {
-      error,
+      // error,
       refreshing,
       drawer,
       addCoin,
@@ -401,7 +409,7 @@ class Portfolios extends Component {
       onboarding,
     } = this.props;
 
-    if (error) return <Error content={error} />;
+    // if (error) return <Error content={error} />;
 
     const HeaderTitle = () => {
       const title = get(portfolios, `${activePortfolio}.title`, I18n.t('portfolios.all'));
@@ -411,6 +419,29 @@ class Portfolios extends Component {
           &nbsp;
           <Text style={base.title}>{title}</Text>
         </Title>
+      );
+    };
+
+    const FooterButton = () => {
+      if (!activePortfolio) return null;
+      const { service } = portfolios[activePortfolio];
+      const onPress = () => {
+        if (!service) addCoin(activePortfolio);
+      };
+      const title = get(service, 'provider.name', I18n.t('coins.addButton'));
+      return (
+        <Footer style={base.footer}>
+          <Button
+            small
+            bordered
+            full
+            onPress={onPress}
+            style={base.footer__button_bordered}
+          >
+            { service && <CoinsaneIcon name={title} height={22} width={22} /> }
+            <Text style={base.footer__buttonText_bordered}>{title.toUpperCase()}</Text>
+          </Button>
+        </Footer>
       );
     };
 
@@ -464,20 +495,7 @@ class Portfolios extends Component {
             />
           }
         </List>
-        {
-          !!activePortfolio &&
-          <Footer style={base.footer}>
-            <Button
-              small
-              bordered
-              full
-              onPress={() => addCoin(activePortfolio)}
-              style={base.footer__button_bordered}
-            >
-              <Text style={base.footer__buttonText_bordered}>{I18n.t('coins.addButton')}</Text>
-            </Button>
-          </Footer>
-        }
+        <FooterButton />
       </Container>
     );
   }

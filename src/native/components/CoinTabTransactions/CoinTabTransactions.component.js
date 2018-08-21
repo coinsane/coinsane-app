@@ -12,6 +12,7 @@ import { base, colors } from '../../styles';
 import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
 import TransactionItem from '../_Molecules/TransactionItem/TransactionItem.molecula';
 import SectionHeader from '../_Molecules/SectionHeader/SectionHeader.molecula';
+import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import Empty from '../Empty/Empty.component';
 import Loading from '../Loading/Loading.component';
 import { nFormat, cFormat, round } from '../../../lib/utils';
@@ -24,6 +25,7 @@ class CoinTabTransactions extends Component {
     coinId: PropTypes.string,
     coin: PropTypes.shape({}),
     coins: PropTypes.shape({}).isRequired,
+    portfolio: PropTypes.shape({}).isRequired,
     markets: PropTypes.shape({}).isRequired,
     currency: PropTypes.shape({}).isRequired,
     market: PropTypes.shape({}).isRequired,
@@ -71,49 +73,54 @@ class CoinTabTransactions extends Component {
       { label: I18n.t('transactions.profit'), value: '-', symbol: '' },
     ];
 
-    if (!coin || !transactions.length || !transactions[0].amount) return summaryList;
+    if (!coin) return summaryList;
 
     const coinPrice = coin.amount * market.prices[selectedCurrency].price;
 
-    summaryList[0].value = 0;
-    summaryList[1].value = 0;
-    summaryList[2].value = 0;
+    if (transactions.length && transactions[0].amount) {
+      summaryList[0].value = 0;
+      summaryList[1].value = 0;
+      summaryList[2].value = 0;
 
-    transactions.forEach((transaction, i) => {
-      const {
-        amount,
-        total,
-        histo,
-        type,
-      } = transaction;
-      const itemTotal = histo[selectedCurrency] * total;
+      transactions.forEach((transaction, i) => {
+        const {
+          amount,
+          total,
+          histo,
+          type,
+        } = transaction;
+        const itemTotal = histo[selectedCurrency] * total;
 
-      if (type === 'exchange') {
-        if (amount < 0) {
-          summaryList[0].value += total; // amount from pair
-          summaryList[1].value += itemTotal;
-        } else {
+        if (type === 'exchange') {
+          if (amount < 0) {
+            summaryList[0].value += total; // amount from pair
+            summaryList[1].value += itemTotal;
+          } else {
+            summaryList[0].value += amount;
+            summaryList[1].value += itemTotal;
+          }
+        } else if (type === 'buy') {
           summaryList[0].value += amount;
           summaryList[1].value += itemTotal;
+        } else if (type === 'sell') {
+          summaryList[0].value -= amount;
+          summaryList[1].value -= itemTotal;
         }
-      } else if (type === 'buy') {
-        summaryList[0].value += amount;
-        summaryList[1].value += itemTotal;
-      } else if (type === 'sell') {
-        summaryList[0].value -= amount;
-        summaryList[1].value -= itemTotal;
-      }
 
-      summaryList[2].value = (coinPrice / summaryList[1].value) * 100;
-      summaryList[2].value = parseFloat(summaryList[2].value - 100);
-      summaryList[2].symbol = '%';
+        summaryList[2].value = (coinPrice / summaryList[1].value) * 100;
+        summaryList[2].value = parseFloat(summaryList[2].value - 100);
+        summaryList[2].symbol = '%';
 
-      if (transactions.length - 1 === i) {
-        summaryList[0].value = round(summaryList[0].value, 13);
-        summaryList[0].value = nFormat(summaryList[0].value, 8);
-        summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
-      }
-    });
+        if (transactions.length - 1 === i) {
+          summaryList[0].value = round(summaryList[0].value, 13);
+          summaryList[0].value = nFormat(summaryList[0].value, 8);
+          summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
+        }
+      });
+    } else {
+      summaryList[0].value = coin.amount;
+      summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
+    }
 
     return summaryList;
   };
@@ -143,7 +150,10 @@ class CoinTabTransactions extends Component {
     const {
       coinId,
       market,
+      portfolio,
     } = this.props;
+
+    if (portfolio.service) return;
 
     Actions.createNewTransaction({
       coinId,
@@ -185,12 +195,17 @@ class CoinTabTransactions extends Component {
 
   render() {
     const {
+      portfolio,
       transactions,
       transactionsRefreshing,
       transactionsLoading,
     } = this.props;
 
     const sections = this.transactionsByDays(transactions);
+
+    const { service } = portfolio;
+
+    const title = get(service, 'provider.name', I18n.t('transactions.addButton'));
 
     return (
       <Container>
@@ -229,7 +244,8 @@ class CoinTabTransactions extends Component {
             onPress={this.createNewTransaction}
             style={base.footer__button_bordered}
           >
-            <Text style={base.footer__buttonText_bordered}>{I18n.t('transactions.addButton')}</Text>
+            { service && <CoinsaneIcon name={title} height={22} width={22} /> }
+            <Text style={base.footer__buttonText_bordered}>{title.toUpperCase()}</Text>
           </Button>
         </Footer>
       </Container>

@@ -55,7 +55,7 @@
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "morgan": "^1.9.0",
-    "native-base": "^2.4.2",
+    "native-base": "^2.7.2",
     "object-assign": "^4.1.1",
     "prop-types": "^15.6.0",
     "react": "^16.4.0",

@@ -40,6 +40,9 @@ export default StyleSheet.create({
     height: 50,
     backgroundColor: colors.inputBg,
   },
+  footer__buttonLoading: {
+    margin: 10,
+  },
   footer__buttonText: {
     color: colors.white,
     fontFamily: fonts.fontMedium,
