@@ -153,6 +153,7 @@ class CoinCard extends PureComponent {
               itemBackground={colors.btnBgBlack}
               height={64}
               right={25}
+              noActions={!!service}
             >
               <ListItem
                 button

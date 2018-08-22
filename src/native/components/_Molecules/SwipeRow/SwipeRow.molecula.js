@@ -21,6 +21,7 @@ class SwipeRow extends Component {
     height: PropTypes.number,
     right: PropTypes.number,
     backgroundColor: PropTypes.string,
+    noActions: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -30,6 +31,7 @@ class SwipeRow extends Component {
     height: 60,
     right: 10,
     backgroundColor: colors.bgPrimary,
+    noActions: false,
   };
 
   constructor(props) {
@@ -66,7 +68,18 @@ class SwipeRow extends Component {
   }
 
   render() {
-    const { damping, tension, buttons, backgroundColor, height, right } = this.props;
+    const {
+      damping,
+      tension,
+      buttons,
+      backgroundColor,
+      height,
+      right,
+      children,
+      noActions,
+    } = this.props;
+
+    if (noActions) return children;
 
     const ActionButtons = () => {
       if (!buttons.length) return null;
@@ -105,7 +118,7 @@ class SwipeRow extends Component {
           animatedValueX={this._deltaX}
         >
           <TouchableHighlight onPress={this.onRowPress} activeOpacity={activeOpacity}>
-            {this.props.children}
+            {children}
           </TouchableHighlight>
         </Interactable.View>
       </View>
