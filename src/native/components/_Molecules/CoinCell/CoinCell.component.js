@@ -24,6 +24,13 @@ const CoinCell = ({
   };
 
   const RenderLeft = () => {
+    if (item.service) {
+      return (
+        <Left style={styles.listItem__left}>
+          <CoinsaneIcon name={item.service.provider.name} width={26} height={26} />
+        </Left>
+      );
+    }
     if (!item.imageUrl) return null;
     const source = { uri: `https://www.cryptocompare.com${item.imageUrl}` };
     return (

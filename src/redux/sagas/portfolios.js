@@ -1,4 +1,6 @@
 import { takeLatest, put, call, select } from 'redux-saga/effects';
+import { Actions } from 'react-native-router-flux';
+import { Toast } from 'native-base';
 import api from '../../api';
 import selectors from '../selectors';
 import {
@@ -194,8 +196,10 @@ export function* addPortfolioSaga(action) {
         amount: 0,
       },
     });
+    yield put({ type: UPDATE_PORTFOLIOS, payload: {} });
+    Actions.pop();
   } catch (error) {
-    yield put({ type: PORTFOLIO_ADD_ERROR, error });
+    yield put({ type: PORTFOLIO_ADD_ERROR, payload: error });
   }
 }
 

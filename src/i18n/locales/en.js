@@ -45,6 +45,11 @@ export default {
       fieldRemove: 'Delete portfolio',
       fieldRemoveDesc: 'Are you sure?',
       buttonRemove: 'Delete',
+      buttonFromExchange: 'ADD FROM EXCHANGE',
+      labelExchange: 'EXCHANGE',
+      fieldExchange: 'Exchange select',
+      fieldKey: 'API key',
+      fieldSecret: 'API secret',
     },
     others: 'Others',
   },
@@ -97,6 +102,9 @@ export default {
     titleChoose: 'Choose Category',
     empty: 'No category',
     exchange: 'Exchange',
+  },
+  providers: {
+    titleChoose: 'Choose Exchange',
   },
   onboarding: {
     prev: 'PREV',

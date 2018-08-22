@@ -45,6 +45,11 @@ export default {
       fieldRemove: 'Удалить',
       fieldRemoveDesc: 'Вы уверены?',
       buttonRemove: 'Удалить',
+      buttonFromExchange: 'ПРИВЯЗАТЬ К БИРЖЕ',
+      labelExchange: 'БИРЖА',
+      fieldExchange: 'Выбор биржи',
+      fieldKey: 'API ключ',
+      fieldSecret: 'API секрет',
     },
     others: 'Другие',
   },
@@ -97,6 +102,9 @@ export default {
     titleChoose: 'Выберите рубрику',
     empty: 'Без категории',
     exchange: 'Обмен',
+  },
+  providers: {
+    titleChoose: 'Выберите биржу',
   },
   onbaoarding: {
     prev: 'НАЗАД',

@@ -19,7 +19,7 @@ class CoinsaneList extends Component {
   static propTypes = {
     searchBar: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    items: PropTypes.string,
+    items: PropTypes.shape({}),
     listName: PropTypes.string,
     listItemType: PropTypes.string,
     selectAction: PropTypes.func.isRequired,
@@ -54,7 +54,8 @@ class CoinsaneList extends Component {
     if (items) {
       return {
         items,
-        list: items.map(item => item._id),
+        list: Object.keys(items),
+        refreshing: false,
       };
     }
     return state[listName];
@@ -158,6 +159,7 @@ class CoinsaneList extends Component {
     } = this.props;
 
     const listItem = this.getList();
+    console.log(listItem);
 
     return (
       <Modal hideClose>

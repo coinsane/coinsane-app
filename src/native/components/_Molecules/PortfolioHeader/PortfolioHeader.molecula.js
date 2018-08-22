@@ -6,6 +6,7 @@ import { nFormat, cFormat } from '../../../../lib/utils';
 import I18n from '../../../../i18n';
 import Spacer from '../../Spacer/Spacer.component';
 import styles from './PortfolioHeader.styles';
+import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { colors, typography } from '../../../styles';
 
 const PortfolioHeader = ({
@@ -20,6 +21,8 @@ const PortfolioHeader = ({
   updateCollapsed,
   isCollapsed,
   isLoading,
+  hideAddButton,
+  provider,
 }) => {
   if (!show) return <Spacer size={0} />;
 
@@ -31,11 +34,27 @@ const PortfolioHeader = ({
   const changeColor = changePct < 0 ? colors.primaryPink : colors.primaryGreen;
   const changePctDisplay = `${changePct}%`;
 
+  const ButtonPortfolio = () => {
+    if (count || isCollapsed || hideAddButton) return null;
+    return (
+      <Button
+        small
+        bordered
+        full
+        style={styles.headerBtn}
+        onPress={() => addCoin(id)}
+      >
+        <Text style={styles.headerBtn__text}>{I18n.t('coins.addButton')}</Text>
+      </Button>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <ListItem style={styles.listItem} onPress={() => updateCollapsed(id)}>
         <Body style={styles.body}>
           <Icon name={icon} style={styles.body__arrowIcon} />
+          { provider && <CoinsaneIcon name={provider} width={18} height={18} /> }
           <Text numberOfLines={1} style={styles.body__text}>{title}</Text>
         </Body>
         <Right style={styles.right}>
@@ -57,18 +76,7 @@ const PortfolioHeader = ({
           }
         </Right>
       </ListItem>
-      {
-        !count && !isCollapsed &&
-        <Button
-          small
-          bordered
-          full
-          style={styles.headerBtn}
-          onPress={() => addCoin(id)}
-        >
-          <Text style={styles.headerBtn__text}>{I18n.t('coins.addButton')}</Text>
-        </Button>
-      }
+      <ButtonPortfolio />
     </View>
   );
 };
@@ -83,8 +91,10 @@ PortfolioHeader.propTypes = {
   changePct: PropTypes.number,
   amount: PropTypes.number,
   currency: PropTypes.shape({}).isRequired,
+  hideAddButton: PropTypes.bool,
   isCollapsed: PropTypes.bool,
   isLoading: PropTypes.bool,
+  provider: PropTypes.string,
 };
 
 PortfolioHeader.defaultProps = {
@@ -93,6 +103,8 @@ PortfolioHeader.defaultProps = {
   changePct: 0,
   isCollapsed: false,
   isLoading: false,
+  hideAddButton: false,
+  provider: null,
 };
 
 export default PortfolioHeader;

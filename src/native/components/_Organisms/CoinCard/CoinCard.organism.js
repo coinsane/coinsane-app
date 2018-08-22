@@ -34,6 +34,7 @@ class CoinCard extends PureComponent {
     isLoading: PropTypes.bool,
     portfolioId: PropTypes.string,
     isLast: PropTypes.bool,
+    service: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -44,6 +45,7 @@ class CoinCard extends PureComponent {
     isLoading: false,
     portfolioId: null,
     isLast: false,
+    service: false,
     order: 0,
   };
 
@@ -62,6 +64,7 @@ class CoinCard extends PureComponent {
       isLoading,
       portfolioId,
       isLast,
+      service,
     } = this.props;
 
     const symbol = currency.code;
@@ -121,20 +124,22 @@ class CoinCard extends PureComponent {
       },
     ];
 
-    const ButtonPortfolio = () => (
-      isLast && !activePortfolio &&
-      <View style={base.list__buttonContainer}>
-        <Button
-          small
-          bordered
-          full
-          style={base.list__button}
-          onPress={() => addCoin(portfolioId)}
-        >
-          <Text style={base.list__buttonText}>{I18n.t('coins.addButton')}</Text>
-        </Button>
-      </View>
-    );
+    const ButtonPortfolio = () => {
+      if (activePortfolio || !isLast || service) return null;
+      return (
+        <View style={base.list__buttonContainer}>
+          <Button
+            small
+            bordered
+            full
+            style={base.list__button}
+            onPress={() => addCoin(portfolioId)}
+          >
+            <Text style={base.list__buttonText}>{I18n.t('coins.addButton')}</Text>
+          </Button>
+        </View>
+      );
+    };
 
     const PortfolioCard = () => {
       if (isCollapsed && !activePortfolio) return null;
@@ -148,6 +153,7 @@ class CoinCard extends PureComponent {
               itemBackground={colors.btnBgBlack}
               height={64}
               right={25}
+              noActions={!!service}
             >
               <ListItem
                 button

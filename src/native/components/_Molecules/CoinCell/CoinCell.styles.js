@@ -14,7 +14,7 @@ export default StyleSheet.create({
   listItem__thumbnail: {
     width: 32,
     height: 32,
-    marginRight: 15,
+    marginRight: 5,
     alignSelf: 'center',
     borderRadius: 16,
   },
@@ -36,8 +36,8 @@ export default StyleSheet.create({
   listItem__left: {
     flex: 0,
     marginRight: 0,
-    paddingRight: 0,
-    alignItems: 'flex-start',
+    paddingRight: 10,
+    alignItems: 'center',
     alignSelf: 'center',
     height: 44,
   },
