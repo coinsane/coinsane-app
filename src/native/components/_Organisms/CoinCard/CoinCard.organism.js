@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import get from 'lodash/get';
 
 import I18n from '../../../../i18n';
-import { nFormat, cFormat, round } from '../../../../lib/utils';
+import { nFormat, cFormat, format, round } from '../../../../lib/utils';
 import styles from './CoinCard.styles';
 import SwipeRow from '../../_Molecules/SwipeRow/SwipeRow.molecula';
 import { base, colors, typography } from '../../../styles/index';
@@ -46,7 +46,7 @@ class CoinCard extends PureComponent {
     portfolioId: null,
     isLast: false,
     service: false,
-    order: 0,
+    order: null,
   };
 
   render() {
@@ -93,11 +93,6 @@ class CoinCard extends PureComponent {
       totalPriceDisplay: '0',
     };
 
-
-    if (type === 'portfolio') {
-      coinCard.amount = round(amount, 13) || 0;
-    }
-
     if (symbol === market.symbol) {
       coinCard.price = 1;
       coinCard.changePct = '0%';
@@ -115,6 +110,10 @@ class CoinCard extends PureComponent {
     coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(decimal);
     coinCard.priceDisplay = cFormat(nFormat(coinCard.price, currency.decimal), currency.symbol);
     coinCard.totalPriceDisplay = cFormat(nFormat(coinCard.totalPrice, decimal), currency.symbol);
+
+    if (type === 'portfolio') {
+      coinCard.amount = format(round(amount, 13) || 0);
+    }
 
     const buttons = [
       {

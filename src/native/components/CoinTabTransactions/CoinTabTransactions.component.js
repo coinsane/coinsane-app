@@ -15,7 +15,7 @@ import SectionHeader from '../_Molecules/SectionHeader/SectionHeader.molecula';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import Empty from '../Empty/Empty.component';
 import Loading from '../Loading/Loading.component';
-import { nFormat, cFormat, round } from '../../../lib/utils';
+import { nFormat, cFormat, round, format } from '../../../lib/utils';
 import I18n from '../../../i18n';
 import styles from './CoinTabTransactions.styles';
 import ga from '../../../lib/ga';
@@ -112,13 +112,12 @@ class CoinTabTransactions extends Component {
         summaryList[2].symbol = '%';
 
         if (transactions.length - 1 === i) {
-          summaryList[0].value = round(summaryList[0].value, 13);
-          summaryList[0].value = nFormat(summaryList[0].value, 8);
+          summaryList[0].value = format(round(summaryList[0].value, 13));
           summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
         }
       });
     } else {
-      summaryList[0].value = coin.amount;
+      summaryList[0].value = format(coin.amount);
       summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
     }
 

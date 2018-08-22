@@ -1,4 +1,4 @@
-
+import math from 'mathjs';
 /*
 * Currency Formatting (prefix or suffix)
 * */
@@ -36,5 +36,7 @@ export const nFormat = (num = 0, decimal = 0, startFrom = 2) => {
   return (num / si[i].value).toFixed(decimal).replace(rx, '$1') + si[i].symbol;
 };
 
+export const format = (value = 0) => math.format(value, { notation: 'fixed' });
 
-export const round = (amount, n) => Math.round(amount * (10 ** n)) / (10 ** n);
+
+export const round = (amount, n) => math.round(amount * (10 ** n)) / (10 ** n);
