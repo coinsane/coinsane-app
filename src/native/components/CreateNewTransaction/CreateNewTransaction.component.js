@@ -113,6 +113,7 @@ class CreateNewTransaction extends Component {
 
   update = (list) => {
     if (!list) return;
+    const { portfolios } = this.props;
     const { draft } = this.props.transactions;
     const options = {
       listItemType: 'arrow',
@@ -123,7 +124,9 @@ class CreateNewTransaction extends Component {
     };
     switch (list) {
       case 'portfolio':
-        options.listName = 'portfolios';
+        options.items = Object.assign(...Object.keys(portfolios.items)
+          .filter(key => !portfolios.items[key].service)
+          .map(key => ({ [key]: portfolios.items[key] })));
         options.title = I18n.t('portfolios.titleChoose');
         options.listItemType = 'check';
         options.activeItem = draft.portfolio;

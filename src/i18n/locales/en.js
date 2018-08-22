@@ -103,6 +103,9 @@ export default {
     empty: 'No category',
     exchange: 'Exchange',
   },
+  providers: {
+    titleChoose: 'Choose Exchange',
+  },
   onboarding: {
     prev: 'PREV',
     next: 'NEXT',

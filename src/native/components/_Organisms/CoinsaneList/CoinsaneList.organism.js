@@ -19,7 +19,7 @@ class CoinsaneList extends Component {
   static propTypes = {
     searchBar: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({})),
+    items: PropTypes.shape({}),
     listName: PropTypes.string,
     listItemType: PropTypes.string,
     selectAction: PropTypes.func.isRequired,
@@ -52,13 +52,9 @@ class CoinsaneList extends Component {
   getList = () => {
     const { state, listName, items } = this.props;
     if (items) {
-      const itemsObj = {};
-      items.forEach((item) => {
-        itemsObj[item._id] = item;
-      });
       return {
-        items: itemsObj,
-        list: items.map(item => item._id),
+        items,
+        list: Object.keys(items),
         refreshing: false,
       };
     }

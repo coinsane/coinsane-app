@@ -103,6 +103,9 @@ export default {
     empty: 'Без категории',
     exchange: 'Обмен',
   },
+  providers: {
+    titleChoose: 'Выберите биржу',
+  },
   onbaoarding: {
     prev: 'НАЗАД',
     next: 'ВПЕРЕД',

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title, Toast, Root } from 'native-base';
+import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title, Root } from 'native-base';
 
 import api from '../../../api';
 import ga from '../../../lib/ga';
@@ -69,10 +69,15 @@ class CreatePortfolio extends Component {
   };
 
   exchangeSelector = (activeItem) => {
+    const { providers } = this.state;
+    const items = {};
+    providers.forEach((item) => {
+      items[item._id] = item;
+    });
     Actions.selector({
       // listName: 'portfolios',
-      items: this.state.providers,
-      title: I18n.t('portfolios.titleChoose'),
+      items,
+      title: I18n.t('providers.titleChoose'),
       listItemType: 'check',
       activeItem,
       selectAction: (item) => {
