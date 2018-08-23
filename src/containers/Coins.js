@@ -124,6 +124,7 @@ class Coins extends Component {
   getPortfolio = () => {
     const { portfolios } = this.props;
     const coin = this.getCoin();
+    if (!coin) return {};
     return get(portfolios, `items[${coin.portfolio}]`, {});
   };
 
