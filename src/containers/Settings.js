@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getSettings } from '../redux/state/settings/settings.actioncreators';
+import { getSettings, updateCurrencies } from '../redux/state/settings/settings.actioncreators';
 import { getPages } from '../redux/state/pages/pages.actioncreators';
+import { getAvailableMarkets, clearMarkets, changeSearchTerm, currencySearch } from '../redux/state/markets/markets.actioncreators';
+import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
 
 class Settings extends Component {
   static propTypes = {
@@ -13,6 +15,12 @@ class Settings extends Component {
     pages: PropTypes.shape({}).isRequired,
     getSettings: PropTypes.func.isRequired,
     getPages: PropTypes.func.isRequired,
+    getAvailableMarkets: PropTypes.func.isRequired,
+    clearMarkets: PropTypes.func.isRequired,
+    changeSearchTerm: PropTypes.func.isRequired,
+    currencySearch: PropTypes.func.isRequired,
+    getAvailableCurrencies: PropTypes.func.isRequired,
+    updateCurrencies: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -33,6 +41,9 @@ class Settings extends Component {
         drawer={navigation.drawer}
         settings={settings}
         pages={pages.items}
+        currencySearch={this.props.currencySearch}
+        clearMarkets={this.props.clearMarkets}
+        updateCurrencies={this.props.updateCurrencies}
       />
     );
   }
@@ -47,6 +58,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getSettings,
   getPages,
+  getAvailableMarkets,
+  clearMarkets,
+  changeSearchTerm,
+  getAvailableCurrencies,
+  currencySearch,
+  updateCurrencies,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

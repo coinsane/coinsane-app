@@ -7,7 +7,9 @@ import I18n from '../../../../i18n';
 import {
   changeSearchTerm,
   getAvailableMarkets,
+  currencySearch,
 } from '../../../../redux/state/markets/markets.actioncreators';
+import { getAvailableCurrencies } from '../../../../redux/state/currencies/currencies.actioncreators';
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './SearchBar.styles';
@@ -16,12 +18,16 @@ import { colors } from '../../../styles';
 class SearchBar extends Component {
   static propTypes = {
     changeSearchTerm: PropTypes.func.isRequired,
+    currencySearch: PropTypes.func.isRequired,
     getAvailableMarkets: PropTypes.func.isRequired,
+    getAvailableCurrencies: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
     placeholder: I18n.t('placeholder.search'),
+    type: 'markets',
   };
 
   constructor(props) {
@@ -30,10 +36,14 @@ class SearchBar extends Component {
     this.onFocus = this.onFocus.bind(this);
   }
 
-  onFocus = () => this.props.getAvailableMarkets({});
+  onFocus = () => {
+    if (this.props.type === 'markets') this.props.getAvailableMarkets({});
+    if (this.props.type === 'currencies') this.props.getAvailableCurrencies({});
+  };
 
   onChangeText = (q = '') => {
-    this.props.changeSearchTerm({ q });
+    if (this.props.type === 'markets') this.props.changeSearchTerm({ q });
+    if (this.props.type === 'currencies') this.props.currencySearch({ q });
     // if (q.length > 1) this.props.changeSearchTerm({ q });
     // else this.props.getAvailableMarkets({});
   };
@@ -60,8 +70,10 @@ class SearchBar extends Component {
 const mapStateToProps = null;
 
 const mapDispatchToProps = {
+  currencySearch,
   changeSearchTerm,
   getAvailableMarkets,
+  getAvailableCurrencies,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

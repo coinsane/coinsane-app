@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Linking, Share } from 'react-native';
+import { Linking, Share, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { Container, Content, List, ListItem, Text, Label, Title } from 'native-base';
 import * as StoreReview from 'react-native-store-review';
@@ -26,7 +26,15 @@ class Settings extends Component {
       terms: PropTypes.shape({}),
       policy: PropTypes.shape({}),
     }).isRequired,
+    currencySearch: PropTypes.func.isRequired,
+    clearMarkets: PropTypes.func.isRequired,
+    updateCurrencies: PropTypes.func.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+    this.chooseCurrency = this.chooseCurrency.bind(this);
+  }
 
   componentDidMount() {
     ga.trackScreenView('Settings');
@@ -35,17 +43,83 @@ class Settings extends Component {
     });
   }
 
+  selectCurrency = (item, selectedIds) => {
+    const { settings } = this.props;
+    if (selectedIds.includes(item._id)) {
+      const updatedCurrencies = {};
+      Object.keys(settings.currencies).forEach((currency) => {
+        if (currency !== item.code) updatedCurrencies[currency] = settings.currencies[currency];
+      });
+      this.props.updateCurrencies({
+        type: 'remove',
+        currencyId: item._id,
+        currencies: {
+          ...updatedCurrencies,
+        },
+      });
+    } else if (selectedIds.length < 5) {
+      const { _id, name, ...currency } = item;
+      this.props.updateCurrencies({
+        type: 'add',
+        currencyId: item._id,
+        currencies: {
+          ...settings.currencies,
+          [item.code]: {
+            id: _id,
+            type: 'currency',
+            system: false,
+            imageUrl: '',
+            symbol: currency.code,
+            ...currency,
+            decimal: 2,
+          },
+        },
+      });
+    } else {
+      Alert.alert('Max 5 currencies allowed!');
+    }
+  };
+
+  chooseCurrency = () => {
+    const { settings } = this.props;
+    console.log('settings.currencies', settings.currencies)
+    Actions.selector({
+      preLoad: (data) => {
+        this.props.currencySearch(data);
+        // this.props.changeSearchTerm(data);
+        // this.props.getAvailableCurrencies({});
+      },
+      clear: () => this.props.clearMarkets(),
+      title: I18n.t('coins.titleSelect'),
+      listItemType: 'check',
+      navigationType: 'close',
+      searchBar: true,
+      listName: 'currencies',
+      selectedItems: 'settings.currencies',
+      selectAction: (item, selectedIds) => this.selectCurrency(item, selectedIds),
+      footerTitle: 'Selected:',
+      footerTitleSelected: 'code',
+      footerAction: () => {
+        Actions.pop();
+      },
+      closeType: 'close',
+    });
+  };
+
   render() {
     const {
-      drawer, settings, pages,
+      drawer,
+      settings,
+      pages,
     } = this.props;
 
     const items = [
       {
         label: I18n.t('settings.currency'),
-        name: Object.keys(settings.currencies).join(','),
+        name: Object.keys(settings.currencies).join(', '),
         onPress: () => {
           ga.trackEvent('settings', 'chooseCurrencies');
+          this.chooseCurrency();
         },
       },
       {

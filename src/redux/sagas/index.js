@@ -7,6 +7,7 @@ import currenciesSaga from './currencies';
 import usersSaga from './users';
 import pagesSaga from './pages';
 import categoriesSaga from './categories';
+import settingsSaga from './settings';
 
 export default function* rootSaga() {
   yield all([
@@ -18,5 +19,6 @@ export default function* rootSaga() {
     ...usersSaga,
     ...pagesSaga,
     ...categoriesSaga,
+    ...settingsSaga,
   ]);
 }

@@ -6,6 +6,7 @@ import {
   MARKET_DATA_COLLAPSE,
   EXCHANGES_UPDATE,
   EXCHANGES_LOAD_MORE,
+  SEARCH_AVAILABLE_CURRENCIES,
 } from '../../actions/action.types';
 
 export const updateCollapsed = payload => ({ type: MARKET_DATA_COLLAPSE, payload });
@@ -36,6 +37,14 @@ export const getAvailableMarkets = ({ limit = 10, skip = 0, refreshing = false }
   */
 export const changeSearchTerm = ({ q = '', limit = 10, skip = 0, refreshing = false }) => ({
   type: SEARCH_AVAILABLE_MARKETS,
+  payload: { q, limit, skip, refreshing },
+});
+
+/**
+  * Search for currency
+  */
+export const currencySearch = ({ q = '', limit = 10, skip = 0, refreshing = false }) => ({
+  type: SEARCH_AVAILABLE_CURRENCIES,
   payload: { q, limit, skip, refreshing },
 });
 

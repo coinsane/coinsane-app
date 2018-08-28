@@ -4,6 +4,7 @@ import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Container, List, Title, View, Footer, Button, Text } from 'native-base';
+import get from 'lodash/get';
 
 import SearchBar from '../../_Molecules/SearchBar/SearchBar.molecula';
 import Modal from '../../modal/BaseModal.component';
@@ -26,8 +27,10 @@ class CoinsaneList extends Component {
     preLoad: PropTypes.func,
     clear: PropTypes.func,
     activeItem: PropTypes.string,
+    selectedItems: PropTypes.string,
     state: PropTypes.shape({}).isRequired,
     footerTitle: PropTypes.string,
+    footerTitleSelected: PropTypes.string,
     footerAction: PropTypes.func,
     headItem: PropTypes.shape({}),
   };
@@ -37,16 +40,19 @@ class CoinsaneList extends Component {
     listName: null,
     searchBar: false,
     activeItem: null,
+    selectedItems: null,
     listItemType: null,
     preLoad: null,
     clear: null,
     footerTitle: null,
+    footerTitleSelected: null,
     footerAction: null,
     headItem: null,
   };
 
-  componentWillMount() {
-    if (this.props.preLoad) this.props.preLoad({});
+  constructor(props) {
+    super(props);
+    if (props.preLoad) props.preLoad({});
   }
 
   getList = () => {
@@ -85,11 +91,11 @@ class CoinsaneList extends Component {
   };
 
   renderHeader = () => {
-    const { searchBar } = this.props;
+    const { searchBar, listName } = this.props;
     if (!searchBar) return null;
     return (
       <View style={styles.search}>
-        <SearchBar />
+        <SearchBar type={listName} />
       </View>
     );
   };
@@ -110,8 +116,16 @@ class CoinsaneList extends Component {
     const {
       footerTitle,
       footerAction,
+      footerTitleSelected,
+      selectedItems,
+      state,
     } = this.props;
-    if (!(footerTitle && footerAction)) return null;
+    if (!(footerAction && footerTitle)) return null;
+    let title = footerTitle;
+    if (selectedItems && footerTitleSelected) {
+      const selected = get(state, selectedItems, null);
+      title = `${title} ${Object.keys(selected).map(key => selected[key][footerTitleSelected]).join(', ')}`;
+    }
     return (
       <Footer style={base.footer}>
         <Button
@@ -121,7 +135,7 @@ class CoinsaneList extends Component {
           onPress={footerAction}
           style={base.footer__button}
         >
-          <Text style={base.footer__buttonText}>{footerTitle}</Text>
+          <Text style={base.footer__buttonText}>{title}</Text>
         </Button>
       </Footer>
     );
@@ -132,8 +146,13 @@ class CoinsaneList extends Component {
       headItem,
       listItemType,
       activeItem,
+      selectedItems,
       state,
     } = this.props;
+
+    const selected = get(state, selectedItems, {});
+    const selectedIds = Object.keys(selected).map(key => selected[key].id);
+
     if (!(headItem && headItem.title && headItem.selectAction)) return null;
     return (
       <View>
@@ -142,7 +161,7 @@ class CoinsaneList extends Component {
           item={headItem}
           selectAction={headItem.selectAction}
           currency={state.settings.currencies[state.settings.currency]}
-          active={!activeItem}
+          active={!activeItem || selectedIds.includes(headItem._id)}
         />
         <View style={styles.separator} />
       </View>
@@ -156,10 +175,15 @@ class CoinsaneList extends Component {
       selectAction,
       state,
       activeItem,
+      selectedItems,
     } = this.props;
 
+    const selected = get(state, selectedItems, {});
+    const selectedIds = Object.keys(selected).map(key => selected[key].id);
+
     const listItem = this.getList();
-    console.log(listItem);
+    // console.log('listItem', listItem);
+    // console.log('selectedIds', selectedIds);
 
     return (
       <Modal hideClose>
@@ -178,9 +202,9 @@ class CoinsaneList extends Component {
                   key={item}
                   listItemType={listItemType}
                   item={listItem.items[item]}
-                  selectAction={() => selectAction(listItem.items[item])}
+                  selectAction={() => selectAction(listItem.items[item], selectedIds)}
                   currency={state.settings.currencies[state.settings.currency]}
-                  active={item === activeItem}
+                  active={item === activeItem || selectedIds.includes(item)}
                 />
               )}
               keyExtractor={item => item}
@@ -191,7 +215,8 @@ class CoinsaneList extends Component {
               onEndReached={this.handleLoadMore}
               onEndReachedThreshold={0.01}
               onRefresh={this.handleRefresh}
-              refreshing={listItem.refreshing}
+              refreshing={listItem.refreshing || false}
+              extraData={selectedIds}
             />
           </List>
         </Container>

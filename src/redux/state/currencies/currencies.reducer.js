@@ -2,6 +2,9 @@ import {
   GET_AVAILABLE_CURRENCIES,
   GET_AVAILABLE_CURRENCIES_SUCCESS,
   GET_AVAILABLE_CURRENCIES_ERROR,
+  SEARCH_AVAILABLE_CURRENCIES_SUCCESS,
+  SEARCH_AVAILABLE_CURRENCIES_ERROR,
+  SEARCH_AVAILABLE_CURRENCIES,
 } from '../../actions/action.types';
 
 export const initialState = {
@@ -53,6 +56,39 @@ export default function actionReducer(state = initialState, action) {
         error: action.payload.message,
         loading: false,
         refreshing: false,
+        list: [],
+      };
+    }
+    case SEARCH_AVAILABLE_CURRENCIES: {
+      const list = action.payload.skip ? state.list : [];
+      return {
+        ...state,
+        error: null,
+        loading: true,
+        list,
+      };
+    }
+    case SEARCH_AVAILABLE_CURRENCIES_SUCCESS: {
+      const items = { ...state.items };
+      const { count } = action.payload;
+      const list = action.payload.list.map((currency) => {
+        items[currency._id] = currency;
+        return currency._id;
+      });
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        list,
+        items,
+        count,
+      };
+    }
+    case SEARCH_AVAILABLE_CURRENCIES_ERROR: {
+      return {
+        ...state,
+        error: true,
+        loading: false,
         list: [],
       };
     }

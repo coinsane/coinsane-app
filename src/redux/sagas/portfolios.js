@@ -49,10 +49,11 @@ export function* updatePortfoliosSaga(action) {
       portfoliosItems[portfolio._id] = {
         ...rest,
         data: coins.map((item) => {
-          const { _id, amount, market, transactions } = item;
+          const { _id, amount, market, amounts, transactions } = item;
           coinsItems[_id] = {
             _id,
             amount,
+            amounts,
             market: market._id,
             portfolio: portfolio._id,
             transactions,

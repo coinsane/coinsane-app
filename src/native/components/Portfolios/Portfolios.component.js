@@ -125,19 +125,24 @@ class Portfolios extends Component {
     Actions.portfolioSettings({ match: { params: { portfolioId } } });
   };
 
-  portfolioTotal = () => {
+  portfolioTotal = (all) => {
+    // console.log('portfolioTotal', this.props);
     const { portfolios, activePortfolio } = this.props;
-    let lastTotal = 0;
-    if (activePortfolio && activePortfolio !== 'all') {
-      const { amount } = portfolios[activePortfolio];
-      lastTotal = amount;
-      return lastTotal;
+    const lastTotals = {};
+    if (!all && activePortfolio && activePortfolio !== 'all') {
+      const { amounts } = portfolios[activePortfolio];
+      return amounts;
     }
     Object.keys(portfolios).forEach((key) => {
-      const { amount, inTotal } = portfolios[key];
-      if (inTotal) lastTotal += amount;
+      const { amounts, inTotal } = portfolios[key];
+      if (inTotal) {
+        Object.keys(amounts).forEach((currencyCode) => {
+          if (!lastTotals[currencyCode]) lastTotals[currencyCode] = 0;
+          lastTotals[currencyCode] += amounts[currencyCode];
+        });
+      }
     });
-    return lastTotal;
+    return lastTotals;
   };
 
   portfolioSelect() {
@@ -159,7 +164,7 @@ class Portfolios extends Component {
       },
       headItem: {
         title: I18n.t('portfolios.all'),
-        amount: this.portfolioTotal(),
+        amounts: this.portfolioTotal(true),
         selectAction: () => {
           this.props.selectPortfolio(null);
           Actions.pop();
@@ -182,7 +187,7 @@ class Portfolios extends Component {
       portfolioItems = portfolios[activePortfolio].data;
     } else {
       portfolioItems = Object.keys(portfolios).map(portfolioId => ({
-        value: portfolios[portfolioId].amount,
+        value: portfolios[portfolioId].amounts[symbol],
         symbol: portfolios[portfolioId].title,
       }));
     }
@@ -272,7 +277,7 @@ class Portfolios extends Component {
             <CoinsaneButton
               key={key}
               type="period"
-              value={key}
+              value={I18n.t(`periods.period${key}`)}
               uppercase
               onPress={() => this.updatePeriod(key)}
               active={period === key}
@@ -285,7 +290,7 @@ class Portfolios extends Component {
     return (
       <View style={{ marginBottom: 15 }}>
         <CoinsaneSummary
-          value={nFormat(this.portfolioTotal(), currency.decimal)}
+          value={nFormat(this.portfolioTotal()[currency.code], currency.decimal)}
           currency={currency}
           buttons={Object.keys(currencies)}
           subValue={round(chart.pct, 2)}
@@ -387,7 +392,7 @@ class Portfolios extends Component {
         addCoin={addCoin}
         currency={currency}
         changePct={changePct}
-        amount={section.amount}
+        amount={section.amounts[symbol]}
         updateCollapsed={updateCollapsed}
         isCollapsed={collapsedList.indexOf(section._id) !== -1}
         isLoading={loading}

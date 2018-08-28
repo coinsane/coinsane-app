@@ -43,8 +43,8 @@ const CoinCell = ({
   const title = item.name || item.title;
   const subtitle = item.symbol ?
     item.symbol :
-    item.amount ?
-      cFormat(nFormat(item.amount, currency.decimal), currency.symbol) :
+    item.amounts ?
+      cFormat(nFormat(item.amounts[currency.code], currency.decimal), currency.symbol) :
       null;
 
   return (

@@ -6,6 +6,7 @@ import * as pages from './pages';
 import * as categories from './categories';
 import * as auth from './auth';
 import * as account from './account';
+import * as settings from './settings';
 
 export default {
   coins,
@@ -16,4 +17,5 @@ export default {
   categories,
   auth,
   account,
+  settings,
 };

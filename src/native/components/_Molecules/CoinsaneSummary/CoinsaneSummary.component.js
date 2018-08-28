@@ -35,34 +35,30 @@ const CoinsaneSummary = ({
           />
         ))}
       </View>
-      {
-        loading ?
-          <Loading style={styles.loading} size={25} /> :
-          <View style={styles.total__summaryContainer}>
-            {
-              !!leftValue &&
-              <View style={styles.total__summaryLeft}>
-                <Text style={styles.total__summaryText}>{leftTitle.toUpperCase()}</Text>
-                <CoinsanePctText style={styles.total__summaryText} size={11} value={leftValue} symbol="" negative />
-              </View>
-            }
-            <View style={styles.total__summaryBody}>
-              <CoinsaneSummaryText value={value} />
-              {
-                typeof subValue === 'number' ?
-                  <CoinsanePctText style={styles.subValue} value={subValue} /> :
-                  <Text style={styles.subValue}>{subValue}</Text>
-              }
-            </View>
-            {
-              !!rightValue &&
-              <View style={styles.total__summaryRight}>
-                <Text style={styles.total__summaryText}>{rightTitle.toUpperCase()}</Text>
-                <CoinsanePctText style={styles.total__summaryText} size={11} value={rightValue} symbol="" positive />
-              </View>
-            }
+      <View style={styles.total__summaryContainer}>
+        {
+          !!leftValue &&
+          <View style={styles.total__summaryLeft}>
+            <Text style={styles.total__summaryText}>{leftTitle.toUpperCase()}</Text>
+            <CoinsanePctText style={styles.total__summaryText} size={11} value={leftValue} symbol="" negative />
           </View>
-      }
+        }
+        <View style={styles.total__summaryBody}>
+          <CoinsaneSummaryText value={value} />
+          {
+            typeof subValue === 'number' ?
+              <CoinsanePctText style={styles.subValue} value={subValue} /> :
+              <Text style={styles.subValue}>{subValue}</Text>
+          }
+        </View>
+        {
+          !!rightValue &&
+          <View style={styles.total__summaryRight}>
+            <Text style={styles.total__summaryText}>{rightTitle.toUpperCase()}</Text>
+            <CoinsanePctText style={styles.total__summaryText} size={11} value={rightValue} symbol="" positive />
+          </View>
+        }
+      </View>
     </View>
   );
 };
