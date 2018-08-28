@@ -22,7 +22,7 @@ export const initialState = {
   markets: [],
   marketsLoading: true,
   marketsError: null,
-  period: '1d',
+  period: '1h',
 };
 
 export default function actionReducer(state = initialState, action) {

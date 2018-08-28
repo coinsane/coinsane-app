@@ -50,8 +50,8 @@ class Pie extends Component {
         <View style={styles.container}>
           <PieChart
             style={styles.chart}
-            outerRadius={80}
-            innerRadius={70}
+            outerRadius={70}
+            innerRadius={60}
             data={pieData}
           />
           <View style={styles.legend}>

@@ -130,4 +130,13 @@ export default {
     setDate: 'Установить дату',
     setTime: 'Установить время',
   },
+  periods: {
+    period1h: '1ч',
+    period1d: '1д',
+    period1w: '1н',
+    period1m: '1м',
+    period3m: '3м',
+    period6m: '6м',
+    period1y: '1г',
+  },
 };

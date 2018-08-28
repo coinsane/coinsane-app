@@ -15,6 +15,7 @@ import {
   SET_COIN_DATA,
   UPDATE_PERIOD,
   UPDATE_PORTFOLIO_CURRENCY_SUCCESS,
+  UPDATE_PORTFOLIO_PERIOD,
   UPDATE_PORTFOLIO_PERIOD_SUCCESS,
   PORTFOLIO_COLLAPSE,
   UPDATE_PORTFOLIO_CHART_SUCCESS,
@@ -29,7 +30,7 @@ export const initialState = {
   selected: null,
   chart: {},
   currency: 'USD',
-  period: '1d',
+  period: '1h',
   changePct: 0,
   lastTotal: 0,
   collapsed: [],
@@ -132,6 +133,14 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
+
+    case UPDATE_PORTFOLIO_PERIOD: {
+      return {
+        ...state,
+        error: null,
+        loading: true,
+      };
+    }
     case UPDATE_PORTFOLIO_CHART_SUCCESS: {
       const {
         portfolioId,
@@ -139,7 +148,6 @@ export default function actionReducer(state = initialState, action) {
         symbol,
         totals,
       } = action.payload;
-      console.log('portfolioId', portfolioId);
       const chart = { ...state.chart };
       if (!chart[portfolioId]) chart[portfolioId] = {};
       let first = 0;

@@ -5,6 +5,9 @@ import {
   GET_AVAILABLE_MARKETS,
   GET_AVAILABLE_MARKETS_SUCCESS,
   GET_AVAILABLE_MARKETS_ERROR,
+  GET_AVAILABLE_CURRENCIES_SUCCESS,
+  GET_AVAILABLE_CURRENCIES_ERROR,
+  SEARCH_AVAILABLE_CURRENCIES,
   SEARCH_AVAILABLE_MARKETS,
   GET_MARKET_CAP,
   GET_MARKET_CAP_SUCCESS,
@@ -91,6 +94,28 @@ export function* searchAvailableMarkets(action) {
   }
 }
 
+/**
+ * Search Currencies side effect.
+ * @kind SideEffect
+ * @param action
+ */
+export function* searchAvailableCurrencies(action) {
+  try {
+    if (action.payload.q) yield delay(500);
+    const response = yield call(api.markets.searchAvailableMarkets, { ...action.payload, type: 'currency' });
+    yield put({
+      type: GET_AVAILABLE_CURRENCIES_SUCCESS,
+      payload: {
+        list: response.data.response.result,
+        count: response.data.response.count,
+        ...action.payload,
+      },
+    });
+  } catch (error) {
+    yield put({ type: GET_AVAILABLE_CURRENCIES_ERROR, payload: error });
+  }
+}
+
 export function* marketsExchangeUpdate(action) {
   try {
     const { marketId } = action.payload;
@@ -106,5 +131,6 @@ export default [
   takeLatest(GET_MARKET_CAP, getMarketCap),
   takeLatest(GET_AVAILABLE_MARKETS, fetchAvailableMarkets),
   takeLatest(SEARCH_AVAILABLE_MARKETS, searchAvailableMarkets),
+  takeLatest(SEARCH_AVAILABLE_CURRENCIES, searchAvailableCurrencies),
   takeLatest(EXCHANGES_UPDATE, marketsExchangeUpdate),
 ];

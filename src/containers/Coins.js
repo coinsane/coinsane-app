@@ -48,6 +48,7 @@ class Coins extends Component {
     clearMarkets: PropTypes.func.isRequired,
     getMarketCap: PropTypes.func.isRequired,
     markets: PropTypes.shape({
+      items: PropTypes.shape({}),
       chart: PropTypes.shape({}),
     }).isRequired,
 
@@ -99,8 +100,8 @@ class Coins extends Component {
       match,
       coin,
     } = this.props;
-    const id = (match && match.params && match.params.id) ? match.params.id : null;
-    return id ? coin.items[id] : null;
+    const id = get(match, 'params.id', null);
+    return get(coin, `items[${id}]`, {});
   };
 
   getTransactions = () => {
@@ -111,8 +112,14 @@ class Coins extends Component {
   };
 
   getChart = () => {
-    const { match, coin, settings } = this.props;
-    const market = get(match, 'params.market', {});
+    const {
+      match,
+      coin,
+      settings,
+      markets,
+    } = this.props;
+    const marketId = get(match, 'params.market._id', null);
+    const market = get(markets, `items[${marketId}]`, {});
     return get(market, `chart[${coin.period}:${settings.currency}]`, {
       data: {},
       low: 0,
@@ -129,8 +136,9 @@ class Coins extends Component {
   };
 
   getExchanges = () => {
-    const { match } = this.props;
-    const market = get(match, 'params.market', {});
+    const { match, markets } = this.props;
+    const marketId = get(match, 'params.market._id', null);
+    const market = get(markets, `items[${marketId}]`, {});
     return market && market.exchanges ? market.exchanges : {
       list: [],
       loading: false,
@@ -178,11 +186,10 @@ class Coins extends Component {
       markets,
       transactions,
     } = this.props;
-    const id = (match && match.params && match.params.id) ? match.params.id : null;
-    const market = (match && match.params && match.params.market) ? match.params.market : null;
-    const portfolioId = match && match.params && match.params.portfolioId
-      ? match.params.portfolioId :
-      null;
+    const id = get(match, 'params.id', null);
+    const marketId = get(match, 'params.market._id', null);
+    const market = get(markets, `items[${marketId}]`, {});
+    const portfolioId = get(markets, 'params.portfolioId', null);
 
     return (
       <Layout

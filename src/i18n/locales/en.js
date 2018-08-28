@@ -25,7 +25,7 @@ export default {
     addButton: '+ ADD NEW COIN',
     low: 'LOW',
     high: 'HIGH',
-    exchanges: 'Markets',
+    exchanges: 'Exchange',
     news: 'News',
     loadMore: 'LOAD MORE',
     titleSelect: 'Select coin',
@@ -129,5 +129,14 @@ export default {
     cancel: 'Cancel',
     setDate: 'Set Date',
     setTime: 'Set Time',
+  },
+  periods: {
+    period1h: '1h',
+    period1d: '1d',
+    period1w: '1w',
+    period1m: '1m',
+    period3m: '3m',
+    period6m: '6m',
+    period1y: '1y',
   },
 };

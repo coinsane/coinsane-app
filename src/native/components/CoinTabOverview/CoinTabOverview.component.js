@@ -157,17 +157,19 @@ class CoinTabOverview extends Component {
           rightValue={high}
           loading={loading}
         />
-        <Chart
-          data={chart.data}
-          currency={currency}
-          loading={loading}
-        />
+        <View style={styles.chartWrapper}>
+          <Chart
+            data={chart.data}
+            currency={currency}
+            loading={loading}
+          />
+        </View>
         <View style={styles.range}>
           { periods.map(key => (
             <CoinsaneButton
               key={key}
               type="period"
-              value={key}
+              value={I18n.t(`periods.period${key}`)}
               uppercase
               onPress={() => this.updatePeriod(key)}
               active={period === key}

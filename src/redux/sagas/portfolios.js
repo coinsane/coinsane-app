@@ -1,6 +1,5 @@
 import { takeLatest, put, call, select } from 'redux-saga/effects';
 import { Actions } from 'react-native-router-flux';
-import { Toast } from 'native-base';
 import api from '../../api';
 import selectors from '../selectors';
 import {
@@ -115,6 +114,7 @@ export function* updatePortfolioCurrencySaga(action) {
     if (!symbol) {
       symbol = yield select(selectors.getSymbol);
     }
+    yield put({ type: SELECT_CURRENCY_SUCCESS, payload: symbol });
     const { totals } = yield call(api.portfolios.fetchTotals, {
       portfolioId,
       range,
@@ -129,8 +129,7 @@ export function* updatePortfolioCurrencySaga(action) {
         totals,
       },
     });
-    yield put({ type: UPDATE_PORTFOLIOS, payload: { symbol } });
-    yield put({ type: SELECT_CURRENCY_SUCCESS, payload: symbol });
+    // yield put({ type: UPDATE_PORTFOLIOS, payload: { symbol } });
   } catch (error) {
     yield put({ type: UPDATE_PORTFOLIO_CURRENCY_ERROR, error });
   }
@@ -141,6 +140,7 @@ export function* updatePortfolioPeriodSaga(action) {
     const { period, portfolio } = action.payload;
     const portfolioId = portfolio || 'all';
     const range = period || '1d';
+    yield put({ type: UPDATE_PORTFOLIO_PERIOD_SUCCESS, payload: range });
     let { symbol } = action.payload;
     if (!symbol) {
       symbol = yield select(selectors.getSymbol);
@@ -160,13 +160,12 @@ export function* updatePortfolioPeriodSaga(action) {
         totals,
       },
     });
-    yield put({ type: UPDATE_PORTFOLIO_PERIOD_SUCCESS, payload: range });
   } catch (error) {
     yield put({ type: UPDATE_PORTFOLIO_PERIOD_ERROR, error });
   }
 }
 
-export function* updatePortfolioSaga(action) {
+export function* editPortfolioSaga(action) {
   try {
     const response = yield call(api.portfolios.update, action.payload);
     yield put({ type: PORTFOLIO_UPDATE_SUCCESS, payload: response });
@@ -215,7 +214,7 @@ export function* coinRemovedSaga(action) {
 export default [
   takeLatest(UPDATE_PORTFOLIOS, updatePortfoliosSaga),
   takeLatest(PORTFOLIO_ADD, addPortfolioSaga),
-  takeLatest(PORTFOLIO_UPDATE, updatePortfolioSaga),
+  takeLatest(PORTFOLIO_UPDATE, editPortfolioSaga),
   takeLatest(PORTFOLIO_REMOVE, removePortfolioSaga),
   takeLatest(UPDATE_PORTFOLIO_CHART, updatePortfolioChartSaga),
   takeLatest(UPDATE_PORTFOLIO_CURRENCY, updatePortfolioCurrencySaga),
