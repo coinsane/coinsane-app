@@ -41,6 +41,7 @@ class NavigationDrawer extends Component {
         openDrawerOffset={200}
         content={<DrawerContent />}
         tweenHandler={this.tweenHandler}
+        tweenDuration={100}
         acceptTap
         tapToClose
         onCloseStart={() => this.props.setDrawerClose(true)}
