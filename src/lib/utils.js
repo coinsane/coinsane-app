@@ -10,7 +10,8 @@ export const cFormat = (value = 0, symbol = '') => {
 /*
 * Number Formatting
 * */
-export const nFormat = (num = 0, decimal = 0, startFrom = 2) => {
+export const nFormat = (value = 0, decimal = 0, startFrom = 2) => {
+  const num = parseFloat(value);
   const si = [
     { value: 0, symbol: '' },
     { value: 1E3, symbol: 'k' },

@@ -5,6 +5,7 @@ import {
   UPDATE_CURRENCIES_SUCCESS,
   UPDATE_CURRENCIES_ERROR,
   UPDATE_CURRENCIES,
+  UPDATE_PORTFOLIOS,
 } from '../actions/action.types';
 
 export function* updateDefaultCurrencies(action) {
@@ -12,6 +13,7 @@ export function* updateDefaultCurrencies(action) {
     yield put({ type: UPDATE_CURRENCIES_SUCCESS, payload: action.payload.currencies });
     if (action.payload.type === 'add') {
       yield call(api.settings.addCurrency, action.payload.currencyId);
+      yield put({ type: UPDATE_PORTFOLIOS, payload: {} });
     } else if (action.payload.type === 'remove') {
       yield call(api.settings.removeCurrency, action.payload.currencyId);
     }

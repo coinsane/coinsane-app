@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, SectionList } from 'react-native';
 import { List, Button, Text } from 'native-base';
+import get from 'lodash/get';
 
 import { nFormat, cFormat } from '../../../lib/utils';
 import Spacer from '../Spacer/Spacer.component';
@@ -122,18 +123,20 @@ class CoinTabOverview extends Component {
       loading,
     } = this.props;
 
+    const marketPrice = get(market, `prices[${symbol}]`, {});
+
     const summaryList = [
       {
         label: I18n.t('markets.mcap'),
-        value: nFormat(market.prices[symbol].marketCap, 2),
+        value: nFormat(marketPrice.marketCap, 2),
       },
       {
         label: I18n.t('markets.vol24'),
-        value: nFormat(market.prices[symbol].totalVolume24HTo, 2),
+        value: nFormat(marketPrice.totalVolume24HTo, 2),
       },
       {
         label: I18n.t('markets.supply'),
-        value: cFormat(nFormat(market.prices[symbol].supply, 2), market.symbol),
+        value: cFormat(nFormat(marketPrice.supply, 2), market.symbol),
       },
     ];
 
@@ -141,7 +144,7 @@ class CoinTabOverview extends Component {
 
     const low = chart.low ? nFormat(chart.low, currency.decimal) : 0;
     const high = chart.high ? nFormat(chart.high, currency.decimal) : 0;
-    const value = nFormat(market.prices[symbol].price, currency.decimal);
+    const value = nFormat(marketPrice.price, currency.decimal);
     return (
       <View>
         <Spacer size={20} />

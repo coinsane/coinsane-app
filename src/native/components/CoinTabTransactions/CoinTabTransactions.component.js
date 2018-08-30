@@ -75,7 +75,9 @@ class CoinTabTransactions extends Component {
 
     if (!coin) return summaryList;
 
-    const coinPrice = coin.amount * market.prices[selectedCurrency].price;
+    const marketPrice = get(market, `prices[${selectedCurrency}]`, {});
+
+    const coinPrice = coin.amount * marketPrice.price;
 
     if (transactions.length && transactions[0].amount) {
       summaryList[0].value = 0;
