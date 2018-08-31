@@ -1,11 +1,12 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
-// import { delay } from 'redux-saga';
+import { takeLatest, put, call, select } from 'redux-saga/effects';
+import selectors from '../selectors';
 import api from '../../api';
 import {
   UPDATE_CURRENCIES_SUCCESS,
   UPDATE_CURRENCIES_ERROR,
   UPDATE_CURRENCIES,
   UPDATE_PORTFOLIOS,
+  SELECT_CURRENCY,
 } from '../actions/action.types';
 
 export function* updateDefaultCurrencies(action) {
@@ -16,6 +17,10 @@ export function* updateDefaultCurrencies(action) {
       yield put({ type: UPDATE_PORTFOLIOS, payload: {} });
     } else if (action.payload.type === 'remove') {
       yield call(api.settings.removeCurrency, action.payload.currencyId);
+      const symbol = yield select(selectors.getSymbol);
+      if (!Object.keys(action.payload.currencies).includes(symbol)) {
+        yield put({ type: SELECT_CURRENCY, payload: Object.keys(action.payload.currencies)[0] });
+      }
     }
   } catch (error) {
     yield put({ type: UPDATE_CURRENCIES_ERROR, error });
