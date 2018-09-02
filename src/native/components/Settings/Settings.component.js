@@ -47,16 +47,24 @@ class Settings extends Component {
     const { settings } = this.props;
     if (selectedIds.includes(item._id)) {
       const updatedCurrencies = {};
+      let isSystem = false;
       Object.keys(settings.currencies).forEach((currency) => {
-        if (currency !== item.code) updatedCurrencies[currency] = settings.currencies[currency];
+        if (currency === item.code && settings.currencies[currency].system) {
+          isSystem = true;
+        }
+        if (currency !== item.code || isSystem) {
+          updatedCurrencies[currency] = settings.currencies[currency];
+        }
       });
-      this.props.updateCurrencies({
-        type: 'remove',
-        currencyId: item._id,
-        currencies: {
-          ...updatedCurrencies,
-        },
-      });
+      if (!isSystem) {
+        this.props.updateCurrencies({
+          type: 'remove',
+          currencyId: item._id,
+          currencies: {
+            ...updatedCurrencies,
+          },
+        });
+      }
     } else if (selectedIds.length < 5) {
       const { _id, name, ...currency } = item;
       this.props.updateCurrencies({
