@@ -4,11 +4,13 @@ import { FlatList } from 'react-native';
 import { Container, View, Text, Title, List } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
-import ga from '../../../lib/ga';
-import I18n from '../../../i18n';
+import ga from 'src/lib/ga';
+import I18n from 'src/i18n';
+
+import Summary from 'src/native/components/_Molecules/Summary';
+
 import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
-import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
 import SearchBar from '../_Molecules/SearchBar/SearchBar.molecula';
 import Loading from '../Loading/Loading.component';
 import Empty from '../Empty/Empty.component';
@@ -91,7 +93,7 @@ class Market extends Component {
     const { total = 0, volume = 0 } = markets.cap[symbol] || {};
     return (
       <View>
-        <CoinsaneSummary
+        <Summary
           value={nFormat(total, 2)}
           currency={currency}
           buttons={Object.keys(currencies)}

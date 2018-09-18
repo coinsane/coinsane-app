@@ -42,11 +42,11 @@ class AuthProvider extends Component {
     if (!this.props.network) {
       return (
         <Empty
-          description={i18n.t('authorization.error.networkTokenError')}
+          description={i18n.t('auth.error.networkTokenError')}
           image={`${Config.fileUri}/states/network.png`}
           imageWidth={200}
           imageHeight={230}
-          buttonLabel={i18n.t('authorization.reconnect')}
+          buttonLabel={i18n.t('auth.reconnect')}
           action={this.props.reconnect}
         />
       );

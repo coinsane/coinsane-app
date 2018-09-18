@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Linking, Share, Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import { Container, Content, List, ListItem, Text, Label, Title } from 'native-base';
+import { Container, Content, List, ListItem, Text, Label, Title, Button } from 'native-base';
 import * as StoreReview from 'react-native-store-review';
 import VersionNumber from 'react-native-version-number';
 import { Actions } from 'react-native-router-flux';
@@ -114,6 +114,11 @@ class Settings extends Component {
     });
   };
 
+  createAccount = () => {
+    ga.trackEvent('settings', 'createAccount');
+    Actions.createAccount();
+  };
+
   render() {
     const {
       drawer,
@@ -202,6 +207,15 @@ class Settings extends Component {
           leftAction={() => drawer.open()}
           title={<Title style={base.title}>{I18n.t('navigation.settings')}</Title>}
         />
+        <Button
+          small
+          bordered
+          full
+          onPress={this.createAccount}
+          style={base.action__button}
+        >
+          <Text style={base.footer__buttonText}>{I18n.t('auth.createButton')}</Text>
+        </Button>
         <Content style={styles.settings__container}>
           <List style={styles.settings_list}>
             {items.map(({ name, label, onPress }) => (

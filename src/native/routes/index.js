@@ -27,6 +27,7 @@ import MarketComponent from '../components/Market/Market.component';
 
 import ErrorModal from '../components/modal/Error.component';
 import PageComponent from '../components/Page/Page.component';
+import SignUpComponent from '../components/SignUp/SignUp.component';
 
 
 const Index = (
@@ -91,6 +92,10 @@ const Index = (
             key="settings"
             component={SettingsContainer}
             Layout={SettingsComponent}
+          />
+          <Scene
+            key="createAccount"
+            component={SignUpComponent}
           />
         </Stack>
       </Stack>

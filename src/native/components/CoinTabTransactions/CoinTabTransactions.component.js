@@ -9,7 +9,7 @@ import get from 'lodash/get';
 
 import { base, colors } from '../../styles';
 
-import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
+import SummaryCell from '../_Molecules/SummaryCell';
 import TransactionItem from '../_Molecules/TransactionItem/TransactionItem.molecula';
 import SectionHeader from '../_Molecules/SectionHeader/SectionHeader.molecula';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';

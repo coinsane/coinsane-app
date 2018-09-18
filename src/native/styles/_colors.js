@@ -15,6 +15,7 @@ export default {
   onboardingCard: '#393252',
   gradientFrom: 'rgba(27,21,45,1)',
   gradientTo: 'rgba(27,21,45,0)',
+  active: '#9A84FF',
   chart1: '#9A84FF',
   chart2: '#31E981',
   chart3: '#00ABE8',

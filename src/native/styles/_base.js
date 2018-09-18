@@ -40,6 +40,15 @@ export default StyleSheet.create({
     height: 50,
     backgroundColor: colors.inputBg,
   },
+  action__button: {
+    marginTop: 10,
+    borderTopWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    borderBottomWidth: 0,
+    height: 50,
+    backgroundColor: colors.active,
+  },
   footer__buttonLoading: {
     margin: 10,
   },

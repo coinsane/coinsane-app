@@ -1,9 +1,10 @@
 export default {
-  authorization: {
+  auth: {
     error: {
       networkTokenError: 'Please connect to the internet to proceed',
     },
     reconnect: 'Reconnect',
+    createButton: 'CREATE ACCOUNT',
   },
   navigation: {
     portfolio: 'Portfolio',

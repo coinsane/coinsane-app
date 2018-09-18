@@ -7,13 +7,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import Swiper from 'react-native-swiper';
 import get from 'lodash/get';
 
-import Config from '../../../constants/config';
-import ga from '../../../lib/ga';
-import I18n from '../../../i18n';
-// import Error from '../Error/Error.component';
+import Config from 'src/constants/config';
+import ga from 'src/lib/ga';
+import I18n from 'src/i18n';
+
+import Summary from 'src/native/components/_Molecules/Summary';
+
 import Loading from '../Loading/Loading.component';
 import Spacer from '../Spacer/Spacer.component';
-import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
 import PortfolioHeader from '../_Molecules/PortfolioHeader/PortfolioHeader.molecula';
 import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import Chart from '../_Organisms/Chart/Chart.component';
@@ -289,7 +290,7 @@ class Portfolios extends Component {
 
     return (
       <View style={{ marginBottom: 15 }}>
-        <CoinsaneSummary
+        <Summary
           value={nFormat(this.portfolioTotal()[currency.code], currency.decimal)}
           currency={currency}
           buttons={Object.keys(currencies)}

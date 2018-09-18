@@ -1,9 +1,10 @@
 export default {
-  authorization: {
+  auth: {
     error: {
       networkTokenError: 'Чтобы продолжить, добудьте интернет.',
     },
     reconnect: 'Подключиться',
+    createButton: 'СОЗДАТЬ АККАУНТ',
   },
   navigation: {
     portfolio: 'Портфолио',

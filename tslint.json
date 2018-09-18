@@ -1,0 +1,66 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-airbnb",
+    "tslint-react"
+  ],
+  "jsRules": {
+    "prefer-const": true,
+    "no-var-keyword": true,
+    "no-empty": true,
+    "no-eval": true,
+    "jsx-wrap-multiline": true,
+    "jsx-self-close": true,
+    "no-console": false,
+    "object-literal-sort-keys": false,
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
+    "object-literal-shorthand": true,
+    "prefer-template": true,
+    "only-arrow-functions": true,
+    "no-parameter-reassignment": true,
+    "space-before-function-paren": true,
+    "prefer-object-spread": true,
+    "prefer-function-over-method": true,
+    "no-construct": true,
+    "no-duplicate-imports": true,
+    "ordered-imports": true,
+    "no-string-literal": true,
+    "one-variable-per-declaration": true,
+    "indent": [true, "spaces", 2],
+    "align": [true, "parameters", "statements", "arguments", "members"],
+    "arrow-return-shorthand": true,
+    "class-name": true,
+    "comment-format": [true, "check-space"],
+    "jsdoc-format": [true, "check-multiline-start"],
+    "space-within-parens": true,
+    "no-irregular-whitespace": true,
+    "no-trailing-whitespace": true,
+    "ban-comma-operator": true
+  },
+  "rules": {
+    "function-name": false,
+    "import-name": false,
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-pascal-case"
+      ]
+    },
+    "space-before-function-paren": true,
+    "prefer-template": true,
+    "indent": [true, "spaces", 2],
+    "align": [true, "parameters", "statements", "arguments", "members", "elements"],
+    "ban-comma-operator": true,
+    "jsx-no-multiline-js": false,
+    "member-access": [true, "no-public"],
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "object-literal-sort-keys": [true, "shorthand-first"]
+  },
+  "rulesDirectory": []
+}

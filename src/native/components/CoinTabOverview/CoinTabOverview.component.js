@@ -4,13 +4,16 @@ import { View, SectionList } from 'react-native';
 import { List, Button, Text } from 'native-base';
 import get from 'lodash/get';
 
-import { nFormat, cFormat } from '../../../lib/utils';
+import { nFormat, cFormat } from 'src/lib/utils';
+import I18n from 'src/i18n';
+
+import Summary from 'src/native/components/_Molecules/Summary';
+
 import Spacer from '../Spacer/Spacer.component';
 
-import I18n from '../../../i18n';
 import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
-import CoinsaneSummary from '../_Molecules/CoinsaneSummary/CoinsaneSummary.component';
-import SummaryCell from '../_Molecules/SummaryCell/SummaryCell.molecula';
+
+import SummaryCell from '../_Molecules/SummaryCell';
 import MarketInfoCell from '../_Molecules/MarketInfoCell/MarketInfoCell.molecula';
 import TabHeader from '../_Molecules/TabHeader/TabHeader.molecula';
 import Chart from '../_Organisms/Chart/Chart.component';
@@ -148,7 +151,7 @@ class CoinTabOverview extends Component {
     return (
       <View>
         <Spacer size={20} />
-        <CoinsaneSummary
+        <Summary
           value={value}
           currency={currency}
           buttons={currencyButtons}

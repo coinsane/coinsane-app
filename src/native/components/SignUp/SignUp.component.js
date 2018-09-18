@@ -6,6 +6,7 @@ import Loading from '../Loading/Loading.component';
 import Messages from '../Messages/Messages.component';
 import Lead from '../Lead/Lead.component';
 import Spacer from '../Spacer/Spacer.component';
+import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 
 import { base } from '../../styles';
 
@@ -55,6 +56,10 @@ class SignUp extends React.Component {
 
     return (
       <Container>
+        <CoinsaneHeader
+          leftIcon="Close"
+          title=""
+        />
         <Content padder style={base.contentContainer}>
           <Lead
             title="Welcome"
