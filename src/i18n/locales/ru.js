@@ -5,6 +5,28 @@ export default {
     },
     reconnect: 'Подключиться',
     createButton: 'СОЗДАТЬ АККАУНТ',
+    form: {
+      email: 'Email',
+      password: 'Пароль',
+      confirm: 'Повторите пароль',
+    },
+    signUp: {
+      title: 'GET ON BOARD',
+      text: 'By creating an account, you agree to the Terms and Conditions and Privacy Policy',
+      link: 'New here? Sign Up Instead',
+      button: 'SIGN UP',
+    },
+    login: {
+      title: 'HELLO THERE, WELCOME BACK',
+      text: 'Forgot your password?',
+      link: 'I’m already a member',
+      button: 'SIGN IN',
+    },
+    forgot: {
+      title: 'RESET YOUR PASSWORD',
+      text: 'Please enter your email address and we’ll send you a link to reset your password.',
+      button: 'RESET PASSWORD',
+    },
   },
   navigation: {
     portfolio: 'Портфолио',

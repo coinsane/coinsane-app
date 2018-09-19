@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Text, Title } from 'native-base';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 
 import { base } from '../../styles';
 
 const Watchlist = ({ drawer }) => (
   <Container>
-    <CoinsaneHeader
+    <Header
       leftIcon="Menu"
       leftAction={() => drawer.open()}
       title={<Title style={base.title}>Watchlist</Title>}

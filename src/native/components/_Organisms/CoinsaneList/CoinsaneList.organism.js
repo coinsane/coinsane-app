@@ -6,10 +6,11 @@ import { Actions } from 'react-native-router-flux';
 import { Container, List, Title, View, Footer, Button, Text } from 'native-base';
 import get from 'lodash/get';
 
+import Header from 'src/native/components/_Organisms/Header';
+
 import SearchBar from '../../_Molecules/SearchBar/SearchBar.molecula';
 import Modal from '../../modal/BaseModal.component';
 import SelectorListItem from '../../_Molecules/CoinCell/CoinCell.component';
-import CoinsaneHeader from '../../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
 import Loading from '../../Loading/Loading.component';
 import Empty from '../../Empty/Empty.component';
 import styles from './CoinsaneList.styles';
@@ -188,7 +189,7 @@ class CoinsaneList extends Component {
     return (
       <Modal hideClose>
         <Container>
-          <CoinsaneHeader
+          <Header
             leftIcon="Close"
             leftAction={() => this.close()}
             title={<Title style={base.title}>{title}</Title>}

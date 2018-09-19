@@ -18,7 +18,7 @@ import Modal from '../modal/BaseModal.component';
 import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
 import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import CoinsaneSwitchSelector from '../_Molecules/CoinsaneSwitchSelector/CoinsaneSwitchSelector.molecula';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 import Loading from '../Loading/Loading.component';
 import { updateDraftTransaction, clearDraftTransaction, recalculate, addTransaction } from '../../../redux/state/transactions/transactions.actioncreators';
 import { getAvailableMarkets } from '../../../redux/state/markets/markets.actioncreators';
@@ -315,7 +315,7 @@ class CreateNewTransaction extends Component {
     return (
       <Modal hideClose>
         <Container>
-          <CoinsaneHeader
+          <Header
             leftIcon="Close"
             leftAction={() => this.close()}
             title={<Title style={base.title}>{I18n.t('transactions.titleAdd')}</Title>}

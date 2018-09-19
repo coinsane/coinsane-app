@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Text, View, Title } from 'native-base';
 import Markdown from 'react-native-simple-markdown';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 
 import { base, fonts } from '../../styles';
 
@@ -42,7 +42,7 @@ const addLineBreak = content => content.replace(/\\/g, m => m + m);
 
 const Page = ({ title, content }) => (
   <Container>
-    <CoinsaneHeader
+    <Header
       leftIcon="Close"
       title={<Title style={base.title}>{title}</Title>}
     />

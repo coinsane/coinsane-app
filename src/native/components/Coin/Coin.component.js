@@ -7,7 +7,7 @@ import ga from '../../../lib/ga';
 import Error from '../Error/Error.component';
 import CoinTabOverview from '../CoinTabOverview/CoinTabOverview.component';
 import CoinTabTransactions from '../CoinTabTransactions/CoinTabTransactions.component';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 
 import styles from './Coin.styles';
 import { colors } from '../../styles';
@@ -139,7 +139,7 @@ class Coin extends Component {
 
     return (
       <Container>
-        <CoinsaneHeader
+        <Header
           leftIcon="Back"
           title={<HeaderTitle />}
         />

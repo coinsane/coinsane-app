@@ -6,7 +6,7 @@ import Loading from '../Loading/Loading.component';
 import Messages from '../Messages/Messages.component';
 import Lead from '../Lead/Lead.component';
 import Spacer from '../Spacer/Spacer.component';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 
 import { base } from '../../styles';
 
@@ -56,7 +56,7 @@ class SignUp extends React.Component {
 
     return (
       <Container>
-        <CoinsaneHeader
+        <Header
           leftIcon="Close"
           title=""
         />

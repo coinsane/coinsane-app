@@ -9,7 +9,7 @@ import I18n from 'src/i18n';
 
 import Summary from 'src/native/components/_Molecules/Summary';
 
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 import SearchBar from '../_Molecules/SearchBar/SearchBar.molecula';
 import Loading from '../Loading/Loading.component';
@@ -144,7 +144,7 @@ class Market extends Component {
 
     return (
       <Container>
-        <CoinsaneHeader
+        <Header
           leftIcon="Menu"
           leftAction={() => drawer.open()}
           title={<Title style={base.title}>{I18n.t('navigation.markets')}</Title>}

@@ -2,7 +2,11 @@ import React from 'react';
 import { Overlay, Scene, Stack, Modal } from 'react-native-router-flux';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
-import DefaultProps from '../constants/navigation';
+
+import DefaultProps from 'src/native/constants/navigation';
+
+import SignUp from 'src/native/screens/SignUp';
+
 
 import NavigationDrawer from '../components/NavigationDrawer/NavigationDrawer.component';
 
@@ -27,7 +31,6 @@ import MarketComponent from '../components/Market/Market.component';
 
 import ErrorModal from '../components/modal/Error.component';
 import PageComponent from '../components/Page/Page.component';
-import SignUpComponent from '../components/SignUp/SignUp.component';
 
 
 const Index = (
@@ -95,7 +98,7 @@ const Index = (
           />
           <Scene
             key="createAccount"
-            component={SignUpComponent}
+            component={SignUp}
           />
         </Stack>
       </Stack>

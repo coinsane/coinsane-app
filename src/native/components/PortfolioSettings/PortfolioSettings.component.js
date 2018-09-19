@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title } from 'native-base';
 
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import I18n from '../../../i18n';
 
@@ -74,7 +74,7 @@ class PortfolioSettings extends Component {
 
     return (
       <Container>
-        <CoinsaneHeader
+        <Header
           leftIcon="Back"
           title={<Title style={base.title}>{portfolio.title}</Title>}
         />

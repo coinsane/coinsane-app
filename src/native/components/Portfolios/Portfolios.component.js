@@ -19,7 +19,7 @@ import PortfolioHeader from '../_Molecules/PortfolioHeader/PortfolioHeader.molec
 import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 import Chart from '../_Organisms/Chart/Chart.component';
 import Pie from '../_Organisms/Pie/Pie.component';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 import Onboarding from '../_Organisms/Onboarding/Onboarding.organism';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
@@ -472,7 +472,7 @@ class Portfolios extends Component {
 
     return (
       <Container>
-        <CoinsaneHeader
+        <Header
           leftIcon="Menu"
           leftAction={() => drawer.open()}
           title={<HeaderTitle />}

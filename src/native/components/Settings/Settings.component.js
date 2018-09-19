@@ -10,7 +10,7 @@ import OneSignal from 'react-native-onesignal';
 import ga from '../../../lib/ga';
 import Spacer from '../Spacer/Spacer.component';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 import I18n from '../../../i18n';
 
 import styles from './Settings.styles';
@@ -202,7 +202,7 @@ class Settings extends Component {
     ];
     return (
       <Container>
-        <CoinsaneHeader
+        <Header
           leftIcon="Menu"
           leftAction={() => drawer.open()}
           title={<Title style={base.title}>{I18n.t('navigation.settings')}</Title>}

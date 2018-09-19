@@ -6,7 +6,7 @@ import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, Vie
 import api from '../../../api';
 import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
-import CoinsaneHeader from '../_Organisms/CoinsaneHeader/CoinsaneHeader.organism';
+import Header from 'src/native/components/_Organisms/Header';
 import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import CoinsaneListItem from '../_Molecules/CoinsaneListItem/CoinsaneListItem.molecula';
 import Loading from '../Loading/Loading.component';
@@ -91,7 +91,7 @@ class CreatePortfolio extends Component {
     return (
       <Root>
         <Container>
-          <CoinsaneHeader
+          <Header
             leftIcon="Back"
             title={<Title style={base.title}>{I18n.t('portfolios.titleAdd')}</Title>}
           />
