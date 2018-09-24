@@ -1,3 +1,18 @@
+export default interface IMarketState {
+  loading: boolean;
+  error: string;
+  refreshing: boolean;
+  items: IMarkets;
+  list: string[];
+  cap: {
+    loading: boolean;
+    error: string;
+  };
+  searchTerm?: string;
+  count?: number;
+  cache: {};
+}
+
 export interface IPrice {
   from: string;
   to: string;

@@ -17,7 +17,7 @@ import {
   ICurrency,
   ICurrencies,
   ICurrencyUpdate,
-} from 'src/native/models/ICurrencies';
+} from 'src/native/models/ICurrencyState';
 
 import styles from './Settings.styles';
 import { base, colors } from 'src/native/styles';

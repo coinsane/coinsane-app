@@ -11,11 +11,11 @@ import ga from 'src/lib/ga';
 import { nFormat, round } from 'src/lib/utils';
 import I18n from 'src/i18n';
 
-import { ICurrencies, ICurrency } from 'src/native/models/ICurrencies';
-import { IDrawer } from 'src/native/models/INavigation';
-import { IPortfolios, IAmount, IChartData, ICharts, IPortfolio, IPortfolioCoin } from 'src/native/models/IPortfolios';
-import { IMarkets, IMarket } from 'src/native/models/IMarkets';
-import { ICoins, ICoin } from 'src/native/models/ICoins';
+import { ICurrencies, ICurrency } from 'src/native/models/ICurrencyState';
+import { IDrawer } from 'src/native/models/INavigationState';
+import { IPortfolios, IAmount, IChartData, ICharts, IPortfolio, IPortfolioCoin } from 'src/native/models/IPortfolioState';
+import { IMarkets, IMarket } from 'src/native/models/IMarketState';
+import { ICoins, ICoin } from 'src/native/models/ICoinState';
 
 import { colors, base } from 'src/native/styles';
 

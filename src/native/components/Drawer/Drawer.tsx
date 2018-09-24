@@ -5,7 +5,7 @@ import Drawer from 'react-native-drawer';
 import {
   IDrawer,
   INavigation,
-} from 'src/native/models/INavigation';
+} from 'src/native/models/INavigationState';
 import {
   setDrawerActions,
   setDrawerClose,

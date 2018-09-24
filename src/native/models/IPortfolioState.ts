@@ -1,3 +1,18 @@
+export default interface IPortfolioState {
+  loading: boolean;
+  error: string;
+  refreshing: boolean;
+  list: string[];
+  items: IPortfolios;
+  selected?: string;
+  chart: IChart;
+  currency: string;
+  period: string;
+  changePct: boolean;
+  lastTotal: boolean;
+  collapsed: string[];
+}
+
 export interface IAmount {
   [symbol: string]: number;
 }
@@ -33,7 +48,7 @@ export interface IPortfolios {
 }
 
 export interface IChartDataItem {
-  [timestamp: string]: number
+  [timestamp: string]: number;
 }
 
 export interface IChartData {

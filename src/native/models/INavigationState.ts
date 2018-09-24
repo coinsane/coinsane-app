@@ -1,3 +1,9 @@
+export default interface INavigationState {
+  menu: IMenuItem[];
+  drawer: IDrawer;
+  loading: boolean;
+}
+
 export interface IDrawer {
   close: () => void;
   open: () => void;

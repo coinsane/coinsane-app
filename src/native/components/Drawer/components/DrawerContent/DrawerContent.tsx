@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import {
   INavigation,
-} from 'src/native/models/INavigation';
+} from 'src/native/models/INavigationState';
 
 import { setActiveMenu } from 'src/redux/state/navigation/navigation.actioncreators';
 import CoinsaneIcon from 'src/native/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
