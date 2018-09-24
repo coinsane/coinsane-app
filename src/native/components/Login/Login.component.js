@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Form, Item, Label, Input, Text, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import Loading from '../Loading/Loading.component';
+import { Loading, Spacer } from 'src/native/components/Base';
 import Messages from '../Messages/Messages.component';
 import Lead from '../Lead/Lead.component';
-import Spacer from '../Spacer/Spacer.component';
 
 import { base } from '../../styles';
 

@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Body, Text, Icon, Right, View, Button } from 'native-base';
 
+import { Spacer } from 'src/native/components/Base';
+
 import { nFormat, cFormat } from '../../../../lib/utils';
 import I18n from '../../../../i18n';
-import Spacer from '../../Spacer/Spacer.component';
 import styles from './PortfolioHeader.styles';
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { colors, typography } from '../../../styles';
@@ -24,7 +25,7 @@ const PortfolioHeader = ({
   hideAddButton,
   provider,
 }) => {
-  if (!show) return <Spacer size={0} />;
+  if (!show) return <Spacer />;
 
   const textPlaceholder = isLoading && typography.textPlaceholder;
   const icon = isCollapsed ? 'ios-arrow-up' : 'ios-arrow-down';

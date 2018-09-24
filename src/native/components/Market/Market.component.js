@@ -8,12 +8,11 @@ import ga from 'src/lib/ga';
 import I18n from 'src/i18n';
 
 import Summary from 'src/native/components/_Molecules/Summary';
+import { Loading, Empty } from 'src/native/components/Base';
 
 import Header from 'src/native/components/_Organisms/Header';
 import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
 import SearchBar from '../_Molecules/SearchBar/SearchBar.molecula';
-import Loading from '../Loading/Loading.component';
-import Empty from '../Empty/Empty.component';
 
 import { nFormat } from '../../../lib/utils';
 

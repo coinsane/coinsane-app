@@ -4,7 +4,7 @@ import { View, Text } from 'native-base';
 import { PieChart } from 'react-native-svg-charts';
 
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
-import Loading from '../../Loading/Loading.component';
+import { Loading } from 'src/native/components/Base';
 import { round } from '../../../../lib/utils';
 
 import { colors } from '../../../styles';

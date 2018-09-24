@@ -7,9 +7,8 @@ import get from 'lodash/get';
 import { nFormat, cFormat } from 'src/lib/utils';
 import I18n from 'src/i18n';
 
+import { Loading, Spacer } from 'src/native/components/Base';
 import Summary from 'src/native/components/_Molecules/Summary';
-
-import Spacer from '../Spacer/Spacer.component';
 
 import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
 
@@ -17,7 +16,6 @@ import SummaryCell from '../_Molecules/SummaryCell';
 import MarketInfoCell from '../_Molecules/MarketInfoCell/MarketInfoCell.molecula';
 import TabHeader from '../_Molecules/TabHeader/TabHeader.molecula';
 import Chart from '../_Organisms/Chart/Chart.component';
-import Loading from '../Loading/Loading.component';
 
 import styles from './CoinTabOverview.styles';
 import { base } from '../../styles';

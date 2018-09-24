@@ -19,7 +19,7 @@ import CoinsaneStackedLabel from '../_Atoms/CoinsaneStackedLabel/CoinsaneStacked
 import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import CoinsaneSwitchSelector from '../_Molecules/CoinsaneSwitchSelector/CoinsaneSwitchSelector.molecula';
 import Header from 'src/native/components/_Organisms/Header';
-import Loading from '../Loading/Loading.component';
+import { Loading } from 'src/native/components/Base';
 import { updateDraftTransaction, clearDraftTransaction, recalculate, addTransaction } from '../../../redux/state/transactions/transactions.actioncreators';
 import { getAvailableMarkets } from '../../../redux/state/markets/markets.actioncreators';
 import { getAvailableCurrencies } from '../../../redux/state/currencies/currencies.actioncreators';

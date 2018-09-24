@@ -1,52 +1,59 @@
 import React, { Component } from 'react';
 import { Linking, Share, Alert } from 'react-native';
-import PropTypes from 'prop-types';
 import { Container, Content, List, ListItem, Text, Label, Title, Button } from 'native-base';
 import * as StoreReview from 'react-native-store-review';
 import VersionNumber from 'react-native-version-number';
 import { Actions } from 'react-native-router-flux';
 import OneSignal from 'react-native-onesignal';
 
-import ga from '../../../lib/ga';
-import Spacer from '../Spacer/Spacer.component';
-import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import ga from 'src/lib/ga';
+import I18n from 'src/i18n';
+
+import { Spacer } from 'src/native/components/Base';
+import CoinsaneIcon from 'src/native/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import Header from 'src/native/components/_Organisms/Header';
-import I18n from '../../../i18n';
+
+import {
+  ICurrency,
+  ICurrencies,
+  ICurrencyUpdate,
+} from 'src/native/models/ICurrencies';
 
 import styles from './Settings.styles';
-import { base, colors } from '../../styles';
+import { base, colors } from 'src/native/styles';
 
-class Settings extends Component {
-  static propTypes = {
-    drawer: PropTypes.shape({}).isRequired,
-    settings: PropTypes.shape({
-      currencies: PropTypes.shape({}).isRequired,
-    }).isRequired,
-    pages: PropTypes.shape({
-      terms: PropTypes.shape({}),
-      policy: PropTypes.shape({}),
-    }).isRequired,
-    currencySearch: PropTypes.func.isRequired,
-    clearMarkets: PropTypes.func.isRequired,
-    updateCurrencies: PropTypes.func.isRequired,
+interface IProps {
+  drawer: any;
+  settings: {
+    currencies: ICurrencies,
   };
+  pages: {
+    terms: {},
+    policy: {},
+  };
+  currencySearch: (payload: any) => void;
+  clearMarkets: () => void;
+  updateCurrencies: (payload: ICurrencyUpdate) => void;
+}
 
-  constructor(props) {
+class Settings extends Component<IProps> {
+
+  constructor(props: IProps) {
     super(props);
     this.chooseCurrency = this.chooseCurrency.bind(this);
   }
 
   componentDidMount() {
     ga.trackScreenView('Settings');
-    OneSignal.getPermissionSubscriptionState((status) => {
+    OneSignal.getPermissionSubscriptionState((status: any) => {
       if (!status.notificationsEnabled) setTimeout(OneSignal.registerForPushNotifications, 3000);
     });
   }
 
-  selectCurrency = (item, selectedIds) => {
+  selectCurrency = (item: ICurrency, selectedIds: string[]) => {
     const { settings } = this.props;
     if (selectedIds.includes(item._id)) {
-      const updatedCurrencies = {};
+      const updatedCurrencies: ICurrencies = {};
       let isSystem = false;
       Object.keys(settings.currencies).forEach((currency) => {
         if (currency === item.code && settings.currencies[currency].system) {
@@ -90,7 +97,6 @@ class Settings extends Component {
 
   chooseCurrency = () => {
     const { settings } = this.props;
-    console.log('settings.currencies', settings.currencies)
     Actions.selector({
       preLoad: (data) => {
         this.props.currencySearch(data);
@@ -104,7 +110,7 @@ class Settings extends Component {
       searchBar: true,
       listName: 'currencies',
       selectedItems: 'settings.currencies',
-      selectAction: (item, selectedIds) => this.selectCurrency(item, selectedIds),
+      selectAction: (item: ICurrency, selectedIds: string[]) => this.selectCurrency(item, selectedIds),
       footerTitle: 'Selected:',
       footerTitleSelected: 'code',
       footerAction: () => {

@@ -4,20 +4,20 @@ import { View, Text } from 'native-base';
 import TextPct from 'src/native/components/_Atoms/TextPct';
 import CoinsaneSummaryText from 'src/native/components/_Atoms/CoinsaneSummaryText/CoinsaneSummaryText.component';
 import CoinsaneButton from 'src/native/components/_Atoms/CoinsaneButton/CoinsaneButton.component';
-import Loading from 'src/native/components/Loading/Loading.component';
+import { Loading } from 'src/native/components/Base';
 
 import styles from './Summary.styles';
 
 interface IProps {
-  value: number;
+  value: number | string;
   subValue: number | string;
   currency: any;
   updateCurrency: (key: string) => void;
-  buttons: [string],
+  buttons: string[],
   leftTitle?: string;
-  leftValue?: number;
+  leftValue?: number | string;
   rightTitle?: string;
-  rightValue?: number;
+  rightValue?: number | string;
 }
 
 class Summary extends React.PureComponent<IProps> {

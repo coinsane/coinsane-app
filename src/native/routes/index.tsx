@@ -5,10 +5,13 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 
 import DefaultProps from 'src/native/constants/navigation';
 
+import Forgot from 'src/native/screens/Forgot';
 import SignUp from 'src/native/screens/SignUp';
+import SignIn from 'src/native/screens/SignIn';
+import Settings from 'src/native/screens/Settings';
 
 
-import NavigationDrawer from '../components/NavigationDrawer/NavigationDrawer.component';
+import Drawer from 'src/native/components/Drawer';
 
 import CoinsContainer from '../../containers/Coins';
 import CoinComponent from '../components/Coin/Coin.component';
@@ -24,7 +27,6 @@ import PortfolioSettingsComponent from '../components/PortfolioSettings/Portfoli
 import CreatePortfolioComponent from '../components/CreatePortfolio/CreatePortfolio.component';
 
 import SettingsContainer from '../../containers/Settings';
-import SettingsComponent from '../components/Settings/Settings.component';
 
 import MarketContainer from '../../containers/Market';
 import MarketComponent from '../components/Market/Market.component';
@@ -43,7 +45,7 @@ const Index = (
   >
     <Overlay
       key="overlay"
-      contentComponent={NavigationDrawer}
+      contentComponent={Drawer}
     >
       <Stack
         key="sections"
@@ -94,11 +96,19 @@ const Index = (
           <Scene
             key="settings"
             component={SettingsContainer}
-            Layout={SettingsComponent}
+            Layout={Settings}
           />
           <Scene
             key="createAccount"
             component={SignUp}
+          />
+          <Scene
+            key="signIn"
+            component={SignIn}
+          />
+          <Scene
+            key="forgot"
+            component={Forgot}
           />
         </Stack>
       </Stack>

@@ -7,7 +7,7 @@ import { AreaChart } from 'react-native-svg-charts';
 
 import YAxis from './YAxis.component';
 
-import Loading from '../../Loading/Loading.component';
+import { Loading } from 'src/native/components/Base';
 import { nFormat } from '../../../../lib/utils';
 
 import { colors } from '../../../styles';

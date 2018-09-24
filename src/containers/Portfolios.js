@@ -167,7 +167,7 @@ class Portfolios extends Component {
         updatePeriod={this.props.updatePeriod}
         getAvailableMarkets={this.props.getAvailableMarkets}
 
-        markets={markets}
+        markets={markets.items}
         coins={coin.items}
       />
     );

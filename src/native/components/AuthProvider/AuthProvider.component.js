@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { View } from 'native-base';
 import * as DeviceInfo from 'react-native-device-info';
 
+import { Loading, Empty } from 'src/native/components/Base';
+
 import ga from '../../../lib/ga';
-import Loading from '../Loading/Loading.component';
-import Empty from '../Empty/Empty.component';
 
 import i18n from '../../../i18n';
 import Config from '../../../constants/config';

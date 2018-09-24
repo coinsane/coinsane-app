@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Text, Body, ListItem, Form, Item, Label, Input, CheckBox, Button, View } from 'native-base';
+import { Loading, Spacer } from 'src/native/components/Base';
+
 import Messages from '../Messages/Messages.component';
-import Loading from '../Loading/Loading.component';
 import Lead from '../Lead/Lead.component';
-import Spacer from '../Spacer/Spacer.component';
 
 import { base } from '../../styles';
 

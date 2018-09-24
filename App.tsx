@@ -4,6 +4,10 @@ import configureStore from './src/redux/configureStore';
 
 const { persistor, store } = configureStore();
 
-export default function App() {
-  return <Root store={store} persistor={persistor} />;
+class App extends React.PureComponent {
+  render () {
+    return <Root store={store} persistor={persistor} />;
+  }
 }
+
+export default App;

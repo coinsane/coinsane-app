@@ -11,21 +11,17 @@ import CoinsaneIcon from 'src/native/components/_Atoms/CoinsaneIcon/CoinsaneIcon
 
 import { base, colors } from 'src/native/styles';
 
-import styles from './SignUp.styles';
+import styles from './Forgot.styles';
 
 interface IState {
   email: string;
-  password: string;
-  confirm: string;
 }
 
-class SignUp extends React.Component<{}, IState> {
+class Forgot extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      confirm: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -45,22 +41,17 @@ class SignUp extends React.Component<{}, IState> {
     // // .catch(e => console.log(`Error: ${e}`));
   };
 
-  handleSignIn = () => {
-    Actions.pop();
-    Actions.signIn();
-  };
-
   render () {
     return (
       <Container>
         <Header
-          leftIcon="Close"
+          leftIcon="Back"
           title=""
         />
         <Content scrollEnabled={false} style={base.contentContainer} contentContainerStyle={styles.content}>
           <View style={styles.body}>
             <Logo />
-            <Text style={styles.headTitle}>{i18n.t('auth.signUp.title')}</Text>
+            <Text style={styles.headTitle}>{i18n.t('auth.forgot.title')}</Text>
             <Item style={styles.input}>
               <CoinsaneIcon name="Email" fill={colors.textGray} width={28} height={28} />
               <Input
@@ -82,29 +73,16 @@ class SignUp extends React.Component<{}, IState> {
                 style={styles.inputText}
               />
             </Item>
-            <Item style={styles.input}>
-              <CoinsaneIcon name="Password" fill={colors.textGray} width={28} height={28} />
-              <Input
-                placeholder={i18n.t('auth.form.confirm')}
-                placeholderTextColor={colors.textGray}
-                secureTextEntry
-                onChangeText={v => this.handleChange('confirm', v)}
-                style={styles.inputText}
-              />
-            </Item>
-            <Text style={styles.text}>{i18n.t('auth.signUp.text')}</Text>
+            <Text style={styles.link}>{i18n.t('auth.forgot.text')}</Text>
           </View>
           <View style={styles.footer}>
-            <TouchableOpacity onPress={this.handleSignIn}>
-              <Text style={styles.link}>{i18n.t('auth.signUp.link')}</Text>
-            </TouchableOpacity>
             <Button
               small
               full
               onPress={this.handleSubmit}
               style={base.action__button}
             >
-              <Text style={base.footer__buttonText}>{i18n.t('auth.signUp.button')}</Text>
+              <Text style={base.footer__buttonText}>{i18n.t('auth.forgot.button')}</Text>
             </Button>
           </View>
         </Content>
@@ -113,4 +91,4 @@ class SignUp extends React.Component<{}, IState> {
   }
 }
 
-export default SignUp;
+export default Forgot;

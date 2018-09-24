@@ -9,7 +9,7 @@ import I18n from '../../../i18n';
 import Header from 'src/native/components/_Organisms/Header';
 import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import CoinsaneListItem from '../_Molecules/CoinsaneListItem/CoinsaneListItem.molecula';
-import Loading from '../Loading/Loading.component';
+import { Loading } from 'src/native/components/Base';
 import styles from './CreatePortfolio.styles';
 import { base } from '../../styles';
 

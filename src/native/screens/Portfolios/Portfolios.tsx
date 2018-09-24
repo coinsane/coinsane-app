@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { SectionList, View } from 'react-native';
+import { SectionList, SectionListData, View } from 'react-native';
 import { Container, List, Text, Button, Footer, Icon, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,57 +8,65 @@ import get from 'lodash/get';
 
 import Config from 'src/constants/config';
 import ga from 'src/lib/ga';
+import { nFormat, round } from 'src/lib/utils';
 import I18n from 'src/i18n';
+
+import { ICurrencies, ICurrency } from 'src/native/models/ICurrencies';
+import { IDrawer } from 'src/native/models/INavigation';
+import { IPortfolios, IAmount, IChartData, ICharts, IPortfolio, IPortfolioCoin } from 'src/native/models/IPortfolios';
+import { IMarkets, IMarket } from 'src/native/models/IMarkets';
+import { ICoins, ICoin } from 'src/native/models/ICoins';
+
+import { colors, base } from 'src/native/styles';
 
 import { Loading, Empty, Spacer } from 'src/native/components/Base';
 import Summary from 'src/native/components/_Molecules/Summary';
 import Header from 'src/native/components/_Organisms/Header';
 
-import PortfolioHeader from '../_Molecules/PortfolioHeader/PortfolioHeader.molecula';
-import CoinsaneButton from '../_Atoms/CoinsaneButton/CoinsaneButton.component';
-import Chart from '../_Organisms/Chart/Chart.component';
-import Pie from '../_Organisms/Pie/Pie.component';
-import Onboarding from '../_Organisms/Onboarding/Onboarding.organism';
-import CoinCard from '../_Organisms/CoinCard/CoinCard.organism';
-import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import PortfolioHeader from 'src/native/components/_Molecules/PortfolioHeader/PortfolioHeader.molecula';
+import CoinsaneButton from 'src/native/components/_Atoms/CoinsaneButton/CoinsaneButton.component';
+import Chart from 'src/native/components/_Organisms/Chart/Chart.component';
+import Pie from 'src/native/components/_Organisms/Pie/Pie.component';
+import Onboarding from 'src/native/components/_Organisms/Onboarding/Onboarding.organism';
+import CoinCard from 'src/native/components/_Organisms/CoinCard/CoinCard.organism';
+import CoinsaneIcon from 'src/native/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './Portfolios.styles';
-import { colors, base } from '../../styles';
-import { nFormat, round } from '../../../lib/utils';
 
-class Portfolios extends Component {
-  static propTypes = {
-    error: PropTypes.string,
-    loading: PropTypes.bool.isRequired,
-    refreshing: PropTypes.bool,
-    portfolios: PropTypes.shape({}).isRequired,
-    chart: PropTypes.shape({}).isRequired,
-    charts: PropTypes.shape({}).isRequired,
-    markets: PropTypes.shape({}).isRequired,
-    coins: PropTypes.shape({}).isRequired,
+interface IProps {
+  error: string;
+  loading: boolean;
+  refreshing: boolean;
 
-    selectPortfolio: PropTypes.func.isRequired,
-    fetchPortfolios: PropTypes.func.isRequired,
-    updatePortfolioChart: PropTypes.func.isRequired,
-    updatePortfolioPeriod: PropTypes.func.isRequired,
-    updatePortfolioCurrency: PropTypes.func.isRequired,
+  portfolios: IPortfolios;
+  chart: IChartData;
+  charts: ICharts;
+  markets: IMarkets;
+  coins: ICoins;
 
-    drawer: PropTypes.shape({}).isRequired,
-    addCoin: PropTypes.func.isRequired,
-    removeCoin: PropTypes.func.isRequired,
-    activePortfolio: PropTypes.string,
-    collapsedList: PropTypes.arrayOf(PropTypes.string).isRequired,
-    updateCollapsed: PropTypes.func.isRequired,
-    currencies: PropTypes.shape({}).isRequired,
-    periods: PropTypes.arrayOf(PropTypes.string).isRequired,
-    symbol: PropTypes.string.isRequired,
-    currency: PropTypes.shape({}).isRequired,
-    onboarding: PropTypes.bool.isRequired,
-    hideOnboarding: PropTypes.func.isRequired,
-    period: PropTypes.string,
-    getAvailableMarkets: PropTypes.func.isRequired,
-  };
+  selectPortfolio: (id?: string) => void;
+  fetchPortfolios: (payload: {}) => void;
+  updatePortfolioChart: (payload: {}) => void;
+  updatePortfolioPeriod: (payload: {}) => void;
+  updatePortfolioCurrency: (payload: {}) => void;
+  addCoin: (activePortfolio?: string) => void;
+  removeCoin: () => void;
+  updateCollapsed: () => void;
+  hideOnboarding: () => void;
+  getAvailableMarkets: (payload: {}) => void;
 
+  drawer: IDrawer;
+  activePortfolio: string;
+  collapsedList: string[];
+  periods: string[];
+  currencies: ICurrencies;
+  currency: ICurrency;
+  symbol: string;
+  onboarding: boolean;
+  period: string;
+}
+
+class Portfolios extends Component<IProps> {
   static defaultProps = {
     error: null,
     activePortfolio: null,
@@ -67,7 +74,7 @@ class Portfolios extends Component {
     refreshing: false,
   };
 
-  constructor(props) {
+  constructor(props: IProps) {
     super(props);
     this.updateCurrency = this.updateCurrency.bind(this);
     this.updatePeriod = this.updatePeriod.bind(this);
@@ -93,7 +100,7 @@ class Portfolios extends Component {
     }
   };
 
-  updatePeriod(period) {
+  updatePeriod(period: string) {
     const {
       activePortfolio,
       symbol,
@@ -102,7 +109,7 @@ class Portfolios extends Component {
     updatePortfolioPeriod({ period, symbol, portfolio: activePortfolio });
   }
 
-  updateCurrency = (symbol) => {
+  updateCurrency = (symbol: string) => {
     const {
       activePortfolio: portfolio,
       period,
@@ -111,33 +118,33 @@ class Portfolios extends Component {
     updatePortfolioCurrency({ symbol, period, portfolio });
   };
 
-  showCoin = ({ market, id }) => {
-    const { symbol } = market;
-    ga.trackEvent('portfolios', 'showCoin', {
-      symbol,
-    });
-    Actions.coin({ match: { params: { market, id } } });
+  showCoin = (params: { market: IMarket, id: string }) => {
+    ga.trackEvent('portfolios', 'showCoin');
+    Actions.coin({ match: { params } });
   };
 
-  editPortfolio = (portfolioId) => {
+  editPortfolio = (portfolioId: string) => {
     ga.trackEvent('portfolios', 'editPortfolio');
     Actions.portfolioSettings({ match: { params: { portfolioId } } });
   };
 
-  portfolioTotal = (all) => {
-    // console.log('portfolioTotal', this.props);
+  portfolioTotal = (all?: boolean): IAmount => {
     const { portfolios, activePortfolio } = this.props;
-    const lastTotals = {};
+    const lastTotals: IAmount = {};
     if (!all && activePortfolio && activePortfolio !== 'all') {
-      const { amounts } = portfolios[activePortfolio];
-      return amounts;
+      const { amounts } : IPortfolio = portfolios[activePortfolio];
+      Object.keys(amounts).forEach((symbol: string) => {
+        if (!lastTotals[symbol]) lastTotals[symbol] = 0;
+        lastTotals[symbol] += amounts[symbol];
+      });
+      return lastTotals;
     }
     Object.keys(portfolios).forEach((key) => {
-      const { amounts, inTotal } = portfolios[key];
+      const { amounts, inTotal } : IPortfolio = portfolios[key];
       if (inTotal) {
-        Object.keys(amounts).forEach((currencyCode) => {
-          if (!lastTotals[currencyCode]) lastTotals[currencyCode] = 0;
-          lastTotals[currencyCode] += amounts[currencyCode];
+        Object.keys(amounts).forEach((symbol: string) => {
+          if (!lastTotals[symbol]) lastTotals[symbol] = 0;
+          lastTotals[symbol] += parseFloat(amounts[symbol];
         });
       }
     });
@@ -165,7 +172,7 @@ class Portfolios extends Component {
         title: I18n.t('portfolios.all'),
         amounts: this.portfolioTotal(true),
         selectAction: () => {
-          this.props.selectPortfolio(null);
+          this.props.selectPortfolio();
           Actions.pop();
         },
       },
@@ -181,7 +188,7 @@ class Portfolios extends Component {
       coins,
     } = this.props;
 
-    let portfolioItems = [];
+    let portfolioItems: { value: number, symbol: string }[] = [];
     if (activePortfolio && portfolios[activePortfolio]) {
       portfolioItems = portfolios[activePortfolio].data;
     } else {
@@ -195,24 +202,24 @@ class Portfolios extends Component {
     const max = 5;
     let others = 0;
     let total = 0;
-    const getCoinPrice = market => get(market, `prices[${symbol}].price`, 0);
-    const items = [];
+    const getCoinPrice = (market: IMarket) => get(market, `prices[${symbol}].price`, 0);
+    const items: ICoin[] = [];
 
     if (portfolioItems) {
-      portfolioItems.forEach((item) => {
+      portfolioItems.forEach((item: ICoin) => {
         if (item.value && item.symbol) {
           total += item.value;
           items.push(item);
           return;
         }
         if (coins[item._id]) {
-          const price = getCoinPrice(markets.items[item.market]);
+          const price = getCoinPrice(markets[item.market]);
           const value = +(coins[item._id].amount * price).toFixed(2);
           if (value > 0) {
             total += value;
             items.push({
               value,
-              symbol: markets.items[item.market].symbol,
+              symbol: markets[item.market].symbol,
             });
           }
         }
@@ -248,7 +255,6 @@ class Portfolios extends Component {
       period,
       periods,
       loading,
-      error,
     } = this.props;
 
     const decimal = currency.decimal > 6 ? 6 : currency.decimal;
@@ -298,8 +304,6 @@ class Portfolios extends Component {
           leftValue={low}
           rightTitle={I18n.t('coins.high')}
           rightValue={high}
-          loading={loading}
-          error={error}
         />
         <Swiper
           index={0}
@@ -320,19 +324,16 @@ class Portfolios extends Component {
 
   renderEmpty = () => {
     const { loading } = this.props;
-    if (loading) return null;
+    if (loading) return <Spacer />;
     return <Empty description={I18n.t('empty.portfolios')} />;
   };
 
-  renderItem = ({
-    item: {
-      _id,
-      amount,
-      market,
-    },
-    index,
-    section,
-  }) => {
+  renderItem = (info: { item: IPortfolioCoin, index: number, section: SectionListData<IPortfolio> }) => {
+    const {
+      item,
+      index,
+      section,
+    } = info;
     const {
       markets,
       addCoin,
@@ -348,10 +349,10 @@ class Portfolios extends Component {
     return (
       <CoinCard
         type="portfolio"
-        key={_id}
-        id={_id}
-        amount={amount}
-        market={markets.items[market]}
+        key={item._id}
+        id={item._id}
+        amount={item.amount}
+        market={markets[item.market]}
         currency={currency}
         showCoin={this.showCoin}
         addCoin={addCoin}
@@ -366,7 +367,8 @@ class Portfolios extends Component {
     );
   };
 
-  renderSectionHeader = ({ section }) => {
+  renderSectionHeader = (info: { section: SectionListData<IPortfolio> }) => {
+    const { section } = info;
     const {
       activePortfolio,
       addCoin,
@@ -386,7 +388,6 @@ class Portfolios extends Component {
         show={!activePortfolio}
         id={section._id}
         title={section.title}
-        totals={section.total}
         count={section.data.length}
         addCoin={addCoin}
         currency={currency}
@@ -449,7 +450,7 @@ class Portfolios extends Component {
       );
     };
 
-    const sections = [];
+    const sections: IPortfolio[] = [];
     if (activePortfolio && portfolios[activePortfolio]) {
       sections.push(portfolios[activePortfolio]);
     } else {
@@ -457,7 +458,7 @@ class Portfolios extends Component {
     }
 
     if (onboarding) {
-      const market = markets.items[Config.BTC];
+      const market = markets[Config.BTC];
       if (!market) return <Loading />;
       return (
         <Onboarding

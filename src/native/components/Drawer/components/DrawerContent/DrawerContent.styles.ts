@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { fonts } from '../../styles';
+
+import { fonts } from 'src/native/styles';
 
 export default StyleSheet.create({
   contentContainer: {

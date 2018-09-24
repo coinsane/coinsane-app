@@ -40,6 +40,12 @@ export default StyleSheet.create({
     height: 50,
     backgroundColor: colors.inputBg,
   },
+  scene: {
+    backgroundColor: colors.bgPrimary,
+    elevation: 0,
+    shadowOpacity: 0,
+    borderBottomWidth: 0,
+  },
   action__button: {
     marginTop: 10,
     borderTopWidth: 0,

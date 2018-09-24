@@ -1,35 +1,38 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Container, List, ListItem, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
-import { setActiveMenu } from '../../../redux/state/navigation/navigation.actioncreators';
+import {
+  INavigation,
+} from 'src/native/models/INavigation';
 
-import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import { setActiveMenu } from 'src/redux/state/navigation/navigation.actioncreators';
+import CoinsaneIcon from 'src/native/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
+import { colors } from 'src/native/styles';
 
 import styles from './DrawerContent.styles';
-import { colors } from '../../styles';
 
-class DrawerContent extends Component {
-  static propTypes = {
-    navigation: PropTypes.shape({}).isRequired,
-    setActiveMenu: PropTypes.func.isRequired,
-  };
+interface IProps {
+  navigation: INavigation;
+  setActiveMenu: (key: string) => void;
+}
 
-  openScene(key) {
+class DrawerContent extends React.PureComponent<IProps> {
+  openScene(key: string) {
     const { navigation } = this.props;
     if (Actions.currentScene !== key) {
       this.props.setActiveMenu(key);
       Actions.pop();
-      Actions[key].call();
+      // Actions[key].call();
+      Actions[key].call(this);
     }
     setTimeout(() => navigation.drawer.close(), 0);
   }
 
   render() {
     const { navigation } = this.props;
-    const getColor = (active) => {
+    const getColor = (active: boolean) => {
       return active ? colors.white : colors.mediumGray;
     };
 
@@ -62,7 +65,7 @@ class DrawerContent extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   navigation: state.navigation,
 });
 

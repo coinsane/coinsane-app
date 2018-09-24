@@ -7,14 +7,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import get from 'lodash/get';
 
+import { Loading, Empty } from 'src/native/components/Base';
+
 import { base, colors } from '../../styles';
 
 import SummaryCell from '../_Molecules/SummaryCell';
 import TransactionItem from '../_Molecules/TransactionItem/TransactionItem.molecula';
 import SectionHeader from '../_Molecules/SectionHeader/SectionHeader.molecula';
 import CoinsaneIcon from '../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
-import Empty from '../Empty/Empty.component';
-import Loading from '../Loading/Loading.component';
 import { nFormat, cFormat, round, format } from '../../../lib/utils';
 import I18n from '../../../i18n';
 import styles from './CoinTabTransactions.styles';
