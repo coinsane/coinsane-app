@@ -1,6 +1,6 @@
 import React from 'react';
 import Root from './src/native/index';
-import configureStore from './src/redux/configureStore';
+import configureStore from './src/store';
 
 const { persistor, store } = configureStore();
 
