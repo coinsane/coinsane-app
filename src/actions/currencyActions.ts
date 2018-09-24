@@ -1,0 +1,32 @@
+import { AnyAction } from 'redux';
+
+export enum ActionTypes {
+  GET_AVAILABLE_CURRENCIES = 'currency/GET_AVAILABLE_CURRENCIES',
+  GET_AVAILABLE_CURRENCIES_SUCCESS = 'currency/GET_AVAILABLE_CURRENCIES_SUCCESS',
+  GET_AVAILABLE_CURRENCIES_ERROR = 'currency/GET_AVAILABLE_CURRENCIES_ERROR',
+  SEARCH_AVAILABLE_CURRENCIES = 'currency/SEARCH_AVAILABLE_CURRENCIES',
+  SEARCH_AVAILABLE_CURRENCIES_SUCCESS = 'currency/SEARCH_AVAILABLE_CURRENCIES_SUCCESS',
+  SEARCH_AVAILABLE_CURRENCIES_ERROR = 'currency/SEARCH_AVAILABLE_CURRENCIES_ERROR',
+  SELECT_CURRENCY = 'currency/SELECT_CURRENCY',
+  SELECT_CURRENCY_SUCCESS = 'currency/SELECT_CURRENCY_SUCCESS',
+  SELECT_CURRENCY_ERROR = 'currency/SELECT_CURRENCY_ERROR',
+}
+
+export interface ICurrencyAction extends AnyAction {
+  payload: any;
+  type: ActionTypes.GET_AVAILABLE_CURRENCIES
+    |  ActionTypes.GET_AVAILABLE_CURRENCIES_SUCCESS
+    |  ActionTypes.GET_AVAILABLE_CURRENCIES_ERROR
+    |  ActionTypes.SEARCH_AVAILABLE_CURRENCIES
+    |  ActionTypes.SEARCH_AVAILABLE_CURRENCIES_SUCCESS
+    |  ActionTypes.SEARCH_AVAILABLE_CURRENCIES_ERROR
+    |  ActionTypes.SELECT_CURRENCY
+    |  ActionTypes.SELECT_CURRENCY_SUCCESS
+    |  ActionTypes.SELECT_CURRENCY_ERROR
+    ;
+}
+
+export const getAvailableCurrencies = ({ q = '', limit = 10, skip = 0, refreshing = false }) => ({
+  type: ActionTypes.GET_AVAILABLE_CURRENCIES,
+  payload: { q, limit, skip, refreshing },
+});

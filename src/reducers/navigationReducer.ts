@@ -1,7 +1,9 @@
-import I18n from 'src/i18n';
-import { DRAWER_ACTIONS, SET_ACTIVE_MENU, DRAWER_CLOSE } from '../redux/actions/action.types';
+import { navigation as navigationActions } from 'src/actions';
+import { INavigationState } from 'src/models';
 
-export const initialState = {
+import I18n from 'src/i18n';
+
+export const initialState: INavigationState = {
   menu: [
     {
       scene: 'coins',
@@ -26,20 +28,23 @@ export const initialState = {
   loading: false,
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: INavigationState = initialState,
+  action: navigationActions.INavigationAction,
+): INavigationState => {
   switch (action.type) {
-    case DRAWER_CLOSE:
+    case navigationActions.ActionTypes.DRAWER_CLOSE:
       return {
         ...state,
         loading: action.payload,
       };
-    case DRAWER_ACTIONS: {
+    case navigationActions.ActionTypes.DRAWER_ACTIONS: {
       return {
         ...state,
         drawer: action.payload,
       };
     }
-    case SET_ACTIVE_MENU: {
+    case navigationActions.ActionTypes.SET_ACTIVE_MENU: {
       return {
         ...state,
         menu: [...state.menu.map((item) => {
@@ -51,4 +56,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

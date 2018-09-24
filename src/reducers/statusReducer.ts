@@ -1,6 +1,7 @@
-import { NETWORK_STATUS_CHANGE } from '../redux/actions/action.types';
+import { status as statusActions } from 'src/actions';
+import { IStatusState } from 'src/models';
 
-export const initialState = {
+export const initialState: IStatusState = {
   loading: false,
   info: '',
   error: false,
@@ -8,9 +9,12 @@ export const initialState = {
   network: true,
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: IStatusState = initialState,
+  action: statusActions.IStatusAction,
+): IStatusState => {
   switch (action.type) {
-    case 'STATUS_REPLACE': {
+    case statusActions.ActionTypes.STATUS_REPLACE: {
       return {
         ...state,
         loading: action.loading || false,
@@ -19,7 +23,7 @@ export default function actionReducer(state = initialState, action) {
         success: action.success || false,
       };
     }
-    case NETWORK_STATUS_CHANGE:
+    case statusActions.ActionTypes.NETWORK_STATUS_CHANGE:
       return {
         ...state,
         network: action.payload || false,
@@ -27,4 +31,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

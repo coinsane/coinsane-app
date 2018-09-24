@@ -1,27 +1,32 @@
 import axios from 'axios';
 import * as DeviceInfo from 'react-native-device-info';
 
-import Config from 'src/constants/config';
-import { GET_TOKEN, GET_TOKEN_SUCCEED, GET_TOKEN_ERROR } from '../redux/actions/action.types';
+import { auth as authActions } from 'src/actions';
+import { IAuthState } from 'src/models';
 
-export const initialState = {
+import Config from 'src/constants/config';
+
+export const initialState: IAuthState = {
+  error: '',
   loading: false,
-  error: null,
-  token: null,
+  token: '',
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: IAuthState = initialState,
+  action: authActions.IAuthAction,
+): IAuthState => {
   const deviceId = DeviceInfo.getUniqueID();
 
   switch (action.type) {
-    case GET_TOKEN: {
+    case authActions.ActionTypes.GET_TOKEN: {
       return {
         ...state,
         loading: true,
         error: null,
       };
     }
-    case GET_TOKEN_SUCCEED: {
+    case authActions.ActionTypes.GET_TOKEN_SUCCEED: {
       axios.defaults.headers.common.Authorization = `${Config.appName} token=${action.token} deviceId=${deviceId}`;
       return {
         ...state,
@@ -30,7 +35,7 @@ export default function actionReducer(state = initialState, action) {
         token: action.token,
       };
     }
-    case GET_TOKEN_ERROR: {
+    case authActions.ActionTypes.GET_TOKEN_ERROR: {
       return {
         ...state,
         loading: false,
@@ -39,7 +44,7 @@ export default function actionReducer(state = initialState, action) {
       };
     }
 
-    case 'USER_LOGIN': {
+    case authActions.ActionTypes.USER_LOGIN: {
       if (action.data) {
         return {
           ...state,
@@ -52,7 +57,7 @@ export default function actionReducer(state = initialState, action) {
       }
       return initialState;
     }
-    case 'USER_DETAILS_UPDATE': {
+    case authActions.ActionTypes.USER_DETAILS_UPDATE: {
       if (action.data) {
         return {
           ...state,
@@ -66,7 +71,7 @@ export default function actionReducer(state = initialState, action) {
       }
       return initialState;
     }
-    case 'USER_ERROR': {
+    case authActions.ActionTypes.USER_ERROR: {
       if (action.data) {
         return {
           ...state,
@@ -76,10 +81,10 @@ export default function actionReducer(state = initialState, action) {
       }
       return initialState;
     }
-    case 'USER_RESET': {
+    case authActions.ActionTypes.USER_RESET: {
       return initialState;
     }
     default:
       return state;
   }
-}
+};

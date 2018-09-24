@@ -1,13 +1,7 @@
-import {
-  GET_AVAILABLE_CURRENCIES,
-  GET_AVAILABLE_CURRENCIES_SUCCESS,
-  GET_AVAILABLE_CURRENCIES_ERROR,
-  SEARCH_AVAILABLE_CURRENCIES_SUCCESS,
-  SEARCH_AVAILABLE_CURRENCIES_ERROR,
-  SEARCH_AVAILABLE_CURRENCIES,
-} from '../redux/actions/action.types';
+import { currency as currencyActions } from 'src/actions';
+import { ICurrencyState } from 'src/models';
 
-export const initialState = {
+export const initialState: ICurrencyState = {
   loading: true,
   error: null,
   refreshing: false,
@@ -17,9 +11,12 @@ export const initialState = {
   count: 0,
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: ICurrencyState = initialState,
+  action: currencyActions.ICurrencyAction,
+): ICurrencyState => {
   switch (action.type) {
-    case GET_AVAILABLE_CURRENCIES: {
+    case currencyActions.ActionTypes.GET_AVAILABLE_CURRENCIES: {
       return {
         ...state,
         refreshing: action.payload.refreshing,
@@ -27,7 +24,7 @@ export default function actionReducer(state = initialState, action) {
         loading: true,
       };
     }
-    case GET_AVAILABLE_CURRENCIES_SUCCESS: {
+    case currencyActions.ActionTypes.GET_AVAILABLE_CURRENCIES_SUCCESS: {
       const items = { ...state.items };
       const listPayload = action.payload.list.map((market) => {
         items[market._id] = market;
@@ -50,7 +47,7 @@ export default function actionReducer(state = initialState, action) {
         count,
       };
     }
-    case GET_AVAILABLE_CURRENCIES_ERROR: {
+    case currencyActions.ActionTypes.GET_AVAILABLE_CURRENCIES_ERROR: {
       return {
         ...state,
         error: action.payload.message,
@@ -59,7 +56,7 @@ export default function actionReducer(state = initialState, action) {
         list: [],
       };
     }
-    case SEARCH_AVAILABLE_CURRENCIES: {
+    case currencyActions.ActionTypes.SEARCH_AVAILABLE_CURRENCIES: {
       const list = action.payload.skip ? state.list : [];
       return {
         ...state,
@@ -68,7 +65,7 @@ export default function actionReducer(state = initialState, action) {
         list,
       };
     }
-    case SEARCH_AVAILABLE_CURRENCIES_SUCCESS: {
+    case currencyActions.ActionTypes.SEARCH_AVAILABLE_CURRENCIES_SUCCESS: {
       const items = { ...state.items };
       const { count } = action.payload;
       const list = action.payload.list.map((currency) => {
@@ -84,7 +81,7 @@ export default function actionReducer(state = initialState, action) {
         count,
       };
     }
-    case SEARCH_AVAILABLE_CURRENCIES_ERROR: {
+    case currencyActions.ActionTypes.SEARCH_AVAILABLE_CURRENCIES_ERROR: {
       return {
         ...state,
         error: true,
@@ -95,4 +92,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

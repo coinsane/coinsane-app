@@ -1,17 +1,18 @@
-import {
-  GET_PAGES_SUCCESS,
-  GET_PAGES_ERROR,
-} from '../redux/actions/action.types';
+import { page as pageActions } from 'src/actions';
+import { IPageState } from 'src/models';
 
-export const initialState = {
+export const initialState: IPageState = {
   loading: true,
   error: null,
   items: {},
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: IPageState = initialState,
+  action: pageActions.IPageAction,
+): IPageState => {
   switch (action.type) {
-    case GET_PAGES_SUCCESS: {
+    case pageActions.ActionTypes.GET_PAGES_SUCCESS: {
       return {
         ...state,
         error: null,
@@ -19,7 +20,7 @@ export default function actionReducer(state = initialState, action) {
         items: action.payload,
       };
     }
-    case GET_PAGES_ERROR: {
+    case pageActions.ActionTypes.GET_PAGES_ERROR: {
       return {
         ...state,
         error: action.error,
@@ -29,4 +30,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

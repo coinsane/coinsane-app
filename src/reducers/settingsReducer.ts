@@ -1,13 +1,7 @@
-import {
-  GET_SETTINGS_SUCCEED,
-  SELECT_CURRENCY_SUCCESS,
-  HIDE_ONBOARDING,
-  UPDATE_CURRENCIES,
-  UPDATE_CURRENCIES_SUCCESS,
-  UPDATE_CURRENCIES_ERROR,
-} from '../redux/actions/action.types';
+import { settings as settingsActions } from 'src/actions';
+import { ISettingsState } from 'src/models';
 
-export const initialState = {
+export const initialState: ISettingsState = {
   loading: true,
   error: null,
   currencies: {},
@@ -16,9 +10,12 @@ export const initialState = {
   onboarding: true,
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: ISettingsState = initialState,
+  action: settingsActions.ISettingsAction,
+): ISettingsState => {
   switch (action.type) {
-    case GET_SETTINGS_SUCCEED: {
+    case settingsActions.ActionTypes.GET_SETTINGS_SUCCEED: {
       return {
         ...state,
         error: null,
@@ -26,13 +23,13 @@ export default function actionReducer(state = initialState, action) {
         currencies: action.payload && action.payload.currencies,
       };
     }
-    case SELECT_CURRENCY_SUCCESS: {
+    case settingsActions.ActionTypes.SELECT_CURRENCY_SUCCESS: {
       return {
         ...state,
         currency: action.payload,
       };
     }
-    case UPDATE_CURRENCIES: {
+    case settingsActions.ActionTypes.UPDATE_CURRENCIES: {
       return {
         ...state,
         error: null,
@@ -40,22 +37,21 @@ export default function actionReducer(state = initialState, action) {
         // currencies: action.payload,
       };
     }
-    case UPDATE_CURRENCIES_SUCCESS: {
-      console.log('UPDATE_CURRENCIES_SUCCESS', action.payload)
+    case settingsActions.ActionTypes.UPDATE_CURRENCIES_SUCCESS: {
       return {
         ...state,
         loading: false,
         currencies: action.payload,
       };
     }
-    case UPDATE_CURRENCIES_ERROR: {
+    case settingsActions.ActionTypes.UPDATE_CURRENCIES_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case HIDE_ONBOARDING: {
+    case settingsActions.ActionTypes.HIDE_ONBOARDING: {
       return {
         ...state,
         onboarding: false,
@@ -64,4 +60,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

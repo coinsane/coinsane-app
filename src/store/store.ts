@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import IRootState from 'src/models';
 import rootReducer from 'src/reducers';
-import rootSaga from 'src/redux/sagas';
+import rootSaga from 'src/sagas';
 import { composeEnhancers } from './utils';
 
 // Redux Persist config

@@ -1,9 +1,7 @@
-import {
-  GET_CATEGORIES,
-  GET_CATEGORIES_SUCCESS,
-} from '../redux/actions/action.types';
+import { category as categoryActions } from 'src/actions';
+import { ICategoryState } from 'src/models';
 
-export const initialState = {
+export const initialState: ICategoryState = {
   loading: true,
   error: null,
   refreshing: false,
@@ -11,16 +9,19 @@ export const initialState = {
   list: [],
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: ICategoryState = initialState,
+  action: categoryActions.ICategoryAction,
+): ICategoryState => {
   switch (action.type) {
-    case GET_CATEGORIES: {
+    case categoryActions.ActionTypes.GET_CATEGORIES: {
       return {
         ...state,
         error: null,
         loading: true,
       };
     }
-    case GET_CATEGORIES_SUCCESS: {
+    case categoryActions.ActionTypes.GET_CATEGORIES_SUCCESS: {
       const items = { ...state.items };
       const list = action.payload.categories.map((category) => {
         items[category._id] = category;
@@ -37,4 +38,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

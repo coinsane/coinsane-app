@@ -1,27 +1,9 @@
 import _ from 'lodash';
 import { Toast } from 'native-base';
-import {
-  UPDATE_PORTFOLIOS,
-  UPDATE_PORTFOLIOS_SUCCESS,
-  UPDATE_PORTFOLIOS_ERROR,
-  PORTFOLIO_SELECT,
-  PORTFOLIO_ADD,
-  PORTFOLIO_ADD_SUCCESS,
-  PORTFOLIO_ADD_ERROR,
-  PORTFOLIO_REMOVE_SUCCESS,
-  PORTFOLIO_UPDATE_SUCCESS,
-  PORTFOLIO_COIN_REMOVED,
-  PORTFOLIOS_ERROR,
-  SET_COIN_DATA,
-  UPDATE_PERIOD,
-  UPDATE_PORTFOLIO_CURRENCY_SUCCESS,
-  UPDATE_PORTFOLIO_PERIOD,
-  UPDATE_PORTFOLIO_PERIOD_SUCCESS,
-  PORTFOLIO_COLLAPSE,
-  UPDATE_PORTFOLIO_CHART_SUCCESS,
-} from '../redux/actions/action.types';
+import { portfolio as portfolioActions } from 'src/actions';
+import { IPortfolioState } from 'src/models';
 
-export const initialState = {
+export const initialState: IPortfolioState = {
   loading: true,
   error: null,
   refreshing: false,
@@ -36,9 +18,12 @@ export const initialState = {
   collapsed: [],
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: IPortfolioState = initialState,
+  action: portfolioActions.IPortfolioAction,
+): IPortfolioState => {
   switch (action.type) {
-    case UPDATE_PORTFOLIOS: {
+    case portfolioActions.ActionTypes.UPDATE_PORTFOLIOS: {
       return {
         ...state,
         error: null,
@@ -46,7 +31,7 @@ export default function actionReducer(state = initialState, action) {
         refreshing: action.payload.refreshing,
       };
     }
-    case UPDATE_PORTFOLIOS_SUCCESS: {
+    case portfolioActions.ActionTypes.UPDATE_PORTFOLIOS_SUCCESS: {
       const items = { ...state.items, ...action.payload };
       return {
         ...state,
@@ -57,7 +42,7 @@ export default function actionReducer(state = initialState, action) {
         refreshing: false,
       };
     }
-    case UPDATE_PORTFOLIOS_ERROR: {
+    case portfolioActions.ActionTypes.UPDATE_PORTFOLIOS_ERROR: {
       return {
         ...state,
         error: action.payload,
@@ -66,20 +51,20 @@ export default function actionReducer(state = initialState, action) {
         refreshing: false,
       };
     }
-    case PORTFOLIO_SELECT: {
+    case portfolioActions.ActionTypes.PORTFOLIO_SELECT: {
       return {
         ...state,
         selected: action.payload || null,
       };
     }
-    case PORTFOLIO_ADD: {
+    case portfolioActions.ActionTypes.PORTFOLIO_ADD: {
       return {
         ...state,
         error: null,
         loading: true,
       };
     }
-    case PORTFOLIO_ADD_SUCCESS: {
+    case portfolioActions.ActionTypes.PORTFOLIO_ADD_SUCCESS: {
       const selected = action.payload._id;
       const items = { ...state.items };
       items[action.payload._id] = action.payload;
@@ -94,7 +79,7 @@ export default function actionReducer(state = initialState, action) {
         selected,
       };
     }
-    case PORTFOLIO_ADD_ERROR: {
+    case portfolioActions.ActionTypes.PORTFOLIO_ADD_ERROR: {
       Toast.show({
         text: action.payload.message,
         buttonText: 'OK',
@@ -105,7 +90,7 @@ export default function actionReducer(state = initialState, action) {
         error: action.payload.message,
       };
     }
-    case PORTFOLIO_REMOVE_SUCCESS: {
+    case portfolioActions.ActionTypes.PORTFOLIO_REMOVE_SUCCESS: {
       const items = { ...state.items };
       delete items[action.payload];
       const list = state.list.filter(item => item !== action.payload);
@@ -118,7 +103,7 @@ export default function actionReducer(state = initialState, action) {
         list,
       };
     }
-    case PORTFOLIO_UPDATE_SUCCESS: {
+    case portfolioActions.ActionTypes.PORTFOLIO_UPDATE_SUCCESS: {
       const { _id, title, inTotal } = action.payload;
       const items = { ...state.items };
       items[_id] = {
@@ -134,14 +119,14 @@ export default function actionReducer(state = initialState, action) {
       };
     }
 
-    case UPDATE_PORTFOLIO_PERIOD: {
+    case portfolioActions.ActionTypes.UPDATE_PORTFOLIO_PERIOD: {
       return {
         ...state,
         error: null,
         loading: true,
       };
     }
-    case UPDATE_PORTFOLIO_CHART_SUCCESS: {
+    case portfolioActions.ActionTypes.UPDATE_PORTFOLIO_CHART_SUCCESS: {
       const {
         portfolioId,
         range,
@@ -174,7 +159,7 @@ export default function actionReducer(state = initialState, action) {
         chart,
       };
     }
-    case PORTFOLIO_COIN_REMOVED: {
+    case portfolioActions.ActionTypes.PORTFOLIO_COIN_REMOVED: {
       const { id, portfolioId } = action.payload;
       const items = { ...state.items };
       if (items[portfolioId]) {
@@ -191,43 +176,43 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case PORTFOLIOS_ERROR: {
+    case portfolioActions.ActionTypes.PORTFOLIOS_ERROR: {
       return {
         ...state,
         error: action.data,
       };
     }
-    case SET_COIN_DATA: {
+    case portfolioActions.ActionTypes.SET_COIN_DATA: {
       return {
         ...state,
         coinData: action.data,
       };
     }
-    case 'UPDATE_CURRENCY': {
+    case portfolioActions.ActionTypes.UPDATE_CURRENCY: {
       return {
         ...state,
         currency: action.data,
       };
     }
-    case UPDATE_PORTFOLIO_CURRENCY_SUCCESS: {
+    case portfolioActions.ActionTypes.UPDATE_PORTFOLIO_CURRENCY_SUCCESS: {
       return {
         ...state,
         currency: action.payload,
       };
     }
-    case UPDATE_PERIOD: {
+    case portfolioActions.ActionTypes.UPDATE_PERIOD: {
       return {
         ...state,
         period: action.data,
       };
     }
-    case UPDATE_PORTFOLIO_PERIOD_SUCCESS: {
+    case portfolioActions.ActionTypes.UPDATE_PORTFOLIO_PERIOD_SUCCESS: {
       return {
         ...state,
         period: action.payload,
       };
     }
-    case PORTFOLIO_COLLAPSE: {
+    case portfolioActions.ActionTypes.PORTFOLIO_COLLAPSE: {
       const collapsed = [...state.collapsed];
       if (collapsed.indexOf(action.payload) === -1) collapsed.push(action.payload);
       else collapsed.splice(collapsed.indexOf(action.payload), 1);
@@ -239,4 +224,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

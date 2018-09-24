@@ -1,16 +1,7 @@
-import {
-  COIN_HISTO_UPDATE,
-  COIN_HISTO_UPDATE_SUCCESS,
-  COINS_ERROR,
-  GET_AVAILABLE_TRANSACTIONS,
-  GET_AVAILABLE_TRANSACTIONS_ERROR,
-  UPDATE_COINS_CACHE,
-  UPDATE_COINS_PERIOD,
-  UPDATE_COIN_TRANSACTIONS,
-  COIN_TRANSACTION_REMOVE,
-} from '../redux/actions/action.types';
+import { coin as coinActions } from 'src/actions';
+import { ICoinState } from 'src/models';
 
-export const initialState = {
+export const initialState: ICoinState = {
   loading: true,
   refreshing: false,
   error: null,
@@ -25,9 +16,12 @@ export const initialState = {
   period: '1h',
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: ICoinState = initialState,
+  action: coinActions.ICoinAction,
+): ICoinState => {
   switch (action.type) {
-    case UPDATE_COIN_TRANSACTIONS: {
+    case coinActions.ActionTypes.UPDATE_COIN_TRANSACTIONS: {
       const { coinId, transactions } = action.payload;
       const items = { ...state.items };
       if (items[coinId]) {
@@ -38,7 +32,7 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case COIN_TRANSACTION_REMOVE: {
+    case coinActions.ActionTypes.COIN_TRANSACTION_REMOVE: {
       const { coinId, transaction } = action.payload;
       const items = { ...state.items };
       if (items[coinId]) {
@@ -54,20 +48,20 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case UPDATE_COINS_PERIOD: {
+    case coinActions.ActionTypes.UPDATE_COINS_PERIOD: {
       return {
         ...state,
         period: action.payload,
       };
     }
-    case UPDATE_COINS_CACHE: {
+    case coinActions.ActionTypes.UPDATE_COINS_CACHE: {
       const items = { ...state.items, ...action.payload };
       return {
         ...state,
         items,
       };
     }
-    case COIN_HISTO_UPDATE: {
+    case coinActions.ActionTypes.COIN_HISTO_UPDATE: {
       return {
         ...state,
         error: null,
@@ -75,7 +69,7 @@ export default function actionReducer(state = initialState, action) {
         refreshing: action.payload.refreshing || false,
       };
     }
-    case COIN_HISTO_UPDATE_SUCCESS: {
+    case coinActions.ActionTypes.COIN_HISTO_UPDATE_SUCCESS: {
       return {
         ...state,
         error: null,
@@ -84,21 +78,21 @@ export default function actionReducer(state = initialState, action) {
         list: action.payload,
       };
     }
-    case GET_AVAILABLE_TRANSACTIONS: {
+    case coinActions.ActionTypes.GET_AVAILABLE_TRANSACTIONS: {
       return {
         ...state,
         transactionsError: null,
         transactionsLoading: true,
       };
     }
-    case GET_AVAILABLE_TRANSACTIONS_ERROR: {
+    case coinActions.ActionTypes.GET_AVAILABLE_TRANSACTIONS_ERROR: {
       return {
         ...state,
         transactionsError: action.payload,
         transactionsLoading: false,
       };
     }
-    case COINS_ERROR: {
+    case coinActions.ActionTypes.COINS_ERROR: {
       return {
         ...state,
         error: action.data,
@@ -107,4 +101,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

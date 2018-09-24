@@ -1,24 +1,8 @@
 import _ from 'lodash';
-import {
-  GET_AVAILABLE_MARKETS,
-  GET_AVAILABLE_MARKETS_SUCCESS,
-  GET_AVAILABLE_MARKETS_ERROR,
-  SEARCH_AVAILABLE_MARKETS,
-  SEARCH_AVAILABLE_MARKETS_SUCCESS,
-  SEARCH_AVAILABLE_MARKETS_ERROR,
-  CLEAR_MARKETS,
-  GET_MARKET_CAP,
-  GET_MARKET_CAP_SUCCESS,
-  GET_MARKET_CAP_ERROR,
-  UPDATE_MARKETS_CACHE,
-  MARKET_CHART_UPDATE,
-  MARKET_DATA_COLLAPSE,
-  EXCHANGES_UPDATE,
-  EXCHANGES_UPDATE_SUCCESS,
-  EXCHANGES_LOAD_MORE,
-} from '../redux/actions/action.types';
+import { market as marketActions } from 'src/actions';
+import { IMarketState } from 'src/models';
 
-export const initialState = {
+export const initialState: IMarketState = {
   loading: true,
   error: null,
   refreshing: false,
@@ -33,9 +17,12 @@ export const initialState = {
   cache: {},
 };
 
-export default function actionReducer(state = initialState, action) {
+export default (
+  state: IMarketState = initialState,
+  action: marketActions.IMarketAction,
+): IMarketState => {
   switch (action.type) {
-    case GET_MARKET_CAP: {
+    case marketActions.ActionTypes.GET_MARKET_CAP: {
       return {
         ...state,
         cap: {
@@ -45,7 +32,7 @@ export default function actionReducer(state = initialState, action) {
         },
       };
     }
-    case GET_MARKET_CAP_SUCCESS: {
+    case marketActions.ActionTypes.GET_MARKET_CAP_SUCCESS: {
       return {
         ...state,
         cap: {
@@ -56,7 +43,7 @@ export default function actionReducer(state = initialState, action) {
         },
       };
     }
-    case GET_MARKET_CAP_ERROR: {
+    case marketActions.ActionTypes.GET_MARKET_CAP_ERROR: {
       return {
         ...state,
         cap: {
@@ -66,7 +53,7 @@ export default function actionReducer(state = initialState, action) {
         },
       };
     }
-    case GET_AVAILABLE_MARKETS: {
+    case marketActions.ActionTypes.GET_AVAILABLE_MARKETS: {
       return {
         ...state,
         refreshing: action.payload.refreshing,
@@ -74,7 +61,7 @@ export default function actionReducer(state = initialState, action) {
         loading: true,
       };
     }
-    case GET_AVAILABLE_MARKETS_SUCCESS: {
+    case marketActions.ActionTypes.GET_AVAILABLE_MARKETS_SUCCESS: {
       const items = { ...state.items };
       const listPayload = action.payload.list.map((market) => {
         // if (action.payload.cached) return market;
@@ -105,13 +92,13 @@ export default function actionReducer(state = initialState, action) {
         count,
       };
     }
-    case UPDATE_MARKETS_CACHE: {
+    case marketActions.ActionTypes.UPDATE_MARKETS_CACHE: {
       return {
         ...state,
         items: { ...state.items, ...action.payload },
       };
     }
-    case MARKET_CHART_UPDATE: {
+    case marketActions.ActionTypes.MARKET_CHART_UPDATE: {
       const { marketId, range, symbol, data } = action.payload;
       const items = { ...state.items };
       if (items[marketId]) {
@@ -140,7 +127,7 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case MARKET_DATA_COLLAPSE: {
+    case marketActions.ActionTypes.MARKET_DATA_COLLAPSE: {
       const { marketId, collapse } = action.payload;
       const items = { ...state.items };
       if (items[marketId]) {
@@ -153,7 +140,7 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case GET_AVAILABLE_MARKETS_ERROR: {
+    case marketActions.ActionTypes.GET_AVAILABLE_MARKETS_ERROR: {
       return {
         ...state,
         error: true,
@@ -162,7 +149,7 @@ export default function actionReducer(state = initialState, action) {
         list: [],
       };
     }
-    case SEARCH_AVAILABLE_MARKETS: {
+    case marketActions.ActionTypes.SEARCH_AVAILABLE_MARKETS: {
       const list = action.payload.skip ? state.list : [];
       return {
         ...state,
@@ -171,7 +158,7 @@ export default function actionReducer(state = initialState, action) {
         list,
       };
     }
-    case SEARCH_AVAILABLE_MARKETS_SUCCESS: {
+    case marketActions.ActionTypes.SEARCH_AVAILABLE_MARKETS_SUCCESS: {
       const items = { ...state.items };
       const { count } = action.payload;
       const list = action.payload.list.map((market) => {
@@ -187,7 +174,7 @@ export default function actionReducer(state = initialState, action) {
         count,
       };
     }
-    case SEARCH_AVAILABLE_MARKETS_ERROR: {
+    case marketActions.ActionTypes.SEARCH_AVAILABLE_MARKETS_ERROR: {
       return {
         ...state,
         error: true,
@@ -195,7 +182,7 @@ export default function actionReducer(state = initialState, action) {
         list: [],
       };
     }
-    case EXCHANGES_UPDATE: {
+    case marketActions.ActionTypes.EXCHANGES_UPDATE: {
       const { marketId } = action.payload;
       const items = { ...state.items };
       if (!items[marketId].exchanges) items[marketId].exchanges = {};
@@ -206,7 +193,7 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case EXCHANGES_UPDATE_SUCCESS: {
+    case marketActions.ActionTypes.EXCHANGES_UPDATE_SUCCESS: {
       const { marketId, exchanges } = action.payload;
       const items = { ...state.items };
       if (items[marketId]) {
@@ -220,7 +207,7 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case EXCHANGES_LOAD_MORE: {
+    case marketActions.ActionTypes.EXCHANGES_LOAD_MORE: {
       const { marketId } = action.payload;
       const items = { ...state.items };
       items[marketId].exchanges.page += 1;
@@ -229,7 +216,7 @@ export default function actionReducer(state = initialState, action) {
         items,
       };
     }
-    case CLEAR_MARKETS: {
+    case marketActions.ActionTypes.CLEAR_MARKETS: {
       return {
         ...state,
         error: null,
@@ -240,4 +227,4 @@ export default function actionReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};
