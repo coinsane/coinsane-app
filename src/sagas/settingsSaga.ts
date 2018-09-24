@@ -4,7 +4,7 @@ import {
   portfolio as portfolioActions,
   settings as settingsActions,
 } from 'src/actions';
-import api from 'src/api';
+import { api } from 'src/services';
 
 import selectors from './selectors';
 

@@ -8,7 +8,7 @@ import {
   portfolio as portfolioActions,
   transaction as transactionActions,
 } from 'src/actions';
-import api from 'src/api';
+import { api } from 'src/services';
 
 import Config from 'src/constants/config';
 import { round } from 'src/lib/utils';

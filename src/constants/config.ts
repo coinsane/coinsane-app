@@ -2,8 +2,8 @@ const devMode = (__DEV__ === true);
 
 export default {
   // App Details
-  appName: 'Coinsane',
   apiUri: devMode ? 'http://localhost:8080' : 'https://api.coinsane.space',
+  appName: 'Coinsane',
   // apiUri: 'https://api.coinsane.space',
   fileUri: 'https://coinsane.ams3.digitaloceanspaces.com',
 

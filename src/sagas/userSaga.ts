@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import api from 'src/api';
+import { api } from 'src/services';
 
 import {
   auth as authActions,

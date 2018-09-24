@@ -1,14 +1,20 @@
-import React from 'react';
-import { DeviceEventEmitter, Linking, YellowBox, NetInfo, Platform } from 'react-native';
-import { Provider, connect } from 'react-redux';
-import { Router } from 'react-native-router-flux';
 import { StyleProvider } from 'native-base';
-import SplashScreen from 'react-native-splash-screen';
-import axios from 'axios';
-import { PersistGate } from 'redux-persist/es/integration/react';
+import React from 'react';
+import {
+  DeviceEventEmitter,
+  Linking,
+  NetInfo,
+  Platform,
+  YellowBox,
+} from 'react-native';
 import QuickActions from 'react-native-quick-actions';
 import OneSignal from 'react-native-onesignal';
+import { Router } from 'react-native-router-flux';
+import SplashScreen from 'react-native-splash-screen';
+import { connect, Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
 
+import { api } from 'src/services';
 
 import { base } from 'src/native/styles';
 
@@ -17,11 +23,11 @@ import theme from '../../native-base-theme/variables/commonColor';
 
 import Routes from 'src/native/routes';
 
-import { Loading } from 'src/native/components/Base';
 import AuthProvider from 'src/native/components/AuthProvider/AuthProvider.component';
+import { Loading } from 'src/native/components/Base';
 import { auth, status } from 'src/redux/actions';
 
-import Config from '../constants/config';
+import Config from 'src/constants/config';
 
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -53,14 +59,12 @@ interface IProps {
 }
 
 class Root extends React.Component<IProps> {
-  componentWillMount() {
-    axios.defaults.baseURL = Config.apiUri;
-  }
-
-  componentDidMount() {
+  componentDidMount () {
     const {
       networkStatusChange,
     } = this.props;
+
+    api.init();
 
     SplashScreen.hide();
 
@@ -74,39 +78,17 @@ class Root extends React.Component<IProps> {
     Linking.addEventListener('url', this.handleOpenURL);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
-  private getConnectionInfo(): Promise<boolean> {
-    const {
-      getToken,
-      networkStatusChange,
-      token,
-    } = this.props;
-    if (Platform.OS === 'ios') {
-      return new Promise((resolve) => {
-        const handleFirstConnectivityChangeIOS = (isConnected: boolean) => {
-          NetInfo.isConnected.removeEventListener('connectionChange', handleFirstConnectivityChangeIOS);
-          networkStatusChange(isConnected);
-          if (!token && isConnected) getToken();
-          resolve(isConnected);
-        };
-        NetInfo.isConnected.addEventListener('connectionChange', handleFirstConnectivityChangeIOS);
-      });
-    }
-
-    return NetInfo.isConnected.fetch()
-      .then(networkStatusChange);
-  }
-
   handleOpenURL = (event: any) => {
-    console.log(event.url);
+    // console.log(event.url);
     // const route = e.url.replace(/.*?:\/\//g, '');
     // do something with the url, in our case navigate(route)
   };
 
-  render() {
+  render () {
     const {
       store,
       persistor,
@@ -114,6 +96,7 @@ class Root extends React.Component<IProps> {
       token = '',
       network = false,
     } = this.props;
+    const reconnect = () => getToken();
     return (
       <Provider store={store}>
         <PersistGate loading={<Loading />} persistor={persistor}>
@@ -122,7 +105,7 @@ class Root extends React.Component<IProps> {
               getToken={getToken}
               token={token}
               network={network}
-              reconnect={() => getToken()}
+              reconnect={reconnect}
             >
               <Router sceneStyle={base.scene}>
                 {Routes}
@@ -133,17 +116,40 @@ class Root extends React.Component<IProps> {
       </Provider>
     );
   }
+
+  private getConnectionInfo (): Promise<boolean> {
+    const {
+      getToken,
+      networkStatusChange,
+      token,
+    } = this.props;
+    if (Platform.OS === 'ios') {
+      return new Promise((resolve) => {
+        const handleFirstConnectivityChangeIOS = (isConnected: boolean) => {
+          NetInfo.isConnected.removeEventListener(
+            'connectionChange',
+            handleFirstConnectivityChangeIOS,
+          );
+          networkStatusChange(isConnected);
+          if (!token && isConnected) getToken();
+          resolve(isConnected);
+        };
+        NetInfo.isConnected.addEventListener('connectionChange', handleFirstConnectivityChangeIOS);
+      });
+    }
+
+    return NetInfo.isConnected.fetch().then(networkStatusChange);
+  }
 }
 
 const mapStateToProps = (state: any) => ({
-  token: state.auth.token,
   network: state.status.network,
+  token: state.auth.token,
 });
 
 const mapDispatchToProps = {
   ...auth,
   ...status,
 };
-
 
 export default connect<any, any, any>(mapStateToProps, mapDispatchToProps)(Root);

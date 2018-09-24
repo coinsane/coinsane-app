@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { category as categoryActions } from 'src/actions';
-import api from 'src/api';
+import { api } from 'src/services';
 
 export function* fetchCategories (action: ReturnType<typeof categoryActions.getCategories>) {
   const response = yield call(api.categories.fetchCategories, action.payload);

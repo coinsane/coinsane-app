@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title, Root } from 'native-base';
 
-import api from '../../../api';
+import { api } from 'src/services';
+
 import ga from '../../../lib/ga';
 import I18n from '../../../i18n';
 import Header from 'src/native/components/_Organisms/Header';

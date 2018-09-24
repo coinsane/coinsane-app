@@ -3,7 +3,7 @@ import {
   coin as coinActions,
   market as marketActions,
 } from 'src/actions';
-import api from 'src/api';
+import { api } from 'src/services';
 
 import selectors from './selectors';
 

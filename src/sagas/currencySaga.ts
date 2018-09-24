@@ -2,7 +2,7 @@ import { delay } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { currency as currencyActions } from 'src/actions';
 
-import api from 'src/api';
+import { api } from 'src/services';
 
 export function* fetchAvailableCurrencies (action: ReturnType<typeof currencyActions.getAvailableCurrencies>) {
   if (action.payload.q) yield delay(2000);

@@ -7,7 +7,7 @@ import {
   market as marketActions,
   portfolio as portfolioActions,
 } from 'src/actions';
-import api from 'src/api';
+import { api } from 'src/services';
 
 import selectors from './selectors';
 

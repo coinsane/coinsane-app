@@ -11,7 +11,6 @@ import {
   ListGroupItem,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import ErrorMessages from '../../constants/errors';
 import Loading from './Loading';
 import Error from './Error';
 
@@ -32,9 +31,6 @@ const CoinView = ({
   if (coinId && coins) {
     coin = coins.find(item => parseInt(item.id, 10) === parseInt(coinId, 10));
   }
-
-  // Coin not found
-  if (!coin) return <Error content={ErrorMessages.coin404} />;
 
   // Build Ingredients listing
   const ingredients = coin.ingredients.map(item => (
