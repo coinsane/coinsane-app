@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Item, Input } from 'native-base';
 
-import I18n from '../../../../i18n';
+import I18n from 'src/i18n';
+import { colors } from 'src/native/styles';
 import {
   changeSearchTerm,
   getAvailableMarkets,
   currencySearch,
-} from '../../../../redux/state/markets/markets.actioncreators';
-import { getAvailableCurrencies } from '../../../../redux/state/currencies/currencies.actioncreators';
+} from 'src/actions/marketsActions';
+import { getAvailableCurrencies } from 'src/actions/currenciesActions';
 import CoinsaneIcon from '../../_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 
 import styles from './SearchBar.styles';
-import { colors } from '../../../styles';
 
 class SearchBar extends Component {
   static propTypes = {

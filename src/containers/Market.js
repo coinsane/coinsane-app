@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getAvailableMarkets, changeSearchTerm, clearMarkets, getMarketCap } from '../redux/state/markets/markets.actioncreators';
-import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
+import { getAvailableMarkets, changeSearchTerm, clearMarkets, getMarketCap } from 'src/actions/marketsActions';
+import { selectCurrency } from 'src/actions/settingsActions';
 
 class Market extends Component {
   static propTypes = {

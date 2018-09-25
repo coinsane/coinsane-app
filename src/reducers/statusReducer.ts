@@ -1,4 +1,4 @@
-import { status as statusActions } from 'src/actions';
+import { statusActions } from 'src/actions';
 import { IStatusState } from 'src/models';
 
 export const initialState: IStatusState = {

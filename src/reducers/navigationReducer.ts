@@ -1,4 +1,4 @@
-import { navigation as navigationActions } from 'src/actions';
+import { navigationActions } from 'src/actions';
 import { INavigationState } from 'src/models';
 
 import I18n from 'src/i18n';

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as DeviceInfo from 'react-native-device-info';
 
-import { auth as authActions } from 'src/actions';
+import { authActions } from 'src/actions';
 import { IAuthState } from 'src/models';
 
 import Config from 'src/constants/config';

@@ -2,29 +2,29 @@ import { combineReducers } from 'redux';
 
 import IRootState from 'src/models';
 import auth from './authReducer';
-import category from './categoryReducer';
-import coin from './coinReducer';
-import currency from './currencyReducer';
-import market from './marketReducer';
+import categories from './categoriesReducer';
+import coin from './coinsReducer';
+import currencies from './currenciesReducer';
+import markets from './marketsReducer';
 import navigation from './navigationReducer';
-import page from './pageReducer';
-import portfolio from './portfolioReducer';
+import pages from './pagesReducer';
+import portfolios from './portfoliosReducer';
 import settings from './settingsReducer';
 import status from './statusReducer';
-import transaction from './transactionReducer';
+import transactions from './transactionsReducer';
 
 const rootReducer = combineReducers<IRootState>({
   auth,
-  category,
+  categories,
   coin,
-  currency,
-  market,
+  currencies,
+  markets,
   navigation,
-  page,
-  portfolio,
+  pages,
+  portfolios,
   settings,
   status,
-  transaction,
+  transactions,
 });
 
 export default rootReducer;

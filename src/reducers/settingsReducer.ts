@@ -1,4 +1,4 @@
-import { settings as settingsActions } from 'src/actions';
+import { settingsActions } from 'src/actions';
 import { ISettingsState } from 'src/models';
 
 export const initialState: ISettingsState = {

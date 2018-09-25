@@ -25,7 +25,7 @@ import Routes from 'src/native/routes';
 
 import AuthProvider from 'src/native/components/AuthProvider/AuthProvider.component';
 import { Loading } from 'src/native/components/Base';
-import { auth, status } from 'src/redux/actions';
+import { authActions, statusActions } from 'src/actions';
 
 import Config from 'src/constants/config';
 
@@ -148,8 +148,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  ...auth,
-  ...status,
+  ...authActions,
+  ...statusActions,
 };
 
 export default connect<any, any, any>(mapStateToProps, mapDispatchToProps)(Root);

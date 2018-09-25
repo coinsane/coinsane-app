@@ -7,7 +7,7 @@ import {
   INavigation,
 } from 'src/models/INavigationState';
 
-import { setActiveMenu } from 'src/redux/state/navigation/navigation.actioncreators';
+import { setActiveMenu } from 'src/actions/navigationActions';
 import CoinsaneIcon from 'src/native/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { colors } from 'src/native/styles';
 

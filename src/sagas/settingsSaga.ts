@@ -1,8 +1,8 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import {
-  portfolio as portfolioActions,
-  settings as settingsActions,
+  portfoliosActions,
+  settingsActions,
 } from 'src/actions';
 import { api } from 'src/services';
 
@@ -16,7 +16,7 @@ export function* updateDefaultCurrencies (action) {
     });
     if (action.payload.type === 'add') {
       yield call(api.settings.addCurrency, action.payload.currencyId);
-      yield put({ type: portfolioActions.ActionTypes.UPDATE_PORTFOLIOS, payload: {} });
+      yield put({ type: portfoliosActions.ActionTypes.UPDATE_PORTFOLIOS, payload: {} });
     } else if (action.payload.type === 'remove') {
       yield call(api.settings.removeCurrency, action.payload.currencyId);
       const symbol = yield select(selectors.getSymbol);

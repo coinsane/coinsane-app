@@ -144,7 +144,7 @@ class Portfolios extends Component<IProps> {
       if (inTotal) {
         Object.keys(amounts).forEach((symbol: string) => {
           if (!lastTotals[symbol]) lastTotals[symbol] = 0;
-          lastTotals[symbol] += parseFloat(amounts[symbol];
+          lastTotals[symbol] += parseFloat(amounts[symbol]);
         });
       }
     });

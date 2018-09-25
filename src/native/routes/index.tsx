@@ -17,7 +17,7 @@ import CoinsContainer from '../../containers/Coins';
 import CoinComponent from '../components/Coin/Coin.component';
 
 import PortfoliosContainer from '../../containers/Portfolios';
-import PortfoliosComponent from '../components/Portfolios/Portfolios.component';
+import Portfolios from 'src/native/screens/Portfolios';
 
 import CoinsaneList from '../components/_Organisms/CoinsaneList/CoinsaneList.organism';
 
@@ -62,7 +62,7 @@ const Index = (
           <Scene
             key="portfolios"
             component={PortfoliosContainer}
-            Layout={PortfoliosComponent}
+            Layout={Portfolios}
           />
           <Scene
             key="portfolioSettings"

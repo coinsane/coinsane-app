@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getSettings } from '../redux/state/settings/settings.actioncreators';
+import { getSettings } from 'src/actions/settingsActions';
 
 class Member extends Component {
   static propTypes = {

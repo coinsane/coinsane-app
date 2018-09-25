@@ -20,10 +20,10 @@ import CoinsaneSwitch from '../_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import CoinsaneSwitchSelector from '../_Molecules/CoinsaneSwitchSelector/CoinsaneSwitchSelector.molecula';
 import Header from 'src/native/components/_Organisms/Header';
 import { Loading } from 'src/native/components/Base';
-import { updateDraftTransaction, clearDraftTransaction, recalculate, addTransaction } from '../../../redux/state/transactions/transactions.actioncreators';
-import { getAvailableMarkets } from '../../../redux/state/markets/markets.actioncreators';
-import { getAvailableCurrencies } from '../../../redux/state/currencies/currencies.actioncreators';
-import { getCategories } from '../../../redux/state/categories/categories.actioncreators';
+import { updateDraftTransaction, clearDraftTransaction, recalculate, addTransaction } from 'src/actions/transactionsActions';
+import { getAvailableMarkets } from 'src/actions/marketsActions';
+import { getAvailableCurrencies } from 'src/actions/currenciesActions';
+import { getCategories } from 'src/actions/categoriesActions';
 import styles from './CreateNewTransaction.styles';
 import { colors, base } from '../../styles';
 

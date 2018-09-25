@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import get from 'lodash/get';
 
-import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, updatePeriod, updateCollapsed } from '../redux/state/portfolios/portfolios.actioncreators';
-import { updateDraftTransaction } from '../redux/state/transactions/transactions.actioncreators';
-import { removeCoin } from '../redux/state/coin/coin.actioncreators';
-import { getAvailableMarkets, clearMarkets, changeSearchTerm } from '../redux/state/markets/markets.actioncreators';
-import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
-import { selectCurrency, hideOnboarding } from '../redux/state/settings/settings.actioncreators';
+import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, updatePeriod, updateCollapsed } from 'src/actions/portfoliosActions';
+import { updateDraftTransaction } from 'src/actions/transactionsActions';
+import { removeCoin } from 'src/actions/coinsActions';
+import { getAvailableMarkets, clearMarkets, changeSearchTerm } from 'src/actions/marketsActions';
+import { getAvailableCurrencies } from 'src/actions/currenciesActions';
+import { selectCurrency, hideOnboarding } from 'src/actions/settingsActions';
 import I18n from '../i18n';
 
 class Portfolios extends Component {

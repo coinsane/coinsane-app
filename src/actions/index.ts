@@ -1,25 +1,25 @@
-import * as auth from './authActions';
-import * as category from './categoryActions';
-import * as coin from './coinActions';
-import * as currency from './currencyActions';
-import * as market from './marketActions';
-import * as navigation from './navigationActions';
-import * as page from './pageActions';
-import * as portfolio from './portfolioActions';
-import * as settings from './settingsActions';
-import * as status from './statusActions';
-import * as transaction from './transactionActions';
+import * as authActions from './authActions';
+import * as categoriesActions from './categoriesActions';
+import * as coinsActions from './coinsActions';
+import * as currenciesActions from './currenciesActions';
+import * as marketsActions from './marketsActions';
+import * as navigationActions from './navigationActions';
+import * as pageActions from './pageActions';
+import * as portfoliosActions from './portfoliosActions';
+import * as settingsActions from './settingsActions';
+import * as statusActions from './statusActions';
+import * as transactionsActions from './transactionsActions';
 
 export {
-  auth,
-  category,
-  coin,
-  currency,
-  market,
-  navigation,
-  page,
-  portfolio,
-  settings,
-  status,
-  transaction,
+  authActions,
+  categoriesActions,
+  coinsActions,
+  currenciesActions,
+  marketsActions,
+  navigationActions,
+  pageActions,
+  portfoliosActions,
+  settingsActions,
+  statusActions,
+  transactionsActions,
 };

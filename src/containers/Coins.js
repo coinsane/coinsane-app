@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import get from 'lodash/get';
 
-import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod } from '../redux/state/portfolios/portfolios.actioncreators';
-import { getPrice, removeCoin, getCoinHisto, setCoinsError, updateCoinsPeriod } from '../redux/state/coin/coin.actioncreators';
-import { getAvailableMarkets, clearMarkets, changeSearchTerm, getMarketCap, updateCollapsed, getExchanges, loadMoreExchanges } from '../redux/state/markets/markets.actioncreators';
-import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
-import { selectCurrency } from '../redux/state/settings/settings.actioncreators';
-import { getTransactions, updateDraftTransaction, addTransaction, delTransaction } from '../redux/state/transactions/transactions.actioncreators';
+import { updatePortfolios, updatePortfolioChart, updatePortfolioPeriod, updatePortfolioCurrency, getTotals, addPortfolio, removePortfolio, updatePortfolio, selectPortfolio, setCoinData, updatePeriod } from 'src/actions/portfoliosActions';
+import { getPrice, removeCoin, getCoinHisto, setCoinsError, updateCoinsPeriod } from 'src/actions/coinsActions';
+import { getAvailableMarkets, clearMarkets, changeSearchTerm, getMarketCap, updateCollapsed, getExchanges, loadMoreExchanges } from 'src/actions/marketsActions';
+import { getAvailableCurrencies } from 'src/actions/currenciesActions';
+import { selectCurrency } from 'src/actions/settingsActions';
+import { getTransactions, updateDraftTransaction, addTransaction, delTransaction } from 'src/actions/transactionsActions';
 import I18n from '../i18n';
 
 class Coins extends Component {

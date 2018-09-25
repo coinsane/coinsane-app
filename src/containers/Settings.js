@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getSettings, updateCurrencies } from '../redux/state/settings/settings.actioncreators';
-import { getPages } from '../redux/state/pages/pages.actioncreators';
-import { getAvailableMarkets, clearMarkets, changeSearchTerm, currencySearch } from '../redux/state/markets/markets.actioncreators';
-import { getAvailableCurrencies } from '../redux/state/currencies/currencies.actioncreators';
+import { getSettings, updateCurrencies } from 'src/actions/settingsActions';
+import { getPages } from 'src/actions/pageActions';
+import { getAvailableMarkets, clearMarkets, changeSearchTerm, currencySearch } from 'src/actions/marketsActions';
+import { getAvailableCurrencies } from 'src/actions/currenciesActions';
 
 class Settings extends Component {
   static propTypes = {

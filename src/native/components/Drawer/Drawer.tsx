@@ -9,7 +9,7 @@ import {
 import {
   setDrawerActions,
   setDrawerClose,
-} from 'src/redux/state/navigation/navigation.actioncreators';
+} from 'src/actions/navigationActions';
 import { colors } from 'src/native/styles';
 
 import DrawerContent from './components/DrawerContent';
