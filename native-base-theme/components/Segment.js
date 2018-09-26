@@ -1,5 +1,5 @@
 import variable from "./../variables/platform";
-import { colors } from '../../src/native/styles';
+import { colors } from '../../src/styles';
 
 export default (variables = variable) => {
 	const platform = variables.platform;

@@ -10,7 +10,7 @@ import { getAvailableMarkets, clearMarkets, changeSearchTerm, getMarketCap, upda
 import { getAvailableCurrencies } from 'src/actions/currenciesActions';
 import { selectCurrency } from 'src/actions/settingsActions';
 import { getTransactions, updateDraftTransaction, addTransaction, delTransaction } from 'src/actions/transactionsActions';
-import I18n from '../i18n';
+import I18n from 'src/i18n';
 
 class Coins extends Component {
   static propTypes = {

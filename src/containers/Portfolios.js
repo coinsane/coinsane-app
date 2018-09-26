@@ -10,7 +10,7 @@ import { removeCoin } from 'src/actions/coinsActions';
 import { getAvailableMarkets, clearMarkets, changeSearchTerm } from 'src/actions/marketsActions';
 import { getAvailableCurrencies } from 'src/actions/currenciesActions';
 import { selectCurrency, hideOnboarding } from 'src/actions/settingsActions';
-import I18n from '../i18n';
+import I18n from 'src/i18n';
 
 class Portfolios extends Component {
   static propTypes = {
