@@ -4,34 +4,28 @@ import CardStackStyleInterpolator from 'react-navigation-stack/dist/views/StackV
 
 import DefaultProps from 'src/constants/navigation';
 
+import Coin from 'src/screens/Coin';
+import CreateNewTransaction from 'src/screens/CreateNewTransaction';
+import CreatePortfolio from 'src/screens/CreatePortfolio';
 import Forgot from 'src/screens/Forgot';
-import SignUp from 'src/screens/SignUp';
-import SignIn from 'src/screens/SignIn';
+import List from 'src/screens/List';
+import Market from 'src/screens/Market';
+import Page from 'src/screens/Page';
+import Portfolios from 'src/screens/Portfolios';
+import PortfolioSettings from 'src/screens/PortfolioSettings';
 import Settings from 'src/screens/Settings';
-
+import SignIn from 'src/screens/SignIn';
+import SignUp from 'src/screens/SignUp';
 
 import Drawer from 'src/components/Drawer';
 
 import CoinsContainer from 'src/containers/Coins';
-import CoinComponent from 'src/components/Coin/Coin.component';
-
+import MarketContainer from 'src/containers/Market';
 import PortfoliosContainer from 'src/containers/Portfolios';
-import Portfolios from 'src/screens/Portfolios';
-
-import CoinsaneList from 'src/components/_Organisms/CoinsaneList/CoinsaneList.organism';
-
-import CreateNewTransaction from 'src/components/CreateNewTransaction/CreateNewTransaction.component';
-
-import PortfolioSettingsComponent from 'src/components/PortfolioSettings/PortfolioSettings.component';
-import CreatePortfolioComponent from 'src/components/CreatePortfolio/CreatePortfolio.component';
-
 import SettingsContainer from 'src/containers/Settings';
 
-import MarketContainer from 'src/containers/Market';
-import MarketComponent from 'src/components/Market/Market.component';
 
 import ErrorModal from 'src/components/modal/Error.component';
-import PageComponent from 'src/components/Page/Page.component';
 
 
 const Index = (
@@ -66,12 +60,12 @@ const Index = (
           <Scene
             key="portfolioSettings"
             component={PortfoliosContainer}
-            Layout={PortfolioSettingsComponent}
+            Layout={PortfolioSettings}
           />
           <Scene
             key="createPortfolio"
             component={PortfoliosContainer}
-            Layout={CreatePortfolioComponent}
+            Layout={CreatePortfolio}
           />
         </Stack>
 
@@ -83,7 +77,7 @@ const Index = (
           <Scene
             key="market"
             component={MarketContainer}
-            Layout={MarketComponent}
+            Layout={Market}
           />
         </Stack>
 
@@ -118,7 +112,7 @@ const Index = (
         key="coin"
         {...DefaultProps.navbarProps}
         component={CoinsContainer}
-        Layout={CoinComponent}
+        Layout={Coin}
       />
     </Overlay>
     <Scene
@@ -127,11 +121,11 @@ const Index = (
     />
     <Scene
       key="page"
-      component={PageComponent}
+      component={Page}
     />
     <Scene
       key="selector"
-      component={CoinsaneList}
+      component={List}
     />
     <Scene
       key="createNewTransaction"

@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Container, List, Title, View, Footer, Button, Text } from 'native-base';
+import { Container, List as NativeList, Title, View, Footer, Button, Text } from 'native-base';
 import get from 'lodash/get';
 
 import Header from 'src/components/_Organisms/Header';
-import { Loading, Empty } from 'src/components/Base';
+import { Empty, Loading } from 'src/components/Base';
 
 import SearchBar from 'src/components/_Molecules/SearchBar/SearchBar.molecula';
 import Modal from 'src/components/modal/BaseModal.component';
 import SelectorListItem from 'src/components/_Molecules/CoinCell/CoinCell.component';
-import styles from './CoinsaneList.styles';
 import { base } from 'src/styles';
 import { i18n } from 'src/services';
 
-class CoinsaneList extends Component {
+import styles from './List.styles';
+
+class List extends Component {
   static propTypes = {
     searchBar: PropTypes.bool,
     title: PropTypes.string.isRequired,
@@ -193,7 +194,7 @@ class CoinsaneList extends Component {
             leftAction={() => this.close()}
             title={<Title style={base.title}>{title}</Title>}
           />
-          <List style={[base.contentContainer, base.contentPadding]}>
+          <NativeList style={[base.contentContainer, base.contentPadding]}>
             {this.renderHeadListItem()}
             <FlatList
               data={listItem.list}
@@ -218,7 +219,7 @@ class CoinsaneList extends Component {
               refreshing={listItem.refreshing || false}
               extraData={selectedIds}
             />
-          </List>
+          </NativeList>
         </Container>
         {this.renderFooterButton()}
       </Modal>
@@ -230,4 +231,4 @@ const mapStateToProps = state => ({ state });
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinsaneList);
+export default connect(mapStateToProps, mapDispatchToProps)(List);
