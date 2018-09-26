@@ -8,7 +8,7 @@ import { AreaChart } from 'react-native-svg-charts';
 import YAxis from './YAxis.component';
 
 import { Loading } from 'src/components/Base';
-import { nFormat } from 'src/lib/utils';
+import { math } from 'src/services';
 
 import { colors } from 'src/styles';
 import styles from './Chart.styles';
@@ -83,7 +83,7 @@ class Chart extends Component {
             fill: colors.textGray,
             fontSize: 10,
           }}
-          formatLabel={value => nFormat(value, currency.decimal)}
+          formatLabel={value => math.nFormat(value, currency.decimal)}
         />
         <AreaChart
           // animate

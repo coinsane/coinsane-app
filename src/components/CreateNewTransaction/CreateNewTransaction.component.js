@@ -10,10 +10,9 @@ import get from 'lodash/get';
 import moment from 'moment';
 
 import Config from 'src/constants/config';
-import ga from 'src/lib/ga';
 import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import withPreventDoubleClick from 'src/hocs';
-import I18n from 'src/i18n';
+import { analytics, i18n } from 'src/services';
 import Modal from 'src/components/modal/BaseModal.component';
 import CoinsaneStackedLabel from 'src/components/_Atoms/CoinsaneStackedLabel/CoinsaneStackedLabel.atom';
 import CoinsaneSwitch from 'src/components/_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
@@ -108,7 +107,7 @@ class CreateNewTransaction extends Component {
   }
 
   componentDidMount() {
-    ga.trackScreenView('CreateTransaction');
+    analytics.trackContentView('Transaction Create', 'Transaction', 'transaction');
   }
 
   update = (list) => {
@@ -127,31 +126,31 @@ class CreateNewTransaction extends Component {
         options.items = Object.assign(...Object.keys(portfolios.items)
           .filter(key => !portfolios.items[key].service)
           .map(key => ({ [key]: portfolios.items[key] })));
-        options.title = I18n.t('portfolios.titleChoose');
+        options.title = i18n.t('portfolios.titleChoose');
         options.listItemType = 'check';
         options.activeItem = draft.portfolio;
         break;
       case 'market':
         options.listName = 'markets';
-        options.title = I18n.t('markets.titleChoose');
+        options.title = i18n.t('markets.titleChoose');
         options.searchBar = true;
         options.preLoad = data => this.props.getAvailableMarkets(data);
         break;
       case 'exchange':
         options.listName = 'markets';
-        options.title = I18n.t('markets.titleChoose');
+        options.title = i18n.t('markets.titleChoose');
         options.searchBar = true;
         options.preLoad = data => this.props.getAvailableMarkets(data);
         break;
       case 'currency':
         options.listName = 'currencies';
-        options.title = I18n.t('currencies.titleChoose');
+        options.title = i18n.t('currencies.titleChoose');
         options.searchBar = true;
         options.preLoad = data => this.props.getAvailableCurrencies(data);
         break;
       case 'category':
         options.listName = 'categories';
-        options.title = I18n.t('categories.titleChoose');
+        options.title = i18n.t('categories.titleChoose');
         options.listItemType = 'check';
         options.activeItem = draft.category;
         options.preLoad = data => this.props.getCategories(data);
@@ -188,13 +187,13 @@ class CreateNewTransaction extends Component {
     const { draft } = this.props.transactions;
     if (+draft.amount && +draft.total) {
       this.props.addTransaction(draft);
-      ga.trackEvent('transactions', 'addTransaction');
+      analytics.trackEvent('transactions', 'addTransaction');
       Actions.pop();
     } else {
       Alert.alert(
-        I18n.t('transactions.error.title'),
-        I18n.t('transactions.error.emptyAmount'),
-        [{ text: I18n.t('buttons.ok') }],
+        i18n.t('transactions.error.title'),
+        i18n.t('transactions.error.emptyAmount'),
+        [{ text: i18n.t('buttons.ok') }],
       );
     }
   }
@@ -219,9 +218,9 @@ class CreateNewTransaction extends Component {
       total: draft.total ? draft.total.toString() : '0',
     };
     const segmentOptions = [
-      { label: I18n.t('transactions.form.labelBuy'), value: 'buy' },
-      { label: I18n.t('transactions.form.labelSell'), value: 'sell' },
-      { label: I18n.t('transactions.form.labelExchange'), value: 'exchange' },
+      { label: i18n.t('transactions.form.labelBuy'), value: 'buy' },
+      { label: i18n.t('transactions.form.labelSell'), value: 'sell' },
+      { label: i18n.t('transactions.form.labelExchange'), value: 'exchange' },
     ];
 
     const customStyles = {
@@ -251,7 +250,7 @@ class CreateNewTransaction extends Component {
     const PortfolioSelector = () => (
       <ListItemEx style={styles.listItemContainer} onPress={() => this.update('portfolio')}>
         <Body>
-          <Text style={styles.listItem__label}>{I18n.t('transactions.form.fieldPortfolio')}</Text>
+          <Text style={styles.listItem__label}>{i18n.t('transactions.form.fieldPortfolio')}</Text>
           <Text style={styles.listItem__title}>{portfolio.title}</Text>
         </Body>
         <Right style={styles.listItem__rightIconContainer}>
@@ -263,7 +262,7 @@ class CreateNewTransaction extends Component {
     const DateSelector = () => (
       <ListItem style={styles.listItemContainer}>
         <Body>
-          <Text style={styles.listItem__label}>{I18n.t('transactions.form.fieldDate')}</Text>
+          <Text style={styles.listItem__label}>{i18n.t('transactions.form.fieldDate')}</Text>
           <View style={{ flexDirection: 'row' }}>
             <DatePicker
               style={{ flex: 0.5, height: 30 }}
@@ -271,9 +270,9 @@ class CreateNewTransaction extends Component {
               mode="date"
               maxDate={new Date()}
               showIcon={false}
-              placeholder={I18n.t('transactions.form.placeholderDate')}
-              confirmBtnText={I18n.t('buttons.setDate')}
-              cancelBtnText={I18n.t('buttons.cancel')}
+              placeholder={i18n.t('transactions.form.placeholderDate')}
+              confirmBtnText={i18n.t('buttons.setDate')}
+              cancelBtnText={i18n.t('buttons.cancel')}
               customStyles={customStyles}
               onDateChange={date => this.props.updateDraftTransaction({ date })}
             />
@@ -282,9 +281,9 @@ class CreateNewTransaction extends Component {
               date={draft.time}
               mode="time"
               showIcon={false}
-              placeholder={I18n.t('transactions.form.placeholderTime')}
-              confirmBtnText={I18n.t('buttons.setTime')}
-              cancelBtnText={I18n.t('buttons.cancel')}
+              placeholder={i18n.t('transactions.form.placeholderTime')}
+              confirmBtnText={i18n.t('buttons.setTime')}
+              cancelBtnText={i18n.t('buttons.cancel')}
               customStyles={customStyles}
               onDateChange={time => this.props.updateDraftTransaction({ time })}
             />
@@ -297,8 +296,8 @@ class CreateNewTransaction extends Component {
       if (draft.type !== 'exchange') return null;
       const symbol = draft.type === 'exchange' ? exchange.symbol : currency.code;
       const deductTitle = draft.type === 'sell' ?
-        I18n.t('transactions.form.fieldDeductAlt', { currency: symbol }) :
-        I18n.t('transactions.form.fieldDeduct', { currency: symbol });
+        i18n.t('transactions.form.fieldDeductAlt', { currency: symbol }) :
+        i18n.t('transactions.form.fieldDeduct', { currency: symbol });
       return (
         <View style={base.form__switchContainer}>
           <Text style={base.form__switchLabel}>{deductTitle}</Text>
@@ -318,7 +317,7 @@ class CreateNewTransaction extends Component {
           <Header
             leftIcon="Close"
             leftAction={() => this.close()}
-            title={<Title style={base.title}>{I18n.t('transactions.titleAdd')}</Title>}
+            title={<Title style={base.title}>{i18n.t('transactions.titleAdd')}</Title>}
           />
           <Content style={[base.contentContainer, base.contentPadding]}>
             <CoinsaneSwitchSelector
@@ -330,7 +329,7 @@ class CreateNewTransaction extends Component {
               <ListItem style={styles.listItemContainer}>
                 <Body>
                   <CoinsaneStackedLabel
-                    label={I18n.t('transactions.form.fieldAmount')}
+                    label={i18n.t('transactions.form.fieldAmount')}
                     propName="amount"
                     clearTextOnFocus={values.amount === '0'}
                     selectTextOnFocus
@@ -350,7 +349,7 @@ class CreateNewTransaction extends Component {
               <ListItem style={styles.listItemContainer}>
                 <Body>
                   <CoinsaneStackedLabel
-                    label={I18n.t('transactions.form.fieldPrice')}
+                    label={i18n.t('transactions.form.fieldPrice')}
                     propName="price"
                     selectTextOnFocus
                     onChangeText={this.handleChange}
@@ -369,7 +368,7 @@ class CreateNewTransaction extends Component {
               <ListItem style={styles.listItemContainer}>
                 <Body>
                   <CoinsaneStackedLabel
-                    label={I18n.t('transactions.form.fieldPrice')}
+                    label={i18n.t('transactions.form.fieldPrice')}
                     propName="price"
                     selectTextOnFocus
                     onChangeText={this.handleChange}
@@ -387,7 +386,7 @@ class CreateNewTransaction extends Component {
               <ListItem style={styles.listItemContainer}>
                 <Body>
                   <CoinsaneStackedLabel
-                    label={I18n.t('transactions.form.fieldTotal', { currency: draft.type === 'exchange' ? exchange.symbol : currency.symbol })}
+                    label={i18n.t('transactions.form.fieldTotal', { currency: draft.type === 'exchange' ? exchange.symbol : currency.symbol })}
                     propName="total"
                     clearTextOnFocus={values.total === '0'}
                     selectTextOnFocus
@@ -400,12 +399,12 @@ class CreateNewTransaction extends Component {
               <DeductSwitch />
               <DateSelector />
               <ListItem itemHeader style={styles.listItemContainer_header}>
-                <Text style={styles.listItem__header}>{I18n.t('transactions.form.labelAdditional')}</Text>
+                <Text style={styles.listItem__header}>{i18n.t('transactions.form.labelAdditional')}</Text>
               </ListItem>
               <ListItem style={styles.listItemContainer}>
                 <Body>
                 <Input
-                  placeholder={I18n.t('transactions.form.placeholderCategory')}
+                  placeholder={i18n.t('transactions.form.placeholderCategory')}
                   placeholderTextColor={colors.textGray}
                   onChangeText={v => this.handleChange('category', v)}
                   value={category}
@@ -421,7 +420,7 @@ class CreateNewTransaction extends Component {
               <ListItem style={styles.listItemContainer}>
                 <Body>
                 <AutoGrowingTextInput
-                  placeholder={I18n.t('transactions.form.placeholderNote')}
+                  placeholder={i18n.t('transactions.form.placeholderNote')}
                   placeholderTextColor={colors.textGray}
                   onChangeText={v => this.handleChange('note', v)}
                   value={draft.note}
@@ -440,7 +439,7 @@ class CreateNewTransaction extends Component {
             onPress={() => this.addTransaction()}
             style={base.footer__button}
           >
-            <Text style={base.footer__buttonText}>{I18n.t('transactions.createButton')}</Text>
+            <Text style={base.footer__buttonText}>{i18n.t('transactions.createButton')}</Text>
           </Button>
         </Footer>
       </Modal>

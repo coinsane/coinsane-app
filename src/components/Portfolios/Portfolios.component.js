@@ -8,8 +8,7 @@ import Swiper from 'react-native-swiper';
 import get from 'lodash/get';
 
 import Config from 'src/constants/config';
-import ga from 'src/lib/ga';
-import I18n from 'src/i18n';
+import { analytics, i18n, math } from 'src/services';
 
 import { Loading, Empty, Spacer } from 'src/components/Base';
 import Summary from 'src/components/_Molecules/Summary';
@@ -25,7 +24,6 @@ import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.compon
 
 import styles from './Portfolios.styles';
 import { colors, base } from 'src/styles';
-import { nFormat, round } from 'src/lib/utils';
 
 class Portfolios extends Component {
   static propTypes = {
@@ -74,7 +72,7 @@ class Portfolios extends Component {
   }
 
   componentDidMount() {
-    ga.trackScreenView('Portfolios');
+    analytics.logContentView('Portfolios', 'Portfolios', 'portfolios');
     this.props.getAvailableMarkets({});
   }
 
@@ -113,14 +111,12 @@ class Portfolios extends Component {
 
   showCoin = ({ market, id }) => {
     const { symbol } = market;
-    ga.trackEvent('portfolios', 'showCoin', {
-      symbol,
-    });
+    analytics.trackEvent('portfolios', 'showCoin');
     Actions.coin({ match: { params: { market, id } } });
   };
 
   editPortfolio = (portfolioId) => {
-    ga.trackEvent('portfolios', 'editPortfolio');
+    analytics.trackEvent('portfolios', 'editPortfolio');
     Actions.portfolioSettings({ match: { params: { portfolioId } } });
   };
 
@@ -148,21 +144,21 @@ class Portfolios extends Component {
     const { activePortfolio } = this.props;
     Actions.selector({
       listName: 'portfolios',
-      title: I18n.t('portfolios.titleChoose'),
+      title: i18n.t('portfolios.titleChoose'),
       listItemType: 'check',
       activeItem: activePortfolio,
       selectAction: (item) => {
         this.props.selectPortfolio(item._id);
         Actions.pop();
       },
-      footerTitle: I18n.t('portfolios.addButton'),
+      footerTitle: i18n.t('portfolios.addButton'),
       footerAction: () => {
         Actions.pop();
-        ga.trackEvent('portfolios', 'createPortfolio');
+        analytics.trackEvent('portfolios', 'createPortfolio');
         Actions.createPortfolio();
       },
       headItem: {
-        title: I18n.t('portfolios.all'),
+        title: i18n.t('portfolios.all'),
         amounts: this.portfolioTotal(true),
         selectAction: () => {
           this.props.selectPortfolio(null);
@@ -233,7 +229,7 @@ class Portfolios extends Component {
     if (others) {
       pieData.push({
         value: others,
-        symbol: I18n.t('portfolios.others'),
+        symbol: i18n.t('portfolios.others'),
       });
     }
 
@@ -252,8 +248,8 @@ class Portfolios extends Component {
     } = this.props;
 
     const decimal = currency.decimal > 6 ? 6 : currency.decimal;
-    const low = chart.low && nFormat(chart.low, decimal);
-    const high = chart.high && nFormat(chart.high, decimal);
+    const low = chart.low && math.nFormat(chart.low, decimal);
+    const high = chart.high && math.nFormat(chart.high, decimal);
 
     const SlidePie = () => (
       <View style={styles.slide}>
@@ -276,7 +272,7 @@ class Portfolios extends Component {
             <CoinsaneButton
               key={key}
               type="period"
-              value={I18n.t(`periods.period${key}`)}
+              value={i18n.t(`periods.period${key}`)}
               uppercase
               onPress={() => this.updatePeriod(key)}
               active={period === key}
@@ -289,14 +285,14 @@ class Portfolios extends Component {
     return (
       <View style={{ marginBottom: 15 }}>
         <Summary
-          value={nFormat(this.portfolioTotal()[currency.code], currency.decimal)}
+          value={math.nFormat(this.portfolioTotal()[currency.code], currency.decimal)}
           currency={currency}
           buttons={Object.keys(currencies)}
-          subValue={round(chart.pct, 2)}
+          subValue={math.round(chart.pct, 2)}
           updateCurrency={this.updateCurrency}
-          leftTitle={I18n.t('coins.low')}
+          leftTitle={i18n.t('coins.low')}
           leftValue={low}
-          rightTitle={I18n.t('coins.high')}
+          rightTitle={i18n.t('coins.high')}
           rightValue={high}
           loading={loading}
           error={error}
@@ -321,7 +317,7 @@ class Portfolios extends Component {
   renderEmpty = () => {
     const { loading } = this.props;
     if (loading) return null;
-    return <Empty description={I18n.t('empty.portfolios')} />;
+    return <Empty description={i18n.t('empty.portfolios')} />;
   };
 
   renderItem = ({
@@ -379,7 +375,7 @@ class Portfolios extends Component {
       period,
       symbol,
     } = this.props;
-    const changePct = round(get(charts, `[${section._id}][${period}:${symbol}].pct`, 0), 2);
+    const changePct = math.round(get(charts, `[${section._id}][${period}:${symbol}].pct`, 0), 2);
     const provider = get(portfolios, `${section._id}.service.provider.name`, null);
     return (
       <PortfolioHeader
@@ -416,7 +412,7 @@ class Portfolios extends Component {
     // if (error) return <Error content={error} />;
 
     const HeaderTitle = () => {
-      const title = get(portfolios, `${activePortfolio}.title`, I18n.t('portfolios.all'));
+      const title = get(portfolios, `${activePortfolio}.title`, i18n.t('portfolios.all'));
       return (
         <Title>
           <Icon name="ios-arrow-down" style={[styles.header__arrow, { color: colors.textGray }]} />
@@ -432,7 +428,7 @@ class Portfolios extends Component {
       const onPress = () => {
         if (!service) addCoin(activePortfolio);
       };
-      const title = get(service, 'provider.name', I18n.t('coins.addButton'));
+      const title = get(service, 'provider.name', i18n.t('coins.addButton'));
       return (
         <Footer style={base.footer}>
           <Button

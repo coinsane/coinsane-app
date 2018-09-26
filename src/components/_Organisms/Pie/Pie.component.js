@@ -5,7 +5,7 @@ import { PieChart } from 'react-native-svg-charts';
 
 import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { Loading } from 'src/components/Base';
-import { round } from 'src/lib/utils';
+import { math } from 'src/services';
 
 import { colors } from 'src/styles';
 import styles from './Pie.styles';
@@ -64,7 +64,7 @@ class Pie extends Component {
                     ellipsizeMode="middle"
                     style={styles.legend__title}
                   >
-                    {item.symbol} ({round(+item.pct, 2)}%)
+                    {item.symbol} ({math.round(+item.pct, 2)}%)
                   </Text>
                 </View>
               ))

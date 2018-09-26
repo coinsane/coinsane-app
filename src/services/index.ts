@@ -1,9 +1,11 @@
-// import analytics from './analyticsService';
+import analytics from './analyticsService';
 import api from './apiService';
-// import i18n from './i18nService';
+import i18n from './i18nService';
+import math from './mathService';
 
 export {
-  // analytics,
+  analytics,
   api,
-  // i18n,
+  i18n,
+  math,
 };

@@ -4,8 +4,7 @@ import { FlatList } from 'react-native';
 import { Container, View, Text, Title, List } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
-import ga from 'src/lib/ga';
-import I18n from 'src/i18n';
+import { analytics, i18n, math } from 'src/services';
 
 import Summary from 'src/components/_Molecules/Summary';
 import { Loading, Empty } from 'src/components/Base';
@@ -13,8 +12,6 @@ import { Loading, Empty } from 'src/components/Base';
 import Header from 'src/components/_Organisms/Header';
 import CoinCard from 'src/components/_Organisms/CoinCard/CoinCard.organism';
 import SearchBar from 'src/components/_Molecules/SearchBar/SearchBar.molecula';
-
-import { nFormat } from 'src/lib/utils';
 
 import { base } from 'src/styles';
 import styles from './Market.styles';
@@ -37,7 +34,7 @@ class Market extends Component {
   };
 
   componentDidMount() {
-    ga.trackScreenView('Market');
+    analytics.logContentView('Market', 'Market', 'market');
     const {
       getAvailableMarkets,
     } = this.props;
@@ -75,9 +72,7 @@ class Market extends Component {
 
   showCoin = ({ market }) => {
     const { symbol } = market;
-    ga.trackEvent('markets', 'showCoin', {
-      symbol,
-    });
+    analytics.trackEvent('markets', 'showCoin');
     Actions.coin({ match: { params: { market } } });
   };
 
@@ -93,10 +88,10 @@ class Market extends Component {
     return (
       <View>
         <Summary
-          value={nFormat(total, 2)}
+          value={math.nFormat(total, 2)}
           currency={currency}
           buttons={Object.keys(currencies)}
-          subValue={`${I18n.t('markets.vol24')}: ${nFormat(volume, 2)}`}
+          subValue={`${i18n.t('markets.vol24')}: ${math.nFormat(volume, 2)}`}
           updateCurrency={updateCurrency}
           loading={markets.cap.loading}
           error={markets.cap.error}
@@ -107,9 +102,9 @@ class Market extends Component {
         {
           !!markets.list.length &&
           <View style={styles.market__header}>
-            <Text style={[styles.market__header_text, styles.market__header_row1]}>{I18n.t('markets.coin')}</Text>
-            <Text style={[styles.market__header_text, styles.market__header_row2]}>{I18n.t('markets.mcap')}/{I18n.t('markets.vol24')}</Text>
-            <Text style={[styles.market__header_text, styles.market__header_row3]}>{I18n.t('markets.price')}</Text>
+            <Text style={[styles.market__header_text, styles.market__header_row1]}>{i18n.t('markets.coin')}</Text>
+            <Text style={[styles.market__header_text, styles.market__header_row2]}>{i18n.t('markets.mcap')}/{i18n.t('markets.vol24')}</Text>
+            <Text style={[styles.market__header_text, styles.market__header_row3]}>{i18n.t('markets.price')}</Text>
           </View>
         }
       </View>
@@ -129,7 +124,7 @@ class Market extends Component {
       markets,
     } = this.props;
     if (markets.loading) return null;
-    return <Empty description={I18n.t('empty.search')} />;
+    return <Empty description={i18n.t('empty.search')} />;
   };
 
   renderSeparator = () => <View style={styles.separator} />;
@@ -146,7 +141,7 @@ class Market extends Component {
         <Header
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Title style={base.title}>{I18n.t('navigation.markets')}</Title>}
+          title={<Title style={base.title}>{i18n.t('navigation.markets')}</Title>}
           // rightIcon="Filter"
           // rightAction={() => {}}
         />

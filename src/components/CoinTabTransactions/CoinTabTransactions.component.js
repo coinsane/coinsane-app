@@ -15,10 +15,8 @@ import SummaryCell from 'src/components/_Molecules/SummaryCell';
 import TransactionItem from 'src/components/_Molecules/TransactionItem/TransactionItem.molecula';
 import SectionHeader from 'src/components/_Molecules/SectionHeader/SectionHeader.molecula';
 import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
-import { nFormat, cFormat, round, format } from 'src/lib/utils';
-import I18n from 'src/i18n';
+import { analytics, i18n, math } from 'src/services';
 import styles from './CoinTabTransactions.styles';
-import ga from 'src/lib/ga';
 
 class CoinTabTransactions extends Component {
   static propTypes = {
@@ -68,9 +66,9 @@ class CoinTabTransactions extends Component {
     } = this.props;
 
     const summaryList = [
-      { label: I18n.t('transactions.coins'), value: '-' },
-      { label: I18n.t('transactions.total'), value: '-' },
-      { label: I18n.t('transactions.profit'), value: '-', symbol: '' },
+      { label: i18n.t('transactions.coins'), value: '-' },
+      { label: i18n.t('transactions.total'), value: '-' },
+      { label: i18n.t('transactions.profit'), value: '-', symbol: '' },
     ];
 
     if (!coin) return summaryList;
@@ -114,13 +112,13 @@ class CoinTabTransactions extends Component {
         summaryList[2].symbol = '%';
 
         if (transactions.length - 1 === i) {
-          summaryList[0].value = format(round(summaryList[0].value, 13));
-          summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
+          summaryList[0].value = math.format(math.round(summaryList[0].value, 13));
+          summaryList[1].value = math.cFormat(math.nFormat(coinPrice, currency.decimal), currency.symbol);
         }
       });
     } else {
-      summaryList[0].value = format(coin.amount);
-      summaryList[1].value = cFormat(nFormat(coinPrice, currency.decimal), currency.symbol);
+      summaryList[0].value = math.format(coin.amount);
+      summaryList[1].value = math.cFormat(math.nFormat(coinPrice, currency.decimal), currency.symbol);
     }
 
     return summaryList;
@@ -160,10 +158,7 @@ class CoinTabTransactions extends Component {
       coinId,
       marketId: market._id,
     });
-    ga.trackEvent('transactions', 'createNewTransaction', {
-      view: 'Coin',
-      symbol: market.symbol || null,
-    });
+    analytics.trackEvent('transactions', 'createNewTransaction');
   };
 
   renderItem = ({ item }) => {
@@ -191,7 +186,7 @@ class CoinTabTransactions extends Component {
       transactionsLoading,
     } = this.props;
     if (transactionsLoading) return <Loading size={25} />;
-    return <Empty description={I18n.t('empty.transactions')} />;
+    return <Empty description={i18n.t('empty.transactions')} />;
   };
 
   render() {
@@ -206,7 +201,7 @@ class CoinTabTransactions extends Component {
 
     const { service } = portfolio;
 
-    const title = get(service, 'provider.name', I18n.t('transactions.addButton'));
+    const title = get(service, 'provider.name', i18n.t('transactions.addButton'));
 
     return (
       <Container>

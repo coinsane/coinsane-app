@@ -5,9 +5,7 @@ import DeviceInfo from 'react-native-device-info';
 
 import { Loading, Empty } from 'src/components/Base';
 
-import ga from 'src/lib/ga';
-
-import i18n from 'src/i18n';
+import { analytics, i18n } from 'src/services';
 import Config from 'src/constants/config';
 
 class AuthProvider extends Component {
@@ -24,14 +22,9 @@ class AuthProvider extends Component {
     token: '',
   };
 
-  componentWillMount() {
-    const deviceId = DeviceInfo.getUniqueID();
-    ga.setClient(deviceId);
-    this.props.getToken({ deviceId });
-  }
-
   componentDidMount() {
-    this.props.getToken();
+    const deviceId = DeviceInfo.getUniqueID();
+    this.props.getToken({ deviceId });
   }
 
   renderContent = () => {

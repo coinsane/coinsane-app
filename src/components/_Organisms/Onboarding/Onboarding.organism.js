@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import Swiper from 'react-native-swiper';
 import get from 'lodash/get';
 
-import I18n from 'src/i18n';
+import { i18n } from 'src/services';
 import Config from 'src/constants/config';
 import styles from './Onboarding.styles';
 import CoinCard from 'src/components/_Organisms/CoinCard/CoinCard.organism';
@@ -48,7 +48,7 @@ class Onboarding extends Component {
           </View>
           <FastImage source={{ uri: `${Config.fileUri}/onboarding/screen1.png` }} style={styles.slideImage__front} />
         </View>
-        <Text style={styles.slideText}>{I18n.t('onboarding.oneText')}</Text>
+        <Text style={styles.slideText}>{i18n.t('onboarding.oneText')}</Text>
       </View>
     );
 
@@ -75,7 +75,7 @@ class Onboarding extends Component {
             />
           </View>
         </View>
-        <Text style={styles.slideText}>{I18n.t('onboarding.twoText')}</Text>
+        <Text style={styles.slideText}>{i18n.t('onboarding.twoText')}</Text>
       </View>
     );
 
@@ -98,7 +98,7 @@ class Onboarding extends Component {
             />
           </View>
         </View>
-        <Text style={styles.slideText}>{I18n.t('onboarding.threeText')}</Text>
+        <Text style={styles.slideText}>{i18n.t('onboarding.threeText')}</Text>
       </View>
     );
 
@@ -124,8 +124,8 @@ class Onboarding extends Component {
           loop={false}
           showsButtons
           buttonWrapperStyle={styles.buttonWrapper}
-          prevButton={<Text style={styles.buttonText}>{I18n.t('onboarding.prev')}</Text>}
-          nextButton={<Text style={styles.buttonText}>{I18n.t('onboarding.next')}</Text>}
+          prevButton={<Text style={styles.buttonText}>{i18n.t('onboarding.prev')}</Text>}
+          nextButton={<Text style={styles.buttonText}>{i18n.t('onboarding.next')}</Text>}
           onIndexChanged={this.onIndexChanged}
         >
           <SlideOne />
@@ -134,12 +134,12 @@ class Onboarding extends Component {
             amount={0.85411}
             symbol="USD"
             pair="BTC"
-            category={I18n.t('onboarding.category')}
+            category={i18n.t('onboarding.category')}
           />
           <SlideThree />
         </Swiper>
-        <NavButton show={this.state.skip} title={I18n.t('onboarding.skip')} />
-        <NavButton show={this.state.start} title={I18n.t('onboarding.start')} />
+        <NavButton show={this.state.skip} title={i18n.t('onboarding.skip')} />
+        <NavButton show={this.state.start} title={i18n.t('onboarding.start')} />
       </View>
     );
   }

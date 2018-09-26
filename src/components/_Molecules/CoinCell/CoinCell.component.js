@@ -4,7 +4,7 @@ import { Left, Right, Body, Text, ListItem } from 'native-base';
 import FastImage from 'react-native-fast-image';
 
 import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
-import { nFormat, cFormat } from 'src/lib/utils';
+import { math } from 'src/services';
 import styles from './CoinCell.styles';
 import { colors } from 'src/styles';
 
@@ -44,7 +44,7 @@ const CoinCell = ({
   const subtitle = item.symbol ?
     item.symbol :
     item.amounts ?
-      cFormat(nFormat(item.amounts[currency.code], currency.decimal), currency.symbol) :
+      math.cFormat(math.nFormat(item.amounts[currency.code], currency.decimal), currency.symbol) :
       null;
 
   return (

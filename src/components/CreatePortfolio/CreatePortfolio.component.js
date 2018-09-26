@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, View, Title, Root } from 'native-base';
 
-import { api } from 'src/services';
-
-import ga from 'src/lib/ga';
-import I18n from 'src/i18n';
+import { analytics, api, i18n } from 'src/services';
 import Header from 'src/components/_Organisms/Header';
 import CoinsaneSwitch from 'src/components/_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
 import CoinsaneListItem from 'src/components/_Molecules/CoinsaneListItem/CoinsaneListItem.molecula';
@@ -36,7 +33,7 @@ class CreatePortfolio extends Component {
   }
 
   componentDidMount() {
-    ga.trackScreenView('CreatePortfolio');
+    analytics.logContentView('Portfolio Create', 'Portfolio', 'portfolio');
   }
 
   showExchanges() {
@@ -62,7 +59,7 @@ class CreatePortfolio extends Component {
 
   createPortfolio = () => {
     this.props.addPortfolio(this.state);
-    ga.trackEvent('portfolios', 'createPortfolio_Success');
+    analytics.trackEvent('portfolios', 'createPortfolio_Success');
   };
 
   chooseExchange = (provider) => {
@@ -78,7 +75,7 @@ class CreatePortfolio extends Component {
     Actions.selector({
       // listName: 'portfolios',
       items,
-      title: I18n.t('providers.titleChoose'),
+      title: i18n.t('providers.titleChoose'),
       listItemType: 'check',
       activeItem,
       selectAction: (item) => {
@@ -94,13 +91,13 @@ class CreatePortfolio extends Component {
         <Container>
           <Header
             leftIcon="Back"
-            title={<Title style={base.title}>{I18n.t('portfolios.titleAdd')}</Title>}
+            title={<Title style={base.title}>{i18n.t('portfolios.titleAdd')}</Title>}
           />
           <Content style={[base.contentContainer, base.contentPadding]}>
             <Form>
-              <Text style={styles.content__text}>{I18n.t('portfolios.form.labelAdd')}</Text>
+              <Text style={styles.content__text}>{i18n.t('portfolios.form.labelAdd')}</Text>
               <Item stackedLabel style={base.form__titleContainer}>
-                <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldTitle')}</Label>
+                <Label style={base.form__titleLabel}>{i18n.t('portfolios.form.fieldTitle')}</Label>
                 <Input
                   autoFocus
                   onChangeText={v => this.handleChange('title', v)}
@@ -109,7 +106,7 @@ class CreatePortfolio extends Component {
                 />
               </Item>
               <View style={base.form__switchContainer}>
-                <Text style={base.form__switchLabel}>{I18n.t('portfolios.form.fieldSwitch')}</Text>
+                <Text style={base.form__switchLabel}>{i18n.t('portfolios.form.fieldSwitch')}</Text>
                 <View style={base.form__switchInput}>
                   <CoinsaneSwitch
                     onSyncPress={() => this.handleChange('inTotal', !this.state.inTotal)}
@@ -128,20 +125,20 @@ class CreatePortfolio extends Component {
                 style={styles.btn}
                 onPress={() => this.showExchanges()}
               >
-                <Text style={styles.btn__text}>{I18n.t('portfolios.form.buttonFromExchange')}</Text>
+                <Text style={styles.btn__text}>{i18n.t('portfolios.form.buttonFromExchange')}</Text>
               </Button>
             }
             { this.state.loading && <Loading /> }
             {
               this.state.providers.length &&
               <Form>
-                <Text style={[styles.content__text, styles.content__text_top]}>{I18n.t('portfolios.form.labelExchange')}</Text>
+                <Text style={[styles.content__text, styles.content__text_top]}>{i18n.t('portfolios.form.labelExchange')}</Text>
                 <CoinsaneListItem
                   title={this.state.provider.name}
                   onPress={() => this.exchangeSelector(this.state.provider._id)}
                 />
                 <Item stackedLabel style={base.form__titleContainer}>
-                  <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldKey')}</Label>
+                  <Label style={base.form__titleLabel}>{i18n.t('portfolios.form.fieldKey')}</Label>
                   <Input
                     onChangeText={v => this.handleChange('key', v)}
                     value={this.state.key}
@@ -149,7 +146,7 @@ class CreatePortfolio extends Component {
                   />
                 </Item>
                 <Item stackedLabel style={base.form__titleContainer}>
-                  <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldSecret')}</Label>
+                  <Label style={base.form__titleLabel}>{i18n.t('portfolios.form.fieldSecret')}</Label>
                   <Input
                     onChangeText={v => this.handleChange('secret', v)}
                     value={this.state.secret}
@@ -171,7 +168,7 @@ class CreatePortfolio extends Component {
               {
                 this.props.loading ?
                   <Loading style={base.footer__buttonLoading} /> :
-                  <Text style={base.footer__buttonText}>{I18n.t('portfolios.createButton')}</Text>
+                  <Text style={base.footer__buttonText}>{i18n.t('portfolios.createButton')}</Text>
               }
             </Button>
           </Footer>

@@ -4,8 +4,7 @@ import { ListItem, Body, Text, Icon, Right, View, Button } from 'native-base';
 
 import { Spacer } from 'src/components/Base';
 
-import { nFormat, cFormat } from 'src/lib/utils';
-import I18n from 'src/i18n';
+import { i18n, math } from 'src/services';
 import styles from './PortfolioHeader.styles';
 import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
 import { colors, typography } from 'src/styles';
@@ -30,7 +29,7 @@ const PortfolioHeader = ({
   const textPlaceholder = isLoading && typography.textPlaceholder;
   const icon = isCollapsed ? 'ios-arrow-up' : 'ios-arrow-down';
 
-  const totalDisplay = cFormat(nFormat(amount, currency.decimal), currency.symbol);
+  const totalDisplay = math.cFormat(math.nFormat(amount, currency.decimal), currency.symbol);
 
   const changeColor = changePct < 0 ? colors.primaryPink : colors.primaryGreen;
   const changePctDisplay = `${changePct}%`;
@@ -45,7 +44,7 @@ const PortfolioHeader = ({
         style={styles.headerBtn}
         onPress={() => addCoin(id)}
       >
-        <Text style={styles.headerBtn__text}>{I18n.t('coins.addButton')}</Text>
+        <Text style={styles.headerBtn__text}>{i18n.t('coins.addButton')}</Text>
       </Button>
     );
   };

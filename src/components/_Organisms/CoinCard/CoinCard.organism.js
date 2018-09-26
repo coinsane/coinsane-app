@@ -4,8 +4,7 @@ import { ListItem, View, Text, Body, Left, Right, Button } from 'native-base';
 import FastImage from 'react-native-fast-image';
 import get from 'lodash/get';
 
-import I18n from 'src/i18n';
-import { nFormat, cFormat, format, round } from 'src/lib/utils';
+import { i18n, math } from 'src/services';
 import styles from './CoinCard.styles';
 import SwipeRow from 'src/components/_Molecules/SwipeRow/SwipeRow.molecula';
 import { base, colors, typography } from 'src/styles/index';
@@ -72,8 +71,8 @@ class CoinCard extends PureComponent {
 
     const getPctChange = _market => get(_market, `prices[${symbol}].changePctDay`, 0);
     const getCoinPrice = _market => parseFloat(get(_market, `prices[${symbol}].price`, 0));
-    const getMarketCap = _market => nFormat(get(_market, `prices[${symbol}].marketCap`, 0), 2, 1);
-    const getVolume24h = _market => nFormat(get(_market, `prices[${symbol}].totalVolume24HTo`, 0), 2, 1);
+    const getMarketCap = _market => math.nFormat(get(_market, `prices[${symbol}].marketCap`, 0), 2, 1);
+    const getVolume24h = _market => math.nFormat(get(_market, `prices[${symbol}].totalVolume24HTo`, 0), 2, 1);
 
     const textPlaceholder = isLoading && typography.textPlaceholder;
 
@@ -108,11 +107,11 @@ class CoinCard extends PureComponent {
     const changeColor = parseFloat(coinCard.changePct) < 0 ? colors.primaryPink : colors.primaryGreen;
 
     coinCard.totalPrice = (coinCard.amount * coinCard.price).toFixed(decimal);
-    coinCard.priceDisplay = cFormat(nFormat(coinCard.price, currency.decimal), currency.symbol);
-    coinCard.totalPriceDisplay = cFormat(nFormat(coinCard.totalPrice, decimal), currency.symbol);
+    coinCard.priceDisplay = math.cFormat(math.nFormat(coinCard.price, currency.decimal), currency.symbol);
+    coinCard.totalPriceDisplay = math.cFormat(math.nFormat(coinCard.totalPrice, decimal), currency.symbol);
 
     if (type === 'portfolio') {
-      coinCard.amount = format(round(amount, 13) || 0);
+      coinCard.amount = math.format(math.round(amount, 13) || 0);
     }
 
     const buttons = [
@@ -134,7 +133,7 @@ class CoinCard extends PureComponent {
             style={base.list__button}
             onPress={() => addCoin(portfolioId)}
           >
-            <Text style={base.list__buttonText}>{I18n.t('coins.addButton')}</Text>
+            <Text style={base.list__buttonText}>{i18n.t('coins.addButton')}</Text>
           </Button>
         </View>
       );

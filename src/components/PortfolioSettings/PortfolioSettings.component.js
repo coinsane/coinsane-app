@@ -7,7 +7,7 @@ import { Container, Content, Text, Footer, Button, Form, Item, Label, Input, Vie
 
 import Header from 'src/components/_Organisms/Header';
 import CoinsaneSwitch from 'src/components/_Atoms/CoinsaneSwitch/CoinsaneSwitch.atom';
-import I18n from 'src/i18n';
+import { i18n } from 'src/services';
 
 import styles from './PortfolioSettings.styles';
 import { base } from 'src/styles';
@@ -49,11 +49,11 @@ class PortfolioSettings extends Component {
 
   removePortfolioAlert = () => {
     Alert.alert(
-      I18n.t('portfolios.form.fieldRemove'),
-      I18n.t('portfolios.form.fieldRemoveDesc'),
+      i18n.t('portfolios.form.fieldRemove'),
+      i18n.t('portfolios.form.fieldRemoveDesc'),
       [
         {
-          text: I18n.t('portfolios.form.buttonRemove'),
+          text: i18n.t('portfolios.form.buttonRemove'),
           onPress: () => {
             this.props.removePortfolio(this.state._id);
             this.props.selectPortfolio();
@@ -62,7 +62,7 @@ class PortfolioSettings extends Component {
           style: 'cancel',
         },
         {
-          text: I18n.t('buttons.cancel'),
+          text: i18n.t('buttons.cancel'),
         },
       ],
       { cancelable: false },
@@ -80,9 +80,9 @@ class PortfolioSettings extends Component {
         />
         <Content style={[base.contentContainer, base.contentPadding]}>
           <Form>
-            <Text style={base.form__title}>{I18n.t('portfolios.form.labelEdit')}</Text>
+            <Text style={base.form__title}>{i18n.t('portfolios.form.labelEdit')}</Text>
             <Item stackedLabel style={base.form__titleContainer}>
-              <Label style={base.form__titleLabel}>{I18n.t('portfolios.form.fieldTitle')}</Label>
+              <Label style={base.form__titleLabel}>{i18n.t('portfolios.form.fieldTitle')}</Label>
               <Input
                 style={base.form__titleInput}
                 onChangeText={v => this.handleChange('title', v)}
@@ -90,7 +90,7 @@ class PortfolioSettings extends Component {
               />
             </Item>
             <View style={base.form__switchContainer}>
-              <Text style={base.form__switchLabel}>{I18n.t('portfolios.form.fieldSwitch')}</Text>
+              <Text style={base.form__switchLabel}>{i18n.t('portfolios.form.fieldSwitch')}</Text>
               <View style={base.form__switchInput}>
                 <CoinsaneSwitch
                   onSyncPress={() => this.handleChange('inTotal', !this.state.inTotal)}
@@ -103,7 +103,7 @@ class PortfolioSettings extends Component {
               transparent
               onPress={() => this.removePortfolioAlert()}
             >
-              <Text style={styles.form__buttonText}>{I18n.t('portfolios.form.fieldRemove')}</Text>
+              <Text style={styles.form__buttonText}>{i18n.t('portfolios.form.fieldRemove')}</Text>
             </Button>
           </Form>
         </Content>
@@ -115,7 +115,7 @@ class PortfolioSettings extends Component {
             onPress={() => this.handleSubmit()}
             style={base.footer__button}
           >
-            <Text style={base.footer__buttonText}>{I18n.t('portfolios.saveButton')}</Text>
+            <Text style={base.footer__buttonText}>{i18n.t('portfolios.saveButton')}</Text>
           </Button>
         </Footer>
       </Container>

@@ -7,10 +7,9 @@ import {
   portfoliosActions,
   transactionsActions,
 } from 'src/actions';
-import { api } from 'src/services';
+import { api, math } from 'src/services';
 
 import Config from 'src/constants/config';
-import { round } from 'src/lib/utils';
 
 import selectors from './selectors';
 
@@ -158,27 +157,27 @@ export function* recalculate (action) {
   if (action.payload === 'price') {
     if (+draft.amount) {
       const total = draft.price * draft.amount;
-      yield put(transactionsActions.updateDraftTransaction({ total: round(total, 12) }));
+      yield put(transactionsActions.updateDraftTransaction({ total: math.round(total, 12) }));
     } else if (+draft.total) {
       const amount = draft.total / draft.price;
-      yield put(transactionsActions.updateDraftTransaction({ amount: round(amount, 12) }));
+      yield put(transactionsActions.updateDraftTransaction({ amount: math.round(amount, 12) }));
     }
   }
   if (action.payload === 'total') {
     if (+draft.total) {
       if (+draft.amount) {
         const price = draft.total / draft.amount;
-        yield put(transactionsActions.updateDraftTransaction({ price: round(price, 12) }));
+        yield put(transactionsActions.updateDraftTransaction({ price: math.round(price, 12) }));
       } else {
         const amount = draft.total / draft.price;
-        yield put(transactionsActions.updateDraftTransaction({ amount: round(amount, 12) }));
+        yield put(transactionsActions.updateDraftTransaction({ amount: math.round(amount, 12) }));
       }
     }
   }
   if (action.payload === 'amount') {
     if (+draft.price) {
       const total = draft.price * draft.amount;
-      yield put(transactionsActions.updateDraftTransaction({ total: round(total, 12) }));
+      yield put(transactionsActions.updateDraftTransaction({ total: math.round(total, 12) }));
     }
   }
 }

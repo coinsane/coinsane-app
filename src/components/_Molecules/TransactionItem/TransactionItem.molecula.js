@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, Body, Right } from 'native-base';
 import moment from 'moment';
 
-import I18n from 'src/i18n';
-import { nFormat, cFormat } from 'src/lib/utils';
+import { i18n, math } from 'src/services';
 import styles from './TransactionItem.styles';
 import { colors } from 'src/styles';
 import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
@@ -53,21 +52,21 @@ class TransactionItem extends Component {
       backgroundColor,
     } = this.props;
 
-    let pairDisplay = cFormat(nFormat(Math.abs(total), 2), pair.symbol);
+    let pairDisplay = math.cFormat(math.nFormat(Math.abs(total), 2), pair.symbol);
     let amountDisplay = `+${Math.abs(amount)}`;
 
     if (type === 'exchange') {
       if (pairSymbol) {
         if (amount < 0) {
           amountDisplay = `-${Math.abs(total)}`;
-          pairDisplay = cFormat(nFormat(Math.abs(amount), 8), pairSymbol);
+          pairDisplay = math.cFormat(math.nFormat(Math.abs(amount), 8), pairSymbol);
         } else {
           amountDisplay = `+${Math.abs(amount)}`;
-          pairDisplay = cFormat(nFormat(Math.abs(total), 8), pair.symbol);
+          pairDisplay = math.cFormat(math.nFormat(Math.abs(total), 8), pair.symbol);
         }
       } else {
         amountDisplay = Math.abs(total);
-        pairDisplay = cFormat(nFormat(Math.abs(amount), 8), pair.symbol);
+        pairDisplay = math.cFormat(math.nFormat(Math.abs(amount), 8), pair.symbol);
       }
     } else if (type === 'sell') {
       amountDisplay = `-${amount}`;
@@ -76,10 +75,10 @@ class TransactionItem extends Component {
     const time = moment(date).format('HH:mm');
 
     const categoryTitle = type === 'exchange' ?
-      I18n.t('categories.exchange') :
+      i18n.t('categories.exchange') :
       category ?
         category.title :
-        I18n.t('categories.empty');
+        i18n.t('categories.empty');
     const categoryColor = type === 'exchange' ? colors.mediumGray : colors.iconDark;
     const categoryIcon = type === 'exchange' ? '↔' : categoryTitle.charAt(0);
 

@@ -6,8 +6,7 @@ import VersionNumber from 'react-native-version-number';
 import { Actions } from 'react-native-router-flux';
 import OneSignal from 'react-native-onesignal';
 
-import ga from 'src/lib/ga';
-import I18n from 'src/i18n';
+import { analytics, i18n } from 'src/services';
 
 import { Spacer } from 'src/components/Base';
 import CoinsaneIcon from 'src/components/_Atoms/CoinsaneIcon/CoinsaneIcon.component';
@@ -44,7 +43,7 @@ class Settings extends Component<IProps> {
   }
 
   componentDidMount() {
-    ga.trackScreenView('Settings');
+    analytics.logContentView('Settings', 'Settings', 'settings');
     OneSignal.getPermissionSubscriptionState((status: any) => {
       if (!status.notificationsEnabled) setTimeout(OneSignal.registerForPushNotifications, 3000);
     });
@@ -104,7 +103,7 @@ class Settings extends Component<IProps> {
         // this.props.getAvailableCurrencies({});
       },
       clear: () => this.props.clearMarkets(),
-      title: I18n.t('coins.titleSelect'),
+      title: i18n.t('coins.titleSelect'),
       listItemType: 'check',
       navigationType: 'close',
       searchBar: true,
@@ -121,7 +120,7 @@ class Settings extends Component<IProps> {
   };
 
   createAccount = () => {
-    ga.trackEvent('settings', 'createAccount');
+    analytics.trackEvent('settings', 'createAccount');
     Actions.createAccount();
   };
 
@@ -134,27 +133,27 @@ class Settings extends Component<IProps> {
 
     const items = [
       {
-        label: I18n.t('settings.currency'),
+        label: i18n.t('settings.currency'),
         name: Object.keys(settings.currencies).join(', '),
         onPress: () => {
-          ga.trackEvent('settings', 'chooseCurrencies');
+          analytics.trackEvent('settings', 'chooseCurrencies');
           this.chooseCurrency();
         },
       },
       {
-        name: I18n.t('settings.share'),
+        name: i18n.t('settings.share'),
         onPress: () => {
-          ga.trackEvent('settings', 'share');
+          analytics.trackEvent('settings', 'share');
           Share.share({
-            title: I18n.t('settings.shareText'),
-            url: I18n.t('settings.shareUrl'),
+            title: i18n.t('settings.shareText'),
+            url: i18n.t('settings.shareUrl'),
           });
         },
       },
       {
-        name: I18n.t('settings.terms'),
+        name: i18n.t('settings.terms'),
         onPress: () => {
-          ga.trackEvent('settings', 'terms');
+          analytics.trackEvent('settings', 'terms');
           Actions.page({ ...pages.terms });
         },
       },
@@ -166,18 +165,18 @@ class Settings extends Component<IProps> {
       //   }),
       // },
       {
-        name: I18n.t('settings.rate'),
+        name: i18n.t('settings.rate'),
         onPress: () => {
           if (StoreReview.isAvailable) {
-            ga.trackEvent('settings', 'rate');
+            analytics.trackEvent('settings', 'rate');
             StoreReview.requestReview();
           }
         },
       },
       {
-        name: I18n.t('settings.policy'),
+        name: i18n.t('settings.policy'),
         onPress: () => {
-          ga.trackEvent('settings', 'policy');
+          analytics.trackEvent('settings', 'policy');
           Actions.page({ ...pages.policy });
         },
       },
@@ -190,19 +189,19 @@ class Settings extends Component<IProps> {
       //   onPress: () => Linking.openURL('https://t.me/coinsane'),
       // },
       {
-        name: I18n.t('settings.telegram'),
+        name: i18n.t('settings.telegram'),
         icon: 'Telegram',
         onPress: () => {
-          ga.trackEvent('settings', 'telegram');
-          Linking.openURL(I18n.t('settings.telegramUrl'));
+          analytics.trackEvent('settings', 'telegram');
+          Linking.openURL(i18n.t('settings.telegramUrl'));
         },
       },
       {
-        name: I18n.t('settings.twitter'),
+        name: i18n.t('settings.twitter'),
         icon: 'Twitter',
         onPress: () => {
-          ga.trackEvent('settings', 'twitter');
-          Linking.openURL(I18n.t('settings.twitterUrl'));
+          analytics.trackEvent('settings', 'twitter');
+          Linking.openURL(i18n.t('settings.twitterUrl'));
         },
       },
     ];
@@ -211,7 +210,7 @@ class Settings extends Component<IProps> {
         <Header
           leftIcon="Menu"
           leftAction={() => drawer.open()}
-          title={<Title style={base.title}>{I18n.t('navigation.settings')}</Title>}
+          title={<Title style={base.title}>{i18n.t('navigation.settings')}</Title>}
         />
         <Button
           small
@@ -220,7 +219,7 @@ class Settings extends Component<IProps> {
           onPress={this.createAccount}
           style={base.action__button}
         >
-          <Text style={base.footer__buttonText}>{I18n.t('auth.createButton')}</Text>
+          <Text style={base.footer__buttonText}>{i18n.t('auth.createButton')}</Text>
         </Button>
         <Content style={styles.settings__container}>
           <List style={styles.settings_list}>
@@ -231,7 +230,7 @@ class Settings extends Component<IProps> {
                 style={[styles.settings_listItem, label && styles.settings_listItem__withLabel]}
                 onPress={onPress}
               >
-                {!!label && <Label style={styles.settings_listItem__label}>{I18n.t('settings.currency')}</Label>}
+                {!!label && <Label style={styles.settings_listItem__label}>{i18n.t('settings.currency')}</Label>}
                 <Text
                   style={[styles.settings_listItem__text, styles.settings_listItem__textWithLabel]}
                 >
@@ -240,7 +239,7 @@ class Settings extends Component<IProps> {
               </ListItem>
             ))}
           </List>
-          <Text style={styles.container__text}>{I18n.t('settings.channels')}</Text>
+          <Text style={styles.container__text}>{i18n.t('settings.channels')}</Text>
           <List style={styles.settings_list}>
             {channels.map(({ name, icon, onPress }) => (
               <ListItem
@@ -258,7 +257,7 @@ class Settings extends Component<IProps> {
               </ListItem>
             ))}
           </List>
-          <Text style={styles.container__text}>{I18n.t('settings.version')} {VersionNumber.appVersion}</Text>
+          <Text style={styles.container__text}>{i18n.t('settings.version')} {VersionNumber.appVersion}</Text>
           <Spacer size={30} />
         </Content>
       </Container>

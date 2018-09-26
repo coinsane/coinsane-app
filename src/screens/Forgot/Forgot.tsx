@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { Container, Content, Text, Form, Item, Label, Input, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
-import i18n from 'src/i18n'
+import { i18n } from 'src/services';
 
 import Header from 'src/components/_Organisms/Header';
 import { Logo } from 'src/components/Svg';

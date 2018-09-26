@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Item, Input } from 'native-base';
 
-import I18n from 'src/i18n';
+import { i18n } from 'src/services';
 import { colors } from 'src/styles';
 import {
   changeSearchTerm,
@@ -26,7 +26,7 @@ class SearchBar extends Component {
   };
 
   static defaultProps = {
-    placeholder: I18n.t('placeholder.search'),
+    placeholder: i18n.t('placeholder.search'),
     type: 'markets',
   };
 

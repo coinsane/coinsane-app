@@ -1,11 +1,11 @@
 import math from 'mathjs';
+
 /*
 * Currency Formatting (prefix or suffix)
 * */
 export const cFormat = (value = 0, symbol = '') => {
   return symbol.length > 1 ? `${value} ${symbol}` : `${symbol}${value}`;
 };
-
 
 /*
 * Number Formatting
@@ -39,5 +39,11 @@ export const nFormat = (value = 0, decimal = 0, startFrom = 2) => {
 
 export const format = (value = 0) => math.format(value, { notation: 'fixed' });
 
-
 export const round = (amount, n) => math.round(amount * (10 ** n)) / (10 ** n);
+
+export default {
+  cFormat,
+  format,
+  nFormat,
+  round,
+};

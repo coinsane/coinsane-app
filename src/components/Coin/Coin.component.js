@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Container, Text, Tabs, Tab, TabHeading, View } from 'native-base';
 import FastImage from 'react-native-fast-image';
 
-import ga from 'src/lib/ga';
+import { analytics } from 'src/services';
 import Error from 'src/components/Error/Error.component';
 import CoinTabOverview from 'src/components/CoinTabOverview/CoinTabOverview.component';
 import CoinTabTransactions from 'src/components/CoinTabTransactions/CoinTabTransactions.component';
@@ -81,7 +81,7 @@ class Coin extends Component {
   }
 
   componentDidMount() {
-    ga.trackScreenView('Coin');
+    analytics.logContentView('Coin', 'Coin', 'coin');
   }
 
   render() {

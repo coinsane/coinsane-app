@@ -1,26 +1,26 @@
 import { navigationActions } from 'src/actions';
 import { INavigationState } from 'src/models';
 
-import I18n from 'src/i18n';
+import { i18n } from 'src/services';
 
 export const initialState: INavigationState = {
   menu: [
     {
       scene: 'coins',
       icon: 'Portfolio',
-      text: I18n.t('navigation.portfolio'),
+      text: i18n.t('navigation.portfolio'),
       active: true,
     },
     {
       scene: 'market',
       icon: 'Market',
-      text: I18n.t('navigation.markets'),
+      text: i18n.t('navigation.markets'),
       active: false,
     },
     {
       scene: 'settings',
       icon: 'Settings',
-      text: I18n.t('navigation.settings'),
+      text: i18n.t('navigation.settings'),
       active: false,
     },
   ],

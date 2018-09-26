@@ -10,7 +10,7 @@ import { removeCoin } from 'src/actions/coinsActions';
 import { getAvailableMarkets, clearMarkets, changeSearchTerm } from 'src/actions/marketsActions';
 import { getAvailableCurrencies } from 'src/actions/currenciesActions';
 import { selectCurrency, hideOnboarding } from 'src/actions/settingsActions';
-import I18n from 'src/i18n';
+import { i18n } from 'src/services';
 
 class Portfolios extends Component {
   static propTypes = {
@@ -93,7 +93,7 @@ class Portfolios extends Component {
         this.props.getAvailableCurrencies({});
       },
       clear: () => this.props.clearMarkets(),
-      title: I18n.t('coins.titleSelect'),
+      title: i18n.t('coins.titleSelect'),
       listItemType: 'arrow',
       navigationType: 'close',
       searchBar: true,

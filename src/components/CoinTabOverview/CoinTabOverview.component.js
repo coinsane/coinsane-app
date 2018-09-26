@@ -4,8 +4,7 @@ import { View, SectionList } from 'react-native';
 import { List, Button, Text } from 'native-base';
 import get from 'lodash/get';
 
-import { nFormat, cFormat } from 'src/lib/utils';
-import I18n from 'src/i18n';
+import { i18n, math } from 'src/services';
 
 import { Loading, Spacer } from 'src/components/Base';
 import Summary from 'src/components/_Molecules/Summary';
@@ -128,24 +127,24 @@ class CoinTabOverview extends Component {
 
     const summaryList = [
       {
-        label: I18n.t('markets.mcap'),
-        value: nFormat(marketPrice.marketCap, 2),
+        label: i18n.t('markets.mcap'),
+        value: math.nFormat(marketPrice.marketCap, 2),
       },
       {
-        label: I18n.t('markets.vol24'),
-        value: nFormat(marketPrice.totalVolume24HTo, 2),
+        label: i18n.t('markets.vol24'),
+        value: math.nFormat(marketPrice.totalVolume24HTo, 2),
       },
       {
-        label: I18n.t('markets.supply'),
-        value: cFormat(nFormat(marketPrice.supply, 2), market.symbol),
+        label: i18n.t('markets.supply'),
+        value: math.cFormat(math.nFormat(marketPrice.supply, 2), market.symbol),
       },
     ];
 
     const currencyButtons = Object.keys(currencies).filter(key => key !== market.symbol);
 
-    const low = chart.low ? nFormat(chart.low, currency.decimal) : 0;
-    const high = chart.high ? nFormat(chart.high, currency.decimal) : 0;
-    const value = nFormat(marketPrice.price, currency.decimal);
+    const low = chart.low ? math.nFormat(chart.low, currency.decimal) : 0;
+    const high = chart.high ? math.nFormat(chart.high, currency.decimal) : 0;
+    const value = math.nFormat(marketPrice.price, currency.decimal);
     return (
       <View>
         <Spacer size={20} />
@@ -155,9 +154,9 @@ class CoinTabOverview extends Component {
           buttons={currencyButtons}
           subValue={parseFloat(chart.pct, 2)}
           updateCurrency={this.updateCurrency}
-          leftTitle={I18n.t('coins.low')}
+          leftTitle={i18n.t('coins.low')}
           leftValue={low}
-          rightTitle={I18n.t('coins.high')}
+          rightTitle={i18n.t('coins.high')}
           rightValue={high}
           loading={loading}
         />
@@ -173,7 +172,7 @@ class CoinTabOverview extends Component {
             <CoinsaneButton
               key={key}
               type="period"
-              value={I18n.t(`periods.period${key}`)}
+              value={i18n.t(`periods.period${key}`)}
               uppercase
               onPress={() => this.updatePeriod(key)}
               active={period === key}
@@ -232,7 +231,7 @@ class CoinTabOverview extends Component {
             style={base.list__button}
             onPress={() => this.props.loadMoreExchanges({ marketId: market._id })}
           >
-            <Text style={base.list__buttonText}>{I18n.t('coins.loadMore')}</Text>
+            <Text style={base.list__buttonText}>{i18n.t('coins.loadMore')}</Text>
           </ButtonEx>
         </View> :
         <Spacer size={30} />;
@@ -254,8 +253,8 @@ class CoinTabOverview extends Component {
           list = [...list, ...listItem.map(item => ({
             source: item.market,
             pair: `${market.symbol}/${symbol}`,
-            volume: nFormat(item.volume, 2),
-            price: nFormat(parseFloat(item.price), 2),
+            volume: math.nFormat(item.volume, 2),
+            price: math.nFormat(parseFloat(item.price), 2),
           }))];
         }
       });
@@ -273,7 +272,7 @@ class CoinTabOverview extends Component {
 
     const sections = [
       {
-        title: I18n.t('coins.exchanges'),
+        title: i18n.t('coins.exchanges'),
         type: 'exchanges',
         loading: exchanges.loading,
         count: exchanges.count,
@@ -281,7 +280,7 @@ class CoinTabOverview extends Component {
         data: this.getSectionData('exchanges'),
       },
       // {
-      //   title: I18n.t('coins.news'),
+      //   title: i18n.t('coins.news'),
       //   type: 'news',
       //   data: [],
       // },

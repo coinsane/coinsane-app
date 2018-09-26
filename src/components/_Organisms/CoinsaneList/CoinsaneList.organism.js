@@ -14,7 +14,7 @@ import Modal from 'src/components/modal/BaseModal.component';
 import SelectorListItem from 'src/components/_Molecules/CoinCell/CoinCell.component';
 import styles from './CoinsaneList.styles';
 import { base } from 'src/styles';
-import I18n from 'src/i18n';
+import { i18n } from 'src/services';
 
 class CoinsaneList extends Component {
   static propTypes = {
@@ -107,7 +107,7 @@ class CoinsaneList extends Component {
 
   renderEmpty = () => {
     if (this.getList().loading) return null;
-    return <Empty description={I18n.t('empty.search')} />;
+    return <Empty description={i18n.t('empty.search')} />;
   };
 
   renderSeparator = () => <View style={styles.separator} />;

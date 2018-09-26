@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { fetchTotals } from 'src/api/portfolios';
+import { fetchTotals } from 'src/services/api/portfolios';
 
 export enum ActionTypes {
   UPDATE_PORTFOLIOS = 'portfolio/UPDATE_PORTFOLIOS',
