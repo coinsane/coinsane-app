@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0083213DBBF94E16A76A7770 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EF67DAE5C1347C0A4E86569 /* Lato-Italic.ttf */; };
 		0094A15BDE5A4363BD9ADE02 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76BE676825D546C697813518 /* Lato-Semibold.ttf */; };
@@ -94,6 +93,9 @@
 		B9840921BDA14BF6A258418F /* Lato-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B10882FCD19D4B6B89D55148 /* Lato-SemiboldItalic.ttf */; };
 		D76E3EC9AC6D4E4ABF5729FC /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E3D6FF660504FFFACD5AE02 /* FontAwesome.ttf */; };
 		E2480E95A4194D8584BCEA33 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 610C1B5AA9D940D4BC5B83F8 /* Entypo.ttf */; };
+		55A4F56EA65E47399ADEFE6C /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3928699B3F0C481FB0D8615E /* Feather.ttf */; };
+		3023CA19D72C4F1EB0361975 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EA1BD6FAFAA49709BE1BF2D /* MaterialCommunityIcons.ttf */; };
+		2F9320B0C6A0476E841EC5CB /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C20EE1EDBDA14ADA9778A51E /* rubicon-icon-font.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -647,6 +649,9 @@
 		F7B8C54BD6104458B6C6631E /* Lato-HeavyItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-HeavyItalic.ttf"; path = "../assets/fonts/Lato-HeavyItalic.ttf"; sourceTree = "<group>"; };
 		FDEF6B05176044E8B1AB2CB0 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
 		FF887A823DE144BAADB84FE8 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
+		3928699B3F0C481FB0D8615E /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0EA1BD6FAFAA49709BE1BF2D /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/native-base/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C20EE1EDBDA14ADA9778A51E /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1076,6 +1081,9 @@
 				0B3C7BC693C04509A8A6A5F5 /* Roboto.ttf */,
 				1F1AF0AA168B47A488A01113 /* SimpleLineIcons.ttf */,
 				D5D4AC5464B74CCCB123E19B /* Zocial.ttf */,
+				3928699B3F0C481FB0D8615E /* Feather.ttf */,
+				0EA1BD6FAFAA49709BE1BF2D /* MaterialCommunityIcons.ttf */,
+				C20EE1EDBDA14ADA9778A51E /* rubicon-icon-font.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1934,6 +1942,9 @@
 				9C94EAE5577E40ADB68299B6 /* Roboto.ttf in Resources */,
 				B7C3C7D8172E4DC9B06EEF8C /* SimpleLineIcons.ttf in Resources */,
 				A4568101F7A64F86A0870A35 /* Zocial.ttf in Resources */,
+				55A4F56EA65E47399ADEFE6C /* Feather.ttf in Resources */,
+				3023CA19D72C4F1EB0361975 /* MaterialCommunityIcons.ttf in Resources */,
+				2F9320B0C6A0476E841EC5CB /* rubicon-icon-font.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

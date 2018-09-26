@@ -1,7 +1,6 @@
 import React from 'react';
 import { Overlay, Scene, Stack, Modal } from 'react-native-router-flux';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
-
+import CardStackStyleInterpolator from 'react-navigation-stack/dist/views/StackView/StackViewStyleInterpolator';
 
 import DefaultProps from 'src/native/constants/navigation';
 
