@@ -18,8 +18,8 @@ import { api } from 'src/services';
 
 import { base } from 'src/styles';
 
-import getTheme from '../native-base-theme/components';
-import theme from '../native-base-theme/variables/commonColor';
+import getTheme from 'src/components/NativeBase/components';
+import theme from 'src/components/NativeBase/variables/commonColor';
 
 import { authActions, statusActions } from 'src/actions';
 import Routes from 'src/routes';

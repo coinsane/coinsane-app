@@ -1,4 +1,4 @@
-import Colors from '../../native-base-theme/variables/commonColor';
+import Colors from 'src/components/NativeBase/variables/commonColor';
 
 export default {
   navbarProps: {
